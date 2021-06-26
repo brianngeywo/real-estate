@@ -14,13 +14,14 @@ class SearchPropertyBloc extends Bloc<SearchPropertyEvent, SearchPropertyState> 
   Stream<SearchPropertyState> mapEventToState(
     SearchPropertyEvent event,
   ) async* {
+    if (event is SelectedProposalEvent) {
+      yield SearchPropertySelectedProposal(index: event.index, proposal: event.proposal);
+    }
     if (event is SelectedCategoryEvent) {
-      print("event category: " + event.category);
-      yield SearchPropertySelectedProposal(category: event.category);
+      yield SearchPropertySelectedPropertyType(index: event.index, categoryTitle: event.categoryTitle);
     }
     if (event is SelectedSubCategoryEvent) {
-      print("event sub-category: " + event.subCategory);
-      yield SearchPropertySelectedPropetyType(subCategory: event.subCategory, index: event.index);
+      yield SearchPropertySelectedPropertySubType(index: event.index, subcategoryTitle: event.subcategoryTitle);
     }
     if (event is SelectedCountyEvent) {
       print("event county: " + event.county);
@@ -35,8 +36,8 @@ class SearchPropertyBloc extends Bloc<SearchPropertyEvent, SearchPropertyState> 
       yield EnteredMaxPriceState(maxPrice: event.maxPrice);
     }
     if (event is SelectedBedroomEvent) {
-      print("bloc selected bedroom: " + event.bedroom);
-      yield SelectedBedroomState(bedroom: event.bedroom);
+      print("bloc selected bedroom: " + event.bedroom.toString());
+      yield SelectedBedroomState(bedroom: event.bedroom, index: event.index);
     }
   }
 }

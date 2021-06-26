@@ -25,28 +25,37 @@ class EnteredMaxPriceEvent extends SearchPropertyEvent {
 }
 
 class SelectedBedroomEvent extends SearchPropertyEvent {
+  final int index;
   final String bedroom;
   SelectedBedroomEvent({
-    this.bedroom = '',
+    this.index = 0,
+    this.bedroom = "",
+  });
+}
+
+class SelectedProposalEvent extends SearchPropertyEvent {
+  final int index;
+  final String proposal;
+  SelectedProposalEvent({
+    this.index = 0,
+    this.proposal = '',
   });
 }
 
 class SelectedCategoryEvent extends SearchPropertyEvent {
   final int index;
-  final String category;
+  final String categoryTitle;
   SelectedCategoryEvent({
     this.index = 0,
-    this.category = '',
+    this.categoryTitle = '',
   });
 }
 
 class SelectedSubCategoryEvent extends SearchPropertyEvent {
-    final int index;
-  final String category;
-  final String subCategory;
+  final int index;
+  final String subcategoryTitle;
   SelectedSubCategoryEvent({
     this.index = 0,
-    this.category = '',
-    this.subCategory = '',
+    this.subcategoryTitle = "",
   });
 }

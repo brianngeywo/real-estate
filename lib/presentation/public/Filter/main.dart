@@ -17,11 +17,20 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
     super.initState();
     tabController = new TabController(vsync: this, length: 2);
     tabController.addListener(_handleTabSelection);
+    proposal = "buy";
   }
 
   void _handleTabSelection() {
     setState(() {});
   }
+
+  String proposal = "";
+  String county = "";
+  String category = "";
+  String subCategory = "";
+  String minPrice = "";
+  String maxPrice = "";
+  String bedrooms = "";
 
   @override
   Widget build(BuildContext context) {
@@ -81,56 +90,111 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                 ),
               ),
               Container(height: 1, width: double.maxFinite, color: ColorConfig.grey.withOpacity(0.3)),
-              Container(
-                height: 80,
-                width: MediaQuery.of(context).size.width,
-                child: TabBar(
-                  controller: tabController,
-                  tabs: [
-                    Tab(
-                      child: Container(
-                           height: 40,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                            color: tabController.index == 0 ? ColorConfig.lightGreen : ColorConfig.light,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(3),
+              BlocConsumer<SearchPropertyBloc, SearchPropertyState>(
+                listener: (context, state) {
+                  if (state is SearchPropertySelectedProposal) {
+                    setState(() {
+                      proposal = state.proposal;
+                    });
+                  }
+                  if (state is SearchPropertySelectedCounty) {
+                    setState(() {
+                      county = state.county;
+                    });
+                  }
+                  if (state is SearchPropertySelectedPropertyType) {
+                    setState(() {
+                      category = state.categoryTitle;
+                    });
+                  }
+                  if (state is SearchPropertySelectedPropertySubType) {
+                    setState(() {
+                      subCategory = state.subcategoryTitle;
+                    });
+                  }
+                  if (state is SelectedBedroomState) {
+                    setState(() {
+                      bedrooms = state.bedroom;
+                    });
+                  }
+                  if (state is EnteredMinPriceState) {
+                    setState(() {
+                      minPrice = state.minPrice;
+                    });
+                  }
+                  if (state is EnteredMaxPriceState) {
+                    setState(() {
+                      maxPrice = state.maxPrice;
+                    });
+                  }
+                },
+                builder: (context, state) {
+                  return Container(
+                    height: 80,
+                    width: MediaQuery.of(context).size.width,
+                    child: TabBar(
+                      controller: tabController,
+                      onTap: (value) {
+                        if (value == 0) {
+                          setState(() {
+                            proposal = "buy";
+                          });
+                        } else if (value == 1) {
+                          setState(() {
+                            proposal = "rent";
+                          });
+                        }
+                        print("proposal: " + proposal);
+                        BlocProvider.of<SearchPropertyBloc>(context)
+                            .add((SelectedProposalEvent(index: value, proposal: proposal)));
+                      },
+                      tabs: [
+                        Tab(
+                          child: Container(
+                            height: 40,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                                color: tabController.index == 0 ? ColorConfig.lightGreen : ColorConfig.light,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(3),
+                                ),
+                                border: Border.all(width: 1, color: ColorConfig.smokeLight)),
+                            child: Center(
+                              child: Text(
+                                "Buy",
+                                style: TextStyle(
+                                    fontFamily: FontConfig.bold,
+                                    fontSize: Sizeconfig.small,
+                                    color: tabController.index == 0 ? ColorConfig.light : ColorConfig.grey),
+                              ),
                             ),
-                            border: Border.all(width: 1, color: ColorConfig.smokeLight)),
-                        child: Center(
-                          child: Text(
-                            "Buy",
-                            style: TextStyle(
-                                fontFamily: FontConfig.bold,
-                                fontSize: Sizeconfig.small,
-                                color: tabController.index == 0 ? ColorConfig.light : ColorConfig.grey),
                           ),
                         ),
-                      ),
-                    ),
-                    Tab(
-                      child: Container(
-                              decoration: BoxDecoration(
-                            color: tabController.index == 1 ? ColorConfig.lightGreen : ColorConfig.light,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(3),
+                        Tab(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: tabController.index == 1 ? ColorConfig.lightGreen : ColorConfig.light,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(3),
+                                ),
+                                border: Border.all(width: 1, color: ColorConfig.smokeLight)),
+                            height: 40,
+                            width: MediaQuery.of(context).size.width,
+                            child: Center(
+                              child: Text(
+                                "Rent",
+                                style: TextStyle(
+                                    fontFamily: FontConfig.bold,
+                                    fontSize: Sizeconfig.small,
+                                    color: tabController.index == 1 ? ColorConfig.light : ColorConfig.grey),
+                              ),
                             ),
-                            border: Border.all(width: 1, color: ColorConfig.smokeLight)),
-                        height: 40,
-                        width: MediaQuery.of(context).size.width,
-                        child: Center(
-                          child: Text(
-                            "Rent",
-                            style: TextStyle(
-                                fontFamily: FontConfig.bold,
-                                fontSize: Sizeconfig.small,
-                                color: tabController.index == 1 ? ColorConfig.light : ColorConfig.grey),
                           ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
+                  );
+                },
               ),
               Expanded(
                 child: TabBarView(
@@ -150,7 +214,25 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                   elevation: 0.0,
                   color: ColorConfig.darkGreen,
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => ListRealify()));
+                    print("proposal: " + proposal);
+                    print("county: " + county);
+                    print("category: " + category);
+                    print("sub-category: " + subCategory);
+                    print("min price: " + minPrice);
+                    print("max price: " + maxPrice);
+                    print("bedrooms: " + bedrooms);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ListRealify(
+                                  proposal: proposal.isEmpty ? "buy" : proposal.toLowerCase(),
+                                  county: county.isEmpty ? "nairobi".toLowerCase(): county.toLowerCase(),
+                                  propertyCategoryType: category.isEmpty ? "residential".toLowerCase() : category.toLowerCase(),
+                                  propertySubCategoryType: subCategory.isEmpty ? "apartment": subCategory.toLowerCase(),
+                                  bedrooms: bedrooms.isEmpty ? "studio": bedrooms.toLowerCase(),
+                                  minPrice: minPrice.isEmpty ? "0" : minPrice,
+                                  maxPrice: maxPrice.isEmpty ? "50000": maxPrice,
+                                )));
                   },
                   child: Text(
                     "Search",
@@ -609,7 +691,13 @@ class _PropertytypeState extends State<Propertytype> with TickerProviderStateMix
     super.initState();
     _tabController = new TabController(vsync: this, length: 2);
     _tabController.addListener(_handleTabSelection);
+    _tabController.index = 0;
+    category = "residential";
+    BlocProvider.of<SearchPropertyBloc>(context)
+        .add((SelectedCategoryEvent(index: _tabController.index, categoryTitle: category)));
   }
+
+  String category = "";
 
   void _handleTabSelection() {
     setState(() {});
@@ -617,71 +705,91 @@ class _PropertytypeState extends State<Propertytype> with TickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Container(
-          height: 100,
-          width: MediaQuery.of(context).size.width,
-          child: TabBar(
-            controller: _tabController,
-            tabs: [
-              Tab(
-                child: Container(
-                  height: 40,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                      color: _tabController.index == 0 ? ColorConfig.lightGreen : ColorConfig.light,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(3),
+    return BlocConsumer<SearchPropertyBloc, SearchPropertyState>(
+      listener: (context, state) {
+        if (state is SearchPropertySelectedPropertyType) {
+          print("category title: " + state.categoryTitle);
+        }
+      },
+      builder: (context, state) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+              height: 100,
+              width: MediaQuery.of(context).size.width,
+              child: TabBar(
+                controller: _tabController,
+                onTap: (index) {
+                  if (index == 0) {
+                    category = "residential";
+                  } else if (index == 1) {
+                    category = "commercial";
+                  }
+
+                  print("category: " + category);
+                  BlocProvider.of<SearchPropertyBloc>(context)
+                      .add((SelectedCategoryEvent(index: _tabController.index, categoryTitle: category)));
+                },
+                tabs: [
+                  Tab(
+                    child: Container(
+                      height: 40,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                          color: _tabController.index == 0 ? ColorConfig.lightGreen : ColorConfig.light,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(3),
+                          ),
+                          border: Border.all(width: 1, color: ColorConfig.smokeLight)),
+                      child: Center(
+                        child: Text(
+                          "Residential",
+                          style: TextStyle(
+                              fontFamily: FontConfig.bold,
+                              fontSize: Sizeconfig.small,
+                              color: _tabController.index == 0 ? ColorConfig.light : ColorConfig.grey),
+                        ),
                       ),
-                      border: Border.all(width: 1, color: ColorConfig.smokeLight)),
-                  child: Center(
-                    child: Text(
-                      "Residential",
-                      style: TextStyle(
-                          fontFamily: FontConfig.bold,
-                          fontSize: Sizeconfig.small,
-                          color: _tabController.index == 0 ? ColorConfig.light : ColorConfig.grey),
                     ),
                   ),
-                ),
-              ),
-              Tab(
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: _tabController.index == 1 ? ColorConfig.lightGreen : ColorConfig.light,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(3),
+                  Tab(
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: _tabController.index == 1 ? ColorConfig.lightGreen : ColorConfig.light,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(3),
+                          ),
+                          border: Border.all(width: 1, color: ColorConfig.smokeLight)),
+                      height: 40,
+                      width: MediaQuery.of(context).size.width,
+                      child: Center(
+                        child: Text(
+                          "Commercial",
+                          style: TextStyle(
+                              fontFamily: FontConfig.bold,
+                              fontSize: Sizeconfig.small,
+                              color: _tabController.index == 1 ? ColorConfig.light : ColorConfig.grey),
+                        ),
                       ),
-                      border: Border.all(width: 1, color: ColorConfig.smokeLight)),
-                  height: 40,
-                  width: MediaQuery.of(context).size.width,
-                  child: Center(
-                    child: Text(
-                      "Commercial",
-                      style: TextStyle(
-                          fontFamily: FontConfig.bold,
-                          fontSize: Sizeconfig.small,
-                          color: _tabController.index == 1 ? ColorConfig.light : ColorConfig.grey),
                     ),
                   ),
-                ),
+                ],
               ),
-            ],
-          ),
-        ),
-        Container(
-          height: 150,
-          child: TabBarView(
-            controller: _tabController,
-            children: [
-              Residential(),
-              Commercial(),
-            ],
-          ),
-        )
-      ],
+            ),
+            Container(
+              height: 150,
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  Residential(),
+                  Commercial(),
+                ],
+              ),
+            )
+          ],
+        );
+      },
     );
   }
 }
@@ -699,33 +807,128 @@ class _BedroomtypeState extends State<Bedroomtype> with TickerProviderStateMixin
     super.initState();
     _tabController = new TabController(vsync: this, length: 10);
     _tabController.addListener(_handleTabSelection);
+    _tabController.index = 0;
+    title = "studio";
+
+    BlocProvider.of<SearchPropertyBloc>(context)
+        .add((SelectedBedroomEvent(index: _tabController.index, bedroom: title)));
   }
 
   void _handleTabSelection() {
     setState(() {});
   }
 
+  String title = "";
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 80,
-      width: MediaQuery.of(context).size.width,
-      child: TabBar(
-        isScrollable: true,
-        controller: _tabController,
-        tabs: [
-          bedroomTabBarItems("studio", _tabController, 0),
-          bedroomTabBarItems("bedsitter", _tabController, 1),
-          bedroomTabBarItems("1", _tabController, 2),
-          bedroomTabBarItems("2", _tabController, 3),
-          bedroomTabBarItems("3", _tabController, 4),
-          bedroomTabBarItems("4", _tabController, 5),
-          bedroomTabBarItems("5", _tabController, 6),
-          bedroomTabBarItems("6", _tabController, 7),
-          bedroomTabBarItems("7", _tabController, 8),
-          bedroomTabBarItems("8+", _tabController, 9),
-        ],
-      ),
+    return BlocConsumer<SearchPropertyBloc, SearchPropertyState>(
+      listener: (context, state) {
+        if (state is SelectedBedroomState) {
+          print("bedroom state: " + state.bedroom);
+          print("bedroom index: " + state.index.toString());
+        }
+      },
+      builder: (context, state) {
+        return Container(
+          height: 80,
+          width: MediaQuery.of(context).size.width,
+          child: TabBar(
+            isScrollable: true,
+            controller: _tabController,
+            onTap: (index) {
+              switch (index) {
+                case 0:
+                  setState(() {
+                    title = "studio";
+                  });
+                  BlocProvider.of<SearchPropertyBloc>(context)
+                      .add((SelectedBedroomEvent(index: index, bedroom: title)));
+                  break;
+                case 1:
+                  setState(() {
+                    title = "bedsitter";
+                  });
+                  BlocProvider.of<SearchPropertyBloc>(context)
+                      .add((SelectedBedroomEvent(index: index, bedroom: title)));
+                  break;
+                case 2:
+                  setState(() {
+                    title = "2";
+                  });
+                  BlocProvider.of<SearchPropertyBloc>(context)
+                      .add((SelectedBedroomEvent(index: index, bedroom: title)));
+                  break;
+                case 3:
+                  setState(() {
+                    title = "2";
+                  });
+                  BlocProvider.of<SearchPropertyBloc>(context)
+                      .add((SelectedBedroomEvent(index: index, bedroom: title)));
+                  break;
+                case 4:
+                  setState(() {
+                    title = "3";
+                  });
+                  BlocProvider.of<SearchPropertyBloc>(context)
+                      .add((SelectedBedroomEvent(index: index, bedroom: title)));
+                  break;
+                case 5:
+                  setState(() {
+                    title = "4";
+                  });
+                  BlocProvider.of<SearchPropertyBloc>(context)
+                      .add((SelectedBedroomEvent(index: index, bedroom: title)));
+                  break;
+                case 6:
+                  setState(() {
+                    title = "5";
+                  });
+                  BlocProvider.of<SearchPropertyBloc>(context)
+                      .add((SelectedBedroomEvent(index: index, bedroom: title)));
+
+                  break;
+                case 7:
+                  setState(() {
+                    title = "6";
+                  });
+                  BlocProvider.of<SearchPropertyBloc>(context)
+                      .add((SelectedBedroomEvent(index: index, bedroom: title)));
+                  break;
+                case 8:
+                  setState(() {
+                    title = "7";
+                  });
+                  BlocProvider.of<SearchPropertyBloc>(context)
+                      .add((SelectedBedroomEvent(index: index, bedroom: title)));
+                  break;
+                case 9:
+                  setState(() {
+                    title = "8+";
+                  });
+                  BlocProvider.of<SearchPropertyBloc>(context)
+                      .add((SelectedBedroomEvent(index: index, bedroom: title)));
+                  break;
+                default:
+                  setState(() {
+                    title = "studio";
+                  });
+              }
+            },
+            tabs: [
+              bedroomTabBarItems("studio", _tabController, 0),
+              bedroomTabBarItems("bedsitter", _tabController, 1),
+              bedroomTabBarItems("1", _tabController, 2),
+              bedroomTabBarItems("2", _tabController, 3),
+              bedroomTabBarItems("3", _tabController, 4),
+              bedroomTabBarItems("4", _tabController, 5),
+              bedroomTabBarItems("5", _tabController, 6),
+              bedroomTabBarItems("6", _tabController, 7),
+              bedroomTabBarItems("7", _tabController, 8),
+              bedroomTabBarItems("8+", _tabController, 9),
+            ],
+          ),
+        );
+      },
     );
   }
 }
@@ -999,30 +1202,108 @@ class _ResidentialState extends State<Residential> with TickerProviderStateMixin
     super.initState();
     _tabController = new TabController(vsync: this, length: 7);
     _tabController.addListener(_handleTabSelection);
+    _tabController.index = 0;
+    subcategoryTitle = "apartment";
+    BlocProvider.of<SearchPropertyBloc>(context)
+        .add((SelectedSubCategoryEvent(index: _tabController.index, subcategoryTitle: subcategoryTitle)));
   }
 
   void _handleTabSelection() {
     setState(() {});
   }
 
+  String subcategoryTitle = "";
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 80,
-      width: MediaQuery.of(context).size.width,
-      child: TabBar(
-        isScrollable: true,
-        controller: _tabController,
-        tabs: [
-          residentialAndCommercialtabBarItems(AssetImage("assets/icons/buy-apartment.png"), "Apartment", _tabController, 0),
-          residentialAndCommercialtabBarItems(AssetImage("assets/icons/buy-commercial-villa.png"), "Villa", _tabController, 1),
-          residentialAndCommercialtabBarItems(AssetImage("assets/icons/buy-townhouse.png"), "Townhouse", _tabController, 2),
-          residentialAndCommercialtabBarItems(AssetImage("assets/icons/buy-penthouse.png"), "Penthouse", _tabController, 3),
-          residentialAndCommercialtabBarItems(AssetImage("assets/icons/buy-villa-compound.png"), "villa\ncompound", _tabController, 4),
-          residentialAndCommercialtabBarItems(AssetImage("assets/icons/buy-hotel.png"), " Hotel\nApartment", _tabController, 5),
-          residentialAndCommercialtabBarItems(AssetImage("assets/icons/buy-residential-building.png"), "Residential\nBuilding", _tabController, 6),
-        ],
-      ),
+    return BlocConsumer<SearchPropertyBloc, SearchPropertyState>(
+      listener: (context, state) {
+        if (state is SearchPropertySelectedPropertySubType) {
+          print("residential sub-category state: " + state.subcategoryTitle);
+        }
+      },
+      builder: (context, state) {
+        return Container(
+          height: 80,
+          width: MediaQuery.of(context).size.width,
+          child: TabBar(
+            isScrollable: true,
+            controller: _tabController,
+            onTap: (index) {
+              switch (index) {
+                case 0:
+                  setState(() {
+                    subcategoryTitle = "Apartment";
+                  });
+                  BlocProvider.of<SearchPropertyBloc>(context)
+                      .add((SelectedSubCategoryEvent(index: index, subcategoryTitle: subcategoryTitle)));
+                  break;
+                case 1:
+                  setState(() {
+                    subcategoryTitle = "Villa";
+                  });
+                  BlocProvider.of<SearchPropertyBloc>(context)
+                      .add((SelectedSubCategoryEvent(index: index, subcategoryTitle: subcategoryTitle)));
+                  break;
+                case 2:
+                  setState(() {
+                    subcategoryTitle = "Townhouse";
+                  });
+                  BlocProvider.of<SearchPropertyBloc>(context)
+                      .add((SelectedSubCategoryEvent(index: index, subcategoryTitle: subcategoryTitle)));
+                  break;
+                case 3:
+                  setState(() {
+                    subcategoryTitle = "Penthouse";
+                  });
+                  BlocProvider.of<SearchPropertyBloc>(context)
+                      .add((SelectedSubCategoryEvent(index: index, subcategoryTitle: subcategoryTitle)));
+                  break;
+                case 4:
+                  setState(() {
+                    subcategoryTitle = "villa compound";
+                  });
+                  BlocProvider.of<SearchPropertyBloc>(context)
+                      .add((SelectedSubCategoryEvent(index: index, subcategoryTitle: subcategoryTitle)));
+                  break;
+                case 5:
+                  setState(() {
+                    subcategoryTitle = "Hotel Apartment";
+                  });
+                  BlocProvider.of<SearchPropertyBloc>(context)
+                      .add((SelectedSubCategoryEvent(index: index, subcategoryTitle: subcategoryTitle)));
+                  break;
+                case 6:
+                  setState(() {
+                    subcategoryTitle = "Residential Building";
+                  });
+                  BlocProvider.of<SearchPropertyBloc>(context)
+                      .add((SelectedSubCategoryEvent(index: index, subcategoryTitle: subcategoryTitle)));
+                  break;
+                default:
+                  setState(() {
+                    subcategoryTitle = "apartment";
+                  });
+              }
+            },
+            tabs: [
+              residentialAndCommercialtabBarItems(
+                  AssetImage("assets/icons/buy-apartment.png"), "Apartment", _tabController, 0),
+              residentialAndCommercialtabBarItems(
+                  AssetImage("assets/icons/buy-commercial-villa.png"), "Villa", _tabController, 1),
+              residentialAndCommercialtabBarItems(
+                  AssetImage("assets/icons/buy-townhouse.png"), "Townhouse", _tabController, 2),
+              residentialAndCommercialtabBarItems(
+                  AssetImage("assets/icons/buy-penthouse.png"), "Penthouse", _tabController, 3),
+              residentialAndCommercialtabBarItems(
+                  AssetImage("assets/icons/buy-villa-compound.png"), "villa\ncompound", _tabController, 4),
+              residentialAndCommercialtabBarItems(
+                  AssetImage("assets/icons/buy-hotel.png"), " Hotel\nApartment", _tabController, 5),
+              residentialAndCommercialtabBarItems(
+                  AssetImage("assets/icons/buy-residential-building.png"), "Residential\nBuilding", _tabController, 6),
+            ],
+          ),
+        );
+      },
     );
   }
 }
@@ -1040,34 +1321,135 @@ class _CommercialState extends State<Commercial> with TickerProviderStateMixin {
     super.initState();
     _tabController = new TabController(vsync: this, length: 10);
     _tabController.addListener(_handleTabSelection);
+    _tabController.index = 0;
+    subcategoryTitle = "Office";
+    BlocProvider.of<SearchPropertyBloc>(context)
+        .add((SelectedSubCategoryEvent(index: _tabController.index, subcategoryTitle: subcategoryTitle)));
   }
 
   void _handleTabSelection() {
     setState(() {});
   }
 
+  String subcategoryTitle = "";
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 80,
-      width: MediaQuery.of(context).size.width,
-      child: TabBar(
-        isScrollable: true,
-        controller: _tabController,
-        tabs: [
-          residentialAndCommercialtabBarItems(AssetImage("assets/icons/buy-commercial-office.png"), "Office", _tabController, 0),
-          residentialAndCommercialtabBarItems(AssetImage("assets/icons/buy-commercial-shop.png"), "Shop", _tabController, 1),
-          residentialAndCommercialtabBarItems(AssetImage("assets/icons/buy-commercial-warehouse.png"), "Warehouse", _tabController, 2),
-          residentialAndCommercialtabBarItems(AssetImage("assets/icons/buy-commercial-villa.png"), "Commercial\n  Villa", _tabController, 3),
-          residentialAndCommercialtabBarItems(AssetImage("assets/icons/buy-commercial-units.png"), "Bulk\nUnits", _tabController, 4),
-          residentialAndCommercialtabBarItems(AssetImage("assets/icons/buy-commercial-building.png"), "Commercial\n  Building", _tabController, 5),
-          residentialAndCommercialtabBarItems(
-              AssetImage("assets/icons/gasoline-pump.png"), "Petrol\nstation", _tabController, 6),
-          residentialAndCommercialtabBarItems(AssetImage("assets/icons/buy-commercial-factory-1.png"), "Factory", _tabController, 7),
-          residentialAndCommercialtabBarItems(AssetImage("assets/icons/showroom.png"), "Showroom", _tabController, 8),
-          residentialAndCommercialtabBarItems(AssetImage("assets/icons/other.png"), "Other\nCommmercial", _tabController, 9),
-        ],
-      ),
+    return BlocConsumer<SearchPropertyBloc, SearchPropertyState>(
+      listener: (context, state) {
+        if (state is SearchPropertySelectedPropertySubType) {
+          print("commercial sub-category state: " + state.subcategoryTitle);
+        }
+      },
+      builder: (context, state) {
+        return Container(
+          height: 80,
+          width: MediaQuery.of(context).size.width,
+          child: TabBar(
+            isScrollable: true,
+            controller: _tabController,
+            onTap: (index) {
+              switch (index) {
+                case 0:
+                  setState(() {
+                    subcategoryTitle = "Office";
+                  });
+                  BlocProvider.of<SearchPropertyBloc>(context)
+                      .add((SelectedSubCategoryEvent(index: index, subcategoryTitle: subcategoryTitle)));
+                  break;
+                case 1:
+                  setState(() {
+                    subcategoryTitle = "Shop";
+                  });
+                  BlocProvider.of<SearchPropertyBloc>(context)
+                      .add((SelectedSubCategoryEvent(index: index, subcategoryTitle: subcategoryTitle)));
+                  break;
+                case 2:
+                  setState(() {
+                    subcategoryTitle = "Warehouse";
+                  });
+                  BlocProvider.of<SearchPropertyBloc>(context)
+                      .add((SelectedSubCategoryEvent(index: index, subcategoryTitle: subcategoryTitle)));
+                  break;
+                case 3:
+                  setState(() {
+                    subcategoryTitle = "Commercial Villa";
+                  });
+                  BlocProvider.of<SearchPropertyBloc>(context)
+                      .add((SelectedSubCategoryEvent(index: index, subcategoryTitle: subcategoryTitle)));
+                  break;
+                case 4:
+                  setState(() {
+                    subcategoryTitle = "Bulk Units";
+                  });
+                  BlocProvider.of<SearchPropertyBloc>(context)
+                      .add((SelectedSubCategoryEvent(index: index, subcategoryTitle: subcategoryTitle)));
+                  break;
+                case 5:
+                  setState(() {
+                    subcategoryTitle = "Commercial Building";
+                  });
+                  BlocProvider.of<SearchPropertyBloc>(context)
+                      .add((SelectedSubCategoryEvent(index: index, subcategoryTitle: subcategoryTitle)));
+                  break;
+                case 6:
+                  setState(() {
+                    subcategoryTitle = "Petrol station";
+                  });
+                  BlocProvider.of<SearchPropertyBloc>(context)
+                      .add((SelectedSubCategoryEvent(index: index, subcategoryTitle: subcategoryTitle)));
+                  break;
+                case 7:
+                  setState(() {
+                    subcategoryTitle = "Factory";
+                  });
+                  BlocProvider.of<SearchPropertyBloc>(context)
+                      .add((SelectedSubCategoryEvent(index: index, subcategoryTitle: subcategoryTitle)));
+                  break;
+                case 8:
+                  setState(() {
+                    subcategoryTitle = "Showroom";
+                  });
+                  BlocProvider.of<SearchPropertyBloc>(context)
+                      .add((SelectedSubCategoryEvent(index: index, subcategoryTitle: subcategoryTitle)));
+                  break;
+                case 9:
+                  setState(() {
+                    subcategoryTitle = "other";
+                  });
+                  BlocProvider.of<SearchPropertyBloc>(context)
+                      .add((SelectedSubCategoryEvent(index: index, subcategoryTitle: subcategoryTitle)));
+                  break;
+                default:
+                  setState(() {
+                    subcategoryTitle = "Office";
+                  });
+              }
+            },
+            tabs: [
+              residentialAndCommercialtabBarItems(
+                  AssetImage("assets/icons/buy-commercial-office.png"), "Office", _tabController, 0),
+              residentialAndCommercialtabBarItems(
+                  AssetImage("assets/icons/buy-commercial-shop.png"), "Shop", _tabController, 1),
+              residentialAndCommercialtabBarItems(
+                  AssetImage("assets/icons/buy-commercial-warehouse.png"), "Warehouse", _tabController, 2),
+              residentialAndCommercialtabBarItems(
+                  AssetImage("assets/icons/buy-commercial-villa.png"), "Commercial\n  Villa", _tabController, 3),
+              residentialAndCommercialtabBarItems(
+                  AssetImage("assets/icons/buy-commercial-units.png"), "Bulk\nUnits", _tabController, 4),
+              residentialAndCommercialtabBarItems(
+                  AssetImage("assets/icons/buy-commercial-building.png"), "Commercial\n  Building", _tabController, 5),
+              residentialAndCommercialtabBarItems(
+                  AssetImage("assets/icons/gasoline-pump.png"), "Petrol\nstation", _tabController, 6),
+              residentialAndCommercialtabBarItems(
+                  AssetImage("assets/icons/buy-commercial-factory-1.png"), "Factory", _tabController, 7),
+              residentialAndCommercialtabBarItems(
+                  AssetImage("assets/icons/showroom.png"), "Showroom", _tabController, 8),
+              residentialAndCommercialtabBarItems(
+                  AssetImage("assets/icons/other.png"), "Other\n Commmercial", _tabController, 9),
+            ],
+          ),
+        );
+      },
     );
   }
 }

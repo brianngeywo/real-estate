@@ -220,9 +220,9 @@ class RealifyProperty {
   }
 }
 
-final proposal = [Proposal(name: "Buy"), Proposal(name: "Sell")];
-final propertyCategoryType = ["Residential", "Commercial"];
-final residentialCategoryType = [
+final proposalList = [Proposal(name: "Buy"), Proposal(name: "Sell")];
+final propertyCategoryTypeList = ["Residential", "Commercial"];
+final residentialCategoryTypeList = [
   "Villa",
   "Apartment",
   "Townhouse",
@@ -233,7 +233,7 @@ final residentialCategoryType = [
   "Residential\n Floor",
   "Residential\n Building",
 ];
-final commercialCategoryType = [
+final commercialCategoryTypeList = [
   "Office",
   "Shop",
   "Warehouse",

@@ -8,6 +8,11 @@ class CountiesCodes extends StatefulWidget {
 }
 
 class _CountiesCodesState extends State<CountiesCodes> {
+  @override
+  void initState() { 
+    super.initState();
+     BlocProvider.of<SearchPropertyBloc>(context).add(SelectedCountyEvent(county: 'Nairobi'.toUpperCase()));
+  }
   int selected = null;
   List<DropdownMenuItem<int>> listDrop = [];
 
@@ -55,7 +60,12 @@ class _CountiesCodesState extends State<CountiesCodes> {
   @override
   Widget build(BuildContext context) {
     loadData();
-    return BlocBuilder<SearchPropertyBloc, SearchPropertyState>(
+    return BlocConsumer<SearchPropertyBloc, SearchPropertyState>(
+                          listener: (context, state) {
+        if (state is SearchPropertySelectedCounty) {
+          print("county state: " + state.county);
+        }
+      },
       builder: (context, state) {
         return Padding(
             padding: const EdgeInsets.only(left: 10),
@@ -75,11 +85,11 @@ class _CountiesCodesState extends State<CountiesCodes> {
                 onChanged: (value) {
                   selected = value;
                   switch (value) {
-                    case 'NAIROBI':
+                    case 1:
                       BlocProvider.of<SearchPropertyBloc>(context)
                           .add(SelectedCountyEvent(county: 'Nairobi'.toUpperCase()));
                       break;
-                    case 'UASIN GISHU':
+                    case 2:
                       BlocProvider.of<SearchPropertyBloc>(context)
                           .add(SelectedCountyEvent(county: 'UASIN GISHU'.toUpperCase()));
                       break;

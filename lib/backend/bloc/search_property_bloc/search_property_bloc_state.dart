@@ -21,18 +21,35 @@ class EnteredMaxPriceState extends SearchPropertyState {
 }
 
 class SearchPropertySelectedProposal extends SearchPropertyState {
-  final String category;
-  SearchPropertySelectedProposal({this.category = ''});
+
+   final int index;
+  final String proposal;
+  SearchPropertySelectedProposal({
+    this.index = 0,
+    this.proposal = '',
+  });
 }
 
-class SearchPropertySelectedPropetyType extends SearchPropertyState {
+class SearchPropertySelectedPropertyType extends SearchPropertyState {
     final int index;
+  final String categoryTitle;
+  SearchPropertySelectedPropertyType({
+    this.index = 0,
+    this.categoryTitle = '',
+  });
+}
 
-  final String subCategory;
-  SearchPropertySelectedPropetyType({this.index = 0, this.subCategory = ''});
+class SearchPropertySelectedPropertySubType extends SearchPropertyState {
+     final int index;
+  final String subcategoryTitle;
+  SearchPropertySelectedPropertySubType({this.index = 0,this.subcategoryTitle = '',});
 }
 
 class SelectedBedroomState extends SearchPropertyState {
+    final int index;
   final String bedroom;
-  SelectedBedroomState({this.bedroom = ''});
+  SelectedBedroomState({
+    this.index = 0,
+    this.bedroom = '',
+  });
 }

@@ -19,7 +19,7 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
   TabController tabController;
   void initState() {
     super.initState();
-    tabController = new TabController(vsync: this, length: proposal.length);
+    tabController = new TabController(vsync: this, length: proposalList.length);
     tabController.addListener(_handleTabSelection);
   }
 
