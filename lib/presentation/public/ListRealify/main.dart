@@ -230,8 +230,8 @@ class _ListRealifyState extends State<ListRealify> {
                   //     future: DefaultAssetBundle.of(context).loadString('assets/json/recommended.json'),
                   //     builder: (context, snapshot) {
                   //       var recommended_data = json.decode(snapshot.data.toString());
-                  //       print(recommended_data.runtimeType);
-                  //       print(DefaultAssetBundle.of(context).loadString('assets/json/recommended.json').runtimeType);
+                  //       
+                  //       
                   //       return ListView.builder(
                   //         physics: ScrollPhysics(),
                   //         itemBuilder: (BuildContext context, int index) {

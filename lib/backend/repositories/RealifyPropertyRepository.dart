@@ -4,7 +4,7 @@ import 'package:Realify/presentation/my_imports.dart';
 
 class RealifyPropertyRepository {
   RealifyPropertyApiProvider realifyPropertyApiProvider = RealifyPropertyApiProvider();
-  Future<void> uploadProperty(RealifyProperty property) {
+  uploadProperty(RealifyProperty property) {
     // realifyPropertyApiProvider.uploadProperty(property);
     // return 200;
   }

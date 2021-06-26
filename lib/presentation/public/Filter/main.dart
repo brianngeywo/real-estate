@@ -144,7 +144,7 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                             proposal = "rent";
                           });
                         }
-                        print("proposal: " + proposal);
+                        
                         BlocProvider.of<SearchPropertyBloc>(context)
                             .add((SelectedProposalEvent(index: value, proposal: proposal)));
                       },
@@ -214,13 +214,6 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                   elevation: 0.0,
                   color: ColorConfig.darkGreen,
                   onPressed: () {
-                    print("proposal: " + proposal);
-                    print("county: " + county);
-                    print("category: " + category);
-                    print("sub-category: " + subCategory);
-                    print("min price: " + minPrice);
-                    print("max price: " + maxPrice);
-                    print("bedrooms: " + bedrooms);
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -708,7 +701,7 @@ class _PropertytypeState extends State<Propertytype> with TickerProviderStateMix
     return BlocConsumer<SearchPropertyBloc, SearchPropertyState>(
       listener: (context, state) {
         if (state is SearchPropertySelectedPropertyType) {
-          print("category title: " + state.categoryTitle);
+          
         }
       },
       builder: (context, state) {
@@ -727,7 +720,7 @@ class _PropertytypeState extends State<Propertytype> with TickerProviderStateMix
                     category = "commercial";
                   }
 
-                  print("category: " + category);
+                  
                   BlocProvider.of<SearchPropertyBloc>(context)
                       .add((SelectedCategoryEvent(index: _tabController.index, categoryTitle: category)));
                 },
@@ -824,8 +817,8 @@ class _BedroomtypeState extends State<Bedroomtype> with TickerProviderStateMixin
     return BlocConsumer<SearchPropertyBloc, SearchPropertyState>(
       listener: (context, state) {
         if (state is SelectedBedroomState) {
-          print("bedroom state: " + state.bedroom);
-          print("bedroom index: " + state.index.toString());
+          
+          
         }
       },
       builder: (context, state) {
@@ -1218,7 +1211,7 @@ class _ResidentialState extends State<Residential> with TickerProviderStateMixin
     return BlocConsumer<SearchPropertyBloc, SearchPropertyState>(
       listener: (context, state) {
         if (state is SearchPropertySelectedPropertySubType) {
-          print("residential sub-category state: " + state.subcategoryTitle);
+          
         }
       },
       builder: (context, state) {
@@ -1337,7 +1330,7 @@ class _CommercialState extends State<Commercial> with TickerProviderStateMixin {
     return BlocConsumer<SearchPropertyBloc, SearchPropertyState>(
       listener: (context, state) {
         if (state is SearchPropertySelectedPropertySubType) {
-          print("commercial sub-category state: " + state.subcategoryTitle);
+          
         }
       },
       builder: (context, state) {

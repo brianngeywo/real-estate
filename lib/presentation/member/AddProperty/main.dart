@@ -6,7 +6,6 @@ import 'package:Realify/presentation/member/AddProperty/AddRentTabBar.dart';
 import 'package:Realify/presentation/member/AddProperty/reusables/main.dart';
 import 'package:Realify/presentation/my_imports.dart';
 import 'package:Realify/presentation/public/HomePage/main.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddProperty extends StatefulWidget {
   final RealifyPropertyRepository realifyPropertyRepository;

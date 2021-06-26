@@ -89,8 +89,8 @@ class _ReportState extends State<Report> {
                                     setState(() {
                                       selectedRadioOption = state.title;
                                     });
-                                    print("index: " + state.index.toString());
-                                    print("title: " + state.title);
+                                    
+                                    
                                   }
                                   return Text(
                                     selectedRadioOption,
@@ -247,7 +247,7 @@ class _ReportState extends State<Report> {
                 width: double.maxFinite,
                 padding: EdgeInsets.all(10),
                 color: Colors.white,
-                child: RaisedButton(
+                child: MaterialButton(
                   elevation: 0.0,
                   color: ColorConfig.darkGreen,
                   onPressed: () {
@@ -352,7 +352,7 @@ class _ReportState extends State<Report> {
 
                                           BlocProvider.of<ReportPropertyBloc>(context)
                                               .add(SelectRadioButtonEvent(index: e.index, title: e.name));
-                                          print(state.toString());
+                                          
                                         }),
                                   )
                                   .toList(),
@@ -373,7 +373,7 @@ class _ReportState extends State<Report> {
                       //               setState(() {
                       //                 selectedRadio = value;
                       //               });
-                      //               print(selectedRadio);
+                      //               
                       //             })),
                       //     new Text(
                       //       'property location is wrong',
@@ -395,7 +395,7 @@ class _ReportState extends State<Report> {
                       //               setState(() {
                       //                 selectedRadio = value;
                       //               });
-                      //               print(selectedRadio);
+                      //               
                       //             })),
                       //     new Text(
                       //       'inaccurate property images',
@@ -417,7 +417,7 @@ class _ReportState extends State<Report> {
                       //               setState(() {
                       //                 selectedRadio = value;
                       //               });
-                      //               print(selectedRadio);
+                      //               
                       //             })),
                       //     new Text(
                       //       'Unauthorized use of images',
@@ -439,7 +439,7 @@ class _ReportState extends State<Report> {
                       //               setState(() {
                       //                 selectedRadio = value;
                       //               });
-                      //               print(selectedRadio);
+                      //               
                       //             })),
                       //     new Text(
                       //       'Property is not available',
@@ -461,7 +461,7 @@ class _ReportState extends State<Report> {
                       //               setState(() {
                       //                 selectedRadio = value;
                       //               });
-                      //               print(selectedRadio);
+                      //               
                       //             })),
                       //     new Text(
                       //       'Others',

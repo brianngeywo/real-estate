@@ -277,7 +277,7 @@ class _SettingsState extends State<Settings> {
               width: double.maxFinite,
               padding: EdgeInsets.all(10),
               color: Colors.white,
-              child: RaisedButton(
+              child: MaterialButton(
                 elevation: 0.0,
                 color: ColorConfig.darkGreen,
                 onPressed: () {},

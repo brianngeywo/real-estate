@@ -138,7 +138,7 @@ class _MyPropertiesState extends State<MyProperties> with TickerProviderStateMix
               width: double.maxFinite,
               padding: EdgeInsets.all(10),
               color: Colors.white,
-              child: RaisedButton(
+              child: MaterialButton(
                 elevation: 0.0,
                 color: ColorConfig.darkGreen,
                 onPressed: () {},

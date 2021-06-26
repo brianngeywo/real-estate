@@ -63,7 +63,7 @@ class _CountiesCodesState extends State<CountiesCodes> {
     return BlocConsumer<SearchPropertyBloc, SearchPropertyState>(
                           listener: (context, state) {
         if (state is SearchPropertySelectedCounty) {
-          print("county state: " + state.county);
+          
         }
       },
       builder: (context, state) {

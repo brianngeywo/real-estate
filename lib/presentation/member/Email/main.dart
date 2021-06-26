@@ -200,7 +200,7 @@ class _EmailPageState extends State<EmailPage> {
               height: 68,
               width: double.maxFinite,
               color: Colors.white,
-              child: RaisedButton(
+              child: MaterialButton(
                 color: ColorConfig.darkGreen,
                 onPressed: () {},
                 child: Text(

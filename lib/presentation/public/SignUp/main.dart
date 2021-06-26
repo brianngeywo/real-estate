@@ -322,7 +322,7 @@ class _SignUpState extends State<SignUp> {
                                 groupValue: selectedRadio,
                                 onChanged: (int val) {
                                   setSelectedRadio(val);
-                                  print("Radio $val");
+                                  
                                 },
                               ),
                             ],
@@ -346,7 +346,7 @@ class _SignUpState extends State<SignUp> {
                                 groupValue: selectedRadio,
                                 onChanged: (int val) {
                                   setSelectedRadio(val);
-                                  print("Radio $val");
+                                  
                                 },
                               ),
                             ],
@@ -370,7 +370,7 @@ class _SignUpState extends State<SignUp> {
                                 groupValue: selectedRadio,
                                 onChanged: (int val) {
                                   setSelectedRadio(val);
-                                  print("Radio $val");
+                                  
                                 },
                               ),
                             ],

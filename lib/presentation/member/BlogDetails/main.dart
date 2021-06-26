@@ -72,7 +72,7 @@ class BlogDetail extends StatelessWidget {
                             width: 75,
                             padding: EdgeInsets.only(top: 5.0),
                             color: ColorConfig.yellow,
-                            child: FlatButton(
+                            child: MaterialButton(
                               onPressed: () {},
                               child: Center(
                                 child: Text(
