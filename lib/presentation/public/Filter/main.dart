@@ -1,7 +1,10 @@
+import 'package:Realify/backend/bloc/search_property_bloc/search_property_bloc_bloc.dart';
 import 'package:Realify/presentation/my_imports.dart';
 import 'package:Realify/presentation/public/Filter/TabBar1.dart';
 import 'package:Realify/presentation/public/Filter/TabBar2.dart';
+import 'package:Realify/presentation/public/Filter/reusables/main.dart';
 import 'package:Realify/presentation/public/ListRealify/main.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Filter extends StatefulWidget {
   @override
@@ -22,143 +25,146 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: ColorConfig.light,
-      body: SafeArea(
-        child: Column(
-          children: [
-            Container(
-              color: Colors.white,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Align(
-                        alignment: Alignment(0, 0.1),
-                        child: IconButton(
-                          icon: Icon(AntDesign.close),
-                          onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
-                          },
-                          iconSize: Sizeconfig.huge,
-                          color: ColorConfig.dark,
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment(0, 0.1),
-                        child: Text(
-                          "Filter",
-                          style: TextStyle(
-                            fontFamily: FontConfig.bold,
-                            fontSize: Sizeconfig.medium,
+    return BlocProvider(
+      create: (context) => SearchPropertyBloc(),
+      child: Scaffold(
+        backgroundColor: ColorConfig.light,
+        body: SafeArea(
+          child: Column(
+            children: [
+              Container(
+                color: Colors.white,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Align(
+                          alignment: Alignment(0, 0.1),
+                          child: IconButton(
+                            icon: Icon(AntDesign.close),
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                            },
+                            iconSize: Sizeconfig.huge,
                             color: ColorConfig.dark,
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 15.0),
-                    child: InkWell(
-                      onTap: () {},
-                      child: Text(
-                        "Reset",
-                        style: TextStyle(
-                          fontFamily: FontConfig.regular,
-                          fontSize: Sizeconfig.small,
-                          color: ColorConfig.darkGreen,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(height: 1, width: double.maxFinite, color: ColorConfig.grey.withOpacity(0.3)),
-            Container(
-              height: 80,
-              width: MediaQuery.of(context).size.width,
-              child: TabBar(
-                controller: tabController,
-                tabs: [
-                  Expanded(
-                    child: Container(
-                      height: 40,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                          color: tabController.index == 0 ? ColorConfig.lightGreen : ColorConfig.light,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(3),
-                          ),
-                          border: Border.all(width: 1, color: ColorConfig.smokeLight)),
-                      child: Tab(
-                        child: Text(
-                          "Buy",
-                          style: TextStyle(
+                        Align(
+                          alignment: Alignment(0, 0.1),
+                          child: Text(
+                            "Filter",
+                            style: TextStyle(
                               fontFamily: FontConfig.bold,
-                              fontSize: Sizeconfig.small,
-                              color: tabController.index == 0 ? ColorConfig.light : ColorConfig.grey),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: tabController.index == 1 ? ColorConfig.lightGreen : ColorConfig.light,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(3),
+                              fontSize: Sizeconfig.medium,
+                              color: ColorConfig.dark,
+                            ),
                           ),
-                          border: Border.all(width: 1, color: ColorConfig.smokeLight)),
-                      height: 40,
-                      width: MediaQuery.of(context).size.width,
-                      child: Tab(
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 15.0),
+                      child: InkWell(
+                        onTap: () {},
                         child: Text(
-                          "Rent",
+                          "Reset",
                           style: TextStyle(
-                              fontFamily: FontConfig.bold,
-                              fontSize: Sizeconfig.small,
-                              color: tabController.index == 1 ? ColorConfig.light : ColorConfig.grey),
+                            fontFamily: FontConfig.regular,
+                            fontSize: Sizeconfig.small,
+                            color: ColorConfig.darkGreen,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: TabBarView(
-                controller: tabController,
-                children: [
-                  TabBar1(),
-                  TabBar2(),
-                ],
-              ),
-            ),
-            Container(
-              height: 68,
-              width: double.maxFinite,
-              padding: EdgeInsets.all(10),
-              color: Colors.white,
-              child: RaisedButton(
-                elevation: 0.0,
-                color: ColorConfig.darkGreen,
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => ListRealify()));
-                },
-                child: Text(
-                  "Search",
-                  style: TextStyle(
-                    color: ColorConfig.light,
-                    fontSize: Sizeconfig.small,
-                    fontFamily: FontConfig.bold,
-                  ),
-                  textAlign: TextAlign.center,
+                  ],
                 ),
               ),
-            ),
-          ],
+              Container(height: 1, width: double.maxFinite, color: ColorConfig.grey.withOpacity(0.3)),
+              Container(
+                height: 80,
+                width: MediaQuery.of(context).size.width,
+                child: TabBar(
+                  controller: tabController,
+                  tabs: [
+                    Tab(
+                      child: Container(
+                           height: 40,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: tabController.index == 0 ? ColorConfig.lightGreen : ColorConfig.light,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(3),
+                            ),
+                            border: Border.all(width: 1, color: ColorConfig.smokeLight)),
+                        child: Center(
+                          child: Text(
+                            "Buy",
+                            style: TextStyle(
+                                fontFamily: FontConfig.bold,
+                                fontSize: Sizeconfig.small,
+                                color: tabController.index == 0 ? ColorConfig.light : ColorConfig.grey),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Tab(
+                      child: Container(
+                              decoration: BoxDecoration(
+                            color: tabController.index == 1 ? ColorConfig.lightGreen : ColorConfig.light,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(3),
+                            ),
+                            border: Border.all(width: 1, color: ColorConfig.smokeLight)),
+                        height: 40,
+                        width: MediaQuery.of(context).size.width,
+                        child: Center(
+                          child: Text(
+                            "Rent",
+                            style: TextStyle(
+                                fontFamily: FontConfig.bold,
+                                fontSize: Sizeconfig.small,
+                                color: tabController.index == 1 ? ColorConfig.light : ColorConfig.grey),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: TabBarView(
+                  controller: tabController,
+                  children: [
+                    TabBar1(),
+                    TabBar2(),
+                  ],
+                ),
+              ),
+              Container(
+                height: 68,
+                width: double.maxFinite,
+                padding: EdgeInsets.all(10),
+                color: Colors.white,
+                child: MaterialButton(
+                  elevation: 0.0,
+                  color: ColorConfig.darkGreen,
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => ListRealify()));
+                  },
+                  child: Text(
+                    "Search",
+                    style: TextStyle(
+                      color: ColorConfig.light,
+                      fontSize: Sizeconfig.small,
+                      fontFamily: FontConfig.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -620,7 +626,7 @@ class _PropertytypeState extends State<Propertytype> with TickerProviderStateMix
           child: TabBar(
             controller: _tabController,
             tabs: [
-              Expanded(
+              Tab(
                 child: Container(
                   height: 40,
                   width: MediaQuery.of(context).size.width,
@@ -630,7 +636,7 @@ class _PropertytypeState extends State<Propertytype> with TickerProviderStateMix
                         Radius.circular(3),
                       ),
                       border: Border.all(width: 1, color: ColorConfig.smokeLight)),
-                  child: Tab(
+                  child: Center(
                     child: Text(
                       "Residential",
                       style: TextStyle(
@@ -641,7 +647,7 @@ class _PropertytypeState extends State<Propertytype> with TickerProviderStateMix
                   ),
                 ),
               ),
-              Expanded(
+              Tab(
                 child: Container(
                   decoration: BoxDecoration(
                       color: _tabController.index == 1 ? ColorConfig.lightGreen : ColorConfig.light,
@@ -651,7 +657,7 @@ class _PropertytypeState extends State<Propertytype> with TickerProviderStateMix
                       border: Border.all(width: 1, color: ColorConfig.smokeLight)),
                   height: 40,
                   width: MediaQuery.of(context).size.width,
-                  child: Tab(
+                  child: Center(
                     child: Text(
                       "Commercial",
                       style: TextStyle(
@@ -691,7 +697,7 @@ class _BedroomtypeState extends State<Bedroomtype> with TickerProviderStateMixin
   TabController _tabController;
   void initState() {
     super.initState();
-    _tabController = new TabController(vsync: this, length: 9);
+    _tabController = new TabController(vsync: this, length: 10);
     _tabController.addListener(_handleTabSelection);
   }
 
@@ -708,195 +714,16 @@ class _BedroomtypeState extends State<Bedroomtype> with TickerProviderStateMixin
         isScrollable: true,
         controller: _tabController,
         tabs: [
-          Expanded(
-            child: Container(
-              height: 40,
-              width: 60,
-              decoration: BoxDecoration(
-                  color: _tabController.index == 0 ? ColorConfig.lightGreen : ColorConfig.light,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(3),
-                  ),
-                  border: Border.all(width: 1, color: ColorConfig.smokeLight)),
-              child: Tab(
-                child: Text(
-                  "studio",
-                  style: TextStyle(
-                      fontFamily: FontConfig.bold,
-                      fontSize: Sizeconfig.small,
-                      color: _tabController.index == 0 ? ColorConfig.light : ColorConfig.grey),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                  color: _tabController.index == 1 ? ColorConfig.lightGreen : ColorConfig.light,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(3),
-                  ),
-                  border: Border.all(width: 1, color: ColorConfig.smokeLight)),
-              height: 40,
-              width: 60,
-              child: Tab(
-                child: Text(
-                  "1",
-                  style: TextStyle(
-                      fontFamily: FontConfig.bold,
-                      fontSize: Sizeconfig.small,
-                      color: _tabController.index == 1 ? ColorConfig.light : ColorConfig.grey),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                  color: _tabController.index == 2 ? ColorConfig.lightGreen : ColorConfig.light,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(3),
-                  ),
-                  border: Border.all(width: 1, color: ColorConfig.smokeLight)),
-              height: 40,
-              width: 60,
-              child: Tab(
-                child: Text(
-                  "2",
-                  style: TextStyle(
-                      fontFamily: FontConfig.bold,
-                      fontSize: Sizeconfig.small,
-                      color: _tabController.index == 2 ? ColorConfig.light : ColorConfig.grey),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                  color: _tabController.index == 3 ? ColorConfig.lightGreen : ColorConfig.light,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(3),
-                  ),
-                  border: Border.all(width: 1, color: ColorConfig.smokeLight)),
-              height: 40,
-              width: 60,
-              child: Tab(
-                child: Text(
-                  "3",
-                  style: TextStyle(
-                      fontFamily: FontConfig.bold,
-                      fontSize: Sizeconfig.small,
-                      color: _tabController.index == 3 ? ColorConfig.light : ColorConfig.grey),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                  color: _tabController.index == 4 ? ColorConfig.lightGreen : ColorConfig.light,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(3),
-                  ),
-                  border: Border.all(width: 1, color: ColorConfig.smokeLight)),
-              height: 40,
-              width: 60,
-              child: Tab(
-                child: Text(
-                  "4",
-                  style: TextStyle(
-                      fontFamily: FontConfig.bold,
-                      fontSize: Sizeconfig.small,
-                      color: _tabController.index == 4 ? ColorConfig.light : ColorConfig.grey),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                  color: _tabController.index == 5 ? ColorConfig.lightGreen : ColorConfig.light,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(3),
-                  ),
-                  border: Border.all(width: 1, color: ColorConfig.smokeLight)),
-              height: 40,
-              width: 60,
-              child: Tab(
-                child: Text(
-                  "5",
-                  style: TextStyle(
-                      fontFamily: FontConfig.bold,
-                      fontSize: Sizeconfig.small,
-                      color: _tabController.index == 5 ? ColorConfig.light : ColorConfig.grey),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                  color: _tabController.index == 6 ? ColorConfig.lightGreen : ColorConfig.light,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(3),
-                  ),
-                  border: Border.all(width: 1, color: ColorConfig.smokeLight)),
-              height: 40,
-              width: 60,
-              child: Tab(
-                child: Text(
-                  "6",
-                  style: TextStyle(
-                      fontFamily: FontConfig.bold,
-                      fontSize: Sizeconfig.small,
-                      color: _tabController.index == 6 ? ColorConfig.light : ColorConfig.grey),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                  color: _tabController.index == 7 ? ColorConfig.lightGreen : ColorConfig.light,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(3),
-                  ),
-                  border: Border.all(width: 1, color: ColorConfig.smokeLight)),
-              height: 40,
-              width: 60,
-              child: Tab(
-                child: Text(
-                  "7",
-                  style: TextStyle(
-                      fontFamily: FontConfig.bold,
-                      fontSize: Sizeconfig.small,
-                      color: _tabController.index == 7 ? ColorConfig.light : ColorConfig.grey),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                  color: _tabController.index == 8 ? ColorConfig.lightGreen : ColorConfig.light,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(3),
-                  ),
-                  border: Border.all(width: 1, color: ColorConfig.smokeLight)),
-              height: 40,
-              width: 60,
-              child: Tab(
-                child: Text(
-                  "8+",
-                  style: TextStyle(
-                      fontFamily: FontConfig.bold,
-                      fontSize: Sizeconfig.small,
-                      color: _tabController.index == 8 ? ColorConfig.light : ColorConfig.grey),
-                ),
-              ),
-            ),
-          ),
+          bedroomTabBarItems("studio", _tabController, 0),
+          bedroomTabBarItems("bedsitter", _tabController, 1),
+          bedroomTabBarItems("1", _tabController, 2),
+          bedroomTabBarItems("2", _tabController, 3),
+          bedroomTabBarItems("3", _tabController, 4),
+          bedroomTabBarItems("4", _tabController, 5),
+          bedroomTabBarItems("5", _tabController, 6),
+          bedroomTabBarItems("6", _tabController, 7),
+          bedroomTabBarItems("7", _tabController, 8),
+          bedroomTabBarItems("8+", _tabController, 9),
         ],
       ),
     );
@@ -1170,7 +997,7 @@ class _ResidentialState extends State<Residential> with TickerProviderStateMixin
   TabController _tabController;
   void initState() {
     super.initState();
-    _tabController = new TabController(vsync: this, length: 9);
+    _tabController = new TabController(vsync: this, length: 7);
     _tabController.addListener(_handleTabSelection);
   }
 
@@ -1187,337 +1014,13 @@ class _ResidentialState extends State<Residential> with TickerProviderStateMixin
         isScrollable: true,
         controller: _tabController,
         tabs: [
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: _tabController.index == 0 ? ColorConfig.lightGreen : ColorConfig.light,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5),
-                ),
-              ),
-              height: 70,
-              width: 70,
-              child: Tab(
-                child: Text(
-                  "Apartment",
-                  style: TextStyle(color: _tabController.index == 0 ? ColorConfig.lightGreen : ColorConfig.grey),
-                ),
-                icon: Container(
-                  padding: EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(35),
-                      ),
-                      border: Border.all(
-                          width: 1, color: _tabController.index == 0 ? ColorConfig.lightGreen : ColorConfig.smokeDark)),
-                  height: 70,
-                  width: 70,
-                  child: Image(
-                    image: NetworkImage(
-                      "https://cdn2.iconfinder.com/data/icons/business-formal/64/Business_Apartment-512.png",
-                    ),
-                    color: ColorConfig.dark,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: _tabController.index == 1 ? ColorConfig.lightGreen : ColorConfig.light,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5),
-                ),
-              ),
-              height: 70,
-              width: 70,
-              child: Tab(
-                child: Text(
-                  "Villa",
-                  style: TextStyle(color: _tabController.index == 1 ? ColorConfig.lightGreen : ColorConfig.grey),
-                ),
-                icon: Container(
-                  padding: EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(35),
-                      ),
-                      border: Border.all(
-                          width: 1, color: _tabController.index == 1 ? ColorConfig.lightGreen : ColorConfig.smokeDark)),
-                  height: 70,
-                  width: 70,
-                  child: Center(
-                    child: Image(
-                      image: NetworkImage(
-                        "https://cdn.onlinewebfonts.com/svg/img_215746.png",
-                      ),
-                      color: ColorConfig.dark,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: _tabController.index == 2 ? ColorConfig.lightGreen : ColorConfig.light,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5),
-                ),
-              ),
-              height: 70,
-              width: 70,
-              child: Tab(
-                child: Text(
-                  "Townhouse",
-                  style: TextStyle(color: _tabController.index == 2 ? ColorConfig.lightGreen : ColorConfig.grey),
-                ),
-                icon: Container(
-                  padding: EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(35),
-                      ),
-                      border: Border.all(
-                          width: 1, color: _tabController.index == 2 ? ColorConfig.lightGreen : ColorConfig.smokeDark)),
-                  height: 70,
-                  width: 70,
-                  child: Center(
-                    child: Image(
-                      image: NetworkImage(
-                        "https://png.pngtree.com/svg/20161230/0cf24d299d.png",
-                      ),
-                      color: ColorConfig.dark,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: _tabController.index == 3 ? ColorConfig.lightGreen : ColorConfig.light,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5),
-                ),
-              ),
-              height: 70,
-              width: 70,
-              child: Tab(
-                child: Text(
-                  "Penthouse",
-                  style: TextStyle(color: _tabController.index == 3 ? ColorConfig.lightGreen : ColorConfig.grey),
-                ),
-                icon: Container(
-                  padding: EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(35),
-                      ),
-                      border: Border.all(
-                          width: 1, color: _tabController.index == 3 ? ColorConfig.lightGreen : ColorConfig.smokeDark)),
-                  height: 70,
-                  width: 70,
-                  child: Center(
-                    child: Image(
-                      image: NetworkImage(
-                        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRBpxiHx96zL8Fzc_bFV3YtFdympMW0I8sd2QcQcCyHk8FTJUE9&usqp=CAU",
-                      ),
-                      color: ColorConfig.dark,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: _tabController.index == 4 ? ColorConfig.lightGreen : ColorConfig.light,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5),
-                ),
-              ),
-              height: 70,
-              width: 70,
-              child: Tab(
-                child: Text("    villa\ncompound",
-                    style: TextStyle(
-                      color: _tabController.index == 4 ? ColorConfig.lightGreen : ColorConfig.grey,
-                    )),
-                icon: Container(
-                  padding: EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(35),
-                      ),
-                      border: Border.all(
-                          width: 1, color: _tabController.index == 4 ? ColorConfig.lightGreen : ColorConfig.smokeDark)),
-                  height: 70,
-                  width: 70,
-                  child: Center(
-                    child: Image(
-                      image: NetworkImage(
-                        "https://cdn1.iconfinder.com/data/icons/happy-new-year-2020/66/6-512.png",
-                      ),
-                      color: ColorConfig.dark,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: _tabController.index == 5 ? ColorConfig.lightGreen : ColorConfig.light,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5),
-                ),
-              ),
-              height: 70,
-              width: 70,
-              child: Tab(
-                child: Text(
-                  "    Hotel\nApartment",
-                  style: TextStyle(color: _tabController.index == 5 ? ColorConfig.lightGreen : ColorConfig.grey),
-                ),
-                icon: Container(
-                  padding: EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(35),
-                      ),
-                      border: Border.all(
-                          width: 1, color: _tabController.index == 5 ? ColorConfig.lightGreen : ColorConfig.smokeDark)),
-                  height: 70,
-                  width: 70,
-                  child: Center(
-                    child: Image(
-                      image: NetworkImage(
-                        "https://cdn4.iconfinder.com/data/icons/hotel-service-5/300/hotel-512.png",
-                      ),
-                      color: ColorConfig.dark,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: _tabController.index == 6 ? ColorConfig.lightGreen : ColorConfig.light,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5),
-                ),
-              ),
-              height: 70,
-              width: 70,
-              child: Tab(
-                child: Text(
-                  "Residential\nPlot",
-                  style: TextStyle(color: _tabController.index == 6 ? ColorConfig.lightGreen : ColorConfig.grey),
-                ),
-                icon: Container(
-                  padding: EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(35),
-                      ),
-                      border: Border.all(
-                          width: 1, color: _tabController.index == 6 ? ColorConfig.lightGreen : ColorConfig.smokeDark)),
-                  height: 70,
-                  width: 70,
-                  child: Center(
-                    child: Image(
-                      image: NetworkImage(
-                        "https://cdn3.iconfinder.com/data/icons/smart-agriculture-and-farming-3/512/41-512.png",
-                      ),
-                      color: ColorConfig.dark,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: _tabController.index == 7 ? ColorConfig.lightGreen : ColorConfig.light,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5),
-                ),
-              ),
-              height: 70,
-              width: 70,
-              child: Tab(
-                child: Text(
-                  "Residential\nFloor",
-                  style: TextStyle(color: _tabController.index == 7 ? ColorConfig.lightGreen : ColorConfig.grey),
-                ),
-                icon: Container(
-                  padding: EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(35),
-                      ),
-                      border: Border.all(
-                          width: 1, color: _tabController.index == 7 ? ColorConfig.lightGreen : ColorConfig.smokeDark)),
-                  height: 70,
-                  width: 70,
-                  child: Center(
-                    child: Image(
-                      image: NetworkImage(
-                        "https://cdn3.iconfinder.com/data/icons/smart-agriculture-and-farming-3/512/41-512.pnghttps://thumbs.dreamstime.com/b/apartment-floor-plan-architectural-project-line-icon-vector-symbol-sign-illustration-design-isolated-white-background-150535798.jpg",
-                      ),
-                      color: ColorConfig.dark,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: _tabController.index == 8 ? ColorConfig.lightGreen : ColorConfig.light,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5),
-                ),
-              ),
-              height: 70,
-              width: 70,
-              child: Tab(
-                child: Text(
-                  "Residential\nBuilding",
-                  style: TextStyle(color: _tabController.index == 8 ? ColorConfig.lightGreen : ColorConfig.grey),
-                ),
-                icon: Container(
-                  padding: EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(35),
-                      ),
-                      border: Border.all(
-                          width: 1, color: _tabController.index == 8 ? ColorConfig.lightGreen : ColorConfig.smokeDark)),
-                  height: 70,
-                  width: 70,
-                  child: Center(
-                    child: Image(
-                      image: NetworkImage(
-                        "https://cdn4.iconfinder.com/data/icons/buildings-104/64/apartment-block-residential-flat-buildings-512.png",
-                      ),
-                      color: ColorConfig.dark,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
+          residentialAndCommercialtabBarItems(AssetImage("assets/icons/buy-apartment.png"), "Apartment", _tabController, 0),
+          residentialAndCommercialtabBarItems(AssetImage("assets/icons/buy-commercial-villa.png"), "Villa", _tabController, 1),
+          residentialAndCommercialtabBarItems(AssetImage("assets/icons/buy-townhouse.png"), "Townhouse", _tabController, 2),
+          residentialAndCommercialtabBarItems(AssetImage("assets/icons/buy-penthouse.png"), "Penthouse", _tabController, 3),
+          residentialAndCommercialtabBarItems(AssetImage("assets/icons/buy-villa-compound.png"), "villa\ncompound", _tabController, 4),
+          residentialAndCommercialtabBarItems(AssetImage("assets/icons/buy-hotel.png"), " Hotel\nApartment", _tabController, 5),
+          residentialAndCommercialtabBarItems(AssetImage("assets/icons/buy-residential-building.png"), "Residential\nBuilding", _tabController, 6),
         ],
       ),
     );
@@ -1535,7 +1038,7 @@ class _CommercialState extends State<Commercial> with TickerProviderStateMixin {
   TabController _tabController;
   void initState() {
     super.initState();
-    _tabController = new TabController(vsync: this, length: 14);
+    _tabController = new TabController(vsync: this, length: 10);
     _tabController.addListener(_handleTabSelection);
   }
 
@@ -1552,526 +1055,17 @@ class _CommercialState extends State<Commercial> with TickerProviderStateMixin {
         isScrollable: true,
         controller: _tabController,
         tabs: [
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: _tabController.index == 0 ? ColorConfig.lightGreen : ColorConfig.light,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5),
-                ),
-              ),
-              height: 70,
-              width: 70,
-              child: Tab(
-                child: Text(
-                  "Office",
-                  style: TextStyle(color: _tabController.index == 0 ? ColorConfig.lightGreen : ColorConfig.grey),
-                ),
-                icon: Container(
-                  padding: EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(35),
-                      ),
-                      border: Border.all(
-                          width: 1, color: _tabController.index == 0 ? ColorConfig.lightGreen : ColorConfig.smokeDark)),
-                  height: 70,
-                  width: 70,
-                  child: Image(
-                    image: NetworkImage(
-                      "https://cdn1.iconfinder.com/data/icons/business-line-47/64/business_Office-512.png",
-                    ),
-                    color: ColorConfig.dark,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: _tabController.index == 1 ? ColorConfig.lightGreen : ColorConfig.light,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5),
-                ),
-              ),
-              height: 70,
-              width: 70,
-              child: Tab(
-                child: Text(
-                  "Shop",
-                  style: TextStyle(color: _tabController.index == 1 ? ColorConfig.lightGreen : ColorConfig.grey),
-                ),
-                icon: Container(
-                  padding: EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(35),
-                      ),
-                      border: Border.all(
-                          width: 1, color: _tabController.index == 1 ? ColorConfig.lightGreen : ColorConfig.smokeDark)),
-                  height: 70,
-                  width: 70,
-                  child: Center(
-                    child: Image(
-                      image: NetworkImage(
-                        "https://cdn1.vectorstock.com/i/1000x1000/30/60/shop-market-icon-outline-style-vector-26163060.jpg",
-                      ),
-                      color: ColorConfig.dark,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: _tabController.index == 2 ? ColorConfig.lightGreen : ColorConfig.light,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5),
-                ),
-              ),
-              height: 70,
-              width: 70,
-              child: Tab(
-                child: Text(
-                  "Warehouse",
-                  style: TextStyle(color: _tabController.index == 2 ? ColorConfig.lightGreen : ColorConfig.grey),
-                ),
-                icon: Container(
-                  padding: EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(35),
-                      ),
-                      border: Border.all(
-                          width: 1, color: _tabController.index == 2 ? ColorConfig.lightGreen : ColorConfig.smokeDark)),
-                  height: 70,
-                  width: 70,
-                  child: Center(
-                    child: Image(
-                      image: NetworkImage(
-                        "https://cdn1.vectorstock.com/i/1000x1000/04/15/covered-export-warehouse-icon-outline-style-vector-25200415.jpg",
-                      ),
-                      color: ColorConfig.dark,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: _tabController.index == 3 ? ColorConfig.lightGreen : ColorConfig.light,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5),
-                ),
-              ),
-              height: 70,
-              width: 70,
-              child: Tab(
-                child: Text(
-                  "Labour\n camp",
-                  style: TextStyle(color: _tabController.index == 3 ? ColorConfig.lightGreen : ColorConfig.grey),
-                ),
-                icon: Container(
-                  padding: EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(35),
-                      ),
-                      border: Border.all(
-                          width: 1, color: _tabController.index == 3 ? ColorConfig.lightGreen : ColorConfig.smokeDark)),
-                  height: 70,
-                  width: 70,
-                  child: Center(
-                    child: Image(
-                      image: NetworkImage(
-                        "https://cdn2.iconfinder.com/data/icons/buildings-and-real-estates-1/30/factory-big-7-512.png",
-                      ),
-                      color: ColorConfig.dark,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: _tabController.index == 4 ? ColorConfig.lightGreen : ColorConfig.light,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5),
-                ),
-              ),
-              height: 70,
-              width: 70,
-              child: Tab(
-                child: Text("Commercial\n  Villa ",
-                    style: TextStyle(
-                      color: _tabController.index == 4 ? ColorConfig.lightGreen : ColorConfig.grey,
-                    )),
-                icon: Container(
-                  padding: EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(35),
-                      ),
-                      border: Border.all(
-                          width: 1, color: _tabController.index == 4 ? ColorConfig.lightGreen : ColorConfig.smokeDark)),
-                  height: 70,
-                  width: 70,
-                  child: Center(
-                    child: Image(
-                      image: NetworkImage(
-                        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS0TXwgGtbb_zUQkANgh--Cixw8GFdoSBug3RX-R4EkEt7DAs0c&usqp=CAU",
-                      ),
-                      color: ColorConfig.dark,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: _tabController.index == 5 ? ColorConfig.lightGreen : ColorConfig.light,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5),
-                ),
-              ),
-              height: 70,
-              width: 70,
-              child: Tab(
-                child: Text(
-                  " Bulk\nUnits",
-                  style: TextStyle(color: _tabController.index == 5 ? ColorConfig.lightGreen : ColorConfig.grey),
-                ),
-                icon: Container(
-                  padding: EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(35),
-                      ),
-                      border: Border.all(
-                          width: 1, color: _tabController.index == 5 ? ColorConfig.lightGreen : ColorConfig.smokeDark)),
-                  height: 70,
-                  width: 70,
-                  child: Center(
-                    child: Image(
-                      image: NetworkImage(
-                        "https://cdn4.iconfinder.com/data/icons/shop-and-delivery-1/44/shop_delivery_outline-17-512.png",
-                      ),
-                      color: ColorConfig.dark,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: _tabController.index == 6 ? ColorConfig.lightGreen : ColorConfig.light,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5),
-                ),
-              ),
-              height: 70,
-              width: 70,
-              child: Tab(
-                child: Text(
-                  "Commercial\n  Plot",
-                  style: TextStyle(color: _tabController.index == 6 ? ColorConfig.lightGreen : ColorConfig.grey),
-                ),
-                icon: Container(
-                  padding: EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(35),
-                      ),
-                      border: Border.all(
-                          width: 1, color: _tabController.index == 6 ? ColorConfig.lightGreen : ColorConfig.smokeDark)),
-                  height: 70,
-                  width: 70,
-                  child: Center(
-                    child: Image(
-                      image: NetworkImage(
-                        "https://cdn1.iconfinder.com/data/icons/location-and-navigation-black-outline/128/location_and_nav-43-512.png",
-                      ),
-                      color: ColorConfig.dark,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: _tabController.index == 7 ? ColorConfig.lightGreen : ColorConfig.light,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5),
-                ),
-              ),
-              height: 70,
-              width: 70,
-              child: Tab(
-                child: Text(
-                  "Commercial\n  Floor",
-                  style: TextStyle(color: _tabController.index == 7 ? ColorConfig.lightGreen : ColorConfig.grey),
-                ),
-                icon: Container(
-                  padding: EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(35),
-                      ),
-                      border: Border.all(
-                          width: 1, color: _tabController.index == 7 ? ColorConfig.lightGreen : ColorConfig.smokeDark)),
-                  height: 70,
-                  width: 70,
-                  child: Center(
-                    child: Image(
-                      image: NetworkImage(
-                        "https://banner2.cleanpng.com/20180429/zze/kisspng-computer-icons-floor-plan-architectural-plan-5ae5d67c29a5a1.6029869615250120921706.jpg",
-                      ),
-                      color: ColorConfig.dark,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: _tabController.index == 8 ? ColorConfig.lightGreen : ColorConfig.light,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5),
-                ),
-              ),
-              height: 70,
-              width: 70,
-              child: Tab(
-                child: Text(
-                  "Commercial\n  Building",
-                  style: TextStyle(color: _tabController.index == 8 ? ColorConfig.lightGreen : ColorConfig.grey),
-                ),
-                icon: Container(
-                  padding: EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(35),
-                      ),
-                      border: Border.all(
-                          width: 1, color: _tabController.index == 8 ? ColorConfig.lightGreen : ColorConfig.smokeDark)),
-                  height: 70,
-                  width: 70,
-                  child: Center(
-                    child: Image(
-                      image: NetworkImage(
-                        "https://cdn4.vectorstock.com/i/1000x1000/71/83/office-building-icon-with-outline-style-vector-21947183.jpg",
-                      ),
-                      color: ColorConfig.dark,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: _tabController.index == 9 ? ColorConfig.lightGreen : ColorConfig.light,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5),
-                ),
-              ),
-              height: 70,
-              width: 70,
-              child: Tab(
-                child: Text(
-                  "Factory",
-                  style: TextStyle(color: _tabController.index == 9 ? ColorConfig.lightGreen : ColorConfig.grey),
-                ),
-                icon: Container(
-                  padding: EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(35),
-                      ),
-                      border: Border.all(
-                          width: 1, color: _tabController.index == 9 ? ColorConfig.lightGreen : ColorConfig.smokeDark)),
-                  height: 70,
-                  width: 70,
-                  child: Center(
-                    child: Image(
-                      image: NetworkImage(
-                        "https://cdn4.iconfinder.com/data/icons/printing-6/64/factory-industry-buildings-office-512.png",
-                      ),
-                      color: ColorConfig.dark,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: _tabController.index == 10 ? ColorConfig.lightGreen : ColorConfig.light,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5),
-                ),
-              ),
-              height: 70,
-              width: 70,
-              child: Tab(
-                child: Text(
-                  "Industrial\n  Land",
-                  style: TextStyle(color: _tabController.index == 10 ? ColorConfig.lightGreen : ColorConfig.grey),
-                ),
-                icon: Container(
-                  padding: EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(35),
-                      ),
-                      border: Border.all(
-                          width: 1,
-                          color: _tabController.index == 10 ? ColorConfig.lightGreen : ColorConfig.smokeDark)),
-                  height: 70,
-                  width: 70,
-                  child: Center(
-                    child: Image(
-                      image: NetworkImage(
-                        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSl80EroBjcDMHXevBGFPLFDOKjL25kG3q-fPSUmkF6p2HRkuO6&usqp=CAU",
-                      ),
-                      color: ColorConfig.dark,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: _tabController.index == 11 ? ColorConfig.lightGreen : ColorConfig.light,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5),
-                ),
-              ),
-              height: 70,
-              width: 70,
-              child: Tab(
-                child: Text(
-                  "Mixed Use\n  Land",
-                  style: TextStyle(color: _tabController.index == 11 ? ColorConfig.lightGreen : ColorConfig.grey),
-                ),
-                icon: Container(
-                  padding: EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(35),
-                      ),
-                      border: Border.all(
-                          width: 1,
-                          color: _tabController.index == 11 ? ColorConfig.lightGreen : ColorConfig.smokeDark)),
-                  height: 70,
-                  width: 70,
-                  child: Center(
-                    child: Image(
-                      image: NetworkImage(
-                        "https://cdn3.iconfinder.com/data/icons/disasters-linear-black/2048/6731_-_Drought-512.png",
-                      ),
-                      color: ColorConfig.dark,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: _tabController.index == 12 ? ColorConfig.lightGreen : ColorConfig.light,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5),
-                ),
-              ),
-              height: 70,
-              width: 70,
-              child: Tab(
-                child: Text(
-                  "Showroom",
-                  style: TextStyle(color: _tabController.index == 12 ? ColorConfig.lightGreen : ColorConfig.grey),
-                ),
-                icon: Container(
-                  padding: EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(35),
-                      ),
-                      border: Border.all(
-                          width: 1,
-                          color: _tabController.index == 12 ? ColorConfig.lightGreen : ColorConfig.smokeDark)),
-                  height: 70,
-                  width: 70,
-                  child: Center(
-                    child: Image(
-                      image: NetworkImage(
-                        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSIvpzFBG323PEvwP8pqLQnRy5J0esGWj2-VtX1Q2WjdiA-cBB2&usqp=CAU",
-                      ),
-                      color: ColorConfig.dark,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: _tabController.index == 13 ? ColorConfig.lightGreen : ColorConfig.light,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5),
-                ),
-              ),
-              height: 70,
-              width: 70,
-              child: Tab(
-                child: Text(
-                  "  Other\nCommmercial",
-                  style: TextStyle(color: _tabController.index == 13 ? ColorConfig.lightGreen : ColorConfig.grey),
-                ),
-                icon: Container(
-                  padding: EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(35),
-                      ),
-                      border: Border.all(
-                          width: 1,
-                          color: _tabController.index == 13 ? ColorConfig.lightGreen : ColorConfig.smokeDark)),
-                  height: 70,
-                  width: 70,
-                  child: Center(
-                    child: Image(
-                      image: NetworkImage(
-                        "https://lh3.googleusercontent.com/proxy/aocB4WgAGvPhRRpzOFA1SqPjOJzjRLd9KzaHy7gaXq7OzWgmfpXu1ZFOCgHU5cw2VHnlJdJB0N9OUnEiordO9p-pwGNY6TNieYpnSLCBZ2iffnY",
-                      ),
-                      color: ColorConfig.dark,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
+          residentialAndCommercialtabBarItems(AssetImage("assets/icons/buy-commercial-office.png"), "Office", _tabController, 0),
+          residentialAndCommercialtabBarItems(AssetImage("assets/icons/buy-commercial-shop.png"), "Shop", _tabController, 1),
+          residentialAndCommercialtabBarItems(AssetImage("assets/icons/buy-commercial-warehouse.png"), "Warehouse", _tabController, 2),
+          residentialAndCommercialtabBarItems(AssetImage("assets/icons/buy-commercial-villa.png"), "Commercial\n  Villa", _tabController, 3),
+          residentialAndCommercialtabBarItems(AssetImage("assets/icons/buy-commercial-units.png"), "Bulk\nUnits", _tabController, 4),
+          residentialAndCommercialtabBarItems(AssetImage("assets/icons/buy-commercial-building.png"), "Commercial\n  Building", _tabController, 5),
+          residentialAndCommercialtabBarItems(
+              AssetImage("assets/icons/gasoline-pump.png"), "Petrol\nstation", _tabController, 6),
+          residentialAndCommercialtabBarItems(AssetImage("assets/icons/buy-commercial-factory-1.png"), "Factory", _tabController, 7),
+          residentialAndCommercialtabBarItems(AssetImage("assets/icons/showroom.png"), "Showroom", _tabController, 8),
+          residentialAndCommercialtabBarItems(AssetImage("assets/icons/other.png"), "Other\nCommmercial", _tabController, 9),
         ],
       ),
     );
