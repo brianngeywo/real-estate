@@ -4,8 +4,36 @@ import 'package:Realify/presentation/my_imports.dart';
 
 class RealifyPropertyRepository {
   RealifyPropertyApiProvider realifyPropertyApiProvider = RealifyPropertyApiProvider();
-  uploadProperty(RealifyProperty property) {
-    // realifyPropertyApiProvider.uploadProperty(property);
+  uploadProperty(
+    proposal,
+    county,
+    category,
+    subCategory,
+    price,
+    bedrooms,
+    locality,
+    propertyName,
+    description,
+    rentalFrequency,
+    area,
+    areaUnit,
+    phone,
+  ) {
+    realifyPropertyApiProvider.uploadProperty(
+      proposal,
+      county,
+      category,
+      subCategory,
+      price,
+      bedrooms,
+      locality,
+      propertyName,
+      description,
+      rentalFrequency,
+      area,
+      areaUnit,
+      phone,
+    );
     // return 200;
   }
   sendContactMessage(String name, String phone, String message, BuildContext context) {

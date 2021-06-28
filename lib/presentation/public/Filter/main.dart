@@ -3,6 +3,7 @@ import 'package:Realify/presentation/my_imports.dart';
 import 'package:Realify/presentation/public/Filter/TabBar1.dart';
 import 'package:Realify/presentation/public/Filter/TabBar2.dart';
 import 'package:Realify/presentation/public/Filter/reusables/main.dart';
+import 'package:Realify/presentation/public/HomePage/main.dart';
 import 'package:Realify/presentation/public/ListRealify/main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -144,7 +145,7 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                             proposal = "rent";
                           });
                         }
-                        
+
                         BlocProvider.of<SearchPropertyBloc>(context)
                             .add((SelectedProposalEvent(index: value, proposal: proposal)));
                       },
@@ -219,12 +220,14 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                         MaterialPageRoute(
                             builder: (context) => ListRealify(
                                   proposal: proposal.isEmpty ? "buy" : proposal.toLowerCase(),
-                                  county: county.isEmpty ? "nairobi".toLowerCase(): county.toLowerCase(),
-                                  propertyCategoryType: category.isEmpty ? "residential".toLowerCase() : category.toLowerCase(),
-                                  propertySubCategoryType: subCategory.isEmpty ? "apartment": subCategory.toLowerCase(),
-                                  bedrooms: bedrooms.isEmpty ? "studio": bedrooms.toLowerCase(),
+                                  county: county.isEmpty ? "nairobi".toLowerCase() : county.toLowerCase(),
+                                  propertyCategoryType:
+                                      category.isEmpty ? "residential".toLowerCase() : category.toLowerCase(),
+                                  propertySubCategoryType:
+                                      subCategory.isEmpty ? "apartment" : subCategory.toLowerCase(),
+                                  bedrooms: bedrooms.isEmpty ? "studio" : bedrooms.toLowerCase(),
                                   minPrice: minPrice.isEmpty ? "0" : minPrice,
-                                  maxPrice: maxPrice.isEmpty ? "50000": maxPrice,
+                                  maxPrice: maxPrice.isEmpty ? "50000" : maxPrice,
                                 )));
                   },
                   child: Text(
@@ -682,7 +685,7 @@ class _PropertytypeState extends State<Propertytype> with TickerProviderStateMix
   TabController _tabController;
   void initState() {
     super.initState();
-    _tabController = new TabController(vsync: this, length: 2);
+    _tabController = new TabController(vsync: this, length: 1);
     _tabController.addListener(_handleTabSelection);
     _tabController.index = 0;
     category = "residential";
@@ -700,9 +703,7 @@ class _PropertytypeState extends State<Propertytype> with TickerProviderStateMix
   Widget build(BuildContext context) {
     return BlocConsumer<SearchPropertyBloc, SearchPropertyState>(
       listener: (context, state) {
-        if (state is SearchPropertySelectedPropertyType) {
-          
-        }
+        if (state is SearchPropertySelectedPropertyType) {}
       },
       builder: (context, state) {
         return Column(
@@ -716,11 +717,11 @@ class _PropertytypeState extends State<Propertytype> with TickerProviderStateMix
                 onTap: (index) {
                   if (index == 0) {
                     category = "residential";
-                  } else if (index == 1) {
-                    category = "commercial";
-                  }
+                  } 
+                  // else if (index == 1) {
+                  //   category = "commercial";
+                  // }
 
-                  
                   BlocProvider.of<SearchPropertyBloc>(context)
                       .add((SelectedCategoryEvent(index: _tabController.index, categoryTitle: category)));
                 },
@@ -746,27 +747,27 @@ class _PropertytypeState extends State<Propertytype> with TickerProviderStateMix
                       ),
                     ),
                   ),
-                  Tab(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: _tabController.index == 1 ? ColorConfig.lightGreen : ColorConfig.light,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(3),
-                          ),
-                          border: Border.all(width: 1, color: ColorConfig.smokeLight)),
-                      height: 40,
-                      width: MediaQuery.of(context).size.width,
-                      child: Center(
-                        child: Text(
-                          "Commercial",
-                          style: TextStyle(
-                              fontFamily: FontConfig.bold,
-                              fontSize: Sizeconfig.small,
-                              color: _tabController.index == 1 ? ColorConfig.light : ColorConfig.grey),
-                        ),
-                      ),
-                    ),
-                  ),
+                  // Tab(
+                  //   child: Container(
+                  //     decoration: BoxDecoration(
+                  //         color: _tabController.index == 1 ? ColorConfig.lightGreen : ColorConfig.light,
+                  //         borderRadius: BorderRadius.all(
+                  //           Radius.circular(3),
+                  //         ),
+                  //         border: Border.all(width: 1, color: ColorConfig.smokeLight)),
+                  //     height: 40,
+                  //     width: MediaQuery.of(context).size.width,
+                  //     child: Center(
+                  //       child: Text(
+                  //         "Commercial",
+                  //         style: TextStyle(
+                  //             fontFamily: FontConfig.bold,
+                  //             fontSize: Sizeconfig.small,
+                  //             color: _tabController.index == 1 ? ColorConfig.light : ColorConfig.grey),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -776,7 +777,7 @@ class _PropertytypeState extends State<Propertytype> with TickerProviderStateMix
                 controller: _tabController,
                 children: [
                   Residential(),
-                  Commercial(),
+                  // Commercial(),
                 ],
               ),
             )
@@ -816,10 +817,7 @@ class _BedroomtypeState extends State<Bedroomtype> with TickerProviderStateMixin
   Widget build(BuildContext context) {
     return BlocConsumer<SearchPropertyBloc, SearchPropertyState>(
       listener: (context, state) {
-        if (state is SelectedBedroomState) {
-          
-          
-        }
+        if (state is SelectedBedroomState) {}
       },
       builder: (context, state) {
         return Container(
@@ -1114,7 +1112,7 @@ class _RentaltypeState extends State<Rentaltype> with TickerProviderStateMixin {
         isScrollable: true,
         controller: _tabController,
         tabs: [
-          Expanded(
+          Tab(
             child: Container(
               decoration: BoxDecoration(
                   color: _tabController.index == 0 ? ColorConfig.lightGreen : ColorConfig.light,
@@ -1124,7 +1122,7 @@ class _RentaltypeState extends State<Rentaltype> with TickerProviderStateMixin {
                   border: Border.all(width: 1, color: ColorConfig.smokeLight)),
               height: 40,
               width: 60,
-              child: Tab(
+              child: Center(
                 child: Text(
                   "Yearly",
                   style: TextStyle(
@@ -1135,7 +1133,7 @@ class _RentaltypeState extends State<Rentaltype> with TickerProviderStateMixin {
               ),
             ),
           ),
-          Expanded(
+          Tab(
             child: Container(
               decoration: BoxDecoration(
                   color: _tabController.index == 1 ? ColorConfig.lightGreen : ColorConfig.light,
@@ -1145,7 +1143,7 @@ class _RentaltypeState extends State<Rentaltype> with TickerProviderStateMixin {
                   border: Border.all(width: 1, color: ColorConfig.smokeLight)),
               height: 40,
               width: 60,
-              child: Tab(
+              child: Center(
                 child: Text(
                   "Monthly",
                   style: TextStyle(
@@ -1156,7 +1154,7 @@ class _RentaltypeState extends State<Rentaltype> with TickerProviderStateMixin {
               ),
             ),
           ),
-          Expanded(
+          Tab(
             child: Container(
               decoration: BoxDecoration(
                   color: _tabController.index == 2 ? ColorConfig.lightGreen : ColorConfig.light,
@@ -1166,13 +1164,15 @@ class _RentaltypeState extends State<Rentaltype> with TickerProviderStateMixin {
                   border: Border.all(width: 1, color: ColorConfig.smokeLight)),
               height: 40,
               width: 60,
-              child: Tab(
-                child: Text(
-                  "Weekly",
-                  style: TextStyle(
-                      fontFamily: FontConfig.bold,
-                      fontSize: Sizeconfig.small,
-                      color: _tabController.index == 2 ? ColorConfig.light : ColorConfig.grey),
+              child: Center(
+                child: Center(
+                  child: Text(
+                    "Weekly",
+                    style: TextStyle(
+                        fontFamily: FontConfig.bold,
+                        fontSize: Sizeconfig.small,
+                        color: _tabController.index == 2 ? ColorConfig.light : ColorConfig.grey),
+                  ),
                 ),
               ),
             ),
@@ -1210,9 +1210,7 @@ class _ResidentialState extends State<Residential> with TickerProviderStateMixin
   Widget build(BuildContext context) {
     return BlocConsumer<SearchPropertyBloc, SearchPropertyState>(
       listener: (context, state) {
-        if (state is SearchPropertySelectedPropertySubType) {
-          
-        }
+        if (state is SearchPropertySelectedPropertySubType) {}
       },
       builder: (context, state) {
         return Container(
@@ -1329,9 +1327,7 @@ class _CommercialState extends State<Commercial> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return BlocConsumer<SearchPropertyBloc, SearchPropertyState>(
       listener: (context, state) {
-        if (state is SearchPropertySelectedPropertySubType) {
-          
-        }
+        if (state is SearchPropertySelectedPropertySubType) {}
       },
       builder: (context, state) {
         return Container(

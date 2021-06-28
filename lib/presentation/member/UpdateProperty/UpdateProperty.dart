@@ -4,6 +4,7 @@ import 'package:Realify/presentation/member/AddProperty/reusables/main.dart';
 import 'package:Realify/presentation/member/UpdateProperty/AddBuyTabBar.dart';
 import 'package:Realify/presentation/member/UpdateProperty/AddRentTabBar.dart';
 import 'package:Realify/presentation/my_imports.dart';
+import 'package:Realify/presentation/public/HomePage/main.dart';
 
 class UpdateProperty extends StatefulWidget {
   @override

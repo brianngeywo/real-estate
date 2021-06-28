@@ -1,6 +1,6 @@
 import 'package:Realify/backend/repositories/RealifyPropertyRepository.dart';
-import 'package:Realify/presentation/member/AddProperty/main.dart';
 import 'package:Realify/presentation/my_imports.dart';
+import 'package:Realify/presentation/public/Filter/main.dart';
 
 class HomePage extends StatefulWidget {
   final RealifyPropertyRepository realifyPropertyRepository;

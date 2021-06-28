@@ -31,23 +31,23 @@ class _DrawerMenuState extends State<DrawerMenu> {
                     ),
                   ),
                 ),
-                // MaterialButton(
-                //   color: ColorConfig.darkGreen,
-                //   shape: RoundedRectangleBorder(
-                //     borderRadius: BorderRadius.circular(4.0),
-                //   ),
-                //   onPressed: () {
-                //     Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp()));
-                //   },
-                //   child: Text(
-                //     "Sign In / Sign Up",
-                //     style: TextStyle(
-                //       fontFamily: FontConfig.regular,
-                //       fontSize: Sizeconfig.medium,
-                //       color: ColorConfig.light,
-                //     ),
-                //   ),
-                // ),
+                MaterialButton(
+                  color: ColorConfig.darkGreen,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4.0),
+                  ),
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp()));
+                  },
+                  child: Text(
+                    "Sign In / Sign Up",
+                    style: TextStyle(
+                      fontFamily: FontConfig.regular,
+                      fontSize: Sizeconfig.medium,
+                      color: ColorConfig.light,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -66,27 +66,27 @@ class _DrawerMenuState extends State<DrawerMenu> {
                   SizedBox(
                     height: 20,
                   ),
-                  // Container(
-                  //   padding: EdgeInsets.only(top: 15, left: 10),
-                  //   height: 40,
-                  //   width: double.maxFinite,
-                  //   color: ColorConfig.smokeDark,
-                  //   child: Text(
-                  //     "MANAGE PROPERTIES",
-                  //     style: TextStyle(
-                  //       fontFamily: FontConfig.regular,
-                  //       fontSize: Sizeconfig.small,
-                  //       color: ColorConfig.grey,
-                  //     ),
-                  //   ),
-                  // ),
-                  // SizedBox(
-                  //   height: 20,
-                  // ),
-                  // Padding(
-                  //   padding: const EdgeInsets.only(left: 20.0, bottom: 20),
-                  //   child: Data2(),
-                  // ),
+                  Container(
+                    padding: EdgeInsets.only(top: 15, left: 10),
+                    height: 40,
+                    width: double.maxFinite,
+                    color: ColorConfig.smokeDark,
+                    child: Text(
+                      "MANAGE PROPERTIES",
+                      style: TextStyle(
+                        fontFamily: FontConfig.regular,
+                        fontSize: Sizeconfig.small,
+                        color: ColorConfig.grey,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20.0, bottom: 20),
+                    child: Data2(),
+                  ),
                 ],
               ),
             ),

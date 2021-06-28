@@ -1,4 +1,3 @@
-
 import 'package:Realify/presentation/member/Settings/main.dart';
 import 'package:Realify/presentation/my_imports.dart';
 import 'package:Realify/presentation/public/SignIn/main.dart';
@@ -41,8 +40,9 @@ class _SignUpState extends State<SignUp> {
                     child: IconButton(
                       icon: Icon(AntDesign.arrowleft),
                       onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => SignIn()));
+                        // Navigator.push(context,
+                        //     MaterialPageRoute(builder: (context) => SignIn()));
+                        Navigator.of(context).pop();
                       },
                       iconSize: Sizeconfig.huge,
                       color: ColorConfig.dark,
@@ -135,8 +135,7 @@ class _SignUpState extends State<SignUp> {
                           child: Column(
                             children: [
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     "Select Role",
@@ -157,8 +156,7 @@ class _SignUpState extends State<SignUp> {
                                 ],
                               ),
                               Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 3.5, bottom: 20),
+                                padding: const EdgeInsets.only(top: 3.5, bottom: 20),
                                 child: Divider(
                                   height: 1,
                                   thickness: 1,
@@ -182,9 +180,7 @@ class _SignUpState extends State<SignUp> {
                             Text(
                               "All Fields are required",
                               style: TextStyle(
-                                  fontFamily: FontConfig.regular,
-                                  fontSize: Sizeconfig.small,
-                                  color: ColorConfig.grey),
+                                  fontFamily: FontConfig.regular, fontSize: Sizeconfig.small, color: ColorConfig.grey),
                             ),
                           ],
                         ),
@@ -198,9 +194,7 @@ class _SignUpState extends State<SignUp> {
                             child: Text(
                               'By Clicking Create Account, I agree the Terms & Conditions',
                               style: TextStyle(
-                                  fontFamily: FontConfig.regular,
-                                  fontSize: Sizeconfig.small,
-                                  color: ColorConfig.grey),
+                                  fontFamily: FontConfig.regular, fontSize: Sizeconfig.small, color: ColorConfig.grey),
                             ),
                           ),
                         )
@@ -220,8 +214,7 @@ class _SignUpState extends State<SignUp> {
                 elevation: 0.0,
                 color: ColorConfig.darkGreen,
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Settings()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Settings()));
                 },
                 child: Text(
                   "Create Account",
@@ -322,7 +315,6 @@ class _SignUpState extends State<SignUp> {
                                 groupValue: selectedRadio,
                                 onChanged: (int val) {
                                   setSelectedRadio(val);
-                                  
                                 },
                               ),
                             ],
@@ -346,7 +338,6 @@ class _SignUpState extends State<SignUp> {
                                 groupValue: selectedRadio,
                                 onChanged: (int val) {
                                   setSelectedRadio(val);
-                                  
                                 },
                               ),
                             ],
@@ -370,7 +361,6 @@ class _SignUpState extends State<SignUp> {
                                 groupValue: selectedRadio,
                                 onChanged: (int val) {
                                   setSelectedRadio(val);
-                                  
                                 },
                               ),
                             ],
@@ -655,4 +645,8 @@ class _SignUpState extends State<SignUp> {
       },
     );
   }
+}
+
+void showSnackbar(String message, BuildContext context) {
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
 }

@@ -7,7 +7,8 @@ import 'package:Realify/backend/models/Proposal.dart';
 
 class RealifyProperty {
   // String selectedpropertyCategoryType;
-
+  // List propertyFeatures = [];
+  String id;
   String proposal;
   String county;
   String name;
@@ -27,6 +28,8 @@ class RealifyProperty {
   String phone;
   List<String> images;
   RealifyProperty({
+    // this.propertyFeatures = const [],
+    this.id = '',
     this.proposal = '',
     this.county = '',
     this.name = '',
@@ -53,58 +56,61 @@ class RealifyProperty {
 
   @override
   String toString() {
-    return 'RealifyProperty(proposal: $proposal, county: $county, name: $name, subCategoryType: $subCategoryType, categoryType: $categoryType, price: $price, bedrooms: $bedrooms, bathrooms: $bathrooms, image: $image, details: $details, description: $description, locality: $locality, location: $location, paymentPeriod: $paymentPeriod, area: $area, areaUnit: $areaUnit, phone: $phone, images: $images)';
+    return 'RealifyProperty(id: $id, proposal: $proposal, county: $county, name: $name, subCategoryType: $subCategoryType, categoryType: $categoryType, price: $price, bedrooms: $bedrooms, bathrooms: $bathrooms, image: $image, details: $details, description: $description, locality: $locality, location: $location, paymentPeriod: $paymentPeriod, area: $area, areaUnit: $areaUnit, phone: $phone, images: $images)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-
+  
     return other is RealifyProperty &&
-        other.proposal == proposal &&
-        other.county == county &&
-        other.name == name &&
-        other.subCategoryType == subCategoryType &&
-        other.categoryType == categoryType &&
-        other.price == price &&
-        other.bedrooms == bedrooms &&
-        other.bathrooms == bathrooms &&
-        other.image == image &&
-        other.details == details &&
-        other.description == description &&
-        other.locality == locality &&
-        other.location == location &&
-        other.paymentPeriod == paymentPeriod &&
-        other.area == area &&
-        other.areaUnit == areaUnit &&
-        other.phone == phone &&
-        listEquals(other.images, images);
+      other.id == id &&
+      other.proposal == proposal &&
+      other.county == county &&
+      other.name == name &&
+      other.subCategoryType == subCategoryType &&
+      other.categoryType == categoryType &&
+      other.price == price &&
+      other.bedrooms == bedrooms &&
+      other.bathrooms == bathrooms &&
+      other.image == image &&
+      other.details == details &&
+      other.description == description &&
+      other.locality == locality &&
+      other.location == location &&
+      other.paymentPeriod == paymentPeriod &&
+      other.area == area &&
+      other.areaUnit == areaUnit &&
+      other.phone == phone &&
+      listEquals(other.images, images);
   }
 
   @override
   int get hashCode {
-    return proposal.hashCode ^
-        county.hashCode ^
-        name.hashCode ^
-        subCategoryType.hashCode ^
-        categoryType.hashCode ^
-        price.hashCode ^
-        bedrooms.hashCode ^
-        bathrooms.hashCode ^
-        image.hashCode ^
-        details.hashCode ^
-        description.hashCode ^
-        locality.hashCode ^
-        location.hashCode ^
-        paymentPeriod.hashCode ^
-        area.hashCode ^
-        areaUnit.hashCode ^
-        phone.hashCode ^
-        images.hashCode;
+    return id.hashCode ^
+      proposal.hashCode ^
+      county.hashCode ^
+      name.hashCode ^
+      subCategoryType.hashCode ^
+      categoryType.hashCode ^
+      price.hashCode ^
+      bedrooms.hashCode ^
+      bathrooms.hashCode ^
+      image.hashCode ^
+      details.hashCode ^
+      description.hashCode ^
+      locality.hashCode ^
+      location.hashCode ^
+      paymentPeriod.hashCode ^
+      area.hashCode ^
+      areaUnit.hashCode ^
+      phone.hashCode ^
+      images.hashCode;
   }
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'proposal': proposal,
       'county': county,
       'name': name,
@@ -128,6 +134,7 @@ class RealifyProperty {
 
   factory RealifyProperty.fromMap(Map<String, dynamic> map) {
     return RealifyProperty(
+      id: map['id'],
       proposal: map['proposal'],
       county: map['county'],
       name: map['name'],
@@ -151,9 +158,11 @@ class RealifyProperty {
 
   factory RealifyProperty.fromSnapshot(DocumentSnapshot snapshot) {
     return RealifyProperty(
+      //  propertyFeatures: List.from(snapshot['propertyFeatures']),
       proposal: snapshot['proposal'],
       county: snapshot['county'],
       name: snapshot['name'],
+      id: snapshot['id'],
       subCategoryType: snapshot['subCategoryType'],
       categoryType: snapshot['categoryType'],
       price: snapshot['price'],
@@ -177,6 +186,7 @@ class RealifyProperty {
   factory RealifyProperty.fromJson(String source) => RealifyProperty.fromMap(json.decode(source));
 
   RealifyProperty copyWith({
+    String id,
     String proposal,
     String county,
     String name,
@@ -197,6 +207,7 @@ class RealifyProperty {
     List<String> images,
   }) {
     return RealifyProperty(
+      id: id ?? this.id,
       proposal: proposal ?? this.proposal,
       county: county ?? this.county,
       name: name ?? this.name,

@@ -1,12 +1,32 @@
+import 'package:Realify/backend/models/RealifyProperty.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:Realify/backend/bloc/add_property_bloc/add_property_bloc.dart';
 import 'package:Realify/presentation/member/AddProperty/AddBuyTabBar.dart';
+import 'package:Realify/presentation/member/AddProperty/Counties.dart';
+import 'package:Realify/presentation/member/AddProperty/main.dart';
+import 'package:Realify/presentation/member/AddProperty/reusables/main.dart';
 import 'package:Realify/presentation/my_imports.dart';
 
 class RentTabBar extends StatefulWidget {
+  // List propertyFields;
+  RentTabBar({
+    Key key,
+    // @required this.propertyFields = const [],
+  }) : super(key: key);
   @override
   _RentTabBarState createState() => _RentTabBarState();
 }
 
 class _RentTabBarState extends State<RentTabBar> {
+  TextEditingController locationTextEditingController = TextEditingController();
+  List propertyFeatures = [];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -44,6 +64,38 @@ class _RentTabBarState extends State<RentTabBar> {
           height: 10,
         ),
         Propertytype(),
+        SizedBox(
+          height: 10,
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: 15, right: 15),
+          child: Row(
+            children: [
+              Icon(
+                FontAwesome5.city,
+                size: Sizeconfig.huge,
+                color: ColorConfig.darkGreen,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Text(
+                  "Select county",
+                  style: TextStyle(
+                    fontFamily: FontConfig.bold,
+                    fontSize: Sizeconfig.medium,
+                    color: ColorConfig.dark,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
         Container(
           height: 70,
           width: double.maxFinite,
@@ -69,25 +121,24 @@ class _RentTabBarState extends State<RentTabBar> {
                         color: ColorConfig.grey,
                       ),
                       Flexible(
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 5.0),
-                          child: TextField(
-                            style: TextStyle(
-                              fontFamily: FontConfig.regular,
-                              fontSize: Sizeconfig.small,
-                              color: ColorConfig.greyLight,
-                            ),
-                            decoration: InputDecoration(
-                              hintText: "Select location",
-                              hintStyle: TextStyle(
-                                fontFamily: FontConfig.regular,
-                                fontSize: Sizeconfig.small,
-                                color: ColorConfig.greyLight,
-                              ),
-                              border: InputBorder.none,
-                            ),
-                          ),
-                        ),
+                        fit: FlexFit.tight,
+                        child: CountiesCodes(),
+                        // child: TextField(
+                        //   style: TextStyle(
+                        //     fontFamily: FontConfig.regular,
+                        //     fontSize: Sizeconfig.small,
+                        //     color: ColorConfig.greyLight,
+                        //   ),
+                        //   decoration: InputDecoration(
+                        //     hintText: "Select location",
+                        //     hintStyle: TextStyle(
+                        //       fontFamily: FontConfig.regular,
+                        //       fontSize: Sizeconfig.small,
+                        //       color: ColorConfig.greyLight,
+                        //     ),
+                        //     border: InputBorder.none,
+                        //   ),
+                        // ),
                       ),
                     ],
                   ),
@@ -95,6 +146,98 @@ class _RentTabBarState extends State<RentTabBar> {
               ],
             ),
           ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: 15, right: 15),
+          child: Row(
+            children: [
+              Icon(
+                FontAwesome5.city,
+                size: Sizeconfig.huge,
+                color: ColorConfig.darkGreen,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Text(
+                  "Enter area name and town",
+                  style: TextStyle(
+                    fontFamily: FontConfig.bold,
+                    fontSize: Sizeconfig.medium,
+                    color: ColorConfig.dark,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        BlocBuilder<AddPropertyBloc, AddPropertyState>(
+          builder: (context, state) {
+            return Container(
+              height: 70,
+              width: double.maxFinite,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15, top: 15, right: 15),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(
+                        right: 15,
+                        left: 10,
+                      ),
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: ColorConfig.smokeLight,
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            MaterialIcons.location_on,
+                            size: 20,
+                            color: ColorConfig.grey,
+                          ),
+                          Flexible(
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 5.0),
+                              child: TextField(
+                                controller: locationTextEditingController,
+                                onChanged: (value) {
+                                  BlocProvider.of<AddPropertyBloc>(context).add(AddLocalityEvent(location: value));
+                                },
+                                style: TextStyle(
+                                  fontFamily: FontConfig.regular,
+                                  fontSize: Sizeconfig.small,
+                                  color: ColorConfig.greyLight,
+                                ),
+                                decoration: InputDecoration(
+                                  hintText: ".e.g area, town",
+                                  hintStyle: TextStyle(
+                                    fontFamily: FontConfig.regular,
+                                    fontSize: Sizeconfig.small,
+                                    color: ColorConfig.greyLight,
+                                  ),
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
         ),
         Padding(
           padding: EdgeInsets.only(left: 15, right: 15),
@@ -125,24 +268,31 @@ class _RentTabBarState extends State<RentTabBar> {
         SizedBox(
           height: 10,
         ),
-        Padding(
-          padding: EdgeInsets.only(left: 20, right: 20),
-          child: TextFormField(
-            style: TextStyle(
-              fontFamily: FontConfig.regular,
-              fontSize: Sizeconfig.small,
-              color: ColorConfig.dark,
-            ),
-            decoration: InputDecoration(
-              hintText: "Property Title",
-              hintStyle: TextStyle(
-                fontFamily: FontConfig.regular,
-                fontSize: Sizeconfig.small,
-                color: ColorConfig.dark,
+        BlocBuilder<AddPropertyBloc, AddPropertyState>(
+          builder: (context, state) {
+            return Padding(
+              padding: EdgeInsets.only(left: 20, right: 20),
+              child: TextFormField(
+                onChanged: (value) {
+                  BlocProvider.of<AddPropertyBloc>(context).add(AddPropertyTitleEvent(title: value));
+                },
+                style: TextStyle(
+                  fontFamily: FontConfig.regular,
+                  fontSize: Sizeconfig.small,
+                  color: ColorConfig.dark,
+                ),
+                decoration: InputDecoration(
+                  hintText: "Property Title",
+                  hintStyle: TextStyle(
+                    fontFamily: FontConfig.regular,
+                    fontSize: Sizeconfig.small,
+                    color: ColorConfig.dark,
+                  ),
+                  border: InputBorder.none,
+                ),
               ),
-              border: InputBorder.none,
-            ),
-          ),
+            );
+          },
         ),
         Padding(
           padding: const EdgeInsets.only(left: 15, right: 15),
@@ -151,24 +301,33 @@ class _RentTabBarState extends State<RentTabBar> {
         SizedBox(
           height: 10,
         ),
-        Padding(
-          padding: EdgeInsets.only(left: 20, right: 20),
-          child: TextFormField(
-            style: TextStyle(
-              fontFamily: FontConfig.regular,
-              fontSize: Sizeconfig.small,
-              color: ColorConfig.dark,
-            ),
-            decoration: InputDecoration(
-              hintText: "Property Description",
-              hintStyle: TextStyle(
-                fontFamily: FontConfig.regular,
-                fontSize: Sizeconfig.small,
-                color: ColorConfig.dark,
+        BlocBuilder<AddPropertyBloc, AddPropertyState>(
+          builder: (context, state) {
+            return Padding(
+              padding: EdgeInsets.only(left: 20, right: 20),
+              child: TextFormField(
+                minLines: 1,
+                maxLines: 500,
+                onChanged: (value) {
+                  BlocProvider.of<AddPropertyBloc>(context).add(AddPropertyDescriptionEvent(description: value));
+                },
+                style: TextStyle(
+                  fontFamily: FontConfig.regular,
+                  fontSize: Sizeconfig.small,
+                  color: ColorConfig.dark,
+                ),
+                decoration: InputDecoration(
+                  hintText: "Property Description",
+                  hintStyle: TextStyle(
+                    fontFamily: FontConfig.regular,
+                    fontSize: Sizeconfig.small,
+                    color: ColorConfig.dark,
+                  ),
+                  border: InputBorder.none,
+                ),
               ),
-              border: InputBorder.none,
-            ),
-          ),
+            );
+          },
         ),
         Padding(
           padding: const EdgeInsets.only(left: 15, right: 15),
@@ -206,39 +365,46 @@ class _RentTabBarState extends State<RentTabBar> {
         SizedBox(
           height: 10,
         ),
-        Padding(
-          padding: const EdgeInsets.only(left: 15, right: 15),
-          child: Container(
-            padding: EdgeInsets.only(
-              right: 15,
-              left: 10,
-            ),
-            height: 40,
-            decoration: BoxDecoration(
-              color: ColorConfig.smokeLight,
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 5.0),
-              child: TextField(
-                 keyboardType: TextInputType.number,
-                style: TextStyle(
-                  fontFamily: FontConfig.regular,
-                  fontSize: Sizeconfig.small,
-                  color: ColorConfig.dark,
+        BlocBuilder<AddPropertyBloc, AddPropertyState>(
+          builder: (context, state) {
+            return Padding(
+              padding: const EdgeInsets.only(left: 15, right: 15),
+              child: Container(
+                padding: EdgeInsets.only(
+                  right: 15,
+                  left: 10,
                 ),
-                decoration: InputDecoration(
-                  hintText: "Price*",
-                  hintStyle: TextStyle(
-                    fontFamily: FontConfig.regular,
-                    fontSize: Sizeconfig.small,
-                    color: ColorConfig.dark,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: ColorConfig.smokeLight,
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 5.0),
+                  child: TextField(
+                    onChanged: (value) {
+                      BlocProvider.of<AddPropertyBloc>(context).add(EnteredPriceEvent(price: value));
+                    },
+                    keyboardType: TextInputType.number,
+                    style: TextStyle(
+                      fontFamily: FontConfig.regular,
+                      fontSize: Sizeconfig.small,
+                      color: ColorConfig.dark,
+                    ),
+                    decoration: InputDecoration(
+                      hintText: "Price*",
+                      hintStyle: TextStyle(
+                        fontFamily: FontConfig.regular,
+                        fontSize: Sizeconfig.small,
+                        color: ColorConfig.dark,
+                      ),
+                      border: InputBorder.none,
+                    ),
                   ),
-                  border: InputBorder.none,
                 ),
               ),
-            ),
-          ),
+            );
+          },
         ),
         SizedBox(
           height: 20,
@@ -302,69 +468,77 @@ class _RentTabBarState extends State<RentTabBar> {
         SizedBox(
           height: 10,
         ),
-        Container(
-          padding: EdgeInsets.only(
-            right: 15,
-            left: 10,
-          ),
-          height: 80,
-          width: MediaQuery.of(context).size.width,
-          child: Row(
-            children: [
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.only(
-                    right: 15,
-                    left: 10,
-                  ),
-                  height: 40,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(
-                        width: 1,
-                        color: ColorConfig.smokeLight,
-                      )),
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 5.0),
-                    child: TextField(
-                       keyboardType: TextInputType.number,
-                      style: TextStyle(
-                        fontFamily: FontConfig.regular,
-                        fontSize: Sizeconfig.small,
-                        color: ColorConfig.dark,
+        BlocBuilder<AddPropertyBloc, AddPropertyState>(
+          builder: (context, state) {
+            return Container(
+              padding: EdgeInsets.only(
+                right: 15,
+                left: 10,
+              ),
+              height: 80,
+              width: MediaQuery.of(context).size.width,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.only(
+                        right: 15,
+                        left: 10,
                       ),
-                      decoration: InputDecoration(
-                        hintText: "Price*",
-                        hintStyle: TextStyle(
-                          fontFamily: FontConfig.regular,
-                          fontSize: Sizeconfig.small,
-                          color: ColorConfig.dark,
+                      height: 40,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(
+                            width: 1,
+                            color: ColorConfig.smokeLight,
+                          )),
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 5.0),
+                        child: TextField(
+                          onChanged: (value) {
+                            BlocProvider.of<AddPropertyBloc>(context).add(
+                                AddPropertyAreaEvent(area: value, areaUnit: areaUnit.isEmpty ? 'Sq.M.' : areaUnit));
+                          },
+                          keyboardType: TextInputType.number,
+                          style: TextStyle(
+                            fontFamily: FontConfig.regular,
+                            fontSize: Sizeconfig.small,
+                            color: ColorConfig.dark,
+                          ),
+                          decoration: InputDecoration(
+                            hintText: "area*",
+                            hintStyle: TextStyle(
+                              fontFamily: FontConfig.regular,
+                              fontSize: Sizeconfig.small,
+                              color: ColorConfig.dark,
+                            ),
+                            border: InputBorder.none,
+                          ),
                         ),
-                        border: InputBorder.none,
                       ),
                     ),
                   ),
-                ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: Container(
+                      height: 40,
+                      decoration: BoxDecoration(
+                          color: ColorConfig.smokeLight,
+                          border: Border.all(
+                            width: 1,
+                            color: ColorConfig.smokeLight,
+                          ),
+                          borderRadius: BorderRadius.circular(3)),
+                      child: Areadrop1(),
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(
-                width: 10,
-              ),
-              Expanded(
-                child: Container(
-                  height: 40,
-                  decoration: BoxDecoration(
-                      color: ColorConfig.smokeLight,
-                      border: Border.all(
-                        width: 1,
-                        color: ColorConfig.smokeLight,
-                      ),
-                      borderRadius: BorderRadius.circular(3)),
-                  child: Areadrop1(),
-                ),
-              ),
-            ],
-          ),
+            );
+          },
         ),
         SizedBox(
           height: 20,
@@ -499,31 +673,37 @@ class _RentTabBarState extends State<RentTabBar> {
               SizedBox(
                 width: 15,
               ),
-              Expanded(
-                flex: 2,
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 1,
-                      color: ColorConfig.smokeLight,
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: TextFormField(
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        hintText: "798767470",
-                        hintStyle: TextStyle(
-                          fontFamily: FontConfig.regular,
-                          fontSize: Sizeconfig.small,
-                          color: Color.fromRGBO(0, 0, 0, 0.5),
+              BlocBuilder<AddPropertyBloc, AddPropertyState>(
+                builder: (context, state) {
+                  return Expanded(
+                    flex: 2,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1,
+                          color: ColorConfig.smokeLight,
                         ),
-                        border: InputBorder.none,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: TextFormField(
+                          onChanged: (value) =>
+                              BlocProvider.of<AddPropertyBloc>(context).add(AddPhoneEvent(phone: value)),
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            hintText: "798767470",
+                            hintStyle: TextStyle(
+                              fontFamily: FontConfig.regular,
+                              fontSize: Sizeconfig.small,
+                              color: Color.fromRGBO(0, 0, 0, 0.5),
+                            ),
+                            border: InputBorder.none,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
+                  );
+                },
               ),
             ],
           ),
@@ -531,74 +711,122 @@ class _RentTabBarState extends State<RentTabBar> {
         SizedBox(
           height: 20,
         ),
-        Padding(
-          padding: EdgeInsets.only(left: 15, right: 15),
-          child: Row(
-            children: [
-              Icon(
-                FontAwesome5.list_alt,
-                size: Sizeconfig.huge,
-                color: ColorConfig.darkGreen,
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Text(
-                  "Property Features",
-                  style: TextStyle(
-                    fontFamily: FontConfig.bold,
-                    fontSize: Sizeconfig.medium,
-                    color: ColorConfig.dark,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 15, right: 15),
-          child: Container(
-            padding: EdgeInsets.only(
-              right: 15,
-              left: 10,
-            ),
-            height: 40,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              border: Border.all(
-                width: 1,
-                color: ColorConfig.smokeLight,
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 5.0),
-              child: TextField(
-                style: TextStyle(
-                  fontFamily: FontConfig.regular,
-                  fontSize: Sizeconfig.small,
-                  color: ColorConfig.dark,
-                ),
-                decoration: InputDecoration(
-                  hintText: "abc...",
-                  hintStyle: TextStyle(
-                    fontFamily: FontConfig.regular,
-                    fontSize: Sizeconfig.small,
-                    color: ColorConfig.dark,
-                  ),
-                  border: InputBorder.none,
-                ),
-              ),
-            ),
-          ),
-        ),
-        SizedBox(
-          height: 20,
-        ),
+        // Padding(
+        //   padding: EdgeInsets.only(left: 15, right: 15),
+        //   child: Row(
+        //     children: [
+        //       Icon(
+        //         FontAwesome5.list_alt,
+        //         size: Sizeconfig.huge,
+        //         color: ColorConfig.darkGreen,
+        //       ),
+        //       SizedBox(
+        //         width: 10,
+        //       ),
+        //       Padding(
+        //         padding: const EdgeInsets.only(top: 8.0),
+        //         child: Text(
+        //           "Property Features",
+        //           style: TextStyle(
+        //             fontFamily: FontConfig.bold,
+        //             fontSize: Sizeconfig.medium,
+        //             color: ColorConfig.dark,
+        //           ),
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        // ),
+        // SizedBox(
+        //   height: 10,
+        // ),
+        // Padding(
+        //   padding: const EdgeInsets.only(left: 15, right: 15),
+        //   child: Container(
+        //     padding: EdgeInsets.only(
+        //       right: 15,
+        //       left: 10,
+        //     ),
+        //     height: 40,
+        //     decoration: BoxDecoration(
+        //       borderRadius: BorderRadius.circular(5),
+        //       border: Border.all(
+        //         width: 1,
+        //         color: ColorConfig.smokeLight,
+        //       ),
+        //     ),
+        //     child: Padding(
+        //       padding: const EdgeInsets.only(bottom: 5.0),
+        //       child: TextField(
+        //         style: TextStyle(
+        //           fontFamily: FontConfig.regular,
+        //           fontSize: Sizeconfig.small,
+        //           color: ColorConfig.dark,
+        //         ),
+        //         decoration: InputDecoration(
+        //           hintText: "abc...",
+        //           hintStyle: TextStyle(
+        //             fontFamily: FontConfig.regular,
+        //             fontSize: Sizeconfig.small,
+        //             color: ColorConfig.dark,
+        //           ),
+        //           border: InputBorder.none,
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        // ),
+        // BlocConsumer<AddPropertyBloc, AddPropertyState>(
+        //   listener: (context, state) {
+        //     if (state is AddedNewFieldState) {
+        //       // propertyFeatures.add(state.widget);
+        //       setState(() {
+        //         featuresListController = state.textEditingController;
+        //         textEditingValue = TextEditingValue(text: textEditingValueText + 1.toString());
+        //       });
+        //     }
+        //   },
+        //   builder: (context, state) {
+        //     if (widget.propertyFields.isNotEmpty) {
+        //       // propertyFeatures.add(state.widget);
+        //       print(textEditingValue);
+        //       return Column(
+        //         children: widget.propertyFields.map((feature) {
+        //           return Container(
+        //             child: feature,
+        //           );
+        //         }).toList(),
+        //       );
+        //     } else {
+        //       return Column(children: [
+        //         propertyFeatureWidget(featuresList, featuresListController),
+        //       ]);
+        //     }
+        //   },
+        // ),
+
+        // SizedBox(
+        //   height: 20,
+        // ),
+        // BlocBuilder<AddPropertyBloc, AddPropertyState>(
+        //   builder: (context, state) {
+        //     return MaterialButton(
+        //       onPressed: () {
+        //         BlocProvider.of<AddPropertyBloc>(context).add(AddNewFieldEvent(
+        //             widget: propertyFeatureWidget(featuresList, featuresListController),
+        //             propertyFields: propertyFeatures,
+        //             textEditingController: featuresListController,
+        //             textEditingValue: textEditingValue));
+        //       },
+        //       color: ColorConfig.lightGreen,
+        //       textColor: ColorConfig.light,
+        //       child: Text("Add field"),
+        //     );
+        //   },
+        // ),
+        // SizedBox(
+        //   height: 20,
+        // ),
         Padding(
           padding: EdgeInsets.only(left: 15, right: 15),
           child: Row(

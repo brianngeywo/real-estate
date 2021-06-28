@@ -65,9 +65,9 @@ class Data2 extends StatelessWidget {
             ],
           ),
         ),
-        // SizedBox(
-        //   height: 20,
-        // ),
+        SizedBox(
+          height: 20,
+        ),
         // InkWell(
         //   onTap: () {
         //     Navigator.push(context,
@@ -146,9 +146,9 @@ class Data2 extends StatelessWidget {
         //     ],
         //   ),
         // ),
-        SizedBox(
-          height: 20,
-        ),
+        // SizedBox(
+        //   height: 20,
+        // ),
         InkWell(
           onTap: () {
             Navigator.push(

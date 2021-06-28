@@ -1,13 +1,35 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:Realify/backend/bloc/add_property_bloc/add_property_bloc.dart';
+import 'package:Realify/presentation/member/AddProperty/Counties.dart';
+import 'package:Realify/presentation/member/AddProperty/main.dart';
+import 'package:Realify/presentation/member/AddProperty/reusables/main.dart';
 import 'package:Realify/presentation/my_imports.dart';
 
-
-
 class BuyTabBar extends StatefulWidget {
+  // List propertyFields;
+  BuyTabBar({
+    Key key,
+    // @required this.propertyFields = const [],
+  }) : super(key: key);
   @override
   _BuyTabBarState createState() => _BuyTabBarState();
 }
 
+List featuresList = [];
+// List propertyFields = [];
+TextEditingController featuresListController = TextEditingController();
+TextEditingValue textEditingValue;
+String textEditingValueText = "first";
+String areaUnit = "";
+
 class _BuyTabBarState extends State<BuyTabBar> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -46,6 +68,122 @@ class _BuyTabBarState extends State<BuyTabBar> {
             height: 10,
           ),
           Propertytype(),
+          SizedBox(
+            height: 10,
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 15, right: 15),
+            child: Row(
+              children: [
+                Icon(
+                  FontAwesome5.city,
+                  size: Sizeconfig.huge,
+                  color: ColorConfig.darkGreen,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(
+                    "Select county",
+                    style: TextStyle(
+                      fontFamily: FontConfig.bold,
+                      fontSize: Sizeconfig.medium,
+                      color: ColorConfig.dark,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+
+          Container(
+            height: 70,
+            width: double.maxFinite,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 15, top: 15, right: 15),
+              child: Column(
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(
+                      right: 15,
+                      left: 10,
+                    ),
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: ColorConfig.smokeLight,
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          MaterialIcons.location_on,
+                          size: 20,
+                          color: ColorConfig.grey,
+                        ),
+                        Flexible(
+                          fit: FlexFit.tight,
+                          child: CountiesCodes(),
+                          // child: TextField(
+                          //   style: TextStyle(
+                          //     fontFamily: FontConfig.regular,
+                          //     fontSize: Sizeconfig.small,
+                          //     color: ColorConfig.greyLight,
+                          //   ),
+                          //   decoration: InputDecoration(
+                          //     hintText: "Select location",
+                          //     hintStyle: TextStyle(
+                          //       fontFamily: FontConfig.regular,
+                          //       fontSize: Sizeconfig.small,
+                          //       color: ColorConfig.greyLight,
+                          //     ),
+                          //     border: InputBorder.none,
+                          //   ),
+                          // ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 15, right: 15),
+            child: Row(
+              children: [
+                Icon(
+                  FontAwesome5.city,
+                  size: Sizeconfig.huge,
+                  color: ColorConfig.darkGreen,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(
+                    "Enter area name and town",
+                    style: TextStyle(
+                      fontFamily: FontConfig.bold,
+                      fontSize: Sizeconfig.medium,
+                      color: ColorConfig.dark,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
           Container(
             height: 70,
             width: double.maxFinite,
@@ -80,7 +218,7 @@ class _BuyTabBarState extends State<BuyTabBar> {
                                 color: ColorConfig.greyLight,
                               ),
                               decoration: InputDecoration(
-                                hintText: "Select location",
+                                hintText: "e.g. area, town",
                                 hintStyle: TextStyle(
                                   fontFamily: FontConfig.regular,
                                   fontSize: Sizeconfig.small,
@@ -533,42 +671,90 @@ class _BuyTabBarState extends State<BuyTabBar> {
           SizedBox(
             height: 10,
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15, right: 15),
-            child: Container(
-              padding: EdgeInsets.only(
-                right: 15,
-                left: 10,
-              ),
-              height: 40,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                border: Border.all(
-                  width: 1,
-                  color: ColorConfig.smokeLight,
-                ),
-              ),
-              child: TextField(
-                style: TextStyle(
-                  fontFamily: FontConfig.regular,
-                  fontSize: Sizeconfig.small,
-                  color: ColorConfig.dark,
-                ),
-                decoration: InputDecoration(
-                  hintText: "abc...",
-                  hintStyle: TextStyle(
-                    fontFamily: FontConfig.regular,
-                    fontSize: Sizeconfig.small,
-                    color: ColorConfig.dark,
-                  ),
-                  border: InputBorder.none,
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.only(left: 15, right: 15),
+          //   child: Container(
+          //     padding: EdgeInsets.only(
+          //       right: 15,
+          //       left: 10,
+          //     ),
+          //     height: 40,
+          //     decoration: BoxDecoration(
+          //       borderRadius: BorderRadius.circular(5),
+          //       border: Border.all(
+          //         width: 1,
+          //         color: ColorConfig.smokeLight,
+          //       ),
+          //     ),
+          //     child: TextField(
+          //       style: TextStyle(
+          //         fontFamily: FontConfig.regular,
+          //         fontSize: Sizeconfig.small,
+          //         color: ColorConfig.dark,
+          //       ),
+          //       decoration: InputDecoration(
+          //         hintText: "abc...",
+          //         hintStyle: TextStyle(
+          //           fontFamily: FontConfig.regular,
+          //           fontSize: Sizeconfig.small,
+          //           color: ColorConfig.dark,
+          //         ),
+          //         border: InputBorder.none,
+          //       ),
+          //     ),
+          //   ),
+          // ),
+          // BlocConsumer<AddPropertyBloc, AddPropertyState>(
+          //   listener: (context, state) {
+          //     if (state is AddedNewFieldState) {
+          //       // propertyFeatures.add(state.widget);
+          //       setState(() {
+          //         featuresListController = state.textEditingController;
+          //         textEditingValue = TextEditingValue(text: textEditingValueText + 1.toString());
+          //       });
+          //     }
+          //   },
+          //   builder: (context, state) {
+          //     if (widget.propertyFields.isNotEmpty) {
+          //       // propertyFeatures.add(state.widget);
+          //       print(textEditingValue);
+          //       return Column(
+          //         children: widget.propertyFields.map((feature) {
+          //           return Container(
+          //             child: feature,
+          //           );
+          //         }).toList(),
+          //       );
+          //     } else {
+          //       return Column(children: [
+          //         propertyFeatureWidget(featuresList, featuresListController),
+          //       ]);
+          //     }
+          //   },
+          // ),
+
+          // SizedBox(
+          //   height: 20,
+          // ),
+          // BlocBuilder<AddPropertyBloc, AddPropertyState>(
+          //   builder: (context, state) {
+          //     return MaterialButton(
+          //       onPressed: () {
+          //         BlocProvider.of<AddPropertyBloc>(context).add(AddNewFieldEvent(
+          //             widget: propertyFeatureWidget(featuresList, featuresListController),
+          //             propertyFields: widget.propertyFields,
+          //             textEditingController: featuresListController,
+          //             textEditingValue: textEditingValue));
+          //       },
+          //       color: ColorConfig.lightGreen,
+          //       textColor: ColorConfig.light,
+          //       child: Text("Add field"),
+          //     );
+          //   },
+          // ),
+          // SizedBox(
+          //   height: 20,
+          // ),
           Padding(
             padding: EdgeInsets.only(left: 15, right: 15),
             child: Row(
@@ -671,27 +857,52 @@ class _Areadrop1State extends State<Areadrop1> {
   @override
   Widget build(BuildContext context) {
     loadData();
-    return Padding(
-        padding: const EdgeInsets.only(left: 10),
-        child: DropdownButtonHideUnderline(
-          child: DropdownButton(
-            // itemHeight: 2,
-            iconSize: 25,
-            elevation: 0,
-            value: selected,
-            hint: Text(
-              'Sq.M.',
-              style: TextStyle(
-                color: Color.fromRGBO(0, 0, 0, 0.7),
+    return BlocConsumer<AddPropertyBloc, AddPropertyState>(
+      listener: (context, state) {
+        if (state is AddPropertyAreaState) {
+          setState(() {
+            areaUnit = state.areaUnit;
+          });
+        }
+      },
+      builder: (context, state) {
+        return Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton(
+                // itemHeight: 2,
+                iconSize: 25,
+                elevation: 0,
+                value: selected,
+                hint: Text(
+                  'Sq.M.',
+                  style: TextStyle(
+                    color: Color.fromRGBO(0, 0, 0, 0.7),
+                  ),
+                ),
+                items: listDrop,
+                onChanged: (value) {
+                  selected = value;
+                  setState(() {
+                    switch (value) {
+                      case 1:
+                        BlocProvider.of<AddPropertyBloc>(context).add(AddPropertyAreaEvent(areaUnit: 'Sq.M.'));
+                        break;
+                      case 2:
+                        BlocProvider.of<AddPropertyBloc>(context).add(AddPropertyAreaEvent(areaUnit: 'Sq.Ft.'));
+                        break;
+                      case 3:
+                        BlocProvider.of<AddPropertyBloc>(context).add(AddPropertyAreaEvent(areaUnit: 'Sq.Yd'));
+                        break;
+                      default:
+                        BlocProvider.of<AddPropertyBloc>(context).add(AddPropertyAreaEvent(areaUnit: 'Sq.M.'));
+                    }
+                  });
+                },
               ),
-            ),
-            items: listDrop,
-            onChanged: (value) {
-              selected = value;
-              setState(() {});
-            },
-          ),
-        ));
+            ));
+      },
+    );
   }
 }
 

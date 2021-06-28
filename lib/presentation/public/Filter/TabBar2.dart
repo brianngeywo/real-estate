@@ -1,6 +1,7 @@
 import 'package:Realify/backend/bloc/search_property_bloc/search_property_bloc_bloc.dart';
 import 'package:Realify/presentation/my_imports.dart';
 import 'package:Realify/presentation/public/Filter/Counties.dart';
+import 'package:Realify/presentation/public/Filter/main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TabBar2 extends StatefulWidget {
@@ -13,60 +14,7 @@ class _TabBar2State extends State<TabBar2> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(children: [
-        Container(
-          height: 70,
-          width: double.maxFinite,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 15, top: 15, right: 15),
-            child: Column(
-              children: [
-                Container(
-                  padding: EdgeInsets.only(
-                    right: 15,
-                    left: 10,
-                  ),
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: ColorConfig.smokeLight,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        MaterialIcons.location_on,
-                        size: 20,
-                        color: ColorConfig.grey,
-                      ),
-                      Flexible(
-                        fit: FlexFit.tight,
-                        child: CountiesCodes(),
-                        // child: TextField(
-                        //   style: TextStyle(
-                        //     fontFamily: FontConfig.regular,
-                        //     fontSize: Sizeconfig.small,
-                        //     color: ColorConfig.greyLight,
-                        //   ),
-                        //   decoration: InputDecoration(
-                        //     hintText: "Select location",
-                        //     hintStyle: TextStyle(
-                        //       fontFamily: FontConfig.regular,
-                        //       fontSize: Sizeconfig.small,
-                        //       color: ColorConfig.greyLight,
-                        //     ),
-                        //     border: InputBorder.none,
-                        //   ),
-                        // ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        SizedBox(
-          height: 20,
-        ),
+
         Padding(
           padding: EdgeInsets.only(left: 15, right: 15),
           child: Row(
@@ -129,6 +77,60 @@ class _TabBar2State extends State<TabBar2> {
         //   height: 20,
         // ),
 
+          Container(
+          height: 70,
+          width: double.maxFinite,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 15, top: 15, right: 15),
+            child: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.only(
+                    right: 15,
+                    left: 10,
+                  ),
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: ColorConfig.smokeLight,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        MaterialIcons.location_on,
+                        size: 20,
+                        color: ColorConfig.grey,
+                      ),
+                      Flexible(
+                        fit: FlexFit.tight,
+                        child: CountiesCodes(),
+                        // child: TextField(
+                        //   style: TextStyle(
+                        //     fontFamily: FontConfig.regular,
+                        //     fontSize: Sizeconfig.small,
+                        //     color: ColorConfig.greyLight,
+                        //   ),
+                        //   decoration: InputDecoration(
+                        //     hintText: "Select location",
+                        //     hintStyle: TextStyle(
+                        //       fontFamily: FontConfig.regular,
+                        //       fontSize: Sizeconfig.small,
+                        //       color: ColorConfig.greyLight,
+                        //     ),
+                        //     border: InputBorder.none,
+                        //   ),
+                        // ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 20,
+        ),
         Padding(
           padding: EdgeInsets.only(left: 15, right: 15),
           child: Row(

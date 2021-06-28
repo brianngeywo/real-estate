@@ -1,6 +1,7 @@
 import 'package:Realify/backend/bloc/search_property_bloc/search_property_bloc_bloc.dart';
 import 'package:Realify/presentation/my_imports.dart';
 import 'package:Realify/presentation/public/Filter/Counties.dart';
+import 'package:Realify/presentation/public/Filter/main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TabBar1 extends StatefulWidget {
@@ -13,6 +14,40 @@ class _TabBar1State extends State<TabBar1> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(children: [
+        Padding(
+          padding: EdgeInsets.only(left: 15, right: 15),
+          child: Row(
+            children: [
+              Icon(
+                Entypo.home,
+                size: Sizeconfig.huge,
+                color: ColorConfig.darkGreen,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Text(
+                  "Property Types",
+                  style: TextStyle(
+                    fontFamily: FontConfig.bold,
+                    fontSize: Sizeconfig.medium,
+                    color: ColorConfig.dark,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Propertytype(),
+        SizedBox(
+          height: 20,
+        ),
+
         Container(
           height: 70,
           width: double.maxFinite,
@@ -72,39 +107,6 @@ class _TabBar1State extends State<TabBar1> {
           child: Row(
             children: [
               Icon(
-                Entypo.home,
-                size: Sizeconfig.huge,
-                color: ColorConfig.darkGreen,
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Text(
-                  "Property Types",
-                  style: TextStyle(
-                    fontFamily: FontConfig.bold,
-                    fontSize: Sizeconfig.medium,
-                    color: ColorConfig.dark,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Propertytype(),
-        SizedBox(
-          height: 20,
-        ),
-        Padding(
-          padding: EdgeInsets.only(left: 15, right: 15),
-          child: Row(
-            children: [
-              Icon(
                 Ionicons.ios_pricetag,
                 size: Sizeconfig.huge,
                 color: ColorConfig.darkGreen,
@@ -150,7 +152,6 @@ class _TabBar1State extends State<TabBar1> {
                       child: TextFormField(
                         onChanged: (value) {
                           BlocProvider.of<SearchPropertyBloc>(context).add(EnteredMinPriceEvent(minPrice: value));
-
                         },
                         keyboardType: TextInputType.number,
                         style: TextStyle(
