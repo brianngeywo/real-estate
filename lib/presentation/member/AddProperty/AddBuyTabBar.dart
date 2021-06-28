@@ -184,57 +184,64 @@ class _BuyTabBarState extends State<BuyTabBar> {
           SizedBox(
             height: 10,
           ),
-          Container(
-            height: 70,
-            width: double.maxFinite,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 15, top: 15, right: 15),
-              child: Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(
-                      right: 15,
-                      left: 10,
-                    ),
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: ColorConfig.smokeLight,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(
-                          MaterialIcons.location_on,
-                          size: 20,
-                          color: ColorConfig.grey,
+          BlocBuilder<AddPropertyBloc, AddPropertyState>(
+            builder: (context, state) {
+              return Container(
+                height: 70,
+                width: double.maxFinite,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 15, top: 15, right: 15),
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(
+                          right: 15,
+                          left: 10,
                         ),
-                        Flexible(
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 5.0),
-                            child: TextField(
-                              style: TextStyle(
-                                fontFamily: FontConfig.regular,
-                                fontSize: Sizeconfig.small,
-                                color: ColorConfig.greyLight,
-                              ),
-                              decoration: InputDecoration(
-                                hintText: "e.g. area, town",
-                                hintStyle: TextStyle(
-                                  fontFamily: FontConfig.regular,
-                                  fontSize: Sizeconfig.small,
-                                  color: ColorConfig.greyLight,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: ColorConfig.smokeLight,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              MaterialIcons.location_on,
+                              size: 20,
+                              color: ColorConfig.grey,
+                            ),
+                            Flexible(
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 5.0),
+                                child: TextField(
+                                  onChanged: (value) {
+                                    BlocProvider.of<AddPropertyBloc>(context).add(AddLocalityEvent(location: value));
+                                  },
+                                  style: TextStyle(
+                                    fontFamily: FontConfig.regular,
+                                    fontSize: Sizeconfig.small,
+                                    color: ColorConfig.greyLight,
+                                  ),
+                                  decoration: InputDecoration(
+                                    hintText: "e.g. area, town",
+                                    hintStyle: TextStyle(
+                                      fontFamily: FontConfig.regular,
+                                      fontSize: Sizeconfig.small,
+                                      color: ColorConfig.greyLight,
+                                    ),
+                                    border: InputBorder.none,
+                                  ),
                                 ),
-                                border: InputBorder.none,
                               ),
                             ),
-                          ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
+                ),
+              );
+            },
           ),
           SizedBox(
             height: 10,
@@ -268,24 +275,31 @@ class _BuyTabBarState extends State<BuyTabBar> {
           SizedBox(
             height: 10,
           ),
-          Padding(
-            padding: EdgeInsets.only(left: 20, right: 20),
-            child: TextFormField(
-              style: TextStyle(
-                fontFamily: FontConfig.regular,
-                fontSize: Sizeconfig.small,
-                color: ColorConfig.dark,
-              ),
-              decoration: InputDecoration(
-                hintText: "Property Title",
-                hintStyle: TextStyle(
-                  fontFamily: FontConfig.regular,
-                  fontSize: Sizeconfig.small,
-                  color: ColorConfig.dark,
+          BlocBuilder<AddPropertyBloc, AddPropertyState>(
+            builder: (context, state) {
+              return Padding(
+                padding: EdgeInsets.only(left: 20, right: 20),
+                child: TextFormField(
+                  onChanged: (value) {
+                    BlocProvider.of<AddPropertyBloc>(context).add(AddPropertyTitleEvent(title: value));
+                  },
+                  style: TextStyle(
+                    fontFamily: FontConfig.regular,
+                    fontSize: Sizeconfig.small,
+                    color: ColorConfig.dark,
+                  ),
+                  decoration: InputDecoration(
+                    hintText: "Property Title",
+                    hintStyle: TextStyle(
+                      fontFamily: FontConfig.regular,
+                      fontSize: Sizeconfig.small,
+                      color: ColorConfig.dark,
+                    ),
+                    border: InputBorder.none,
+                  ),
                 ),
-                border: InputBorder.none,
-              ),
-            ),
+              );
+            },
           ),
           Padding(
             padding: const EdgeInsets.only(left: 15, right: 15),
@@ -294,24 +308,33 @@ class _BuyTabBarState extends State<BuyTabBar> {
           SizedBox(
             height: 10,
           ),
-          Padding(
-            padding: EdgeInsets.only(left: 20, right: 20),
-            child: TextFormField(
-              style: TextStyle(
-                fontFamily: FontConfig.regular,
-                fontSize: Sizeconfig.small,
-                color: ColorConfig.dark,
-              ),
-              decoration: InputDecoration(
-                hintText: "Property Description",
-                hintStyle: TextStyle(
-                  fontFamily: FontConfig.regular,
-                  fontSize: Sizeconfig.small,
-                  color: ColorConfig.dark,
+          BlocBuilder<AddPropertyBloc, AddPropertyState>(
+            builder: (context, state) {
+              return Padding(
+                padding: EdgeInsets.only(left: 20, right: 20),
+                child: TextFormField(
+                  minLines: 1,
+                  maxLines: 500,
+                  onChanged: (value) {
+                    BlocProvider.of<AddPropertyBloc>(context).add(AddPropertyDescriptionEvent(description: value));
+                  },
+                  style: TextStyle(
+                    fontFamily: FontConfig.regular,
+                    fontSize: Sizeconfig.small,
+                    color: ColorConfig.dark,
+                  ),
+                  decoration: InputDecoration(
+                    hintText: "Property Description",
+                    hintStyle: TextStyle(
+                      fontFamily: FontConfig.regular,
+                      fontSize: Sizeconfig.small,
+                      color: ColorConfig.dark,
+                    ),
+                    border: InputBorder.none,
+                  ),
                 ),
-                border: InputBorder.none,
-              ),
-            ),
+              );
+            },
           ),
           Padding(
             padding: const EdgeInsets.only(left: 15, right: 15),
@@ -349,39 +372,46 @@ class _BuyTabBarState extends State<BuyTabBar> {
           SizedBox(
             height: 10,
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15, right: 15),
-            child: Container(
-              padding: EdgeInsets.only(
-                right: 15,
-                left: 10,
-              ),
-              height: 40,
-              decoration: BoxDecoration(
-                color: ColorConfig.smokeLight,
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 5.0),
-                child: TextField(
-                  keyboardType: TextInputType.number,
-                  style: TextStyle(
-                    fontFamily: FontConfig.regular,
-                    fontSize: Sizeconfig.small,
-                    color: ColorConfig.dark,
+          BlocBuilder<AddPropertyBloc, AddPropertyState>(
+            builder: (context, state) {
+              return Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15),
+                child: Container(
+                  padding: EdgeInsets.only(
+                    right: 15,
+                    left: 10,
                   ),
-                  decoration: InputDecoration(
-                    hintText: "Price*",
-                    hintStyle: TextStyle(
-                      fontFamily: FontConfig.regular,
-                      fontSize: Sizeconfig.small,
-                      color: ColorConfig.dark,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: ColorConfig.smokeLight,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 5.0),
+                    child: TextField(
+                      onChanged: (value) {
+                        BlocProvider.of<AddPropertyBloc>(context).add(EnteredPriceEvent(price: value));
+                      },
+                      keyboardType: TextInputType.number,
+                      style: TextStyle(
+                        fontFamily: FontConfig.regular,
+                        fontSize: Sizeconfig.small,
+                        color: ColorConfig.dark,
+                      ),
+                      decoration: InputDecoration(
+                        hintText: "Price*",
+                        hintStyle: TextStyle(
+                          fontFamily: FontConfig.regular,
+                          fontSize: Sizeconfig.small,
+                          color: ColorConfig.dark,
+                        ),
+                        border: InputBorder.none,
+                      ),
                     ),
-                    border: InputBorder.none,
                   ),
                 ),
-              ),
-            ),
+              );
+            },
           ),
           SizedBox(
             height: 20,
@@ -415,67 +445,75 @@ class _BuyTabBarState extends State<BuyTabBar> {
           SizedBox(
             height: 10,
           ),
-          Container(
-            padding: EdgeInsets.only(
-              right: 15,
-              left: 10,
-            ),
-            height: 80,
-            width: MediaQuery.of(context).size.width,
-            child: Row(
-              children: [
-                Flexible(
-                  child: Container(
-                    padding: EdgeInsets.only(
-                      right: 15,
-                      left: 10,
-                    ),
-                    height: 40,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(
-                          width: 1,
-                          color: ColorConfig.smokeLight,
-                        )),
-                    child: TextField(
-                      keyboardType: TextInputType.number,
-                      style: TextStyle(
-                        fontFamily: FontConfig.regular,
-                        fontSize: Sizeconfig.small,
-                        color: ColorConfig.dark,
-                      ),
-                      decoration: InputDecoration(
-                        hintText: "Price*",
-                        hintStyle: TextStyle(
-                          fontFamily: FontConfig.regular,
-                          fontSize: Sizeconfig.small,
-                          color: ColorConfig.dark,
+          BlocBuilder<AddPropertyBloc, AddPropertyState>(
+            builder: (context, state) {
+              return Container(
+                padding: EdgeInsets.only(
+                  right: 15,
+                  left: 10,
+                ),
+                height: 80,
+                width: MediaQuery.of(context).size.width,
+                child: Row(
+                  children: [
+                    Flexible(
+                      child: Container(
+                        padding: EdgeInsets.only(
+                          right: 15,
+                          left: 10,
                         ),
-                        border: InputBorder.none,
+                        height: 40,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(
+                              width: 1,
+                              color: ColorConfig.smokeLight,
+                            )),
+                        child: TextField(
+                          onChanged: (value) {
+                            BlocProvider.of<AddPropertyBloc>(context).add(
+                                AddPropertyAreaEvent(area: value, areaUnit: areaUnit.isEmpty ? 'Sq.M.' : areaUnit));
+                          },
+                          keyboardType: TextInputType.number,
+                          style: TextStyle(
+                            fontFamily: FontConfig.regular,
+                            fontSize: Sizeconfig.small,
+                            color: ColorConfig.dark,
+                          ),
+                          decoration: InputDecoration(
+                            hintText: "Area*",
+                            hintStyle: TextStyle(
+                              fontFamily: FontConfig.regular,
+                              fontSize: Sizeconfig.small,
+                              color: ColorConfig.dark,
+                            ),
+                            border: InputBorder.none,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Flexible(
+                      child: Container(
+                        height: 40,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            color: ColorConfig.smokeLight,
+                            border: Border.all(
+                              width: 1,
+                              color: ColorConfig.smokeLight,
+                            ),
+                            borderRadius: BorderRadius.circular(3)),
+                        child: Areadrop1(),
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(
-                  width: 10,
-                ),
-                Flexible(
-                  child: Container(
-                    height: 40,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        color: ColorConfig.smokeLight,
-                        border: Border.all(
-                          width: 1,
-                          color: ColorConfig.smokeLight,
-                        ),
-                        borderRadius: BorderRadius.circular(3)),
-                    child: Areadrop1(),
-                  ),
-                ),
-              ],
-            ),
+              );
+            },
           ),
           SizedBox(
             height: 20,
@@ -485,7 +523,7 @@ class _BuyTabBarState extends State<BuyTabBar> {
             child: Row(
               children: [
                 Icon(
-                  FontAwesome5.hashtag,
+                  FontAwesome.bed,
                   size: Sizeconfig.huge,
                   color: ColorConfig.darkGreen,
                 ),
@@ -495,7 +533,7 @@ class _BuyTabBarState extends State<BuyTabBar> {
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Text(
-                    "Permit Number",
+                    "Bedrooms",
                     style: TextStyle(
                       fontFamily: FontConfig.bold,
                       fontSize: Sizeconfig.medium,
@@ -506,35 +544,95 @@ class _BuyTabBarState extends State<BuyTabBar> {
               ],
             ),
           ),
-          SizedBox(
-            height: 10,
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 15, right: 15),
-            child: TextFormField(
-              style: TextStyle(
-                fontFamily: FontConfig.regular,
-                fontSize: Sizeconfig.small,
-                color: ColorConfig.dark,
-              ),
-              decoration: InputDecoration(
-                hintText: "e.g 1234",
-                hintStyle: TextStyle(
-                  fontFamily: FontConfig.regular,
-                  fontSize: Sizeconfig.small,
-                  color: ColorConfig.dark,
-                ),
-                border: InputBorder.none,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15, right: 15),
-            child: Container(height: 1, width: double.maxFinite, color: ColorConfig.grey.withOpacity(0.3)),
-          ),
+          Bedroomtype(),
           SizedBox(
             height: 20,
           ),
+                    Padding(
+            padding: EdgeInsets.only(left: 15, right: 15),
+            child: Row(
+              children: [
+                Icon(
+                  FontAwesome.bed,
+                  size: Sizeconfig.huge,
+                  color: ColorConfig.darkGreen,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(
+                    "Bathrooms",
+                    style: TextStyle(
+                      fontFamily: FontConfig.bold,
+                      fontSize: Sizeconfig.medium,
+                      color: ColorConfig.dark,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Bathroomtype(),
+          SizedBox(
+            height: 20,
+          ),
+          // Padding(
+          //   padding: EdgeInsets.only(left: 15, right: 15),
+          //   child: Row(
+          //     children: [
+          //       Icon(
+          //         FontAwesome5.hashtag,
+          //         size: Sizeconfig.huge,
+          //         color: ColorConfig.darkGreen,
+          //       ),
+          //       SizedBox(
+          //         width: 10,
+          //       ),
+          //       Padding(
+          //         padding: const EdgeInsets.only(top: 8.0),
+          //         child: Text(
+          //           "Permit Number",
+          //           style: TextStyle(
+          //             fontFamily: FontConfig.bold,
+          //             fontSize: Sizeconfig.medium,
+          //             color: ColorConfig.dark,
+          //           ),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // SizedBox(
+          //   height: 10,
+          // ),
+          // Padding(
+          //   padding: EdgeInsets.only(left: 15, right: 15),
+          //   child: TextFormField(
+          //     style: TextStyle(
+          //       fontFamily: FontConfig.regular,
+          //       fontSize: Sizeconfig.small,
+          //       color: ColorConfig.dark,
+          //     ),
+          //     decoration: InputDecoration(
+          //       hintText: "e.g 1234",
+          //       hintStyle: TextStyle(
+          //         fontFamily: FontConfig.regular,
+          //         fontSize: Sizeconfig.small,
+          //         color: ColorConfig.dark,
+          //       ),
+          //       border: InputBorder.none,
+          //     ),
+          //   ),
+          // ),
+          // Padding(
+          //   padding: const EdgeInsets.only(left: 15, right: 15),
+          //   child: Container(height: 1, width: double.maxFinite, color: ColorConfig.grey.withOpacity(0.3)),
+          // ),
+          // SizedBox(
+          //   height: 20,
+          // ),
           Padding(
             padding: EdgeInsets.only(left: 15, right: 15),
             child: Row(
@@ -561,32 +659,32 @@ class _BuyTabBarState extends State<BuyTabBar> {
               ],
             ),
           ),
-          SizedBox(
-            height: 10,
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 15, right: 15),
-            child: TextFormField(
-              style: TextStyle(
-                fontFamily: FontConfig.regular,
-                fontSize: Sizeconfig.small,
-                color: ColorConfig.dark,
-              ),
-              decoration: InputDecoration(
-                hintText: "someone@qwer.com",
-                hintStyle: TextStyle(
-                  fontFamily: FontConfig.regular,
-                  fontSize: Sizeconfig.small,
-                  color: ColorConfig.dark,
-                ),
-                border: InputBorder.none,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15, right: 15),
-            child: Container(height: 1, width: double.maxFinite, color: ColorConfig.grey.withOpacity(0.3)),
-          ),
+          // SizedBox(
+          //   height: 10,
+          // ),
+          // Padding(
+          //   padding: EdgeInsets.only(left: 15, right: 15),
+          //   child: TextFormField(
+          //     style: TextStyle(
+          //       fontFamily: FontConfig.regular,
+          //       fontSize: Sizeconfig.small,
+          //       color: ColorConfig.dark,
+          //     ),
+          //     decoration: InputDecoration(
+          //       hintText: "someone@qwer.com",
+          //       hintStyle: TextStyle(
+          //         fontFamily: FontConfig.regular,
+          //         fontSize: Sizeconfig.small,
+          //         color: ColorConfig.dark,
+          //       ),
+          //       border: InputBorder.none,
+          //     ),
+          //   ),
+          // ),
+          // Padding(
+          //   padding: const EdgeInsets.only(left: 15, right: 15),
+          //   child: Container(height: 1, width: double.maxFinite, color: ColorConfig.grey.withOpacity(0.3)),
+          // ),
           SizedBox(
             height: 20,
           ),
@@ -610,31 +708,37 @@ class _BuyTabBarState extends State<BuyTabBar> {
                 SizedBox(
                   width: 15,
                 ),
-                Expanded(
-                  flex: 2,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 1,
-                        color: ColorConfig.smokeLight,
-                      ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: TextFormField(
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          hintText: "798767470",
-                          hintStyle: TextStyle(
-                            fontFamily: FontConfig.regular,
-                            fontSize: Sizeconfig.small,
-                            color: Color.fromRGBO(0, 0, 0, 0.5),
+                 BlocBuilder<AddPropertyBloc, AddPropertyState>(
+                  builder: (context, state) {
+                    return Expanded(
+                      flex: 2,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            width: 1,
+                            color: ColorConfig.smokeLight,
                           ),
-                          border: InputBorder.none,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: TextFormField(
+                                  onChanged: (value) =>
+                                BlocProvider.of<AddPropertyBloc>(context).add(AddPhoneEvent(phone: value)),
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              hintText: "798767470",
+                              hintStyle: TextStyle(
+                                fontFamily: FontConfig.regular,
+                                fontSize: Sizeconfig.small,
+                                color: Color.fromRGBO(0, 0, 0, 0.5),
+                              ),
+                              border: InputBorder.none,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
+                    );
+                  },
                 ),
               ],
             ),
@@ -642,35 +746,35 @@ class _BuyTabBarState extends State<BuyTabBar> {
           SizedBox(
             height: 20,
           ),
-          Padding(
-            padding: EdgeInsets.only(left: 15, right: 15),
-            child: Row(
-              children: [
-                Icon(
-                  FontAwesome5.list_alt,
-                  size: Sizeconfig.huge,
-                  color: ColorConfig.darkGreen,
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Text(
-                    "Property Features",
-                    style: TextStyle(
-                      fontFamily: FontConfig.bold,
-                      fontSize: Sizeconfig.medium,
-                      color: ColorConfig.dark,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
+          // Padding(
+          //   padding: EdgeInsets.only(left: 15, right: 15),
+          //   child: Row(
+          //     children: [
+          //       Icon(
+          //         FontAwesome5.list_alt,
+          //         size: Sizeconfig.huge,
+          //         color: ColorConfig.darkGreen,
+          //       ),
+          //       SizedBox(
+          //         width: 10,
+          //       ),
+          //       Padding(
+          //         padding: const EdgeInsets.only(top: 8.0),
+          //         child: Text(
+          //           "Property Features",
+          //           style: TextStyle(
+          //             fontFamily: FontConfig.bold,
+          //             fontSize: Sizeconfig.medium,
+          //             color: ColorConfig.dark,
+          //           ),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // SizedBox(
+          //   height: 10,
+          // ),
           // Padding(
           //   padding: const EdgeInsets.only(left: 15, right: 15),
           //   child: Container(

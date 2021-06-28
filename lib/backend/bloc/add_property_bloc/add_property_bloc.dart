@@ -32,7 +32,9 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
     if (event is EnteredPriceEvent) {
       yield EnteredPriceState(price: event.price);
     }
-
+if (event is SelectedBathroomEvent) {
+      yield SelectedBathroomState(bathroom: event.bathroom, index: event.index);
+    }
     if (event is SelectedBedroomEvent) {
       yield SelectedBedroomState(bedroom: event.bedroom, index: event.index);
     }
@@ -79,7 +81,8 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
           event.rentalFrequency,
           event.area,
           event.areaUnit,
-          event.phone);
+          event.phone,
+          event.bathrooms);
       yield UploadedPropertyState();
     }
   }

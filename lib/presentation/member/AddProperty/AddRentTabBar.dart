@@ -540,15 +540,15 @@ class _RentTabBarState extends State<RentTabBar> {
             );
           },
         ),
-        SizedBox(
+                  SizedBox(
           height: 20,
         ),
-        Padding(
+                Padding(
           padding: EdgeInsets.only(left: 15, right: 15),
           child: Row(
             children: [
               Icon(
-                FontAwesome5.hashtag,
+                FontAwesome.bed,
                 size: Sizeconfig.huge,
                 color: ColorConfig.darkGreen,
               ),
@@ -558,7 +558,7 @@ class _RentTabBarState extends State<RentTabBar> {
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
                 child: Text(
-                  "Permit Number",
+                  "Bedrooms",
                   style: TextStyle(
                     fontFamily: FontConfig.bold,
                     fontSize: Sizeconfig.medium,
@@ -569,35 +569,95 @@ class _RentTabBarState extends State<RentTabBar> {
             ],
           ),
         ),
-        SizedBox(
-          height: 10,
-        ),
-        Padding(
-          padding: EdgeInsets.only(left: 15, right: 15),
-          child: TextFormField(
-            style: TextStyle(
-              fontFamily: FontConfig.regular,
-              fontSize: Sizeconfig.small,
-              color: ColorConfig.dark,
-            ),
-            decoration: InputDecoration(
-              hintText: "e.g 1234",
-              hintStyle: TextStyle(
-                fontFamily: FontConfig.regular,
-                fontSize: Sizeconfig.small,
-                color: ColorConfig.dark,
-              ),
-              border: InputBorder.none,
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 15, right: 15),
-          child: Container(height: 1, width: double.maxFinite, color: ColorConfig.grey.withOpacity(0.3)),
-        ),
+        Bedroomtype(),
         SizedBox(
           height: 20,
         ),
+        Padding(
+          padding: EdgeInsets.only(left: 15, right: 15),
+          child: Row(
+            children: [
+              Icon(
+                FontAwesome.bed,
+                size: Sizeconfig.huge,
+                color: ColorConfig.darkGreen,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Text(
+                  "Bathrooms",
+                  style: TextStyle(
+                    fontFamily: FontConfig.bold,
+                    fontSize: Sizeconfig.medium,
+                    color: ColorConfig.dark,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Bathroomtype(),
+        SizedBox(
+          height: 20,
+        ),
+        // Padding(
+        //   padding: EdgeInsets.only(left: 15, right: 15),
+        //   child: Row(
+        //     children: [
+        //       Icon(
+        //         FontAwesome5.hashtag,
+        //         size: Sizeconfig.huge,
+        //         color: ColorConfig.darkGreen,
+        //       ),
+        //       SizedBox(
+        //         width: 10,
+        //       ),
+        //       Padding(
+        //         padding: const EdgeInsets.only(top: 8.0),
+        //         child: Text(
+        //           "Permit Number",
+        //           style: TextStyle(
+        //             fontFamily: FontConfig.bold,
+        //             fontSize: Sizeconfig.medium,
+        //             color: ColorConfig.dark,
+        //           ),
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        // ),
+        // SizedBox(
+        //   height: 10,
+        // ),
+        // Padding(
+        //   padding: EdgeInsets.only(left: 15, right: 15),
+        //   child: TextFormField(
+        //     style: TextStyle(
+        //       fontFamily: FontConfig.regular,
+        //       fontSize: Sizeconfig.small,
+        //       color: ColorConfig.dark,
+        //     ),
+        //     decoration: InputDecoration(
+        //       hintText: "e.g 1234",
+        //       hintStyle: TextStyle(
+        //         fontFamily: FontConfig.regular,
+        //         fontSize: Sizeconfig.small,
+        //         color: ColorConfig.dark,
+        //       ),
+        //       border: InputBorder.none,
+        //     ),
+        //   ),
+        // ),
+        // Padding(
+        //   padding: const EdgeInsets.only(left: 15, right: 15),
+        //   child: Container(height: 1, width: double.maxFinite, color: ColorConfig.grey.withOpacity(0.3)),
+        // ),
+        // SizedBox(
+        //   height: 20,
+        // ),
         Padding(
           padding: EdgeInsets.only(left: 15, right: 15),
           child: Row(
@@ -624,32 +684,32 @@ class _RentTabBarState extends State<RentTabBar> {
             ],
           ),
         ),
-        SizedBox(
-          height: 10,
-        ),
-        Padding(
-          padding: EdgeInsets.only(left: 15, right: 15),
-          child: TextFormField(
-            style: TextStyle(
-              fontFamily: FontConfig.regular,
-              fontSize: Sizeconfig.small,
-              color: ColorConfig.dark,
-            ),
-            decoration: InputDecoration(
-              hintText: "someone@qwer.com",
-              hintStyle: TextStyle(
-                fontFamily: FontConfig.regular,
-                fontSize: Sizeconfig.small,
-                color: ColorConfig.dark,
-              ),
-              border: InputBorder.none,
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 15, right: 15),
-          child: Container(height: 1, width: double.maxFinite, color: ColorConfig.grey.withOpacity(0.3)),
-        ),
+        // SizedBox(
+        //   height: 10,
+        // ),
+        // Padding(
+        //   padding: EdgeInsets.only(left: 15, right: 15),
+        //   child: TextFormField(
+        //     style: TextStyle(
+        //       fontFamily: FontConfig.regular,
+        //       fontSize: Sizeconfig.small,
+        //       color: ColorConfig.dark,
+        //     ),
+        //     decoration: InputDecoration(
+        //       hintText: "someone@qwer.com",
+        //       hintStyle: TextStyle(
+        //         fontFamily: FontConfig.regular,
+        //         fontSize: Sizeconfig.small,
+        //         color: ColorConfig.dark,
+        //       ),
+        //       border: InputBorder.none,
+        //     ),
+        //   ),
+        // ),
+        // Padding(
+        //   padding: const EdgeInsets.only(left: 15, right: 15),
+        //   child: Container(height: 1, width: double.maxFinite, color: ColorConfig.grey.withOpacity(0.3)),
+        // ),
         SizedBox(
           height: 20,
         ),

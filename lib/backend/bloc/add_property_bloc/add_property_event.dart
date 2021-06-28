@@ -26,6 +26,15 @@ class SelectedBedroomEvent extends AddPropertyEvent {
   });
 }
 
+
+class SelectedBathroomEvent extends AddPropertyEvent {
+  final int index;
+  final String bathroom;
+  SelectedBathroomEvent({
+    this.index = 0,
+    this.bathroom = "",
+  });
+}
 class SelectedProposalEvent extends AddPropertyEvent {
   final int index;
   final String proposal;
@@ -123,6 +132,7 @@ class UploadPropertyEvent extends AddPropertyEvent {
   final String category;
   final String subCategory;
   final String price;
+  final String bathrooms;
   final String bedrooms;
   final String locality;
   final String propertyName;
@@ -137,6 +147,7 @@ class UploadPropertyEvent extends AddPropertyEvent {
     @required this.category,
     @required this.subCategory,
     @required this.price,
+    @required this.bathrooms,
     @required this.bedrooms,
     @required this.locality,
     @required this.propertyName,

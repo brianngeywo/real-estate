@@ -584,7 +584,7 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                           ),
                         ),
                         Text(
-                          widget.property.locality,
+                          widget.property.location,
                           style: TextStyle(
                             fontFamily: FontConfig.bold,
                             fontSize: Sizeconfig.small,

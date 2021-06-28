@@ -18,6 +18,7 @@ class RealifyPropertyRepository {
     area,
     areaUnit,
     phone,
+    bathrooms,
   ) {
     realifyPropertyApiProvider.uploadProperty(
       proposal,
@@ -33,6 +34,7 @@ class RealifyPropertyRepository {
       area,
       areaUnit,
       phone,
+      bathrooms,
     );
     // return 200;
   }

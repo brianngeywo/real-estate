@@ -23,6 +23,7 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
   String subCategory = "";
   String price = "";
   String bedrooms = "";
+  String bathrooms = "";
   String locality = "";
   String propertyName = "";
   String description = "";
@@ -110,6 +111,13 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                       subCategory = state.subcategoryTitle;
                     });
                     print("sub categroy: $subCategory");
+                  }
+
+                  if (state is SelectedBathroomState) {
+                    setState(() {
+                      bathrooms = state.bathroom;
+                    });
+                    print("bathrooms: $bathrooms");
                   }
                   if (state is SelectedBedroomState) {
                     setState(() {
@@ -282,6 +290,7 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                             subCategory: subCategory.toLowerCase(),
                             price: price.toLowerCase(),
                             bedrooms: bedrooms.toLowerCase(),
+                            bathrooms: bathrooms.toLowerCase(),
                             locality: locality.toLowerCase(),
                             propertyName: propertyName.toLowerCase(),
                             description: description.toLowerCase(),

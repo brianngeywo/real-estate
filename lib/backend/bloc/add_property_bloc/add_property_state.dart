@@ -49,6 +49,15 @@ class AddPropertySelectedPropertySubType extends AddPropertyState {
   });
 }
 
+
+class SelectedBathroomState extends AddPropertyState {
+  final int index;
+  final String bathroom;
+  SelectedBathroomState({
+    this.index = 0,
+    this.bathroom = '',
+  });
+}
 class SelectedBedroomState extends AddPropertyState {
   final int index;
   final String bedroom;
