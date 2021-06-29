@@ -5,6 +5,7 @@ import 'package:Realify/backend/repositories/RealifyPropertyRepository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
+import 'package:multi_image_picker2/multi_image_picker2.dart';
 
 part 'add_property_event.dart';
 part 'add_property_state.dart';
@@ -13,6 +14,7 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
   AddPropertyBloc() : super(AddPropertyInitial());
   RealifyPropertyRepository repository = RealifyPropertyRepository();
   TextEditingController controller = TextEditingController();
+  List<String> imageUrls = <String>[];
   @override
   Stream<AddPropertyState> mapEventToState(
     AddPropertyEvent event,
@@ -32,7 +34,7 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
     if (event is EnteredPriceEvent) {
       yield EnteredPriceState(price: event.price);
     }
-if (event is SelectedBathroomEvent) {
+    if (event is SelectedBathroomEvent) {
       yield SelectedBathroomState(bathroom: event.bathroom, index: event.index);
     }
     if (event is SelectedBedroomEvent) {
@@ -67,6 +69,10 @@ if (event is SelectedBathroomEvent) {
         textEditingController: TextEditingController.fromValue(controller.value),
       );
     }
+    if (event is UploadImagesEvent) {
+
+      yield UploadedImagesState(imageUrls: event.images);
+    }
     if (event is UploadPropertyEvent) {
       repository.uploadProperty(
           event.proposal,
@@ -82,7 +88,9 @@ if (event is SelectedBathroomEvent) {
           event.area,
           event.areaUnit,
           event.phone,
-          event.bathrooms);
+          event.bathrooms,
+          event.image,
+          event.images);
       yield UploadedPropertyState();
     }
   }

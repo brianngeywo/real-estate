@@ -1,6 +1,5 @@
 import 'package:Realify/backend/models/RealifyProperty.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:Realify/backend/bloc/add_property_bloc/add_property_bloc.dart';
 import 'package:Realify/presentation/member/AddProperty/AddBuyTabBar.dart';
 import 'package:Realify/presentation/member/AddProperty/Counties.dart';
@@ -540,10 +539,10 @@ class _RentTabBarState extends State<RentTabBar> {
             );
           },
         ),
-                  SizedBox(
-          height: 20,
+        SizedBox(
+          height: 10,
         ),
-                Padding(
+        Padding(
           padding: EdgeInsets.only(left: 15, right: 15),
           child: Row(
             children: [
@@ -571,7 +570,7 @@ class _RentTabBarState extends State<RentTabBar> {
         ),
         Bedroomtype(),
         SizedBox(
-          height: 20,
+          height: 10,
         ),
         Padding(
           padding: EdgeInsets.only(left: 15, right: 15),
@@ -601,7 +600,7 @@ class _RentTabBarState extends State<RentTabBar> {
         ),
         Bathroomtype(),
         SizedBox(
-          height: 20,
+          height: 10,
         ),
         // Padding(
         //   padding: EdgeInsets.only(left: 15, right: 15),
@@ -916,27 +915,38 @@ class _RentTabBarState extends State<RentTabBar> {
         SizedBox(
           height: 10,
         ),
-        Padding(
-          padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 20),
-          child: InkWell(
-            onTap: () {},
-            child: DottedBorder(
-              strokeWidth: 2,
-              color: ColorConfig.greyLight,
-              strokeCap: StrokeCap.butt,
-              child: Container(
-                height: 150,
-                width: MediaQuery.of(context).size.width,
-                child: Center(
-                  child: Image(
-                    height: 72,
-                    width: 72,
-                    image: AssetImage("assets/images/interface.png"),
+        BlocConsumer<AddPropertyBloc, AddPropertyState>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            return Padding(
+              padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 20),
+              child: InkWell(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => BlocProvider(
+                            create: (context) => AddPropertyBloc(),
+                            child: SelectImagesPage(),
+                          )));
+                },
+                child: DottedBorder(
+                  strokeWidth: 2,
+                  color: ColorConfig.greyLight,
+                  strokeCap: StrokeCap.butt,
+                  child: Container(
+                    height: 150,
+                    width: MediaQuery.of(context).size.width,
+                    child: Center(
+                      child: Image(
+                        height: 72,
+                        width: 72,
+                        image: AssetImage("assets/images/interface.png"),
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ),
+            );
+          },
         )
       ]),
     );

@@ -516,7 +516,7 @@ class _BuyTabBarState extends State<BuyTabBar> {
             },
           ),
           SizedBox(
-            height: 20,
+            height: 10,
           ),
           Padding(
             padding: EdgeInsets.only(left: 15, right: 15),
@@ -546,9 +546,9 @@ class _BuyTabBarState extends State<BuyTabBar> {
           ),
           Bedroomtype(),
           SizedBox(
-            height: 20,
+            height: 10,
           ),
-                    Padding(
+          Padding(
             padding: EdgeInsets.only(left: 15, right: 15),
             child: Row(
               children: [
@@ -576,7 +576,7 @@ class _BuyTabBarState extends State<BuyTabBar> {
           ),
           Bathroomtype(),
           SizedBox(
-            height: 20,
+            height: 10,
           ),
           // Padding(
           //   padding: EdgeInsets.only(left: 15, right: 15),
@@ -708,7 +708,7 @@ class _BuyTabBarState extends State<BuyTabBar> {
                 SizedBox(
                   width: 15,
                 ),
-                 BlocBuilder<AddPropertyBloc, AddPropertyState>(
+                BlocBuilder<AddPropertyBloc, AddPropertyState>(
                   builder: (context, state) {
                     return Expanded(
                       flex: 2,
@@ -722,7 +722,7 @@ class _BuyTabBarState extends State<BuyTabBar> {
                         child: Padding(
                           padding: const EdgeInsets.only(left: 10),
                           child: TextFormField(
-                                  onChanged: (value) =>
+                            onChanged: (value) =>
                                 BlocProvider.of<AddPropertyBloc>(context).add(AddPhoneEvent(phone: value)),
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
@@ -891,7 +891,13 @@ class _BuyTabBarState extends State<BuyTabBar> {
           Padding(
             padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 20),
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => BlocProvider(
+                          create: (context) => AddPropertyBloc(),
+                          child: SelectImagesPage(),
+                        )));
+              },
               child: DottedBorder(
                 strokeWidth: 2,
                 color: ColorConfig.greyLight,

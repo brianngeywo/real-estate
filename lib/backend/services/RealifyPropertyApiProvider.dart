@@ -1,32 +1,15 @@
 import 'package:Realify/backend/models/RealifyProperty.dart';
 import 'package:Realify/presentation/my_imports.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:multi_image_picker2/multi_image_picker2.dart';
 import 'package:uuid/uuid.dart';
 
 class RealifyPropertyApiProvider {
-  var images = [
-    "https://images.unsplash.com/photo-1597799029342-ab2546a93ec6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80",
-    "https://images.unsplash.com/photo-1603123854675-665d2c6c42ba?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1498&q=80",
-    "https://images.unsplash.com/photo-1565625443865-2c41cdb647d2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80",
-  ];
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   String uuid = Uuid().v1();
-  uploadProperty(
-    proposal,
-    county,
-    category,
-    subCategory,
-    price,
-    bedrooms,
-    locality,
-    propertyName,
-    description,
-    rentalFrequency,
-    area,
-    areaUnit,
-    phone,
-    bathrooms,
-  ) async {
+  uploadProperty(proposal, county, category, subCategory, price, bedrooms, locality, propertyName, description,
+      rentalFrequency, area, areaUnit, phone, bathrooms, image, imageUrls) async {
     await firebaseFirestore.collection("rentals").doc(uuid).set({
       "area": area,
       "areaUnit": areaUnit,
@@ -36,8 +19,8 @@ class RealifyPropertyApiProvider {
       "county": county,
       "description": description,
       "details": "$bedrooms bedroom $subCategory in $locality, $county",
-      "image": images[0],
-      "images": images,
+      "image": image,
+      "images": imageUrls,
       "locality": locality,
       "location": locality + ", " + county,
       "name": propertyName,
@@ -73,5 +56,14 @@ class RealifyPropertyApiProvider {
     }).then((value) => uuid = new Uuid().v1());
     final snackBar = SnackBar(content: Text("Message sent!"));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  Future<dynamic> postImage(Asset imageFile) async {
+    String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+    String id = Uuid().v4();
+    Reference reference = FirebaseStorage.instance.ref().child("$id/$fileName");
+    UploadTask uploadTask = reference.putData((await imageFile.getByteData()).buffer.asUint8List());
+    String imagesurl = await (await uploadTask).ref.getDownloadURL();
+    return imagesurl;
   }
 }

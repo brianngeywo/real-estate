@@ -33,6 +33,7 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
   String phone = "";
   // List propertyFeatures = [];
   // List propertyFields = [];
+  List<String> imageUrls = [];
 
   RealifyProperty property;
   TabController tabController;
@@ -47,6 +48,7 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
     setState(() {});
   }
 
+  var images = [];
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -167,6 +169,12 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                       phone = state.phone;
                     });
                     print("phone: " + phone);
+                  }
+                  if (state is UploadedImagesState) {
+                    setState(() {
+                      imageUrls = state.imageUrls;
+                    });
+                    print(imageUrls);
                   }
                   // if (state is AddPropertyFeaturesState) {
                   //   propertyFeatures.add(state.value);
@@ -298,6 +306,8 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                             area: area.toLowerCase(),
                             areaUnit: areaUnit.toLowerCase(),
                             phone: phone.toLowerCase(),
+                            image: imageUrls[0],
+                            images: imageUrls,
                           ));
                         },
                         child: Text(
@@ -365,7 +375,7 @@ class _PropertytypeState extends State<Propertytype> with TickerProviderStateMix
                 onTap: (index) {
                   if (index == 0) {
                     category = "residential";
-                  } 
+                  }
                   // else if (index == 1) {
                   //   category = "commercial";
                   // }

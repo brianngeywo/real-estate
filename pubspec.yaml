@@ -21,6 +21,7 @@ dependencies:
   draggable_scrollbar_sliver: ^0.0.3
   firebase_auth: ^1.4.1
   firebase_core: ^1.3.0
+  firebase_storage: ^8.1.3
   flutter_bloc: ^7.0.1
   flutter_icons: ^1.1.0
   flutter_launcher_icons: ^0.9.0
@@ -33,8 +34,11 @@ dependencies:
   hive_flutter: ^1.1.0
   intl: ^0.17.0
   line_awesome_flutter: ^1.0.1
+  multi_image_picker2: ^5.0.2
   octicons_icon: ^0.0.2
   outline_material_icons: ^0.1.1
+  path: ^1.8.0
+  path_provider: ^2.0.2
   readmore: ^2.0.0
   shimmer: ^2.0.0
   sms_autofill: ^2.0.0

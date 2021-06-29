@@ -26,7 +26,6 @@ class SelectedBedroomEvent extends AddPropertyEvent {
   });
 }
 
-
 class SelectedBathroomEvent extends AddPropertyEvent {
   final int index;
   final String bathroom;
@@ -35,6 +34,7 @@ class SelectedBathroomEvent extends AddPropertyEvent {
     this.bathroom = "",
   });
 }
+
 class SelectedProposalEvent extends AddPropertyEvent {
   final int index;
   final String proposal;
@@ -126,8 +126,16 @@ class AddNewFieldEvent extends AddPropertyEvent {
   });
 }
 
+// ignore: must_be_immutable
+class UploadImagesEvent extends AddPropertyEvent {
+  List<String> images = <String>[];
+  UploadImagesEvent({
+    this.images = const [],
+  });
+}
+
 class UploadPropertyEvent extends AddPropertyEvent {
-    final String proposal;
+  final String proposal;
   final String county;
   final String category;
   final String subCategory;
@@ -141,6 +149,8 @@ class UploadPropertyEvent extends AddPropertyEvent {
   final String area;
   final String areaUnit;
   final String phone;
+  final String image;
+  final List<String> images;
   UploadPropertyEvent({
     @required this.proposal,
     @required this.county,
@@ -156,5 +166,7 @@ class UploadPropertyEvent extends AddPropertyEvent {
     @required this.area,
     @required this.areaUnit,
     @required this.phone,
+    @required this.image,
+    @required this.images,
   });
 }

@@ -49,7 +49,6 @@ class AddPropertySelectedPropertySubType extends AddPropertyState {
   });
 }
 
-
 class SelectedBathroomState extends AddPropertyState {
   final int index;
   final String bathroom;
@@ -58,6 +57,7 @@ class SelectedBathroomState extends AddPropertyState {
     this.bathroom = '',
   });
 }
+
 class SelectedBedroomState extends AddPropertyState {
   final int index;
   final String bedroom;
@@ -127,6 +127,12 @@ class AddedNewFieldState extends AddPropertyState {
     this.propertyFields = const [],
   });
 }
-class UploadedPropertyState extends AddPropertyState{
-  
+
+class UploadedPropertyState extends AddPropertyState {}
+
+class UploadedImagesState extends AddPropertyState {
+  List<String> imageUrls = [];
+  UploadedImagesState({
+    this.imageUrls = const [],
+  });
 }
