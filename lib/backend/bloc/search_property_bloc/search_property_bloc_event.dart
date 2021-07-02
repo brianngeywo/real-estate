@@ -59,3 +59,10 @@ class SelectedSubCategoryEvent extends SearchPropertyEvent {
     this.subcategoryTitle = "",
   });
 }
+
+class AddRentalFrequencyEvent extends SearchPropertyEvent {
+  final String frequency;
+  AddRentalFrequencyEvent({
+    this.frequency = '',
+  });
+}

@@ -1,3 +1,4 @@
+import 'package:Realify/backend/models/Property_image.dart';
 import 'package:Realify/backend/models/RealifyProperty.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:Realify/backend/bloc/add_property_bloc/add_property_bloc.dart';
@@ -6,6 +7,10 @@ import 'package:Realify/presentation/member/AddProperty/Counties.dart';
 import 'package:Realify/presentation/member/AddProperty/main.dart';
 import 'package:Realify/presentation/member/AddProperty/reusables/main.dart';
 import 'package:Realify/presentation/my_imports.dart';
+import 'package:multi_image_picker2/multi_image_picker2.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:firebase_core/firebase_core.dart' as firebase_core;
+import 'package:uuid/uuid.dart';
 
 class RentTabBar extends StatefulWidget {
   // List propertyFields;
@@ -19,20 +24,119 @@ class RentTabBar extends StatefulWidget {
 
 class _RentTabBarState extends State<RentTabBar> {
   TextEditingController locationTextEditingController = TextEditingController();
-  List propertyFeatures = [];
+  List<Asset> images = <Asset>[];
+  String _error = 'No Error Dectected';
+  List<PropertyImage> urls = <PropertyImage>[];
+  PropertyList propertyList;
+  PropertyImage propertyImage;
+  bool isUploading = false;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
   }
 
+  Future<PropertyImage> postImage(Asset imageFile) async {
+    String url;
+    String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+    String id = Uuid().v4();
+    firebase_storage.Reference reference = firebase_storage.FirebaseStorage.instance.ref("$id/$fileName");
+    firebase_storage.UploadTask uploadTask = reference.putData((await imageFile.getByteData()).buffer.asUint8List());
+    uploadTask.snapshotEvents.listen((firebase_storage.TaskSnapshot snapshot) {
+      print('Task state: ${snapshot.state}');
+      print('Progress: ${(snapshot.bytesTransferred / snapshot.totalBytes) * 100} %');
+      // BlocProvider.of<AddPropertyBloc>(context).add(UploadingImagesEvent());
+    }, onError: (e) {
+      // The final snapshot is also available on the task via `.snapshot`,
+      // this can include 2 additional states, `TaskState.error` & `TaskState.canceled`
+      print(uploadTask.snapshot);
+
+      if (e.code == 'permission-denied') {
+        print('User does not have permission to upload to this reference.');
+      }
+    });
+
+    // We can still optionally use the Future alongside the stream.
+
+    await uploadTask;
+    print('Upload complete.');
+    propertyImage = PropertyImage(url: await (await uploadTask).ref.getDownloadURL());
+    return propertyImage;
+  }
+
+  Future<PropertyList> uploadFiles(List<Asset> _images) async {
+    propertyList = PropertyList(propertyImages: await Future.wait(_images.map((_image) => postImage(_image))));
+    print("urls");
+    print(propertyList.propertyImages);
+    return propertyList;
+  }
+
+  Future<void> loadAssets() async {
+    List<Asset> resultList = <Asset>[];
+    String error = 'No Error Detected';
+
+    try {
+      resultList = await MultiImagePicker.pickImages(
+        maxImages: 30,
+        enableCamera: true,
+        selectedAssets: images,
+        cupertinoOptions: CupertinoOptions(
+          takePhotoIcon: "home",
+          doneButtonTitle: "done",
+        ),
+        materialOptions: MaterialOptions(
+          actionBarColor: "#009590",
+          actionBarTitle: "Homeland",
+          allViewTitle: "All Photos",
+          useDetailsView: false,
+          selectCircleStrokeColor: "#000000",
+        ),
+      );
+    } on Exception catch (e) {
+      error = e.toString();
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      images = resultList;
+      _error = error;
+    });
+  }
+
+  Widget buildGridView() {
+    return Container(
+      height: 1200,
+      width: 250,
+      padding: const EdgeInsets.all(8.0),
+      child: GridView.count(
+        physics: NeverScrollableScrollPhysics(),
+        crossAxisCount: 3,
+        children: List.generate(images.length, (index) {
+          Asset asset = images[index];
+          return Padding(
+            padding: const EdgeInsets.all(3.0),
+            child: AssetThumb(
+              asset: asset,
+              width: 300,
+              height: 300,
+            ),
+          );
+        }),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(children: [
-        SizedBox(
-          height: 20,
-        ),
+    return ListView(
+      children: [
+        // SizedBox(
+        //   height: 20,
+        // ),
         Padding(
           padding: EdgeInsets.only(left: 15, right: 15),
           child: Row(
@@ -281,7 +385,7 @@ class _RentTabBarState extends State<RentTabBar> {
                   color: ColorConfig.dark,
                 ),
                 decoration: InputDecoration(
-                  hintText: "Property Title",
+                  hintText: "property for rent in...",
                   hintStyle: TextStyle(
                     fontFamily: FontConfig.regular,
                     fontSize: Sizeconfig.small,
@@ -423,7 +527,7 @@ class _RentTabBarState extends State<RentTabBar> {
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
                 child: Text(
-                  "Rental Frequency",
+                  "Payment period",
                   style: TextStyle(
                     fontFamily: FontConfig.bold,
                     fontSize: Sizeconfig.medium,
@@ -732,11 +836,11 @@ class _RentTabBarState extends State<RentTabBar> {
               SizedBox(
                 width: 15,
               ),
-              BlocBuilder<AddPropertyBloc, AddPropertyState>(
-                builder: (context, state) {
-                  return Expanded(
-                    flex: 2,
-                    child: Container(
+              Expanded(
+                flex: 2,
+                child: BlocBuilder<AddPropertyBloc, AddPropertyState>(
+                  builder: (context, state) {
+                    return Container(
                       decoration: BoxDecoration(
                         border: Border.all(
                           width: 1,
@@ -760,9 +864,9 @@ class _RentTabBarState extends State<RentTabBar> {
                           ),
                         ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             ],
           ),
@@ -915,19 +1019,40 @@ class _RentTabBarState extends State<RentTabBar> {
         SizedBox(
           height: 10,
         ),
+        if (isUploading == true)
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center(
+              child: SizedBox(
+                height: 40,
+                width: 30,
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          ),
         BlocConsumer<AddPropertyBloc, AddPropertyState>(
-          listener: (context, state) {},
+          listener: (context, state) {
+            if (state is UploadingImagesState) {
+              setState(() {
+                isUploading = true;
+              });
+            }
+            if (state is UploadedImagesState) {
+              setState(() {
+                isUploading = false;
+              });
+            }
+          },
           builder: (context, state) {
-            return Padding(
+            return Container(
               padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 20),
               child: InkWell(
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => BlocProvider(
-                            create: (context) => AddPropertyBloc(),
-                            child: SelectImagesPage(),
-                          )));
-                },
+                onTap: () => loadAssets().then((value) {
+                  if (images.length > 0 && images.length != null) {
+                    uploadFiles(images).then((value) =>
+                        BlocProvider.of<AddPropertyBloc>(context).add(UploadImagesEvent(propertyList: value)));
+                  }
+                }),
                 child: DottedBorder(
                   strokeWidth: 2,
                   color: ColorConfig.greyLight,
@@ -947,8 +1072,22 @@ class _RentTabBarState extends State<RentTabBar> {
               ),
             );
           },
-        )
-      ]),
+        ),
+        images.length > 0 && images.length != null
+            ? buildGridView()
+            : Container(
+                height: 50,
+                width: double.infinity,
+                child: Center(
+                  child: Text(
+                    "no images selected",
+                    style: TextStyle(
+                      fontSize: Sizeconfig.medium,
+                    ),
+                  ),
+                ),
+              ),
+      ],
     );
   }
 }

@@ -40,13 +40,16 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                           child: ListView(
                               scrollDirection: Axis.horizontal,
                               children: widget.property.images.map((e) {
-                                return Image(
-                                  image: NetworkImage(
-                                    e,
+                                return Hero(
+                                  tag: "image-${widget.property.image}-$e",
+                                  child: Image(
+                                    image: NetworkImage(
+                                      e,
+                                    ),
+                                    height: 240,
+                                    width: 330,
+                                    fit: BoxFit.cover,
                                   ),
-                                  height: 240,
-                                  width: 330,
-                                  fit: BoxFit.cover,
                                 );
                               }).toList()
                               // [

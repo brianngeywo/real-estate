@@ -16,9 +16,9 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
   TabController tabController;
   void initState() {
     super.initState();
-    tabController = new TabController(vsync: this, length: 2);
+    tabController = new TabController(vsync: this, length: 1);
     tabController.addListener(_handleTabSelection);
-    proposal = "buy";
+    proposal = "rent";
   }
 
   void _handleTabSelection() {
@@ -32,6 +32,7 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
   String minPrice = "";
   String maxPrice = "";
   String bedrooms = "";
+  String rentalFrequency = "";
 
   @override
   Widget build(BuildContext context) {
@@ -128,6 +129,13 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                       maxPrice = state.maxPrice;
                     });
                   }
+
+                  if (state is AddRentalFrequencyState) {
+                    setState(() {
+                      rentalFrequency = state.frequency;
+                    });
+                    print("freq: " + rentalFrequency);
+                  }
                 },
                 builder: (context, state) {
                   return Container(
@@ -136,11 +144,12 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                     child: TabBar(
                       controller: tabController,
                       onTap: (value) {
+                        // if (value == 0) {
+                        //   setState(() {
+                        //     proposal = "buy";
+                        //   });
+                        // } else
                         if (value == 0) {
-                          setState(() {
-                            proposal = "buy";
-                          });
-                        } else if (value == 1) {
                           setState(() {
                             proposal = "rent";
                           });
@@ -150,31 +159,31 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                             .add((SelectedProposalEvent(index: value, proposal: proposal)));
                       },
                       tabs: [
+                        // Tab(
+                        //   child: Container(
+                        //     height: 40,
+                        //     width: MediaQuery.of(context).size.width,
+                        //     decoration: BoxDecoration(
+                        //         color: tabController.index == 0 ? ColorConfig.lightGreen : ColorConfig.light,
+                        //         borderRadius: BorderRadius.all(
+                        //           Radius.circular(3),
+                        //         ),
+                        //         border: Border.all(width: 1, color: ColorConfig.smokeLight)),
+                        //     child: Center(
+                        //       child: Text(
+                        //         "Buy",
+                        //         style: TextStyle(
+                        //             fontFamily: FontConfig.bold,
+                        //             fontSize: Sizeconfig.small,
+                        //             color: tabController.index == 0 ? ColorConfig.light : ColorConfig.grey),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                         Tab(
                           child: Container(
-                            height: 40,
-                            width: MediaQuery.of(context).size.width,
                             decoration: BoxDecoration(
                                 color: tabController.index == 0 ? ColorConfig.lightGreen : ColorConfig.light,
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(3),
-                                ),
-                                border: Border.all(width: 1, color: ColorConfig.smokeLight)),
-                            child: Center(
-                              child: Text(
-                                "Buy",
-                                style: TextStyle(
-                                    fontFamily: FontConfig.bold,
-                                    fontSize: Sizeconfig.small,
-                                    color: tabController.index == 0 ? ColorConfig.light : ColorConfig.grey),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Tab(
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: tabController.index == 1 ? ColorConfig.lightGreen : ColorConfig.light,
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(3),
                                 ),
@@ -187,7 +196,7 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                                 style: TextStyle(
                                     fontFamily: FontConfig.bold,
                                     fontSize: Sizeconfig.small,
-                                    color: tabController.index == 1 ? ColorConfig.light : ColorConfig.grey),
+                                    color: tabController.index == 0 ? ColorConfig.light : ColorConfig.grey),
                               ),
                             ),
                           ),
@@ -201,7 +210,7 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                 child: TabBarView(
                   controller: tabController,
                   children: [
-                    TabBar1(),
+                    // TabBar1(),
                     TabBar2(),
                   ],
                 ),
@@ -228,6 +237,7 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                                   bedrooms: bedrooms.isEmpty ? "studio" : bedrooms.toLowerCase(),
                                   minPrice: minPrice.isEmpty ? "0" : minPrice,
                                   maxPrice: maxPrice.isEmpty ? "50000" : maxPrice,
+                                  paymentPeriod: rentalFrequency.isEmpty ? "monthly": rentalFrequency, 
                                 )));
                   },
                   child: Text(
@@ -717,7 +727,7 @@ class _PropertytypeState extends State<Propertytype> with TickerProviderStateMix
                 onTap: (index) {
                   if (index == 0) {
                     category = "residential";
-                  } 
+                  }
                   // else if (index == 1) {
                   //   category = "commercial";
                   // }
@@ -1095,90 +1105,145 @@ class _RentaltypeState extends State<Rentaltype> with TickerProviderStateMixin {
   TabController _tabController;
   void initState() {
     super.initState();
-    _tabController = new TabController(vsync: this, length: 3);
+    _tabController = new TabController(vsync: this, length: 4);
     _tabController.addListener(_handleTabSelection);
+    rentalFrequency = "yearly";
+    BlocProvider.of<SearchPropertyBloc>(context).add(AddRentalFrequencyEvent(frequency: rentalFrequency));
   }
 
   void _handleTabSelection() {
     setState(() {});
   }
 
+  String rentalFrequency = "";
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 80,
-      width: MediaQuery.of(context).size.width,
-      child: TabBar(
-        isScrollable: true,
-        controller: _tabController,
-        tabs: [
-          Tab(
-            child: Container(
-              decoration: BoxDecoration(
-                  color: _tabController.index == 0 ? ColorConfig.lightGreen : ColorConfig.light,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(3),
-                  ),
-                  border: Border.all(width: 1, color: ColorConfig.smokeLight)),
-              height: 40,
-              width: 60,
-              child: Center(
-                child: Text(
-                  "Yearly",
-                  style: TextStyle(
-                      fontFamily: FontConfig.bold,
-                      fontSize: Sizeconfig.small,
-                      color: _tabController.index == 0 ? ColorConfig.light : ColorConfig.grey),
-                ),
-              ),
-            ),
-          ),
-          Tab(
-            child: Container(
-              decoration: BoxDecoration(
-                  color: _tabController.index == 1 ? ColorConfig.lightGreen : ColorConfig.light,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(3),
-                  ),
-                  border: Border.all(width: 1, color: ColorConfig.smokeLight)),
-              height: 40,
-              width: 60,
-              child: Center(
-                child: Text(
-                  "Monthly",
-                  style: TextStyle(
-                      fontFamily: FontConfig.bold,
-                      fontSize: Sizeconfig.small,
-                      color: _tabController.index == 1 ? ColorConfig.light : ColorConfig.grey),
-                ),
-              ),
-            ),
-          ),
-          Tab(
-            child: Container(
-              decoration: BoxDecoration(
-                  color: _tabController.index == 2 ? ColorConfig.lightGreen : ColorConfig.light,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(3),
-                  ),
-                  border: Border.all(width: 1, color: ColorConfig.smokeLight)),
-              height: 40,
-              width: 60,
-              child: Center(
-                child: Center(
-                  child: Text(
-                    "Weekly",
-                    style: TextStyle(
-                        fontFamily: FontConfig.bold,
-                        fontSize: Sizeconfig.small,
-                        color: _tabController.index == 2 ? ColorConfig.light : ColorConfig.grey),
+    return BlocBuilder<SearchPropertyBloc, SearchPropertyState>(
+      builder: (context, state) {
+        return Container(
+          height: 80,
+          width: MediaQuery.of(context).size.width,
+          child: TabBar(
+            isScrollable: true,
+            controller: _tabController,
+            onTap: (value) {
+              switch (value) {
+                case 0:
+                  setState(() {
+                    rentalFrequency = "yearly";
+                  });
+                  break;
+                case 1:
+                  setState(() {
+                    rentalFrequency = "monthly";
+                  });
+                  break;
+                case 2:
+                  setState(() {
+                    rentalFrequency = "weekly";
+                  });
+                  break;
+                case 3:
+                  setState(() {
+                    rentalFrequency = "daily";
+                  });
+                  break;
+                default:
+                  setState(() {
+                    rentalFrequency = "yearly";
+                  });
+              }
+              BlocProvider.of<SearchPropertyBloc>(context).add(AddRentalFrequencyEvent(frequency: rentalFrequency));
+            },
+            tabs: [
+              Tab(
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: _tabController.index == 0 ? ColorConfig.lightGreen : ColorConfig.light,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(3),
+                      ),
+                      border: Border.all(width: 1, color: ColorConfig.smokeLight)),
+                  height: 40,
+                  width: 60,
+                  child: Center(
+                    child: Text(
+                      "Yearly",
+                      style: TextStyle(
+                          fontFamily: FontConfig.bold,
+                          fontSize: Sizeconfig.small,
+                          color: _tabController.index == 0 ? ColorConfig.light : ColorConfig.grey),
+                    ),
                   ),
                 ),
               ),
-            ),
+              Tab(
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: _tabController.index == 1 ? ColorConfig.lightGreen : ColorConfig.light,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(3),
+                      ),
+                      border: Border.all(width: 1, color: ColorConfig.smokeLight)),
+                  height: 40,
+                  width: 60,
+                  child: Center(
+                    child: Text(
+                      "Monthly",
+                      style: TextStyle(
+                          fontFamily: FontConfig.bold,
+                          fontSize: Sizeconfig.small,
+                          color: _tabController.index == 1 ? ColorConfig.light : ColorConfig.grey),
+                    ),
+                  ),
+                ),
+              ),
+              Tab(
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: _tabController.index == 2 ? ColorConfig.lightGreen : ColorConfig.light,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(3),
+                      ),
+                      border: Border.all(width: 1, color: ColorConfig.smokeLight)),
+                  height: 40,
+                  width: 60,
+                  child: Center(
+                    child: Text(
+                      "Weekly",
+                      style: TextStyle(
+                          fontFamily: FontConfig.bold,
+                          fontSize: Sizeconfig.small,
+                          color: _tabController.index == 2 ? ColorConfig.light : ColorConfig.grey),
+                    ),
+                  ),
+                ),
+              ),
+              Tab(
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: _tabController.index == 3 ? ColorConfig.lightGreen : ColorConfig.light,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(3),
+                      ),
+                      border: Border.all(width: 1, color: ColorConfig.smokeLight)),
+                  height: 40,
+                  width: 60,
+                  child: Center(
+                    child: Text(
+                      "Daily",
+                      style: TextStyle(
+                          fontFamily: FontConfig.bold,
+                          fontSize: Sizeconfig.small,
+                          color: _tabController.index == 3 ? ColorConfig.light : ColorConfig.grey),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

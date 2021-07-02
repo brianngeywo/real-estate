@@ -1,11 +1,10 @@
-
-
 import 'package:Realify/presentation/member/AboutUs/main.dart';
 import 'package:Realify/presentation/member/AddProperty/main.dart';
 import 'package:Realify/presentation/member/ContactUs/main.dart';
 import 'package:Realify/presentation/member/MyProperties/main.dart';
 import 'package:Realify/presentation/my_imports.dart';
 import 'package:Realify/presentation/public/SignIn/main.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Data2 extends StatelessWidget {
   @override
@@ -14,8 +13,7 @@ class Data2 extends StatelessWidget {
       children: [
         InkWell(
           onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => AddProperty()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => AddProperty()));
           },
           child: Row(
             children: [
@@ -29,10 +27,7 @@ class Data2 extends StatelessWidget {
               ),
               Text(
                 MenuName.property,
-                style: TextStyle(
-                    fontFamily: FontConfig.regular,
-                    fontSize: Sizeconfig.small,
-                    color: ColorConfig.grey),
+                style: TextStyle(fontFamily: FontConfig.regular, fontSize: Sizeconfig.small, color: ColorConfig.grey),
               ),
             ],
           ),
@@ -42,8 +37,7 @@ class Data2 extends StatelessWidget {
         ),
         InkWell(
           onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => MyProperties()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => MyProperties()));
           },
           child: Row(
             children: [
@@ -57,10 +51,7 @@ class Data2 extends StatelessWidget {
               ),
               Text(
                 MenuName.myprperties,
-                style: TextStyle(
-                    fontFamily: FontConfig.regular,
-                    fontSize: Sizeconfig.small,
-                    color: ColorConfig.grey),
+                style: TextStyle(fontFamily: FontConfig.regular, fontSize: Sizeconfig.small, color: ColorConfig.grey),
               ),
             ],
           ),
@@ -151,8 +142,7 @@ class Data2 extends StatelessWidget {
         // ),
         InkWell(
           onTap: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => ContactUs()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => ContactUs()));
           },
           child: Row(
             children: [
@@ -166,10 +156,7 @@ class Data2 extends StatelessWidget {
               ),
               Text(
                 MenuName.contactus,
-                style: TextStyle(
-                    fontFamily: FontConfig.regular,
-                    fontSize: Sizeconfig.small,
-                    color: ColorConfig.grey),
+                style: TextStyle(fontFamily: FontConfig.regular, fontSize: Sizeconfig.small, color: ColorConfig.grey),
               ),
             ],
           ),
@@ -179,8 +166,7 @@ class Data2 extends StatelessWidget {
         ),
         InkWell(
           onTap: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => AboutUs()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => AboutUs()));
           },
           child: Row(
             children: [
@@ -194,10 +180,7 @@ class Data2 extends StatelessWidget {
               ),
               Text(
                 MenuName.aboutus,
-                style: TextStyle(
-                    fontFamily: FontConfig.regular,
-                    fontSize: Sizeconfig.small,
-                    color: ColorConfig.grey),
+                style: TextStyle(fontFamily: FontConfig.regular, fontSize: Sizeconfig.small, color: ColorConfig.grey),
               ),
             ],
           ),
@@ -205,31 +188,28 @@ class Data2 extends StatelessWidget {
         SizedBox(
           height: 20,
         ),
-        InkWell(
-          onTap: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => SignIn()));
-          },
-          child: Row(
-            children: [
-              Icon(
-                IconName.iconlogout,
-                size: Sizeconfig.large,
-                color: ColorConfig.grey,
-              ),
-              SizedBox(
-                width: 15,
-              ),
-              Text(
-                MenuName.logout,
-                style: TextStyle(
-                    fontFamily: FontConfig.regular,
-                    fontSize: Sizeconfig.small,
-                    color: ColorConfig.grey),
-              ),
-            ],
+        if (FirebaseAuth.instance.currentUser != null)
+          InkWell(
+            onTap: () {
+              FirebaseAuth.instance.signOut();
+            },
+            child: Row(
+              children: [
+                Icon(
+                  IconName.iconlogout,
+                  size: Sizeconfig.large,
+                  color: ColorConfig.grey,
+                ),
+                SizedBox(
+                  width: 15,
+                ),
+                Text(
+                  MenuName.logout,
+                  style: TextStyle(fontFamily: FontConfig.regular, fontSize: Sizeconfig.small, color: ColorConfig.grey),
+                ),
+              ],
+            ),
           ),
-        ),
       ],
     );
   }

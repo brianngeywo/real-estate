@@ -273,12 +273,15 @@ class _MyRecommendedListState extends State<MyRecommendedList> {
                         bottomLeft: Radius.circular(5),
                         topLeft: Radius.circular(5),
                       )),
-                      child: Image(
-                        fit: BoxFit.cover,
-                        height: 150,
-                        width: 98,
-                        image: NetworkImage(
-                          "" + widget.property.image,
+                      child: Hero(
+                        tag: "image-${widget.property.image}-${widget.property.images[0]}",
+                        child: Image(
+                          fit: BoxFit.cover,
+                          height: 150,
+                          width: 98,
+                          image: NetworkImage(
+                            "" + widget.property.images[0],
+                          ),
                         ),
                       ),
                     ),
@@ -365,7 +368,7 @@ class _MyRecommendedListState extends State<MyRecommendedList> {
                                         bottom: 3,
                                       ),
                                       child: Text(
-                                        "monthly",
+                                        widget.property.paymentPeriod,
                                         style: TextStyle(
                                           fontFamily: FontConfig.regular,
                                           color: ColorConfig.dark,

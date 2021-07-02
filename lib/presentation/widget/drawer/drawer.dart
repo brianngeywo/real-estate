@@ -17,7 +17,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
       child: Column(
         children: [
           Expanded(
-            flex: SizeConfig.isMobilePortrait ? 2 : 4,
+            flex: SizeConfig.isMobilePortrait ? 2 : 3,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -52,7 +52,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
             ),
           ),
           Expanded(
-            flex: 6,
+            flex: 7,
             child: SingleChildScrollView(
               child: Column(
                 children: [

@@ -1,11 +1,11 @@
 import 'dart:async';
 
+import 'package:Realify/backend/models/Property_image.dart';
 import 'package:Realify/backend/models/RealifyProperty.dart';
 import 'package:Realify/backend/repositories/RealifyPropertyRepository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
-import 'package:multi_image_picker2/multi_image_picker2.dart';
 
 part 'add_property_event.dart';
 part 'add_property_state.dart';
@@ -50,7 +50,7 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
       yield AddedPropertyDescriptionState(description: event.description);
     }
     if (event is AddRentalFrequencyEvent) {
-      yield AddRentalFrequencyState(frequency: event.frequency);
+      yield AddRentalFrequencyState(frequency: event.frequency.toLowerCase());
     }
     if (event is AddPropertyAreaEvent) {
       yield AddPropertyAreaState(area: event.area, areaUnit: event.areaUnit);
@@ -69,9 +69,14 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
         textEditingController: TextEditingController.fromValue(controller.value),
       );
     }
+    if (event is AddedImagesEvent) {
+      yield AddedImagesState();
+    }
+    if (event is UploadingImagesEvent) {
+      yield* _mapUploadingImagesToState(event);
+    }
     if (event is UploadImagesEvent) {
-
-      yield UploadedImagesState(imageUrls: event.images);
+      yield* _mapUploadedImagesToState(event);
     }
     if (event is UploadPropertyEvent) {
       repository.uploadProperty(
@@ -94,4 +99,14 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
       yield UploadedPropertyState();
     }
   }
+}
+
+Stream<AddPropertyState> _mapUploadedImagesToState(UploadImagesEvent event) async* {
+  print("property bloc image list");
+  print(event.propertyList.propertyImages);
+  yield UploadedImagesState(propertyList: event.propertyList);
+}
+
+Stream<AddPropertyState> _mapUploadingImagesToState(UploadingImagesEvent event) async* {
+  yield UploadingImagesState(progress: event.progress);
 }

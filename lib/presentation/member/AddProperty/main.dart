@@ -1,4 +1,5 @@
 import 'package:Realify/backend/bloc/add_property_bloc/add_property_bloc.dart';
+import 'package:Realify/backend/models/Property_image.dart';
 import 'package:Realify/backend/models/Proposal.dart';
 import 'package:Realify/backend/models/RealifyProperty.dart';
 import 'package:Realify/backend/repositories/RealifyPropertyRepository.dart';
@@ -41,7 +42,7 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
     super.initState();
     tabController = new TabController(vsync: this, length: proposalList.length);
     tabController.addListener(_handleTabSelection);
-    proposal = "buy";
+    proposal = "rent";
   }
 
   void _handleTabSelection() {
@@ -171,8 +172,12 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                     print("phone: " + phone);
                   }
                   if (state is UploadedImagesState) {
-                    setState(() {
-                      imageUrls = state.imageUrls;
+                    print("images");
+                    print(state.propertyList.propertyImages.first.url);
+                    state.propertyList.propertyImages.forEach((image) {
+                      setState(() {
+                        imageUrls.add(image.url);
+                      });
                     });
                     print(imageUrls);
                   }
@@ -198,11 +203,12 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                   return TabBar(
                     controller: tabController,
                     onTap: (value) {
-                      if (value == 0) {
-                        setState(() {
-                          proposal = "buy";
-                        });
-                      } else if (value == 1) {
+                      // if (value == 0) {
+                      //   setState(() {
+                      //     proposal = "buy";
+                      //   });
+                      // } else
+                      if (value == 1) {
                         setState(() {
                           proposal = "rent";
                         });
@@ -216,36 +222,34 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                         //   return buildTabitems(context, proposal, tabController);
                         // }).toList()
                         [
+                      // Tab(
+                      //   child: Container(
+                      //     height: 40,
+                      //     width: MediaQuery.of(context).size.width,
+                      //     decoration: BoxDecoration(
+                      //         color: tabController.index == 0 ? ColorConfig.lightGreen : ColorConfig.light,
+                      //         borderRadius: BorderRadius.all(
+                      //           Radius.circular(3),
+                      //         ),
+                      //         border: Border.all(width: 1, color: ColorConfig.smokeLight)),
+                      //     child: Center(
+                      //       child: Text(
+                      //         "Sell",
+                      //         style: TextStyle(
+                      //             fontFamily: FontConfig.bold,
+                      //             fontSize: Sizeconfig.small,
+                      //             color: tabController.index == 0 ? ColorConfig.light : ColorConfig.grey),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                       Tab(
                         child: Container(
                           height: 40,
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
                               color: tabController.index == 0 ? ColorConfig.lightGreen : ColorConfig.light,
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(3),
-                              ),
-                              border: Border.all(width: 1, color: ColorConfig.smokeLight)),
-                          child: Center(
-                            child: Text(
-                              "Sell",
-                              style: TextStyle(
-                                  fontFamily: FontConfig.bold,
-                                  fontSize: Sizeconfig.small,
-                                  color: tabController.index == 0 ? ColorConfig.light : ColorConfig.grey),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Tab(
-                        child: Container(
-                          height: 40,
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                              color: tabController.index == 1 ? ColorConfig.lightGreen : ColorConfig.light,
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(3),
-                              ),
+                              borderRadius: BorderRadius.all(Radius.circular(3)),
                               border: Border.all(width: 1, color: ColorConfig.smokeLight)),
                           child: Center(
                             child: Text(
@@ -253,7 +257,7 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                               style: TextStyle(
                                   fontFamily: FontConfig.bold,
                                   fontSize: Sizeconfig.small,
-                                  color: tabController.index == 1 ? ColorConfig.light : ColorConfig.grey),
+                                  color: tabController.index == 0 ? ColorConfig.light : ColorConfig.grey),
                             ),
                           ),
                         ),
@@ -267,9 +271,10 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                 child: TabBarView(
                   controller: tabController,
                   children: [
-                    BuyTabBar(
-                        // propertyFields: propertyFields,
-                        ),
+                    // BuyTabBar(
+                    //     // propertyFields: propertyFields,
+                    //     ),
+
                     RentTabBar(
                         // propertyFields: propertyFields,
                         ),
@@ -309,6 +314,8 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                             image: imageUrls[0],
                             images: imageUrls,
                           ));
+                          print(state);
+                          print(imageUrls);
                         },
                         child: Text(
                           'Upload Now',
@@ -457,7 +464,7 @@ class _RentaltypeState extends State<Rentaltype> with TickerProviderStateMixin {
   TabController _tabController;
   void initState() {
     super.initState();
-    _tabController = new TabController(vsync: this, length: 3);
+    _tabController = new TabController(vsync: this, length: 4);
     _tabController.addListener(_handleTabSelection);
   }
 
@@ -491,6 +498,11 @@ class _RentaltypeState extends State<Rentaltype> with TickerProviderStateMixin {
                 case 2:
                   setState(() {
                     rentalFrequency = "weekly";
+                  });
+                  break;
+                case 3:
+                  setState(() {
+                    rentalFrequency = "daily";
                   });
                   break;
                 default:
@@ -560,6 +572,27 @@ class _RentaltypeState extends State<Rentaltype> with TickerProviderStateMixin {
                           fontFamily: FontConfig.bold,
                           fontSize: Sizeconfig.small,
                           color: _tabController.index == 2 ? ColorConfig.light : ColorConfig.grey),
+                    ),
+                  ),
+                ),
+              ),
+              Tab(
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: _tabController.index == 3 ? ColorConfig.lightGreen : ColorConfig.light,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(3),
+                      ),
+                      border: Border.all(width: 1, color: ColorConfig.smokeLight)),
+                  height: 40,
+                  width: 60,
+                  child: Center(
+                    child: Text(
+                      "Daily",
+                      style: TextStyle(
+                          fontFamily: FontConfig.bold,
+                          fontSize: Sizeconfig.small,
+                          color: _tabController.index == 3 ? ColorConfig.light : ColorConfig.grey),
                     ),
                   ),
                 ),

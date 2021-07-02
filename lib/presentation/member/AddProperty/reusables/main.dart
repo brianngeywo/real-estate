@@ -1,16 +1,12 @@
-import 'dart:io';
-
 import 'package:Realify/backend/bloc/add_property_bloc/add_property_bloc.dart';
-import 'package:Realify/backend/models/RealifyProperty.dart';
 import 'package:Realify/backend/repositories/RealifyPropertyRepository.dart';
 import 'package:Realify/presentation/my_imports.dart';
 import 'package:Realify/presentation/public/Filter/reusables/main.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:multi_image_picker2/multi_image_picker2.dart';
-import 'package:path/path.dart';
 import 'package:uuid/uuid.dart';
+import 'package:firebase_core/firebase_core.dart' as firebase_core;
 
 residentialAndCommercialtabBarItems(
     AssetImage image, String itemTitle, TabController _tabController, int itemPosition) {
@@ -360,164 +356,6 @@ class _BathroomtypeState extends State<Bathroomtype> with TickerProviderStateMix
           ),
         );
       },
-    );
-  }
-}
-
-class SelectImagesPage extends StatefulWidget {
-  @override
-  _SelectImagesPageState createState() => _SelectImagesPageState();
-}
-
-class _SelectImagesPageState extends State<SelectImagesPage> {
-  List<Asset> images = <Asset>[];
-  String _error = 'No Error Dectected';
-  List<String> imageUrls = <String>[];
-  List<String> urls = <String>[];
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  Future<dynamic> postImage(Asset imageFile) async {
-    String fileName = DateTime.now().millisecondsSinceEpoch.toString();
-    String id = Uuid().v4();
-    Reference reference = FirebaseStorage.instance.ref().child("$id/$fileName");
-    UploadTask uploadTask = reference.putData((await imageFile.getByteData()).buffer.asUint8List());
-    String imagesurl = await (await uploadTask).ref.getDownloadURL();
-    return imagesurl;
-  }
-
-  Widget buildGridView() {
-    return Padding(
-      padding: const EdgeInsets.all(3.0),
-      child: GridView.count(
-        crossAxisCount: 2,
-        children: List.generate(images.length, (index) {
-          Asset asset = images[index];
-          return Padding(
-            padding: const EdgeInsets.all(3.0),
-            child: AssetThumb(
-              asset: asset,
-              width: 300,
-              height: 300,
-            ),
-          );
-        }),
-      ),
-    );
-  }
-
-  Future<void> loadAssets() async {
-    List<Asset> resultList = <Asset>[];
-    String error = 'No Error Detected';
-
-    try {
-      resultList = await MultiImagePicker.pickImages(
-        maxImages: 300,
-        enableCamera: true,
-        selectedAssets: images,
-        cupertinoOptions: CupertinoOptions(
-          takePhotoIcon: "chat",
-          doneButtonTitle: "Fatto",
-        ),
-        materialOptions: MaterialOptions(
-          actionBarColor: "#008080",
-          actionBarTitle: "Select Images",
-          allViewTitle: "All Photos",
-          useDetailsView: false,
-          selectCircleStrokeColor: "#000000",
-        ),
-      );
-    } on Exception catch (e) {
-      error = e.toString();
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      images = resultList;
-      _error = error;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      bottomSheet: InkWell(
-        onTap: loadAssets,
-        child: Container(
-          height: 50,
-          color: ColorConfig.lightGreen,
-          width: double.infinity,
-          child: Center(
-              child: Text(
-            "Click to Pick images",
-            style: TextStyle(color: ColorConfig.light, fontSize: Sizeconfig.medium),
-          )),
-        ),
-      ),
-      body: SafeArea(
-        child: BlocBuilder<AddPropertyBloc, AddPropertyState>(
-          builder: (context, state) {
-            return Column(
-              children: <Widget>[
-                // Center(child: Text('Error: ')),
-                SizedBox(height: 10),
-                if (images.length > 0)
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      width: 160,
-                      height: 40,
-                      child: MaterialButton(
-                        onPressed: () {
-                          for (var imageFile in images) {
-                            
-                            setState(() {
-                              postImage(imageFile).then((value) => imageUrls.add(value));
-                              urls = imageUrls;
-                            });
-                            print(urls);
-                            BlocProvider.of<AddPropertyBloc>(context).add(UploadImagesEvent(images: urls));
-                          }
-                          Navigator.of(context).pop();
-                        },
-                        color: ColorConfig.lightGreen,
-                        textColor: ColorConfig.light,
-                        child: Row(
-                          children: [
-                            Icon(Icons.upload),
-                            SizedBox(width: 5),
-                            Text("upload images"),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                SizedBox(height: 10),
-
-                if (images.length <= 0)
-                  Align(
-                    alignment: Alignment(0, 0),
-                    child: Text("No images selected",
-                        style: TextStyle(
-                          fontSize: Sizeconfig.large,
-                          color: ColorConfig.darkGreen,
-                          fontWeight: FontWeight.normal,
-                        )),
-                  ),
-                Flexible(
-                  child: buildGridView(),
-                )
-              ],
-            );
-          },
-        ),
-      ),
     );
   }
 }

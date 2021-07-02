@@ -53,3 +53,10 @@ class SelectedBedroomState extends SearchPropertyState {
     this.bedroom = '',
   });
 }
+
+class AddRentalFrequencyState extends SearchPropertyState {
+  final String frequency;
+  AddRentalFrequencyState({
+    this.frequency = '',
+  });
+}

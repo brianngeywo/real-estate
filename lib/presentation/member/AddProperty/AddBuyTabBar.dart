@@ -891,13 +891,7 @@ class _BuyTabBarState extends State<BuyTabBar> {
           Padding(
             padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 20),
             child: InkWell(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => BlocProvider(
-                          create: (context) => AddPropertyBloc(),
-                          child: SelectImagesPage(),
-                        )));
-              },
+              onTap: () {},
               child: DottedBorder(
                 strokeWidth: 2,
                 color: ColorConfig.greyLight,

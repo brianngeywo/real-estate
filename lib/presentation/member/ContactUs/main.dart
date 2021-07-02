@@ -361,7 +361,7 @@ class _ContactUsState extends State<ContactUs> {
                           "+254798767470",
                           style: TextStyle(
                             fontFamily: FontConfig.bold,
-                            fontSize: Sizeconfig.tiny,
+                            fontSize: Sizeconfig.small,
                             color: ColorConfig.greyDark,
                           ),
                         ),

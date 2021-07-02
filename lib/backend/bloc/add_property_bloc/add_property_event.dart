@@ -126,13 +126,22 @@ class AddNewFieldEvent extends AddPropertyEvent {
   });
 }
 
-// ignore: must_be_immutable
 class UploadImagesEvent extends AddPropertyEvent {
-  List<String> images = <String>[];
+  final PropertyList propertyList;
   UploadImagesEvent({
-    this.images = const [],
+    @required this.propertyList,
+  });
+
+}
+
+class UploadingImagesEvent extends AddPropertyEvent {
+  final double progress;
+  UploadingImagesEvent({
+    this.progress = 0.0,
   });
 }
+
+class AddedImagesEvent extends AddPropertyEvent {}
 
 class UploadPropertyEvent extends AddPropertyEvent {
   final String proposal;

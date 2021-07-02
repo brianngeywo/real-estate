@@ -24,20 +24,19 @@ class SearchPropertyBloc extends Bloc<SearchPropertyEvent, SearchPropertyState> 
       yield SearchPropertySelectedPropertySubType(index: event.index, subcategoryTitle: event.subcategoryTitle);
     }
     if (event is SelectedCountyEvent) {
-      
       yield SearchPropertySelectedCounty(county: event.county);
     }
     if (event is EnteredMinPriceEvent) {
-      
       yield EnteredMinPriceState(minPrice: event.minPrice);
     }
     if (event is EnteredMaxPriceEvent) {
-      
       yield EnteredMaxPriceState(maxPrice: event.maxPrice);
     }
     if (event is SelectedBedroomEvent) {
-      
       yield SelectedBedroomState(bedroom: event.bedroom, index: event.index);
+    }
+    if (event is AddRentalFrequencyEvent) {
+      yield AddRentalFrequencyState(frequency: event.frequency.toLowerCase());
     }
   }
 }

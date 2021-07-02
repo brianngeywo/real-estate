@@ -14,6 +14,7 @@ class ListRealify extends StatefulWidget {
   final String minPrice;
   final String maxPrice;
   final String county;
+  final String paymentPeriod;
   const ListRealify({
     Key key,
     this.proposal = '',
@@ -22,7 +23,8 @@ class ListRealify extends StatefulWidget {
     this.bedrooms = '',
     this.minPrice = '',
     this.maxPrice = '',
-    this.county ='',
+    this.county = '',
+    this.paymentPeriod = '',
   }) : super(key: key);
   @override
   _ListRealifyState createState() => _ListRealifyState();
@@ -36,6 +38,7 @@ class _ListRealifyState extends State<ListRealify> {
   static String minPrice;
   static String maxPrice;
   static String county;
+  static String paymentPeriod;
   int selectedRadio;
   void initState() {
     super.initState();
@@ -47,6 +50,7 @@ class _ListRealifyState extends State<ListRealify> {
     minPrice = widget.minPrice;
     maxPrice = widget.maxPrice;
     county = widget.county;
+    paymentPeriod = widget.paymentPeriod.toLowerCase();
   }
 
   @override
@@ -177,6 +181,7 @@ class _ListRealifyState extends State<ListRealify> {
                           .where("price", isLessThanOrEqualTo: maxPrice)
                           .where("bedrooms", isEqualTo: bedrooms)
                           .where("county", isEqualTo: county)
+                          .where("paymentPeriod", isEqualTo: paymentPeriod)
                           .get(),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting ||
@@ -230,8 +235,8 @@ class _ListRealifyState extends State<ListRealify> {
                   //     future: DefaultAssetBundle.of(context).loadString('assets/json/recommended.json'),
                   //     builder: (context, snapshot) {
                   //       var recommended_data = json.decode(snapshot.data.toString());
-                  //       
-                  //       
+                  //
+                  //
                   //       return ListView.builder(
                   //         physics: ScrollPhysics(),
                   //         itemBuilder: (BuildContext context, int index) {

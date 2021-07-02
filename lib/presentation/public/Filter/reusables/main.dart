@@ -1,4 +1,6 @@
+import 'package:Realify/backend/bloc/search_property_bloc/search_property_bloc_bloc.dart';
 import 'package:Realify/presentation/my_imports.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 residentialAndCommercialtabBarItems(
     AssetImage image, String itemTitle, TabController _tabController, int itemPosition) {

@@ -256,6 +256,36 @@ class _TabBar2State extends State<TabBar2> {
         SizedBox(
           height: 20,
         ),
+        Padding(
+          padding: EdgeInsets.only(left: 15, right: 15),
+          child: Row(
+            children: [
+              Icon(
+                MaterialCommunityIcons.av_timer,
+                size: Sizeconfig.huge,
+                color: ColorConfig.darkGreen,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Text(
+                  "Payment period",
+                  style: TextStyle(
+                    fontFamily: FontConfig.bold,
+                    fontSize: Sizeconfig.medium,
+                    color: ColorConfig.dark,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Rentaltype(),
+        SizedBox(
+          height: 10,
+        ),
         // Padding(
         //   padding: EdgeInsets.only(left: 15, right: 15),
         //   child: Row(
@@ -349,9 +379,9 @@ class _TabBar2State extends State<TabBar2> {
         //     ],
         //   ),
         // ),
-        SizedBox(
-          height: 20,
-        ),
+        // SizedBox(
+        //   height: 20,
+        // ),
         Padding(
           padding: EdgeInsets.only(left: 15, right: 15),
           child: Row(

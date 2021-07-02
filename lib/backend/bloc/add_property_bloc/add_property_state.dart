@@ -124,15 +124,25 @@ class AddedNewFieldState extends AddPropertyState {
   AddedNewFieldState({
     // @required this.propertyFeatures,
     @required this.textEditingController,
-    this.propertyFields = const [],
+    this.propertyFields,
   });
 }
 
 class UploadedPropertyState extends AddPropertyState {}
 
+class AddedImagesState extends AddPropertyState {}
+
 class UploadedImagesState extends AddPropertyState {
-  List<String> imageUrls = [];
+  final PropertyList propertyList;
   UploadedImagesState({
-    this.imageUrls = const [],
+    @required this.propertyList,
+  });
+}
+
+
+class UploadingImagesState extends AddPropertyState {
+  final double progress;
+  UploadingImagesState({
+    this.progress = 0.0,
   });
 }
