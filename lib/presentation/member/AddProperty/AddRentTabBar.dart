@@ -24,6 +24,11 @@ class RentTabBar extends StatefulWidget {
 
 class _RentTabBarState extends State<RentTabBar> {
   TextEditingController locationTextEditingController = TextEditingController();
+  TextEditingController detailsTextEditingController = TextEditingController();
+  TextEditingController priceTextEditingController = TextEditingController();
+  TextEditingController descriptionTextEditingController = TextEditingController();
+  TextEditingController areaextEditingController = TextEditingController();
+  TextEditingController phoneextEditingController = TextEditingController();
   List<Asset> images = <Asset>[];
   String _error = 'No Error Dectected';
   List<PropertyImage> urls = <PropertyImage>[];
@@ -32,7 +37,6 @@ class _RentTabBarState extends State<RentTabBar> {
   bool isUploading = false;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -376,6 +380,7 @@ class _RentTabBarState extends State<RentTabBar> {
             return Padding(
               padding: EdgeInsets.only(left: 20, right: 20),
               child: TextFormField(
+                controller: detailsTextEditingController,
                 onChanged: (value) {
                   BlocProvider.of<AddPropertyBloc>(context).add(AddPropertyTitleEvent(title: value));
                 },
@@ -409,6 +414,7 @@ class _RentTabBarState extends State<RentTabBar> {
             return Padding(
               padding: EdgeInsets.only(left: 20, right: 20),
               child: TextFormField(
+                controller: descriptionTextEditingController,
                 minLines: 1,
                 maxLines: 500,
                 onChanged: (value) {
@@ -485,6 +491,7 @@ class _RentTabBarState extends State<RentTabBar> {
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 5.0),
                   child: TextField(
+                    controller: priceTextEditingController,
                     onChanged: (value) {
                       BlocProvider.of<AddPropertyBloc>(context).add(EnteredPriceEvent(price: value));
                     },
@@ -599,6 +606,7 @@ class _RentTabBarState extends State<RentTabBar> {
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 5.0),
                         child: TextField(
+                          controller: areaextEditingController,
                           onChanged: (value) {
                             BlocProvider.of<AddPropertyBloc>(context).add(
                                 AddPropertyAreaEvent(area: value, areaUnit: areaUnit.isEmpty ? 'Sq.M.' : areaUnit));
@@ -673,6 +681,7 @@ class _RentTabBarState extends State<RentTabBar> {
           ),
         ),
         Bedroomtype(),
+
         SizedBox(
           height: 10,
         ),
@@ -703,6 +712,7 @@ class _RentTabBarState extends State<RentTabBar> {
           ),
         ),
         Bathroomtype(),
+
         SizedBox(
           height: 10,
         ),
@@ -850,6 +860,7 @@ class _RentTabBarState extends State<RentTabBar> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: TextFormField(
+                          controller: phoneextEditingController,
                           onChanged: (value) =>
                               BlocProvider.of<AddPropertyBloc>(context).add(AddPhoneEvent(phone: value)),
                           keyboardType: TextInputType.number,
@@ -1030,19 +1041,7 @@ class _RentTabBarState extends State<RentTabBar> {
               ),
             ),
           ),
-        BlocConsumer<AddPropertyBloc, AddPropertyState>(
-          listener: (context, state) {
-            if (state is UploadingImagesState) {
-              setState(() {
-                isUploading = true;
-              });
-            }
-            if (state is UploadedImagesState) {
-              setState(() {
-                isUploading = false;
-              });
-            }
-          },
+        BlocBuilder<AddPropertyBloc, AddPropertyState>(
           builder: (context, state) {
             return Container(
               padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 20),
@@ -1050,7 +1049,7 @@ class _RentTabBarState extends State<RentTabBar> {
                 onTap: () => loadAssets().then((value) {
                   if (images.length > 0 && images.length != null) {
                     uploadFiles(images).then((value) =>
-                        BlocProvider.of<AddPropertyBloc>(context).add(UploadImagesEvent(propertyList: value)));
+                        BlocProvider.of<AddPropertyBloc>(context).add(UploadingImagesEvent(propertyImagesList: value)));
                   }
                 }),
                 child: DottedBorder(

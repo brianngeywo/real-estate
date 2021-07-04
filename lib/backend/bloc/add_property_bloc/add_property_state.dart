@@ -92,8 +92,10 @@ class AddPropertyAreaState extends AddPropertyState {
 
 class AddRentalFrequencyState extends AddPropertyState {
   final String frequency;
+  final int index;
   AddRentalFrequencyState({
-    this.frequency = '',
+    @required this.frequency,
+    @required this.index,
   });
 }
 
@@ -133,16 +135,16 @@ class UploadedPropertyState extends AddPropertyState {}
 class AddedImagesState extends AddPropertyState {}
 
 class UploadedImagesState extends AddPropertyState {
-  final PropertyList propertyList;
+  final PropertyList propertyImageList;
   UploadedImagesState({
-    @required this.propertyList,
+    @required this.propertyImageList,
   });
 }
 
 
 class UploadingImagesState extends AddPropertyState {
-  final double progress;
+  final PropertyList propertyImageList;
   UploadingImagesState({
-    this.progress = 0.0,
+    @required this.propertyImageList,
   });
 }

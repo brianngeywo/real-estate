@@ -26,6 +26,7 @@ class RealifyProperty {
   String area;
   String areaUnit;
   String phone;
+  String email;
   List<String> images;
   RealifyProperty({
     // this.propertyFeatures = const [],
@@ -47,6 +48,7 @@ class RealifyProperty {
     this.area = '',
     this.areaUnit = '',
     this.phone = '',
+    this.email = '',
     this.images = const [],
   });
   // double area;
@@ -56,56 +58,58 @@ class RealifyProperty {
 
   @override
   String toString() {
-    return 'RealifyProperty(id: $id, proposal: $proposal, county: $county, name: $name, subCategoryType: $subCategoryType, categoryType: $categoryType, price: $price, bedrooms: $bedrooms, bathrooms: $bathrooms, image: $image, details: $details, description: $description, locality: $locality, location: $location, paymentPeriod: $paymentPeriod, area: $area, areaUnit: $areaUnit, phone: $phone, images: $images)';
+    return 'RealifyProperty(id: $id, proposal: $proposal, county: $county, name: $name, subCategoryType: $subCategoryType, categoryType: $categoryType, price: $price, bedrooms: $bedrooms, bathrooms: $bathrooms, image: $image, details: $details, description: $description, locality: $locality, location: $location, paymentPeriod: $paymentPeriod, area: $area, areaUnit: $areaUnit, phone: $phone, email: $email, images: $images)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-
+  
     return other is RealifyProperty &&
-        other.id == id &&
-        other.proposal == proposal &&
-        other.county == county &&
-        other.name == name &&
-        other.subCategoryType == subCategoryType &&
-        other.categoryType == categoryType &&
-        other.price == price &&
-        other.bedrooms == bedrooms &&
-        other.bathrooms == bathrooms &&
-        other.image == image &&
-        other.details == details &&
-        other.description == description &&
-        other.locality == locality &&
-        other.location == location &&
-        other.paymentPeriod == paymentPeriod &&
-        other.area == area &&
-        other.areaUnit == areaUnit &&
-        other.phone == phone &&
-        listEquals(other.images, images);
+      other.id == id &&
+      other.proposal == proposal &&
+      other.county == county &&
+      other.name == name &&
+      other.subCategoryType == subCategoryType &&
+      other.categoryType == categoryType &&
+      other.price == price &&
+      other.bedrooms == bedrooms &&
+      other.bathrooms == bathrooms &&
+      other.image == image &&
+      other.details == details &&
+      other.description == description &&
+      other.locality == locality &&
+      other.location == location &&
+      other.paymentPeriod == paymentPeriod &&
+      other.area == area &&
+      other.areaUnit == areaUnit &&
+      other.phone == phone &&
+      other.email == email &&
+      listEquals(other.images, images);
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-        proposal.hashCode ^
-        county.hashCode ^
-        name.hashCode ^
-        subCategoryType.hashCode ^
-        categoryType.hashCode ^
-        price.hashCode ^
-        bedrooms.hashCode ^
-        bathrooms.hashCode ^
-        image.hashCode ^
-        details.hashCode ^
-        description.hashCode ^
-        locality.hashCode ^
-        location.hashCode ^
-        paymentPeriod.hashCode ^
-        area.hashCode ^
-        areaUnit.hashCode ^
-        phone.hashCode ^
-        images.hashCode;
+      proposal.hashCode ^
+      county.hashCode ^
+      name.hashCode ^
+      subCategoryType.hashCode ^
+      categoryType.hashCode ^
+      price.hashCode ^
+      bedrooms.hashCode ^
+      bathrooms.hashCode ^
+      image.hashCode ^
+      details.hashCode ^
+      description.hashCode ^
+      locality.hashCode ^
+      location.hashCode ^
+      paymentPeriod.hashCode ^
+      area.hashCode ^
+      areaUnit.hashCode ^
+      phone.hashCode ^
+      email.hashCode ^
+      images.hashCode;
   }
 
   Map<String, dynamic> toMap() {
@@ -128,6 +132,7 @@ class RealifyProperty {
       'area': area,
       'areaUnit': areaUnit,
       'phone': phone,
+      'email': email,
       'images': images,
     };
   }
@@ -152,6 +157,7 @@ class RealifyProperty {
       area: map['area'],
       areaUnit: map['areaUnit'],
       phone: map['phone'],
+      email: map['email'],
       images: List<String>.from(map['images']),
     );
   }
@@ -177,6 +183,7 @@ class RealifyProperty {
       area: snapshot['area'],
       areaUnit: snapshot['areaUnit'],
       phone: snapshot['phone'],
+      email: snapshot['email'],
       images: List<String>.from(snapshot['images']),
     );
   }
@@ -204,6 +211,7 @@ class RealifyProperty {
     String area,
     String areaUnit,
     String phone,
+    String email,
     List<String> images,
   }) {
     return RealifyProperty(
@@ -225,6 +233,7 @@ class RealifyProperty {
       area: area ?? this.area,
       areaUnit: areaUnit ?? this.areaUnit,
       phone: phone ?? this.phone,
+      email: email ?? this.email,
       images: images ?? this.images,
     );
   }

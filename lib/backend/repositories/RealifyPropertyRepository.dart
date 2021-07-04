@@ -5,10 +5,42 @@ import 'package:multi_image_picker2/multi_image_picker2.dart';
 
 class RealifyPropertyRepository {
   RealifyPropertyApiProvider realifyPropertyApiProvider = RealifyPropertyApiProvider();
-  uploadProperty(proposal, county, category, subCategory, price, bedrooms, locality, propertyName, description,
-      rentalFrequency, area, areaUnit, phone, bathrooms, image,imageUrls) {
-    realifyPropertyApiProvider.uploadProperty(proposal, county, category, subCategory, price, bedrooms, locality,
-        propertyName, description, rentalFrequency, area, areaUnit, phone, bathrooms, image, imageUrls);
+  uploadProperty(
+    proposal,
+    county,
+    category,
+    subCategory,
+    price,
+    bedrooms,
+    locality,
+    propertyName,
+    description,
+    rentalFrequency,
+    area,
+    areaUnit,
+    phone,
+    bathrooms,
+    image,
+    imageUrls,
+  ) async {
+    await realifyPropertyApiProvider.uploadProperty(
+      proposal,
+      county,
+      category,
+      subCategory,
+      price,
+      bedrooms,
+      locality,
+      propertyName,
+      description,
+      rentalFrequency,
+      area,
+      areaUnit,
+      phone,
+      bathrooms,
+      image,
+      imageUrls,
+    );
     // return 200;
   }
 

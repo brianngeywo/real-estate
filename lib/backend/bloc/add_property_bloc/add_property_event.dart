@@ -85,8 +85,10 @@ class AddPropertyDescriptionEvent extends AddPropertyEvent {
 
 class AddRentalFrequencyEvent extends AddPropertyEvent {
   final String frequency;
+  final int index;
   AddRentalFrequencyEvent({
-    this.frequency = '',
+    @required this.frequency,
+    @required this.index,
   });
 }
 
@@ -127,17 +129,17 @@ class AddNewFieldEvent extends AddPropertyEvent {
 }
 
 class UploadImagesEvent extends AddPropertyEvent {
-  final PropertyList propertyList;
+  final PropertyList propertyImagesList;
   UploadImagesEvent({
-    @required this.propertyList,
+    @required this.propertyImagesList,
   });
 
 }
 
 class UploadingImagesEvent extends AddPropertyEvent {
-  final double progress;
+final PropertyList propertyImagesList;
   UploadingImagesEvent({
-    this.progress = 0.0,
+   @required this.propertyImagesList,
   });
 }
 

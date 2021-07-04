@@ -1,8 +1,8 @@
+import 'package:Realify/backend/bloc/auth_bloc/auth_bloc_bloc.dart';
 import 'package:Realify/backend/bloc/selected_radio_bloc/select_radio_button_bloc.dart';
 import 'package:Realify/backend/models/radio_list.dart';
 import 'package:Realify/presentation/member/Settings/main.dart';
 import 'package:Realify/presentation/my_imports.dart';
-import 'package:Realify/presentation/public/SignIn/main.dart';
 import 'package:Realify/presentation/public/SignUp/DropDown.dart';
 import 'package:Realify/presentation/public/SignUp/userFields.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,6 +14,8 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   int selectedRadio;
+  TextEditingController nameTextEditingController = TextEditingController();
+  TextEditingController phoneTextEditingController = TextEditingController();
 
   @override
   void initState() {
@@ -29,8 +31,11 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => SelectRadioButtonBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => SelectRadioButtonBloc()),
+        BlocProvider(create: (context) => AuthBloc()),
+      ],
       child: Scaffold(
         backgroundColor: Color.fromRGBO(255, 255, 255, 1),
         body: SafeArea(
@@ -80,7 +85,37 @@ class _SignUpState extends State<SignUp> {
                           SizedBox(
                             height: 30.0,
                           ),
-                          UserFields(),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 7.0),
+                            child: TextFormField(
+                              controller: nameTextEditingController,
+                              textAlignVertical: TextAlignVertical.center,
+                              keyboardType: TextInputType.emailAddress,
+                              style: TextStyle(
+                                color: ColorConfig.dark,
+                                fontFamily: FontConfig.regular,
+                                fontSize: Sizeconfig.small,
+                              ),
+                              cursorHeight: 20,
+                              cursorColor: ColorConfig.darkGreen,
+                              decoration: InputDecoration(
+                                  hintText: "Personal Name/Company Name",
+                                  hintStyle: TextStyle(
+                                    fontFamily: FontConfig.regular,
+                                    fontSize: Sizeconfig.small,
+                                    color: Color.fromRGBO(0, 0, 0, 0.5),
+                                  ),
+                                  suffixIcon: Padding(
+                                    padding: const EdgeInsets.only(top: 7.0),
+                                    child: Icon(
+                                      Foundation.asterisk,
+                                      color: ColorConfig.darkGreen,
+                                      size: Sizeconfig.small,
+                                    ),
+                                  ),
+                                  border: InputBorder.none),
+                            ),
+                          ),
                           SizedBox(
                             height: 30,
                           ),
@@ -114,6 +149,7 @@ class _SignUpState extends State<SignUp> {
                                   child: Padding(
                                     padding: const EdgeInsets.only(left: 10),
                                     child: TextFormField(
+                                      controller: phoneTextEditingController,
                                       keyboardType: TextInputType.number,
                                       decoration: InputDecoration(
                                         hintText: "798767470",
@@ -232,7 +268,19 @@ class _SignUpState extends State<SignUp> {
                   elevation: 0.0,
                   color: ColorConfig.darkGreen,
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => Settings()));
+                    if (nameTextEditingController.text.isNotEmpty &&
+                        nameTextEditingController.text != null &&
+                        phoneTextEditingController.text.isNotEmpty &&
+                        phoneTextEditingController.text != null &&
+                        selectedRadioOption != "select Role") {
+                      BlocProvider.of<AuthBloc>(context).add(AddUserToFirestoreEvent(
+                          name: nameTextEditingController.text,
+                          phone: phoneTextEditingController.text,
+                          role: selectedRadioOption));
+                    } else {
+                      String message = "no field should be blank";
+                      showSnackbar(message, context);
+                    }
                   },
                   child: Text(
                     "Create Account",

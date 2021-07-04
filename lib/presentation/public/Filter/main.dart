@@ -134,7 +134,7 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                     setState(() {
                       rentalFrequency = state.frequency;
                     });
-                    print("freq: " + rentalFrequency);
+                    // print("freq: " + rentalFrequency);
                   }
                 },
                 builder: (context, state) {
@@ -233,11 +233,11 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                                   propertyCategoryType:
                                       category.isEmpty ? "residential".toLowerCase() : category.toLowerCase(),
                                   propertySubCategoryType:
-                                      subCategory.isEmpty ? "apartment" : subCategory.toLowerCase(),
-                                  bedrooms: bedrooms.isEmpty ? "studio" : bedrooms.toLowerCase(),
+                                      subCategory.isEmpty ? "apartment".toLowerCase() : subCategory.toLowerCase(),
+                                  bedrooms: bedrooms.isEmpty ? "studio".toLowerCase() : bedrooms.toLowerCase(),
                                   minPrice: minPrice.isEmpty ? "0" : minPrice,
                                   maxPrice: maxPrice.isEmpty ? "50000" : maxPrice,
-                                  paymentPeriod: rentalFrequency.isEmpty ? "monthly": rentalFrequency, 
+                                  paymentPeriod: rentalFrequency.isEmpty ? "yearly".toLowerCase() : rentalFrequency,
                                 )));
                   },
                   child: Text(
@@ -854,7 +854,7 @@ class _BedroomtypeState extends State<Bedroomtype> with TickerProviderStateMixin
                   break;
                 case 2:
                   setState(() {
-                    title = "2";
+                    title = "1";
                   });
                   BlocProvider.of<SearchPropertyBloc>(context)
                       .add((SelectedBedroomEvent(index: index, bedroom: title)));
@@ -1107,8 +1107,12 @@ class _RentaltypeState extends State<Rentaltype> with TickerProviderStateMixin {
     super.initState();
     _tabController = new TabController(vsync: this, length: 4);
     _tabController.addListener(_handleTabSelection);
+    _tabController.index = 0;
     rentalFrequency = "yearly";
-    BlocProvider.of<SearchPropertyBloc>(context).add(AddRentalFrequencyEvent(frequency: rentalFrequency));
+    BlocProvider.of<SearchPropertyBloc>(context).add(AddRentalFrequencyEvent(
+      frequency: rentalFrequency,
+      index: _tabController.index,
+    ));
   }
 
   void _handleTabSelection() {
@@ -1118,7 +1122,10 @@ class _RentaltypeState extends State<Rentaltype> with TickerProviderStateMixin {
   String rentalFrequency = "";
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SearchPropertyBloc, SearchPropertyState>(
+    return BlocConsumer<SearchPropertyBloc, SearchPropertyState>(
+      listener: (context, state) {
+        if (state is AddRentalFrequencyState) {}
+      },
       builder: (context, state) {
         return Container(
           height: 80,
@@ -1153,7 +1160,8 @@ class _RentaltypeState extends State<Rentaltype> with TickerProviderStateMixin {
                     rentalFrequency = "yearly";
                   });
               }
-              BlocProvider.of<SearchPropertyBloc>(context).add(AddRentalFrequencyEvent(frequency: rentalFrequency));
+              BlocProvider.of<SearchPropertyBloc>(context)
+                  .add(AddRentalFrequencyEvent(frequency: rentalFrequency, index: _tabController.index));
             },
             tabs: [
               Tab(

@@ -12,7 +12,7 @@ class MenuName {
   static String alert = "Manage Alerts";
   static String blog = "Blog";
   static String property = "Add Property";
-  static String myprperties = "My Prperties";
+  static String myprperties = "My Properties";
   static String draft = "Draft";
   static String quota = "Quota";
   static String settings = "Settings";
@@ -31,7 +31,7 @@ class IconName {
   static IconData iconalert = Feather.bell;
   static IconData iconblog = AntDesign.message1;
   static IconData iconproperty = FontAwesome.home;
-  static IconData iconmyprperties = FontAwesome.building_o;
+  static IconData iconmyproperties = FontAwesome.building_o;
   static IconData icondraft = FontAwesome5.draft2digital;
   static IconData iconquota = Feather.pie_chart;
   static IconData iconsettings = Feather.settings;

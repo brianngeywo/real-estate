@@ -36,7 +36,7 @@ class SearchPropertyBloc extends Bloc<SearchPropertyEvent, SearchPropertyState> 
       yield SelectedBedroomState(bedroom: event.bedroom, index: event.index);
     }
     if (event is AddRentalFrequencyEvent) {
-      yield AddRentalFrequencyState(frequency: event.frequency.toLowerCase());
+      yield AddRentalFrequencyState(frequency: event.frequency.toLowerCase(), index: event.index,);
     }
   }
 }

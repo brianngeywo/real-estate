@@ -15,3 +15,9 @@ class GoogleUserSignedInState extends AuthBlocState {
     this.userid = '',
   });
 }
+
+class UserRegisteredState extends AuthBlocState {}
+
+class UserNotRegisteredState extends AuthBlocState {}
+
+class GoogleUserSignedOuState extends AuthBlocState {}

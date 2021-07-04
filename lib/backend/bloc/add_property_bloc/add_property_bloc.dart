@@ -50,7 +50,7 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
       yield AddedPropertyDescriptionState(description: event.description);
     }
     if (event is AddRentalFrequencyEvent) {
-      yield AddRentalFrequencyState(frequency: event.frequency.toLowerCase());
+      yield AddRentalFrequencyState(frequency: event.frequency.toLowerCase(),index: event.index);
     }
     if (event is AddPropertyAreaEvent) {
       yield AddPropertyAreaState(area: event.area, areaUnit: event.areaUnit);
@@ -103,10 +103,10 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
 
 Stream<AddPropertyState> _mapUploadedImagesToState(UploadImagesEvent event) async* {
   print("property bloc image list");
-  print(event.propertyList.propertyImages);
-  yield UploadedImagesState(propertyList: event.propertyList);
+  print(event.propertyImagesList.propertyImages);
+  yield UploadedImagesState(propertyImageList: event.propertyImagesList);
 }
 
 Stream<AddPropertyState> _mapUploadingImagesToState(UploadingImagesEvent event) async* {
-  yield UploadingImagesState(progress: event.progress);
+  yield UploadingImagesState(propertyImageList: event.propertyImagesList);
 }

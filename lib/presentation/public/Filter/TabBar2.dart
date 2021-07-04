@@ -10,11 +10,12 @@ class TabBar2 extends StatefulWidget {
 }
 
 class _TabBar2State extends State<TabBar2> {
+  TextEditingController minPriceTextEditingController = TextEditingController();
+  TextEditingController maxPriceTextEditingController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(children: [
-
         Padding(
           padding: EdgeInsets.only(left: 15, right: 15),
           child: Row(
@@ -41,43 +42,12 @@ class _TabBar2State extends State<TabBar2> {
             ],
           ),
         ),
-        SizedBox(height: 10),
+        // SizedBox(height: 10),
         Propertytype(),
-        SizedBox(
-          height: 20,
-        ),
-        // Padding(
-        //   padding: EdgeInsets.only(left: 15, right: 15),
-        //   child: Row(
-        //     children: [
-        //       Icon(
-        //         MaterialCommunityIcons.av_timer,
-        //         size: Sizeconfig.huge,
-        //         color: ColorConfig.darkGreen,
-        //       ),
-        //       SizedBox(
-        //         width: 10,
-        //       ),
-        //       Padding(
-        //         padding: const EdgeInsets.only(top: 8.0),
-        //         child: Text(
-        //           "Rental Frequency",
-        //           style: TextStyle(
-        //             fontFamily: FontConfig.bold,
-        //             fontSize: Sizeconfig.medium,
-        //             color: ColorConfig.dark,
-        //           ),
-        //         ),
-        //       ),
-        //     ],
-        //   ),
-        // ),
-        // Rentaltype(),
         // SizedBox(
-        //   height: 20,
+        //   height: 10,
         // ),
-
-          Container(
+        Container(
           height: 70,
           width: double.maxFinite,
           child: Padding(
@@ -129,7 +99,7 @@ class _TabBar2State extends State<TabBar2> {
           ),
         ),
         SizedBox(
-          height: 20,
+          height: 10,
         ),
         Padding(
           padding: EdgeInsets.only(left: 15, right: 15),
@@ -179,8 +149,9 @@ class _TabBar2State extends State<TabBar2> {
                         ),
                       ),
                       child: TextFormField(
-                        onChanged: (value){
-                           BlocProvider.of<SearchPropertyBloc>(context).add(EnteredMinPriceEvent(minPrice: value));
+                        controller: minPriceTextEditingController,
+                        onChanged: (value) {
+                          BlocProvider.of<SearchPropertyBloc>(context).add(EnteredMinPriceEvent(minPrice: value));
                         },
                         keyboardType: TextInputType.number,
                         style: TextStyle(
@@ -227,8 +198,9 @@ class _TabBar2State extends State<TabBar2> {
                         ),
                       ),
                       child: TextFormField(
-                        onChanged: (value){
-                           BlocProvider.of<SearchPropertyBloc>(context).add(EnteredMaxPriceEvent(maxPrice: value));
+                        controller: maxPriceTextEditingController,
+                        onChanged: (value) {
+                          BlocProvider.of<SearchPropertyBloc>(context).add(EnteredMaxPriceEvent(maxPrice: value));
                         },
                         keyboardType: TextInputType.number,
                         style: TextStyle(

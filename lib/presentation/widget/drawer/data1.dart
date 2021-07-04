@@ -53,59 +53,6 @@ class Data1 extends StatelessWidget {
             ],
           ),
         ),
-        //// added these functions temporarily
-        // SizedBox(
-        //   height: 20,
-        // ),
-        // InkWell(
-        //   onTap: () {
-        //     Navigator.push(context, MaterialPageRoute(builder: (context) => ContactUs()));
-        //   },
-        //   child: Row(
-        //     children: [
-        //       Icon(
-        //         IconName.iconcontactus,
-        //         size: Sizeconfig.large,
-        //         color: ColorConfig.grey,
-        //       ),
-        //       SizedBox(
-        //         width: 15,
-        //       ),
-        //       Text(
-        //         MenuName.contactus,
-        //         style: TextStyle(fontFamily: FontConfig.regular, fontSize: Sizeconfig.small, color: ColorConfig.grey),
-        //       ),
-        //     ],
-        //   ),
-        // ),
-        // SizedBox(
-        //   height: 20,
-        // ),
-        // InkWell(
-        //   onTap: () {
-        //     Navigator.push(context, MaterialPageRoute(builder: (context) => AboutUs()));
-        //   },
-        //   child: Row(
-        //     children: [
-        //       Icon(
-        //         IconName.iconaboutus,
-        //         size: Sizeconfig.large,
-        //         color: ColorConfig.grey,
-        //       ),
-        //       SizedBox(
-        //         width: 15,
-        //       ),
-        //       Text(
-        //         MenuName.aboutus,
-        //         style: TextStyle(fontFamily: FontConfig.regular, fontSize: Sizeconfig.small, color: ColorConfig.grey),
-        //       ),
-        //     ],
-        //   ),
-        // ),
-        // SizedBox(
-        //   height: 20,
-        // ),
-        //// added these functions temporarily
         // SizedBox(
         //   height: 20,
         // ),

@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class AuthenticationApiProvider {
   final FirebaseAuth _firebaseAuth;
@@ -43,5 +45,40 @@ class AuthenticationApiProvider {
       verificationId: verificationId,
       smsCode: verificationCode,
     );
+  }
+
+  Future<bool> checkUser() async {
+    var box = await Hive.openBox('user');
+
+    bool userPresent;
+    if (box.isOpen) {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser.uid)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        if (documentSnapshot.exists) {
+          userPresent = true;
+          print('Document exists on the database');
+          return userPresent;
+        } else {
+          userPresent = false;
+        }
+      });
+    }
+
+    return userPresent;
+  }
+
+  addUserToFirestore(String name, String phone, String role) {
+    var user = FirebaseAuth.instance.currentUser;
+    var userid = FirebaseAuth.instance.currentUser.uid;
+    FirebaseFirestore.instance.collection("users").doc(userid).set({
+      "phone": phone,
+      "user id": userid,
+      "name": name,
+      "role": role,
+      "email": user.email,
+    });
   }
 }

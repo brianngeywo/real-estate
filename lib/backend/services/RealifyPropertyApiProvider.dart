@@ -1,16 +1,23 @@
 import 'package:Realify/backend/models/RealifyProperty.dart';
 import 'package:Realify/presentation/my_imports.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:multi_image_picker2/multi_image_picker2.dart';
 import 'package:uuid/uuid.dart';
 
 class RealifyPropertyApiProvider {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  var user = FirebaseAuth.instance.currentUser;
   String uuid = Uuid().v1();
   uploadProperty(proposal, county, category, subCategory, price, bedrooms, locality, propertyName, description,
-      rentalFrequency, area, areaUnit, phone, bathrooms, image, imageUrls) async {
-    await firebaseFirestore.collection("rentals").doc(uuid).set({
+      rentalFrequency, area, areaUnit, phone, bathrooms, image, imageUrls,) async {
+    await firebaseFirestore
+        .collection("users")
+        .doc(user.uid)
+        .collection("rentals")
+        .doc(uuid)
+        .set({
       "area": area,
       "areaUnit": areaUnit,
       "bathrooms": bathrooms,
@@ -26,6 +33,7 @@ class RealifyPropertyApiProvider {
       "name": propertyName,
       "paymentPeriod": rentalFrequency,
       "phone": "254" + phone,
+      "email": user.email,
       "price": price,
       "proposal": proposal,
       "subCategoryType": subCategory,

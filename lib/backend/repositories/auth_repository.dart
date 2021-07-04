@@ -1,14 +1,11 @@
 import 'package:Realify/backend/models/phone_euth_model.dart';
 import 'package:Realify/backend/services/authentication_api_provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 
 class AuthRepository {
-  final AuthenticationApiProvider _phoneAuthFirebaseProvider;
-  AuthRepository({
-    @required AuthenticationApiProvider phoneAuthFirebaseProvider,
-  })  : assert(phoneAuthFirebaseProvider != null),
-        _phoneAuthFirebaseProvider = phoneAuthFirebaseProvider;
+  AuthenticationApiProvider _authFirebaseProvider = AuthenticationApiProvider();
 
   Future<void> verifyPhoneNumber({
     @required String phoneNumber,
@@ -17,7 +14,7 @@ class AuthRepository {
     @required onCodeSent,
     @required onCodeAutoRetrievalTimeOut,
   }) async {
-    await _phoneAuthFirebaseProvider.verifyPhoneNumber(
+    await _authFirebaseProvider.verifyPhoneNumber(
         onCodeAutoRetrievalTimeOut: onCodeAutoRetrievalTimeOut,
         onCodeSent: onCodeSent,
         onVerificaitonFailed: onVerificaitonFailed,
@@ -29,7 +26,7 @@ class AuthRepository {
     @required String smsCode,
     @required String verificationId,
   }) async {
-    final User user = await _phoneAuthFirebaseProvider.loginWithSMSVerificationCode(
+    final User user = await _authFirebaseProvider.loginWithSMSVerificationCode(
         verificationId: verificationId, smsVerficationcode: smsCode);
     if (user != null) {
       return PhoneAuthModel(
@@ -44,7 +41,7 @@ class AuthRepository {
   Future<PhoneAuthModel> verifyWithCredential({
     @required AuthCredential credential,
   }) async {
-    User user = await _phoneAuthFirebaseProvider.authenticationWithCredential(
+    User user = await _authFirebaseProvider.authenticationWithCredential(
       credential: credential,
     );
     if (user != null) {
@@ -55,5 +52,18 @@ class AuthRepository {
     } else {
       return PhoneAuthModel(phoneAuthModelState: PhoneAuthModelState.error);
     }
+  }
+
+  Future<bool> checkUser() async {
+    bool userPresent;
+    _authFirebaseProvider.checkUser().then((value) {
+      userPresent = value;
+      return userPresent;
+    });
+    return userPresent;
+  }
+
+  addUserToFirebase(String name, String phone, String role) {
+    _authFirebaseProvider.addUserToFirestore(name, phone, role);
   }
 }

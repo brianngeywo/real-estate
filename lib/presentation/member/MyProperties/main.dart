@@ -1,8 +1,11 @@
 import 'dart:convert';
 
+import 'package:Realify/backend/models/RealifyProperty.dart';
 import 'package:Realify/presentation/member/MyProperties/list.dart';
 import 'package:Realify/presentation/my_imports.dart';
-
+import 'package:Realify/presentation/public/PropertyDetails/List.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class MyProperties extends StatefulWidget {
   MyProperties({
@@ -41,7 +44,7 @@ class _MyPropertiesState extends State<MyProperties> with TickerProviderStateMix
                     child: IconButton(
                       icon: Icon(AntDesign.arrowleft),
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
                       },
                       iconSize: Sizeconfig.huge,
                       color: ColorConfig.dark,
@@ -109,50 +112,106 @@ class _MyPropertiesState extends State<MyProperties> with TickerProviderStateMix
             //     ],
             //   ),
             // ),
+
             Expanded(
-              child: FutureBuilder(
-                future: DefaultAssetBundle.of(context).loadString('assets/json/properties.json'),
-                builder: (context, snapshot) {
-                  var properties_data = json.decode(snapshot.data.toString());
-                  return ListView.builder(
-                    itemBuilder: (BuildContext context, int index) {
-                      return Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
-                            child: MyPropertiesList(
-                              properties_data: properties_data,
-                              index: index,
-                            ),
-                          ),
-                        ],
+              child: FutureBuilder<QuerySnapshot>(
+                  future: FirebaseFirestore.instance
+                      .collection("users")
+                      .doc(FirebaseAuth.instance.currentUser.uid)
+                      .collection("rentals")
+                      .get(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting ||
+                        snapshot.connectionState == ConnectionState.none) {
+                      return Center(
+                        child: SizedBox(
+                          height: 50,
+                          width: 50,
+                          child: CircularProgressIndicator(color: ColorConfig.lightGreen),
+                        ),
                       );
-                    },
-                    itemCount: properties_data == null ? 0 : properties_data.length,
-                  );
-                },
-              ),
+                    }
+                    if (snapshot.data == null || snapshot.data.docs.isEmpty) {
+                      return Center(
+                        child: SizedBox(
+                          height: 50,
+                          // width: 50,
+                          child: Text("You haven't posted any property",
+                              style: TextStyle(
+                                fontSize: Sizeconfig.large,
+                                color: ColorConfig.lightGreen,
+                                fontFamily: FontConfig.regular,
+                              )),
+                        ),
+                      );
+                    }
+                    if (snapshot.hasData) {
+                      return SingleChildScrollView(
+                        child: Column(
+                            children: snapshot.data.docs.map((element) {
+                          RealifyProperty property = RealifyProperty.fromSnapshot(element);
+
+                          return Padding(
+                            padding: EdgeInsets.only(top: 20, right: 15, left: 15),
+                            child: MyRecommendedList(
+                              property: property,
+                            ),
+                          );
+                        }).toList()),
+                      );
+                    }
+                    return Center(
+                      child: SizedBox(
+                        height: 50,
+                        width: 50,
+                        child: CircularProgressIndicator(color: ColorConfig.lightGreen),
+                      ),
+                    );
+                  }),
+
+              // FutureBuilder(
+              //   future: DefaultAssetBundle.of(context).loadString('assets/json/properties.json'),
+              //   builder: (context, snapshot) {
+              //     var properties_data = json.decode(snapshot.data.toString());
+              //     return ListView.builder(
+              //       itemBuilder: (BuildContext context, int index) {
+              //         return Column(
+              //           children: [
+              //             Padding(
+              //               padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
+              //               child: MyPropertiesList(
+              //                 properties_data: properties_data,
+              //                 index: index,
+              //               ),
+              //             ),
+              //           ],
+              //         );
+              //       },
+              //       itemCount: properties_data == null ? 0 : properties_data.length,
+              //     );
+              //   },
+              // ),
             ),
-            Container(
-              height: 68,
-              width: double.maxFinite,
-              padding: EdgeInsets.all(10),
-              color: Colors.white,
-              child: MaterialButton(
-                elevation: 0.0,
-                color: ColorConfig.darkGreen,
-                onPressed: () {},
-                child: Text(
-                  "UPLOAD ALL",
-                  style: TextStyle(
-                    color: ColorConfig.light,
-                    fontSize: Sizeconfig.small,
-                    fontFamily: FontConfig.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
+            // Container(
+            //   height: 68,
+            //   width: double.maxFinite,
+            //   padding: EdgeInsets.all(10),
+            //   color: Colors.white,
+            //   child: MaterialButton(
+            //     elevation: 0.0,
+            //     color: ColorConfig.darkGreen,
+            //     onPressed: () {},
+            //     child: Text(
+            //       "UPLOAD ALL",
+            //       style: TextStyle(
+            //         color: ColorConfig.light,
+            //         fontSize: Sizeconfig.small,
+            //         fontFamily: FontConfig.bold,
+            //       ),
+            //       textAlign: TextAlign.center,
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

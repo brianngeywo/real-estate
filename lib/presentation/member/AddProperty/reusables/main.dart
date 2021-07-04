@@ -2,11 +2,7 @@ import 'package:Realify/backend/bloc/add_property_bloc/add_property_bloc.dart';
 import 'package:Realify/backend/repositories/RealifyPropertyRepository.dart';
 import 'package:Realify/presentation/my_imports.dart';
 import 'package:Realify/presentation/public/Filter/reusables/main.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:multi_image_picker2/multi_image_picker2.dart';
-import 'package:uuid/uuid.dart';
-import 'package:firebase_core/firebase_core.dart' as firebase_core;
 
 residentialAndCommercialtabBarItems(
     AssetImage image, String itemTitle, TabController _tabController, int itemPosition) {
@@ -129,6 +125,7 @@ class _BedroomtypeState extends State<Bedroomtype> with TickerProviderStateMixin
     _tabController.addListener(_handleTabSelection);
     _tabController.index = 0;
     title = "studio";
+    BlocProvider.of<AddPropertyBloc>(context).add((SelectedBedroomEvent(index: _tabController.index, bedroom: title)));
   }
 
   void _handleTabSelection() {
@@ -140,7 +137,9 @@ class _BedroomtypeState extends State<Bedroomtype> with TickerProviderStateMixin
   Widget build(BuildContext context) {
     return BlocConsumer<AddPropertyBloc, AddPropertyState>(
       listener: (context, state) {
-        if (state is SelectedBedroomState) {}
+        if (state is SelectedBedroomState) {
+ 
+        }
       },
       builder: (context, state) {
         return Container(
@@ -165,7 +164,7 @@ class _BedroomtypeState extends State<Bedroomtype> with TickerProviderStateMixin
                   break;
                 case 2:
                   setState(() {
-                    title = "2";
+                    title = "1";
                   });
                   BlocProvider.of<AddPropertyBloc>(context).add((SelectedBedroomEvent(index: index, bedroom: title)));
                   break;
@@ -252,6 +251,8 @@ class _BathroomtypeState extends State<Bathroomtype> with TickerProviderStateMix
     _tabController.addListener(_handleTabSelection);
     _tabController.index = 0;
     title = "0";
+    BlocProvider.of<AddPropertyBloc>(context)
+        .add((SelectedBathroomEvent(index: _tabController.index, bathroom: title)));
   }
 
   void _handleTabSelection() {
@@ -262,8 +263,10 @@ class _BathroomtypeState extends State<Bathroomtype> with TickerProviderStateMix
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AddPropertyBloc, AddPropertyState>(
-      listener: (context, state) {
-        if (state is SelectedBedroomState) {}
+      listener: (context, state){
+    if(state is SelectedBathroomState){
+      
+    }
       },
       builder: (context, state) {
         return Container(

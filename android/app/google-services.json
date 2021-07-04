@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "1044337252811-3nba001rjhlh8vkaam2gbnhk10kb9b67.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fulcrum.homeland",
+            "certificate_hash": "3507a7e937df403731fdde26207f44faada147dd"
+          }
+        },
+        {
+          "client_id": "1044337252811-96br9oufrf4eoakgmi6aqj1si45ekd3h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fulcrum.homeland",
+            "certificate_hash": "668ea196326f0ba96a515fba01af357268bf0165"
+          }
+        },
+        {
           "client_id": "1044337252811-3nratr2qa0ei4hljv8ofbgi8vmem15be.apps.googleusercontent.com",
           "client_type": 3
         }

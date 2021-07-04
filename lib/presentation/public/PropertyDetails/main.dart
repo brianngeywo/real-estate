@@ -790,7 +790,8 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                     ),
                     child: InkWell(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Report(property: widget.property)));
+                        Navigator.push(
+                            context, MaterialPageRoute(builder: (context) => Report(property: widget.property)));
                       },
                       child: Row(
                         children: [
@@ -898,16 +899,13 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                     //     ),
                     //   ),
                     // ),
-                    // SizedBox(
-                    //   width: 10,
-                    // ),
                     Expanded(
                       child: MaterialButton(
                         color: ColorConfig.darkGreen,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(3),
                         ),
-                        onPressed: () => urlLauncher.launch("tel:${widget.property.phone  }"),
+                        onPressed: () => urlLauncher.launch("tel:${widget.property.phone}"),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -921,6 +919,40 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                             ),
                             Text(
                               "CALL",
+                              style: TextStyle(
+                                fontFamily: FontConfig.regular,
+                                fontSize: Sizeconfig.small,
+                                color: ColorConfig.light,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: MaterialButton(
+                        color: ColorConfig.darkGreen,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(3),
+                        ),
+                        onPressed: () => urlLauncher.launch(
+                            "mailto:${widget.property.email}?subject=ENQUIRY ON ${widget.property.name}&body=<body>"),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Ionicons.ios_call,
+                              size: Sizeconfig.huge,
+                              color: ColorConfig.lightGreen,
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              "EMAIL",
                               style: TextStyle(
                                 fontFamily: FontConfig.regular,
                                 fontSize: Sizeconfig.small,
