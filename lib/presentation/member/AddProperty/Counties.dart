@@ -8,11 +8,7 @@ class CountiesCodes extends StatefulWidget {
 }
 
 class _CountiesCodesState extends State<CountiesCodes> {
-  @override
-  void initState() {
-    super.initState();
-    BlocProvider.of<AddPropertyBloc>(context).add(SelectedCountyEvent(county: 'Nairobi'.toUpperCase()));
-  }
+
 
   List<County> listDrop = [
     County(title: "mombasa", countyCode: 1),
@@ -111,9 +107,7 @@ class _CountiesCodesState extends State<CountiesCodes> {
     // loadData();
     return BlocConsumer<AddPropertyBloc, AddPropertyState>(
       listener: (context, state) {
-        if (state is AddPropertySelectedCounty) {
-    
-        }
+        if (state is AddPropertySelectedCounty) {}
       },
       builder: (context, state) {
         return Padding(
@@ -125,7 +119,7 @@ class _CountiesCodesState extends State<CountiesCodes> {
                 elevation: 0,
                 value: _selectedLocation,
                 hint: Text(
-                  'Nairobi'.toUpperCase(),
+                  _selectedLocation == null ? "Nairobi".toUpperCase() : _selectedLocation,
                   style: TextStyle(
                     color: Color.fromRGBO(0, 0, 0, 0.7),
                   ),
@@ -145,8 +139,7 @@ class _CountiesCodesState extends State<CountiesCodes> {
                   setState(() {
                     _selectedLocation = value;
                   });
-                  BlocProvider.of<AddPropertyBloc>(context)
-                      .add(SelectedCountyEvent(county: _selectedLocation.toUpperCase()));
+                  BlocProvider.of<AddPropertyBloc>(context).add(SelectedCountyEvent(county: value.toUpperCase()));
                 },
               ),
             ));

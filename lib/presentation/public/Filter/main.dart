@@ -103,6 +103,7 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                     setState(() {
                       county = state.county;
                     });
+                    print("county $county");
                   }
                   if (state is SearchPropertySelectedPropertyType) {
                     setState(() {
@@ -113,11 +114,13 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                     setState(() {
                       subCategory = state.subcategoryTitle;
                     });
+                    print("subCategory $subCategory");
                   }
                   if (state is SelectedBedroomState) {
                     setState(() {
                       bedrooms = state.bedroom;
                     });
+                    print("beds $bedrooms");
                   }
                   if (state is EnteredMinPriceState) {
                     setState(() {
@@ -134,7 +137,7 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                     setState(() {
                       rentalFrequency = state.frequency;
                     });
-                    // print("freq: " + rentalFrequency);
+                    print("freq: " + rentalFrequency);
                   }
                 },
                 builder: (context, state) {
@@ -699,8 +702,6 @@ class _PropertytypeState extends State<Propertytype> with TickerProviderStateMix
     _tabController.addListener(_handleTabSelection);
     _tabController.index = 0;
     category = "residential";
-    BlocProvider.of<SearchPropertyBloc>(context)
-        .add((SelectedCategoryEvent(index: _tabController.index, categoryTitle: category)));
   }
 
   String category = "";
@@ -811,11 +812,6 @@ class _BedroomtypeState extends State<Bedroomtype> with TickerProviderStateMixin
     super.initState();
     _tabController = new TabController(vsync: this, length: 10);
     _tabController.addListener(_handleTabSelection);
-    _tabController.index = 0;
-    title = "studio";
-
-    BlocProvider.of<SearchPropertyBloc>(context)
-        .add((SelectedBedroomEvent(index: _tabController.index, bedroom: title)));
   }
 
   void _handleTabSelection() {
@@ -1107,12 +1103,6 @@ class _RentaltypeState extends State<Rentaltype> with TickerProviderStateMixin {
     super.initState();
     _tabController = new TabController(vsync: this, length: 4);
     _tabController.addListener(_handleTabSelection);
-    _tabController.index = 0;
-    rentalFrequency = "yearly";
-    BlocProvider.of<SearchPropertyBloc>(context).add(AddRentalFrequencyEvent(
-      frequency: rentalFrequency,
-      index: _tabController.index,
-    ));
   }
 
   void _handleTabSelection() {
@@ -1268,10 +1258,6 @@ class _ResidentialState extends State<Residential> with TickerProviderStateMixin
     super.initState();
     _tabController = new TabController(vsync: this, length: 7);
     _tabController.addListener(_handleTabSelection);
-    _tabController.index = 0;
-    subcategoryTitle = "apartment";
-    BlocProvider.of<SearchPropertyBloc>(context)
-        .add((SelectedSubCategoryEvent(index: _tabController.index, subcategoryTitle: subcategoryTitle)));
   }
 
   void _handleTabSelection() {

@@ -963,11 +963,7 @@ class _Areadrop1State extends State<Areadrop1> {
     loadData();
     return BlocConsumer<AddPropertyBloc, AddPropertyState>(
       listener: (context, state) {
-        if (state is AddPropertyAreaState) {
-          setState(() {
-            areaUnit = state.areaUnit;
-          });
-        }
+        if (state is AddPropertyAreaState) {}
       },
       builder: (context, state) {
         return Padding(

@@ -64,52 +64,52 @@ class RealifyProperty {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
+
     return other is RealifyProperty &&
-      other.id == id &&
-      other.proposal == proposal &&
-      other.county == county &&
-      other.name == name &&
-      other.subCategoryType == subCategoryType &&
-      other.categoryType == categoryType &&
-      other.price == price &&
-      other.bedrooms == bedrooms &&
-      other.bathrooms == bathrooms &&
-      other.image == image &&
-      other.details == details &&
-      other.description == description &&
-      other.locality == locality &&
-      other.location == location &&
-      other.paymentPeriod == paymentPeriod &&
-      other.area == area &&
-      other.areaUnit == areaUnit &&
-      other.phone == phone &&
-      other.email == email &&
-      listEquals(other.images, images);
+        other.id == id &&
+        other.proposal == proposal &&
+        other.county == county &&
+        other.name == name &&
+        other.subCategoryType == subCategoryType &&
+        other.categoryType == categoryType &&
+        other.price == price &&
+        other.bedrooms == bedrooms &&
+        other.bathrooms == bathrooms &&
+        other.image == image &&
+        other.details == details &&
+        other.description == description &&
+        other.locality == locality &&
+        other.location == location &&
+        other.paymentPeriod == paymentPeriod &&
+        other.area == area &&
+        other.areaUnit == areaUnit &&
+        other.phone == phone &&
+        other.email == email &&
+        listEquals(other.images, images);
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-      proposal.hashCode ^
-      county.hashCode ^
-      name.hashCode ^
-      subCategoryType.hashCode ^
-      categoryType.hashCode ^
-      price.hashCode ^
-      bedrooms.hashCode ^
-      bathrooms.hashCode ^
-      image.hashCode ^
-      details.hashCode ^
-      description.hashCode ^
-      locality.hashCode ^
-      location.hashCode ^
-      paymentPeriod.hashCode ^
-      area.hashCode ^
-      areaUnit.hashCode ^
-      phone.hashCode ^
-      email.hashCode ^
-      images.hashCode;
+        proposal.hashCode ^
+        county.hashCode ^
+        name.hashCode ^
+        subCategoryType.hashCode ^
+        categoryType.hashCode ^
+        price.hashCode ^
+        bedrooms.hashCode ^
+        bathrooms.hashCode ^
+        image.hashCode ^
+        details.hashCode ^
+        description.hashCode ^
+        locality.hashCode ^
+        location.hashCode ^
+        paymentPeriod.hashCode ^
+        area.hashCode ^
+        areaUnit.hashCode ^
+        phone.hashCode ^
+        email.hashCode ^
+        images.hashCode;
   }
 
   Map<String, dynamic> toMap() {
@@ -249,11 +249,9 @@ final residentialCategoryTypeList = [
   "Apartment",
   "Townhouse",
   "Penthouse",
-  "Villa\n compound",
-  "Hotel\nApartment",
-  "Residential\n Plot",
-  "Residential\n Floor",
-  "Residential\n Building",
+  "Villa compound",
+  "Hotel Apartment",
+  "Residential Building",
 ];
 final commercialCategoryTypeList = [
   "Office",
@@ -270,4 +268,34 @@ final commercialCategoryTypeList = [
   "Petrol station",
   "Showroom",
   "Other commercial",
+];
+final rentalFrequencyList = [
+  "daily",
+  "weekly",
+  "monthly",
+  "yearly",
+];
+final bedroomList = [
+  "studio",
+  "bedsitter",
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8+",
+];
+final bathroomList = [
+  "0",
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9+",
 ];

@@ -88,7 +88,7 @@ class AddRentalFrequencyEvent extends AddPropertyEvent {
   final int index;
   AddRentalFrequencyEvent({
     @required this.frequency,
-    @required this.index,
+    this.index=0,
   });
 }
 

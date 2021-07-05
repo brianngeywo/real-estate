@@ -201,21 +201,7 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                   if (state is UploadedPropertyState) {
                     String message = "property successfully uploaded";
                     showSnackbar(message, context);
-                    setState(() {
-                      proposal = "";
-                      county = "";
-                      category = "";
-                      subCategory = "";
-                      bedrooms = "";
-                      bathrooms = "";
-                      locality = "";
-                      propertyName = "";
-                      description = "";
-                      rentalFrequency = "";
-                      area = "";
-                      areaUnit = "";
-                      phone = "";
-                    });
+                    Navigator.of(context).pop();
                   }
                 },
                 builder: (context, state) {
@@ -318,18 +304,18 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                           if (state is! UploadingImagesState) {
                             BlocProvider.of<AddPropertyBloc>(context).add(
                               UploadPropertyEvent(
-                                proposal: proposal.toLowerCase(),
-                                county: county.toLowerCase(),
-                                category: category.toLowerCase(),
-                                subCategory: subCategory.toLowerCase(),
+                                proposal: proposal.isEmpty ? "rent" : proposal.toLowerCase(),
+                                county: county.isEmpty ? "nairobi" : county.toLowerCase(),
+                                category: category.isEmpty ? "residential" : category.toLowerCase(),
+                                subCategory: subCategory.isEmpty ? "apartment" : subCategory.toLowerCase(),
                                 price: price.toLowerCase(),
-                                bedrooms: bedrooms.toLowerCase(),
-                                bathrooms: bathrooms.toLowerCase(),
+                                bedrooms: bedrooms.isEmpty ? "studio" : bedrooms.toLowerCase(),
+                                bathrooms: bathrooms.isEmpty ? "0" : bathrooms.toLowerCase(),
                                 locality: locality.toLowerCase(),
                                 propertyName: propertyName.toLowerCase(),
                                 description: description.toLowerCase(),
-                                rentalFrequency: rentalFrequency.toLowerCase(),
-                                area: area.toLowerCase(),
+                                rentalFrequency: rentalFrequency.isEmpty ? "yearly" : rentalFrequency.toLowerCase(),
+                                area: area.isEmpty ? "0" : area.toLowerCase(),
                                 areaUnit: areaUnit.toLowerCase(),
                                 phone: phone.toLowerCase(),
                                 image: imageUrls[0],
@@ -490,10 +476,6 @@ class _RentaltypeState extends State<Rentaltype> with TickerProviderStateMixin {
     super.initState();
     _tabController = new TabController(vsync: this, length: 4);
     _tabController.addListener(_handleTabSelection);
-    _tabController.index = 0;
-    rentalFrequency = "yearly";
-    BlocProvider.of<AddPropertyBloc>(context)
-        .add(AddRentalFrequencyEvent(frequency: rentalFrequency, index: _tabController.index));
   }
 
   void _handleTabSelection() {
@@ -649,9 +631,6 @@ class _ResidentialState extends State<Residential> with TickerProviderStateMixin
     super.initState();
     _tabController = new TabController(vsync: this, length: 7);
     _tabController.addListener(_handleTabSelection);
-    subcategoryTitle = "apartment";
-    BlocProvider.of<AddPropertyBloc>(context)
-        .add((SelectedSubCategoryEvent(index: _tabController.index, subcategoryTitle: subcategoryTitle)));
   }
 
   void _handleTabSelection() {

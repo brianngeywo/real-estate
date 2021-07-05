@@ -26,7 +26,7 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
       yield AddPropertySelectedPropertyType(index: event.index, categoryTitle: event.categoryTitle);
     }
     if (event is SelectedSubCategoryEvent) {
-      yield AddPropertySelectedPropertySubType(index: event.index, subcategoryTitle: event.subcategoryTitle);
+      yield AddPropertySelectedPropertySubType(subcategoryTitle: event.subcategoryTitle);
     }
     if (event is SelectedCountyEvent) {
       yield AddPropertySelectedCounty(county: event.county);

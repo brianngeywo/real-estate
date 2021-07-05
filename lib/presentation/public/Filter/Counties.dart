@@ -12,7 +12,6 @@ class _CountiesCodesState extends State<CountiesCodes> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<SearchPropertyBloc>(context).add(SelectedCountyEvent(county: 'Nairobi'.toUpperCase()));
   }
 
   int selected = null;

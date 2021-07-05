@@ -123,9 +123,6 @@ class _BedroomtypeState extends State<Bedroomtype> with TickerProviderStateMixin
     super.initState();
     _tabController = new TabController(vsync: this, length: 10);
     _tabController.addListener(_handleTabSelection);
-    _tabController.index = 0;
-    title = "studio";
-    BlocProvider.of<AddPropertyBloc>(context).add((SelectedBedroomEvent(index: _tabController.index, bedroom: title)));
   }
 
   void _handleTabSelection() {
@@ -137,9 +134,7 @@ class _BedroomtypeState extends State<Bedroomtype> with TickerProviderStateMixin
   Widget build(BuildContext context) {
     return BlocConsumer<AddPropertyBloc, AddPropertyState>(
       listener: (context, state) {
-        if (state is SelectedBedroomState) {
- 
-        }
+        if (state is SelectedBedroomState) {}
       },
       builder: (context, state) {
         return Container(
@@ -249,10 +244,6 @@ class _BathroomtypeState extends State<Bathroomtype> with TickerProviderStateMix
     super.initState();
     _tabController = new TabController(vsync: this, length: 10);
     _tabController.addListener(_handleTabSelection);
-    _tabController.index = 0;
-    title = "0";
-    BlocProvider.of<AddPropertyBloc>(context)
-        .add((SelectedBathroomEvent(index: _tabController.index, bathroom: title)));
   }
 
   void _handleTabSelection() {
@@ -263,10 +254,8 @@ class _BathroomtypeState extends State<Bathroomtype> with TickerProviderStateMix
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AddPropertyBloc, AddPropertyState>(
-      listener: (context, state){
-    if(state is SelectedBathroomState){
-      
-    }
+      listener: (context, state) {
+        if (state is SelectedBathroomState) {}
       },
       builder: (context, state) {
         return Container(

@@ -4,12 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:Realify/backend/bloc/add_property_bloc/add_property_bloc.dart';
 import 'package:Realify/presentation/member/AddProperty/AddBuyTabBar.dart';
 import 'package:Realify/presentation/member/AddProperty/Counties.dart';
-import 'package:Realify/presentation/member/AddProperty/main.dart';
-import 'package:Realify/presentation/member/AddProperty/reusables/main.dart';
 import 'package:Realify/presentation/my_imports.dart';
 import 'package:multi_image_picker2/multi_image_picker2.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:firebase_core/firebase_core.dart' as firebase_core;
 import 'package:uuid/uuid.dart';
 
 class RentTabBar extends StatefulWidget {
@@ -22,7 +19,7 @@ class RentTabBar extends StatefulWidget {
   _RentTabBarState createState() => _RentTabBarState();
 }
 
-class _RentTabBarState extends State<RentTabBar> {
+class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMixin {
   TextEditingController locationTextEditingController = TextEditingController();
   TextEditingController detailsTextEditingController = TextEditingController();
   TextEditingController priceTextEditingController = TextEditingController();
@@ -40,6 +37,10 @@ class _RentTabBarState extends State<RentTabBar> {
     super.initState();
   }
 
+  String rentalFrequency = "daily";
+  String selectedPropertyType = "Apartment";
+  String bedrooms = "studio";
+  String bathrooms = "0";
   Future<PropertyImage> postImage(Asset imageFile) async {
     String url;
     String fileName = DateTime.now().millisecondsSinceEpoch.toString();
@@ -134,13 +135,100 @@ class _RentTabBarState extends State<RentTabBar> {
     );
   }
 
+  List<County> countyListDrop = [
+    County(title: "mombasa", countyCode: 1),
+    County(title: "Kwale", countyCode: 2),
+    County(title: "Kilifi", countyCode: 3),
+    County(title: "Tana River", countyCode: 4),
+    County(title: "Lamu", countyCode: 5),
+    County(title: "Taita Taveta", countyCode: 6),
+    County(title: "Garissa", countyCode: 7),
+    County(title: "Wajir", countyCode: 8),
+    County(title: "Mandera", countyCode: 9),
+    County(title: "Marsabit", countyCode: 10),
+    County(title: "Isiolo", countyCode: 11),
+    County(title: "Meru", countyCode: 12),
+    County(title: "Tharaka-Nithi", countyCode: 13),
+    County(title: "Embu", countyCode: 14),
+    County(title: "Kitui", countyCode: 15),
+    County(title: "Machakos", countyCode: 16),
+    County(title: "Makueni", countyCode: 17),
+    County(title: "Nyandarua", countyCode: 18),
+    County(title: "Nyeri", countyCode: 19),
+    County(title: "Kirinyaga", countyCode: 20),
+    County(title: "Murang'a", countyCode: 21),
+    County(title: "Kiambu", countyCode: 22),
+    County(title: "Turkana", countyCode: 23),
+    County(title: "West Pokot", countyCode: 24),
+    County(title: "Samburu", countyCode: 25),
+    County(title: "Trans Nzoia", countyCode: 26),
+    County(title: "Uasin Gishu", countyCode: 27),
+    County(title: "Elgeyo Marakwet", countyCode: 28),
+    County(title: "Nandi", countyCode: 29),
+    County(title: "Baringo", countyCode: 30),
+    County(title: "Laikipia", countyCode: 31),
+    County(title: "Nakuru", countyCode: 32),
+    County(title: "Narok", countyCode: 33),
+    County(title: "Kajiado", countyCode: 34),
+    County(title: "Kericho", countyCode: 35),
+    County(title: "Bomet", countyCode: 36),
+    County(title: "Kakamega", countyCode: 37),
+    County(title: "Vihiga", countyCode: 38),
+    County(title: "Bungoma", countyCode: 39),
+    County(title: "Busia", countyCode: 40),
+    County(title: "Siaya", countyCode: 41),
+    County(title: "Kisumu", countyCode: 42),
+    County(title: "Homa Bay", countyCode: 43),
+    County(title: "Migori", countyCode: 44),
+    County(title: "Kisii", countyCode: 45),
+    County(title: "Nyamira", countyCode: 46),
+    County(title: "Nairobi", countyCode: 47),
+  ];
+  String _selectedLocation;
+  int selected = null;
+  List<DropdownMenuItem<int>> listDrop = [];
+
+  void loadData() {
+    listDrop = [];
+    listDrop.add(new DropdownMenuItem(
+      child: Text(
+        'Square Metres',
+        style: TextStyle(
+          color: Color.fromRGBO(0, 0, 0, 0.7),
+        ),
+      ),
+      value: 1,
+    ));
+    listDrop.add(new DropdownMenuItem(
+      child: Text(
+        'Square Feet',
+        style: TextStyle(
+          color: Color.fromRGBO(0, 0, 0, 0.7),
+        ),
+        // overflow: TextOverflow.ellipsis,
+      ),
+      value: 2,
+    ));
+    listDrop.add(new DropdownMenuItem(
+      child: Text(
+        'Square Yard',
+        style: TextStyle(
+          color: Color.fromRGBO(0, 0, 0, 0.7),
+        ),
+        // overflow: TextOverflow.ellipsis,
+      ),
+      value: 3,
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView(
+      addAutomaticKeepAlives: true,
       children: [
-        // SizedBox(
-        //   height: 20,
-        // ),
+        SizedBox(
+          height: 10,
+        ),
         Padding(
           padding: EdgeInsets.only(left: 15, right: 15),
           child: Row(
@@ -170,7 +258,51 @@ class _RentTabBarState extends State<RentTabBar> {
         SizedBox(
           height: 10,
         ),
-        Propertytype(),
+        // Propertytype(),
+        SizedBox(
+          height: 10,
+        ),
+        BlocBuilder<AddPropertyBloc, AddPropertyState>(
+          builder: (context, state) {
+            return Wrap(
+              direction: Axis.horizontal,
+              children: residentialCategoryTypeList
+                  .map(
+                    (e) => Padding(
+                      padding: EdgeInsets.all(5),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: selectedPropertyType == e ? ColorConfig.lightGreen : ColorConfig.light,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(4),
+                          ),
+                          border: Border.all(
+                            width: 1,
+                            color: selectedPropertyType == e ? ColorConfig.lightGreen : ColorConfig.smokeDark,
+                          ),
+                        ),
+                        child: MaterialButton(
+                          elevation: 0,
+                          onPressed: () {
+                            print(e);
+                            setState(() {
+                              selectedPropertyType = e;
+                            });
+                            BlocProvider.of<AddPropertyBloc>(context)
+                                .add((SelectedSubCategoryEvent(subcategoryTitle: e)));
+                          },
+                          color: Colors.transparent,
+                          textColor: selectedPropertyType == e ? ColorConfig.light : ColorConfig.grey,
+                          child: Text(e),
+                        ),
+                      ),
+                    ),
+                  )
+                  .toList(),
+            );
+          },
+        ),
+
         SizedBox(
           height: 10,
         ),
@@ -229,7 +361,47 @@ class _RentTabBarState extends State<RentTabBar> {
                       ),
                       Flexible(
                         fit: FlexFit.tight,
-                        child: CountiesCodes(),
+                        child: BlocConsumer<AddPropertyBloc, AddPropertyState>(
+                          listener: (context, state) {
+                            if (state is AddPropertySelectedCounty) {}
+                          },
+                          builder: (context, state) {
+                            return Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: DropdownButtonHideUnderline(
+                                  child: DropdownButton(
+                                    // itemHeight: 2,
+                                    iconSize: 25,
+                                    elevation: 0,
+                                    value: _selectedLocation,
+                                    hint: Text(
+                                      _selectedLocation == null ? "Nairobi".toUpperCase() : _selectedLocation,
+                                      style: TextStyle(
+                                        color: Color.fromRGBO(0, 0, 0, 0.7),
+                                      ),
+                                    ),
+                                    items: countyListDrop.map((e) {
+                                      return DropdownMenuItem(
+                                        child: Text(
+                                          e.title.toUpperCase(),
+                                          style: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 0.7),
+                                          ),
+                                        ),
+                                        value: e.title,
+                                      );
+                                    }).toList(),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _selectedLocation = value;
+                                      });
+                                      BlocProvider.of<AddPropertyBloc>(context)
+                                          .add(SelectedCountyEvent(county: value.toUpperCase()));
+                                    },
+                                  ),
+                                ));
+                          },
+                        ),
                         // child: TextField(
                         //   style: TextStyle(
                         //     fontFamily: FontConfig.regular,
@@ -390,7 +562,7 @@ class _RentTabBarState extends State<RentTabBar> {
                   color: ColorConfig.dark,
                 ),
                 decoration: InputDecoration(
-                  hintText: "property for rent in...",
+                  hintText: "property title",
                   hintStyle: TextStyle(
                     fontFamily: FontConfig.regular,
                     fontSize: Sizeconfig.small,
@@ -545,7 +717,53 @@ class _RentTabBarState extends State<RentTabBar> {
             ],
           ),
         ),
-        Rentaltype(),
+        // Rentaltype(),
+        SizedBox(
+          height: 10,
+        ),
+        BlocBuilder<AddPropertyBloc, AddPropertyState>(
+          builder: (context, state) {
+            return Container(
+              height: 60,
+              width: double.infinity,
+              padding: EdgeInsets.only(left: 10, top: 10),
+              child: Wrap(
+                children: rentalFrequencyList
+                    .map(
+                      (e) => Container(
+                        margin: EdgeInsets.symmetric(horizontal: 6),
+                        decoration: BoxDecoration(
+                            color: rentalFrequency == e ? ColorConfig.lightGreen : ColorConfig.light,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(3),
+                            ),
+                            border: Border.all(width: 1, color: ColorConfig.smokeLight)),
+                        height: 40,
+                        width: 60,
+                        child: InkWell(
+                          onTap: () {
+                            setState(() {
+                              rentalFrequency = e;
+                            });
+                            BlocProvider.of<AddPropertyBloc>(context).add(AddRentalFrequencyEvent(frequency: e));
+                          },
+                          child: Center(
+                            child: Text(
+                              e,
+                              style: TextStyle(
+                                  fontFamily: FontConfig.bold,
+                                  fontSize: Sizeconfig.small,
+                                  color: rentalFrequency == e ? ColorConfig.light : ColorConfig.grey),
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                    .toList(),
+              ),
+            );
+          },
+        ),
         SizedBox(
           height: 10,
         ),
@@ -643,7 +861,52 @@ class _RentTabBarState extends State<RentTabBar> {
                             color: ColorConfig.smokeLight,
                           ),
                           borderRadius: BorderRadius.circular(3)),
-                      child: Areadrop1(),
+                      child: BlocConsumer<AddPropertyBloc, AddPropertyState>(
+                        listener: (context, state) {
+                          if (state is AddPropertyAreaState) {}
+                        },
+                        builder: (context, state) {
+                          return Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton(
+                                  // itemHeight: 2,
+                                  iconSize: 25,
+                                  elevation: 0,
+                                  value: selected,
+                                  hint: Text(
+                                    'Square Metres',
+                                    style: TextStyle(
+                                      color: Color.fromRGBO(0, 0, 0, 0.7),
+                                    ),
+                                  ),
+                                  items: listDrop,
+                                  onChanged: (value) {
+                                    selected = value;
+                                    setState(() {
+                                      switch (value) {
+                                        case 1:
+                                          BlocProvider.of<AddPropertyBloc>(context)
+                                              .add(AddPropertyAreaEvent(areaUnit: 'Sq.M.'));
+                                          break;
+                                        case 2:
+                                          BlocProvider.of<AddPropertyBloc>(context)
+                                              .add(AddPropertyAreaEvent(areaUnit: 'Sq.Ft.'));
+                                          break;
+                                        case 3:
+                                          BlocProvider.of<AddPropertyBloc>(context)
+                                              .add(AddPropertyAreaEvent(areaUnit: 'Sq.Yd'));
+                                          break;
+                                        default:
+                                          BlocProvider.of<AddPropertyBloc>(context)
+                                              .add(AddPropertyAreaEvent(areaUnit: 'Sq.M.'));
+                                      }
+                                    });
+                                  },
+                                ),
+                              ));
+                        },
+                      ),
                     ),
                   ),
                 ],
@@ -680,8 +943,50 @@ class _RentTabBarState extends State<RentTabBar> {
             ],
           ),
         ),
-        Bedroomtype(),
-
+        // Bedroomtype(),
+        BlocBuilder<AddPropertyBloc, AddPropertyState>(
+          builder: (context, state) {
+            return Container(
+              // height: 60,
+              width: double.infinity,
+              padding: EdgeInsets.only(left: 10, top: 10),
+              child: Wrap(
+                children: bedroomList
+                    .map(
+                      (e) => Container(
+                        margin: EdgeInsets.symmetric(horizontal: 6, vertical: 6),
+                        decoration: BoxDecoration(
+                            color: bedrooms == e ? ColorConfig.lightGreen : ColorConfig.light,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(3),
+                            ),
+                            border: Border.all(width: 1, color: ColorConfig.smokeLight)),
+                        height: 40,
+                        width: 60,
+                        child: InkWell(
+                          onTap: () {
+                            setState(() {
+                              bedrooms = e;
+                            });
+                            BlocProvider.of<AddPropertyBloc>(context).add(SelectedBedroomEvent(bedroom: bedrooms));
+                          },
+                          child: Center(
+                            child: Text(
+                              e,
+                              style: TextStyle(
+                                  fontFamily: FontConfig.bold,
+                                  fontSize: Sizeconfig.small,
+                                  color: bedrooms == e ? ColorConfig.light : ColorConfig.grey),
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                    .toList(),
+              ),
+            );
+          },
+        ),
         SizedBox(
           height: 10,
         ),
@@ -711,8 +1016,49 @@ class _RentTabBarState extends State<RentTabBar> {
             ],
           ),
         ),
-        Bathroomtype(),
-
+        // Bathroomtype(),
+        BlocBuilder<AddPropertyBloc, AddPropertyState>(
+          builder: (context, state) {
+            return Container(
+              width: double.infinity,
+              padding: EdgeInsets.only(left: 10, top: 10),
+              child: Wrap(
+                children: bathroomList
+                    .map(
+                      (e) => Container(
+                        margin: EdgeInsets.symmetric(horizontal: 6, vertical: 6),
+                        decoration: BoxDecoration(
+                            color: bathrooms == e ? ColorConfig.lightGreen : ColorConfig.light,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(3),
+                            ),
+                            border: Border.all(width: 1, color: ColorConfig.smokeLight)),
+                        height: 40,
+                        width: 60,
+                        child: InkWell(
+                          onTap: () {
+                            setState(() {
+                              bathrooms = e;
+                            });
+                            BlocProvider.of<AddPropertyBloc>(context).add(SelectedBathroomEvent(bathroom: bathrooms));
+                          },
+                          child: Center(
+                            child: Text(
+                              e,
+                              style: TextStyle(
+                                  fontFamily: FontConfig.bold,
+                                  fontSize: Sizeconfig.small,
+                                  color: bathrooms == e ? ColorConfig.light : ColorConfig.grey),
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                    .toList(),
+              ),
+            );
+          },
+        ),
         SizedBox(
           height: 10,
         ),
@@ -978,7 +1324,6 @@ class _RentTabBarState extends State<RentTabBar> {
         //     }
         //   },
         // ),
-
         // SizedBox(
         //   height: 20,
         // ),
@@ -1041,15 +1386,42 @@ class _RentTabBarState extends State<RentTabBar> {
               ),
             ),
           ),
-        BlocBuilder<AddPropertyBloc, AddPropertyState>(
+        if (isUploading == true)
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center(
+              child: Text("PLease wait while Saving images..."),
+            ),
+          ),
+        if (isUploading == true)
+          SizedBox(
+            height: 5,
+          ),
+        BlocConsumer<AddPropertyBloc, AddPropertyState>(
+          listener: (context, state) {
+            if (state is UploadingImagesState) {
+              setState(() {
+                isUploading = false;
+              });
+            }
+            if (state is UploadedImagesState) {
+              setState(() {
+                isUploading = false;
+              });
+            }
+          },
           builder: (context, state) {
             return Container(
               padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 20),
               child: InkWell(
                 onTap: () => loadAssets().then((value) {
                   if (images.length > 0 && images.length != null) {
-                    uploadFiles(images).then((value) =>
-                        BlocProvider.of<AddPropertyBloc>(context).add(UploadingImagesEvent(propertyImagesList: value)));
+                    uploadFiles(images).then((value) {
+                      setState(() {
+                        isUploading = true;
+                      });
+                      BlocProvider.of<AddPropertyBloc>(context).add(UploadingImagesEvent(propertyImagesList: value));
+                    });
                   }
                 }),
                 child: DottedBorder(
@@ -1089,4 +1461,8 @@ class _RentTabBarState extends State<RentTabBar> {
       ],
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
