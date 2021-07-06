@@ -295,7 +295,7 @@ class _TabBar2State extends State<TabBar2> {
                         ),
                         decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: "Amount",
+                          hintText: "From Kshs",
                           hintStyle: TextStyle(
                             fontFamily: FontConfig.regular,
                             color: ColorConfig.dark,
@@ -344,7 +344,7 @@ class _TabBar2State extends State<TabBar2> {
                         ),
                         decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: "Amount",
+                          hintText: "To Kshs",
                           hintStyle: TextStyle(
                             fontFamily: FontConfig.regular,
                             color: ColorConfig.dark,

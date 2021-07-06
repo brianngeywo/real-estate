@@ -604,6 +604,36 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                     ),
                   ),
                   Padding(
+                    padding: const EdgeInsets.only(top: 20, left: 20, right: 15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Contact phone number",
+                          style: TextStyle(
+                            fontFamily: FontConfig.regular,
+                            fontSize: Sizeconfig.small,
+                            color: ColorConfig.dark,
+                          ),
+                        ),
+                        Text(
+                          "+254" + widget.property.phone,
+                          style: TextStyle(
+                            fontFamily: FontConfig.bold,
+                            fontSize: Sizeconfig.small,
+                            color: ColorConfig.dark,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20, right: 15),
+                    child: Divider(
+                      color: ColorConfig.grey.withOpacity(0.3),
+                    ),
+                  ),
+                  Padding(
                     padding: const EdgeInsets.only(top: 30, left: 20, right: 15),
                     child: Text(
                       "Description",
@@ -905,7 +935,7 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(3),
                         ),
-                        onPressed: () => urlLauncher.launch("tel:${widget.property.phone}"),
+                        onPressed: () => urlLauncher.launch("tel:+254${widget.property.phone}"),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -939,7 +969,7 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                           borderRadius: BorderRadius.circular(3),
                         ),
                         onPressed: () => urlLauncher.launch(
-                            "mailto:${widget.property.email}?subject=ENQUIRY ON ${widget.property.name}&body=<body>"),
+                            "mailto:${widget.property.email}?subject=ENQUIRY ON ${widget.property.name.toUpperCase()}&body=<body>"),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

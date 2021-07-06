@@ -6,8 +6,10 @@ import 'package:Realify/presentation/member/MyProperties/main.dart';
 import 'package:Realify/presentation/my_imports.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class Data2 extends StatelessWidget {
+  var box = Hive.box("device details");
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -16,8 +18,7 @@ class Data2 extends StatelessWidget {
           return Column(
             children: [
               snapshot.hasData
-                  ? 
-                  InkWell(
+                  ? InkWell(
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => AddProperty()));
                       },
@@ -232,6 +233,32 @@ class Data2 extends StatelessWidget {
                       },
                     )
                   : Container(),
+                  SizedBox(height: 20),
+              box.isOpen
+                  ? Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "VERSION",
+                            style: TextStyle(
+                                fontFamily: FontConfig.regular, fontSize: Sizeconfig.small, color: ColorConfig.grey),
+                          ),
+                          SizedBox(
+                            width: 15,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: Text(
+                              box.get("version"),
+                              style: TextStyle(
+                                  fontFamily: FontConfig.regular, fontSize: Sizeconfig.small, color: ColorConfig.grey),
+                            ),
+                          ),
+                        ],
+                      ),
+                  )
+                  : SizedBox(height: 0),
             ],
           );
         });

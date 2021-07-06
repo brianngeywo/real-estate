@@ -76,7 +76,7 @@ class _UpdatePropertyState extends State<UpdateProperty> with TickerProviderStat
                     Align(
                       alignment: Alignment(0, 0.1),
                       child: Text(
-                      widget.property.name,
+                        widget.property.name,
                         style: TextStyle(
                           fontFamily: FontConfig.bold,
                           fontSize: Sizeconfig.medium,
@@ -173,6 +173,8 @@ class _UpdatePropertyState extends State<UpdateProperty> with TickerProviderStat
                   if (state is UploadingImagesState) {
                     BlocProvider.of<UpdatePropertyBloc>(context)
                         .add(UploadImagesEvent(propertyImagesList: state.propertyImageList));
+                    print("property images in state");
+                    print(state.propertyImageList);
                   }
                   if (state is UploadedImagesState) {
                     print("images");
@@ -321,9 +323,12 @@ class _UpdatePropertyState extends State<UpdateProperty> with TickerProviderStat
                                 area: area.isEmpty ? widget.property.area : area.toLowerCase(),
                                 areaUnit: widget.property.areaUnit,
                                 phone: phone.isEmpty ? widget.property.phone : phone.toLowerCase(),
-                                image:
-                                    imageUrls.isEmpty || imageUrls == null ? widget.property.images[0] : imageUrls[0],
-                                images: imageUrls.isEmpty || imageUrls == null ? widget.property.images : imageUrls,
+                                image: imageUrls.length <= 0 || imageUrls.length == null
+                                    ? widget.property.images[0]
+                                    : imageUrls[0],
+                                images: imageUrls.length <= 0 || imageUrls.length == null
+                                    ? widget.property.images
+                                    : imageUrls,
                                 county: widget.property.county,
                                 locality: widget.property.locality,
                                 propertyId: widget.property.id,

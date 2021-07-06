@@ -98,6 +98,8 @@ Stream<UpdatePropertyState> _mapUploadedImagesToState(UploadImagesEvent event) a
 }
 
 Stream<UpdatePropertyState> _mapUploadingImagesToState(UploadingImagesEvent event) async* {
+  print("property bloc image list");
+  print(event.propertyImagesList.propertyImages);
   yield UploadingImagesState(propertyImageList: event.propertyImagesList);
 }
 

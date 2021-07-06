@@ -4,6 +4,8 @@ import 'package:Realify/presentation/my_imports.dart';
 import 'package:Realify/presentation/public/Filter/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class HomePage extends StatefulWidget {
   final RealifyPropertyRepository realifyPropertyRepository;
@@ -17,6 +19,35 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  getDeviceDetails() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    var box = await Hive.openBox("device details");
+    String version = packageInfo.version;
+    String buildNumber = packageInfo.buildNumber;
+    box.putAll({
+      "version": version,
+      "build number": buildNumber,
+    });
+  }
+
+  closeDeviceDetails() async {
+    var box = await Hive.openBox("device details");
+    await box.clear();
+    await box.close();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getDeviceDetails();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    closeDeviceDetails();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -90,7 +121,7 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                       Center(
                                         child: Text(
-                                          "Find rentals easily",
+                                          "Linking tenants with rental landlords",
                                           style: TextStyle(
                                               fontFamily: FontConfig.bold,
                                               fontSize: Sizeconfig.small,

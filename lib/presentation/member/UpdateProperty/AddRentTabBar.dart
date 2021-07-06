@@ -255,7 +255,9 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
                           ),
                           border: Border.all(
                             width: 1,
-                            color: selectedPropertyType == e.toLowerCase() ? ColorConfig.lightGreen : ColorConfig.smokeDark,
+                            color: selectedPropertyType == e.toLowerCase()
+                                ? ColorConfig.lightGreen
+                                : ColorConfig.smokeDark,
                           ),
                         ),
                         child: MaterialButton(
@@ -1140,35 +1142,40 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
         SizedBox(
           height: 10,
         ),
-        if (isUploading == true)
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center(
-              child: SizedBox(
-                height: 40,
-                width: 40,
-                child: CircularProgressIndicator(),
+        isUploading
+            ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: SizedBox(
+                    height: 40,
+                    width: 40,
+                    child: CircularProgressIndicator(),
+                  ),
+                ),
+              )
+            : SizedBox(height: 0),
+        isUploading
+            ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: Text("Please wait while Updating images..."),
+                ),
+              )
+            : SizedBox(
+                height: 0,
               ),
-            ),
-          ),
-        if (isUploading == true)
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center(
-              child: Text("Please wait while Updating images..."),
-            ),
-          ),
-        if (isUploading == true)
-          SizedBox(
-            height: 5,
-          ),
+        isUploading
+            ? SizedBox(
+                height: 5,
+              )
+            : SizedBox(height: 0),
         BlocConsumer<UpdatePropertyBloc, UpdatePropertyState>(
           listener: (context, state) {
-            if (state is UploadingImagesState) {
-              setState(() {
-                isUploading = true;
-              });
-            }
+            // if (state is UploadingImagesState) {
+            //   setState(() {
+            //     isUploading = true;
+            //   });
+            // }
             if (state is UploadedImagesState) {
               setState(() {
                 isUploading = false;
@@ -1179,16 +1186,19 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
             return Container(
               padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 20),
               child: InkWell(
-                onTap: () => loadAssets().then((value) {
-                  if (images.length > 0 && images.length != null) {
-                    setState(() {
-                      isUploading = true;
-                    });
-                    uploadFiles(images).then((value) {
-                      BlocProvider.of<UpdatePropertyBloc>(context).add(UploadingImagesEvent(propertyImagesList: value));
-                    });
-                  }
-                }),
+                onTap: () {
+                  setState(() {
+                    isUploading = true;
+                  });
+                  loadAssets().then((value) {
+                    if (images.length > 0) {
+                      uploadFiles(images).then((value) {
+                        BlocProvider.of<UpdatePropertyBloc>(context)
+                            .add(UploadingImagesEvent(propertyImagesList: value));
+                      });
+                    }
+                  });
+                },
                 child: DottedBorder(
                   strokeWidth: 2,
                   color: ColorConfig.greyLight,
@@ -1209,7 +1219,7 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
             );
           },
         ),
-        images.length > 0 && images.length != null ? buildGridView() : buildCurrentGridView()
+        images.length > 0 ? buildGridView() : buildCurrentGridView()
       ],
     );
   }

@@ -45,10 +45,7 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
             children: [
               Container(
                 color: Colors.white,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
+                   child: Row(
                       children: [
                         Align(
                           alignment: Alignment(0, 0.1),
@@ -74,22 +71,20 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                         ),
                       ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 15.0),
-                      child: InkWell(
-                        onTap: () {},
-                        child: Text(
-                          "Reset",
-                          style: TextStyle(
-                            fontFamily: FontConfig.regular,
-                            fontSize: Sizeconfig.small,
-                            color: ColorConfig.darkGreen,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                    // Padding(
+                    //   padding: const EdgeInsets.only(right: 15.0),
+                    //   child: InkWell(
+                    //     onTap: () {},
+                    //     child: Text(
+                    //       "Reset",
+                    //       style: TextStyle(
+                    //         fontFamily: FontConfig.regular,
+                    //         fontSize: Sizeconfig.small,
+                    //         color: ColorConfig.darkGreen,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
               ),
               Container(height: 1, width: double.maxFinite, color: ColorConfig.grey.withOpacity(0.3)),
               BlocConsumer<SearchPropertyBloc, SearchPropertyState>(

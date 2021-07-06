@@ -2,7 +2,7 @@
 name: Realify
 description: A new Flutter project.
 publish_to: none
-version: 1.0.0+2
+version: 1.0.1+2
 environment:
   sdk: '>=2.7.0 <3.0.0'
 dependencies:
@@ -39,6 +39,7 @@ dependencies:
   multi_image_picker2: ^5.0.2
   octicons_icon: ^0.0.2
   outline_material_icons: ^0.1.1
+  package_info_plus: ^1.0.3
   path: ^1.8.0
   path_provider: ^2.0.2
   readmore: ^2.0.0
