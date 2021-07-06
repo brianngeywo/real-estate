@@ -391,22 +391,22 @@ class _MyRecommendedListState extends State<MyRecommendedList> {
                                 ),
                               ],
                             ),
-                            IconButton(
-                              icon: Icon(
-                                MaterialIcons.favorite,
-                                color: (islike ? ColorConfig.grey.withOpacity(0.0) : ColorConfig.red),
-                                size: Sizeconfig.huge,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  if (islike) {
-                                    islike = false;
-                                  } else {
-                                    islike = true;
-                                  }
-                                });
-                              },
-                            ),
+                            // IconButton(
+                            //   icon: Icon(
+                            //     MaterialIcons.favorite,
+                            //     color: (islike ? ColorConfig.grey.withOpacity(0.0) : ColorConfig.red),
+                            //     size: Sizeconfig.huge,
+                            //   ),
+                            //   onPressed: () {
+                            //     setState(() {
+                            //       if (islike) {
+                            //         islike = false;
+                            //       } else {
+                            //         islike = true;
+                            //       }
+                            //     });
+                            //   },
+                            // ),
                           ],
                         ),
                         SizedBox(

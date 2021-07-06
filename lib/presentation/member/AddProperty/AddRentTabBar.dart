@@ -32,6 +32,8 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
   PropertyList propertyList;
   PropertyImage propertyImage;
   bool isUploading = false;
+  String areaUnit = "";
+
   @override
   void initState() {
     super.initState();
@@ -1381,7 +1383,7 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
             child: Center(
               child: SizedBox(
                 height: 40,
-                width: 30,
+                width: 40,
                 child: CircularProgressIndicator(),
               ),
             ),
@@ -1390,7 +1392,7 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Center(
-              child: Text("PLease wait while Saving images..."),
+              child: Text("Please wait while Saving images..."),
             ),
           ),
         if (isUploading == true)
@@ -1401,7 +1403,7 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
           listener: (context, state) {
             if (state is UploadingImagesState) {
               setState(() {
-                isUploading = false;
+                isUploading = true;
               });
             }
             if (state is UploadedImagesState) {
@@ -1415,11 +1417,11 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
               padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 20),
               child: InkWell(
                 onTap: () => loadAssets().then((value) {
-                  if (images.length > 0 && images.length != null) {
+                    if (images.length > 0 && images.length != null) {
+                    setState(() {
+                      isUploading = true;
+                    });
                     uploadFiles(images).then((value) {
-                      setState(() {
-                        isUploading = true;
-                      });
                       BlocProvider.of<AddPropertyBloc>(context).add(UploadingImagesEvent(propertyImagesList: value));
                     });
                   }

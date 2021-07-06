@@ -10,7 +10,7 @@ class Data1 extends StatelessWidget {
       children: [
         InkWell(
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
           },
           child: Row(
             children: [

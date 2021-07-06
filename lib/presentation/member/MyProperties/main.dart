@@ -153,7 +153,7 @@ class _MyPropertiesState extends State<MyProperties> with TickerProviderStateMix
 
                           return Padding(
                             padding: EdgeInsets.only(top: 20, right: 15, left: 15),
-                            child: MyRecommendedList(
+                            child: MyPropertiesList(
                               property: property,
                             ),
                           );

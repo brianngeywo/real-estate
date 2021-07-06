@@ -1,4 +1,3 @@
-
 import 'package:Realify/presentation/member/UpdateProperty/UpdateProperty.dart';
 import 'package:Realify/presentation/my_imports.dart';
 
@@ -6,6 +5,12 @@ class BuyTabBar extends StatefulWidget {
   @override
   _BuyTabBarState createState() => _BuyTabBarState();
 }
+
+List featuresList = [];
+// List propertyFields = [];
+TextEditingController featuresListController = TextEditingController();
+TextEditingValue textEditingValue;
+String textEditingValueText = "first";
 
 class _BuyTabBarState extends State<BuyTabBar> {
   @override

@@ -245,13 +245,24 @@ final proposalList = [
 ];
 final propertyCategoryTypeList = ["Residential", "Commercial"];
 final residentialCategoryTypeList = [
-  "Villa",
   "Apartment",
-  "Townhouse",
+  "Bedsitter Apartment",
+  "Block of Flats",
+  "Bungalow",
+  "Chalet",
+  "Condo",
+  "Duplex",
+  "Farm House",
+  "House",
+  "Mansionette",
+  "Mansion",
+  "Mini Flat",
   "Penthouse",
-  "Villa compound",
-  "Hotel Apartment",
-  "Residential Building",
+  "Room & Parlour",
+  "Shared Apartment",
+  "Studio Apartment",
+  "Town House",
+  "Villa",
 ];
 final commercialCategoryTypeList = [
   "Office",

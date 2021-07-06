@@ -15,9 +15,8 @@ class Data2 extends StatelessWidget {
         builder: (context, snapshot) {
           return Column(
             children: [
-              // if (FirebaseAuth.instance.currentUser != null)
-              // snapshot.hasData
-              //     ? 
+              snapshot.hasData
+                  ? 
                   InkWell(
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => AddProperty()));
@@ -39,10 +38,10 @@ class Data2 extends StatelessWidget {
                           ),
                         ],
                       ),
+                    )
+                  : SizedBox(
+                      height: 0,
                     ),
-                  // : SizedBox(
-                  //     height: 0,
-                  //   ),
               SizedBox(height: snapshot.hasData ? 20 : 0),
               // if (FirebaseAuth.instance.currentUser != null)
               snapshot.hasData

@@ -16,12 +16,11 @@ class BuyTabBar extends StatefulWidget {
   _BuyTabBarState createState() => _BuyTabBarState();
 }
 
-List featuresList = [];
-// List propertyFields = [];
-TextEditingController featuresListController = TextEditingController();
-TextEditingValue textEditingValue;
-String textEditingValueText = "first";
-String areaUnit = "";
+// List featuresList = [];
+// // List propertyFields = [];
+// TextEditingController featuresListController = TextEditingController();
+// TextEditingValue textEditingValue;
+// String textEditingValueText = "first";
 
 class _BuyTabBarState extends State<BuyTabBar> {
   @override
@@ -29,6 +28,7 @@ class _BuyTabBarState extends State<BuyTabBar> {
     // TODO: implement initState
     super.initState();
   }
+String areaUnit = "";
 
   @override
   Widget build(BuildContext context) {

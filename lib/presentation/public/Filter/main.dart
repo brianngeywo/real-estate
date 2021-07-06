@@ -240,7 +240,7 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                                   bedrooms: bedrooms.isEmpty ? "studio".toLowerCase() : bedrooms.toLowerCase(),
                                   minPrice: minPrice.isEmpty ? "0" : minPrice,
                                   maxPrice: maxPrice.isEmpty ? "50000" : maxPrice,
-                                  paymentPeriod: rentalFrequency.isEmpty ? "yearly".toLowerCase() : rentalFrequency,
+                                  paymentPeriod: rentalFrequency.isEmpty ? "daily".toLowerCase() : rentalFrequency,
                                 )));
                   },
                   child: Text(

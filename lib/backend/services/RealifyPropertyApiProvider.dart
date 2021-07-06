@@ -28,11 +28,9 @@ class RealifyPropertyApiProvider {
       "details": "$bedrooms bedroom $subCategory in $locality, $county",
       "image": image,
       "images": imageUrls,
-      "locality": locality,
-      "location": locality + ", " + county,
       "name": propertyName,
       "paymentPeriod": rentalFrequency,
-      "phone": "254" + phone,
+      "phone": phone,
       "email": user.email,
       "price": price,
       "proposal": proposal,
@@ -41,7 +39,28 @@ class RealifyPropertyApiProvider {
       // "propertyFeatures": property.propertyFeatures
     }).then((value) => uuid = new Uuid().v1());
   }
-
+  updateProperty(proposal, county, category, subCategory, price, bedrooms, locality, propertyName, description,
+      rentalFrequency, area, areaUnit, phone, bathrooms, image, imageUrls, propertyId) async {
+    await firebaseFirestore.collection("users").doc(user.uid).collection("rentals").doc(propertyId).update({
+      "area": area,
+      "areaUnit": areaUnit,
+      "bathrooms": bathrooms,
+      "bedrooms": bedrooms,
+      "categoryType": category,
+      "county": county,
+      "description": description,
+      "details": "$bedrooms bedroom $subCategory in $locality, $county",
+      "image": image,
+      "images": imageUrls,
+      "name": propertyName,
+      "paymentPeriod": rentalFrequency,
+      "phone": phone,
+      "email": user.email,
+      "price": price,
+      "proposal": proposal,
+      "subCategoryType": subCategory,
+    });
+  }
   reportPropertyListing(String typeOfProblem, String name, String phone, String description, BuildContext context,
       RealifyProperty property) async {
     await firebaseFirestore.collection("property reports").doc(uuid).set({

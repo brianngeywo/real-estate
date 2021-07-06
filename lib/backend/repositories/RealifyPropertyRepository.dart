@@ -5,43 +5,16 @@ import 'package:multi_image_picker2/multi_image_picker2.dart';
 
 class RealifyPropertyRepository {
   RealifyPropertyApiProvider realifyPropertyApiProvider = RealifyPropertyApiProvider();
-  uploadProperty(
-    proposal,
-    county,
-    category,
-    subCategory,
-    price,
-    bedrooms,
-    locality,
-    propertyName,
-    description,
-    rentalFrequency,
-    area,
-    areaUnit,
-    phone,
-    bathrooms,
-    image,
-    imageUrls,
-  ) async {
-    await realifyPropertyApiProvider.uploadProperty(
-      proposal,
-      county,
-      category,
-      subCategory,
-      price,
-      bedrooms,
-      locality,
-      propertyName,
-      description,
-      rentalFrequency,
-      area,
-      areaUnit,
-      phone,
-      bathrooms,
-      image,
-      imageUrls,
-    );
-    // return 200;
+  uploadProperty(proposal, county, category, subCategory, price, bedrooms, locality, propertyName, description,
+      rentalFrequency, area, areaUnit, phone, bathrooms, image, imageUrls) async {
+    await realifyPropertyApiProvider.uploadProperty(proposal, county, category, subCategory, price, bedrooms, locality,
+        propertyName, description, rentalFrequency, area, areaUnit, phone, bathrooms, image, imageUrls);
+  }
+
+  updateProperty(proposal, county, category, subCategory, price, bedrooms, locality, propertyName, description,
+      rentalFrequency, area, areaUnit, phone, bathrooms, image, imageUrls, propertyId) async {
+    await realifyPropertyApiProvider.updateProperty(proposal, county, category, subCategory, price, bedrooms, locality,
+        propertyName, description, rentalFrequency, area, areaUnit, phone, bathrooms, image, imageUrls, propertyId);
   }
 
   sendContactMessage(String name, String phone, String message, BuildContext context) {
