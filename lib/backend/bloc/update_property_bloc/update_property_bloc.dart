@@ -92,14 +92,12 @@ class UpdatePropertyBloc extends Bloc<UpdatePropertyEvent, UpdatePropertyState> 
   }
   }
 Stream<UpdatePropertyState> _mapUploadedImagesToState(UploadImagesEvent event) async* {
-  print("property bloc image list");
-  print(event.propertyImagesList.propertyImages);
+
   yield UploadedImagesState(propertyImageList: event.propertyImagesList);
 }
 
 Stream<UpdatePropertyState> _mapUploadingImagesToState(UploadingImagesEvent event) async* {
-  print("property bloc image list");
-  print(event.propertyImagesList.propertyImages);
+
   yield UploadingImagesState(propertyImageList: event.propertyImagesList);
 }
 

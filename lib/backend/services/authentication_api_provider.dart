@@ -59,7 +59,6 @@ class AuthenticationApiProvider {
           .then((DocumentSnapshot documentSnapshot) {
         if (documentSnapshot.exists) {
           userPresent = true;
-          print('Document exists on the database');
           return userPresent;
         } else {
           userPresent = false;

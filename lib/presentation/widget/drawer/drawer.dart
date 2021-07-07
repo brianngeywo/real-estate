@@ -30,7 +30,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                     children: [
                       Center(
                         child: Text(
-                          "HomeLand",
+                          "Kwetu App",
                           style: TextStyle(
                             fontFamily: FontConfig.logoFont,
                             fontSize: Sizeconfig.higantic,

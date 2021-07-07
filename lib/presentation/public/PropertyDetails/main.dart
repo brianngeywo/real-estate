@@ -1,4 +1,5 @@
 import 'package:Realify/presentation/member/Report/main.dart';
+import 'package:Realify/presentation/public/PropertyDetails/image_gallery.dart';
 import 'package:readmore/readmore.dart';
 
 import 'package:Realify/backend/models/RealifyProperty.dart';
@@ -34,75 +35,30 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                     width: double.maxFinite,
                     child: Stack(
                       children: [
-                        Container(
-                          height: 240,
-                          width: double.maxFinite,
-                          child: ListView(
-                              scrollDirection: Axis.horizontal,
-                              children: widget.property.images.map((e) {
-                                return Hero(
-                                  tag: "image-${widget.property.image}-$e",
-                                  child: Image(
-                                    image: NetworkImage(
-                                      e,
+                        InkWell(
+                          onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => HomelandImageGallery(
+                                    property: widget.property,
+                                  ))),
+                          child: Container(
+                            height: 240,
+                            width: double.maxFinite,
+                            child: ListView(
+                                scrollDirection: Axis.horizontal,
+                                children: widget.property.images.map((e) {
+                                  return Hero(
+                                    tag: "image-${widget.property.image}-$e",
+                                    child: Image(
+                                      image: NetworkImage(
+                                        e,
+                                      ),
+                                      height: 240,
+                                      width: 330,
+                                      fit: BoxFit.cover,
                                     ),
-                                    height: 240,
-                                    width: 330,
-                                    fit: BoxFit.cover,
-                                  ),
-                                );
-                              }).toList()
-                              // [
-                              // Image(
-                              //   image: NetworkImage(
-                              //     "https://images.pexels.com/photos/1571470/pexels-photo-1571470.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-                              //   ),
-                              //   height: 240,
-                              //   width: 370,
-                              //   fit: BoxFit.cover,
-                              // ),
-                              // Image(
-                              //   image: NetworkImage(
-                              //     "https://images.pexels.com/photos/1648768/pexels-photo-1648768.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-                              //   ),
-                              //   height: 240,
-                              //   width: 370,
-                              //   fit: BoxFit.cover,
-                              // ),
-                              // Image(
-                              //   image: NetworkImage(
-                              //     "https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-                              //   ),
-                              //   height: 240,
-                              //   width: 370,
-                              //   fit: BoxFit.cover,
-                              // ),
-                              // Image(
-                              //   image: NetworkImage(
-                              //     "https://images.pexels.com/photos/916337/pexels-photo-916337.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-                              //   ),
-                              //   height: 240,
-                              //   width: 370,
-                              //   fit: BoxFit.cover,
-                              // ),
-                              // Image(
-                              //   image: NetworkImage(
-                              //     "https://images.pexels.com/photos/2101087/pexels-photo-2101087.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-                              //   ),
-                              //   height: 240,
-                              //   width: 370,
-                              //   fit: BoxFit.cover,
-                              // ),
-                              // Image(
-                              //   image: NetworkImage(
-                              //     "https://images.pexels.com/photos/3958966/pexels-photo-3958966.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-                              //   ),
-                              //   height: 240,
-                              //   width: 370,
-                              //   fit: BoxFit.cover,
-                              // ),
-                              // ],
-                              ),
+                                  );
+                                }).toList()),
+                          ),
                         ),
                         Align(
                           alignment: Alignment.topLeft,

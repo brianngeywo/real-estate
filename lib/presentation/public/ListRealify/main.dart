@@ -80,7 +80,7 @@ class _ListRealifyState extends State<ListRealify> {
                   Align(
                     alignment: Alignment(0, 0),
                     child: Text(
-                      "Homeland",
+                      "Kwetu App",
                       style: TextStyle(
                         fontFamily: FontConfig.bold,
                         fontSize: Sizeconfig.large,

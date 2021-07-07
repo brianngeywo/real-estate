@@ -56,31 +56,29 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
     firebase_storage.Reference reference = firebase_storage.FirebaseStorage.instance.ref("$id/$fileName");
     firebase_storage.UploadTask uploadTask = reference.putData((await imageFile.getByteData()).buffer.asUint8List());
     uploadTask.snapshotEvents.listen((firebase_storage.TaskSnapshot snapshot) {
-      print('Task state: ${snapshot.state}');
-      print('Progress: ${(snapshot.bytesTransferred / snapshot.totalBytes) * 100} %');
+      // print('Task state: ${snapshot.state}');
+      // print('Progress: ${(snapshot.bytesTransferred / snapshot.totalBytes) * 100} %');
       // BlocProvider.of<AddPropertyBloc>(context).add(UploadingImagesEvent());
     }, onError: (e) {
       // The final snapshot is also available on the task via `.snapshot`,
       // this can include 2 additional states, `TaskState.error` & `TaskState.canceled`
-      print(uploadTask.snapshot);
+      // print(uploadTask.snapshot);
 
       if (e.code == 'permission-denied') {
-        print('User does not have permission to upload to this reference.');
       }
     });
 
     // We can still optionally use the Future alongside the stream.
 
     await uploadTask;
-    print('Upload complete.');
+    // print('Upload complete.');
     propertyImage = PropertyImage(url: await (await uploadTask).ref.getDownloadURL());
     return propertyImage;
   }
 
   Future<PropertyList> uploadFiles(List<Asset> _images) async {
     propertyList = PropertyList(propertyImages: await Future.wait(_images.map((_image) => postImage(_image))));
-    print("urls");
-    print(propertyList.propertyImages);
+
     return propertyList;
   }
 
@@ -263,7 +261,6 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
                         child: MaterialButton(
                           elevation: 0,
                           onPressed: () {
-                            print(e);
                             setState(() {
                               selectedPropertyType = e.toLowerCase();
                             });

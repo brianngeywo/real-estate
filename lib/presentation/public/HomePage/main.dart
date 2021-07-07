@@ -72,7 +72,6 @@ class _HomePageState extends State<HomePage> {
                           }
                           return BlocConsumer<AuthBloc, AuthBlocState>(
                             listener: (context, state) {
-                              print(state);
                             },
                             builder: (context, state) {
                               return Stack(
@@ -111,7 +110,7 @@ class _HomePageState extends State<HomePage> {
                                     children: [
                                       Center(
                                         child: Text(
-                                          "Homeland",
+                                          "Kwetu App",
                                           style: TextStyle(
                                               fontFamily: FontConfig.logoFont, fontSize: 56, color: ColorConfig.light),
                                         ),
@@ -121,7 +120,7 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                       Center(
                                         child: Text(
-                                          "Linking tenants with rental landlords",
+                                          "Affordable Rentals in Kenya",
                                           style: TextStyle(
                                               fontFamily: FontConfig.bold,
                                               fontSize: Sizeconfig.small,

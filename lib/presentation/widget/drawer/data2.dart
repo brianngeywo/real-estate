@@ -3,6 +3,7 @@ import 'package:Realify/presentation/member/AboutUs/main.dart';
 import 'package:Realify/presentation/member/AddProperty/main.dart';
 import 'package:Realify/presentation/member/ContactUs/main.dart';
 import 'package:Realify/presentation/member/MyProperties/main.dart';
+import 'package:Realify/presentation/member/Settings/main.dart';
 import 'package:Realify/presentation/my_imports.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,6 +18,31 @@ class Data2 extends StatelessWidget {
         builder: (context, snapshot) {
           return Column(
             children: [
+              snapshot.hasData
+                  ? InkWell(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => Settings()));
+                      },
+                      child: Row(
+                        children: [
+                          Icon(
+                            IconName.iconsettings,
+                            size: Sizeconfig.large,
+                            color: ColorConfig.grey,
+                          ),
+                          SizedBox(
+                            width: 15,
+                          ),
+                          Text(
+                            "Personal Information",
+                            style: TextStyle(
+                                fontFamily: FontConfig.regular, fontSize: Sizeconfig.small, color: ColorConfig.grey),
+                          ),
+                        ],
+                      ),
+                    )
+                  : SizedBox(height: 0),
+              SizedBox(height: snapshot.hasData ? 20 : 0),
               snapshot.hasData
                   ? InkWell(
                       onTap: () {
@@ -233,11 +259,11 @@ class Data2 extends StatelessWidget {
                       },
                     )
                   : Container(),
-                  SizedBox(height: 20),
+              SizedBox(height: 20),
               box.isOpen
                   ? Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
                             "VERSION",
@@ -257,7 +283,7 @@ class Data2 extends StatelessWidget {
                           ),
                         ],
                       ),
-                  )
+                    )
                   : SizedBox(height: 0),
             ],
           );

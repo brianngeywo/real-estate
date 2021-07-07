@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class RealifyUser {
   final String name;
   final String phone;
@@ -50,7 +52,7 @@ class RealifyUser {
     );
   }
 
-  factory RealifyUser.fromSnapshot(Map<String, dynamic> snapshot) {
+  factory RealifyUser.fromSnapshot(DocumentSnapshot snapshot) {
     return RealifyUser(
       name: snapshot['name'],
       phone: snapshot['phone'],

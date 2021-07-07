@@ -94,103 +94,103 @@ class _UpdatePropertyState extends State<UpdateProperty> with TickerProviderStat
                     setState(() {
                       proposal = state.proposal;
                     });
-                    print("proposal: $proposal");
+                    
                   }
                   if (state is UpdatePropertySelectedCounty) {
                     setState(() {
                       county = state.county;
                     });
-                    print("county: $county");
+                    
                   }
                   if (state is UpdatePropertySelectedPropertyType) {
                     setState(() {
                       category = state.categoryTitle;
                     });
-                    print("category: $category");
+                    
                   }
                   if (state is UpdatePropertySelectedPropertySubType) {
                     setState(() {
                       subCategory = state.subcategoryTitle;
                     });
-                    print("sub categroy: $subCategory");
+                    
                   }
 
                   if (state is SelectedBathroomState) {
                     setState(() {
                       bathrooms = state.bathroom;
                     });
-                    print("bathrooms: $bathrooms");
+                    
                   }
                   if (state is SelectedBedroomState) {
                     setState(() {
                       bedrooms = state.bedroom;
                     });
-                    print("bedrooms: $bedrooms");
+                    
                   }
                   if (state is EnteredPriceState) {
                     setState(() {
                       price = state.price;
                     });
-                    print("price: $price");
+                    
                   }
                   if (state is UpdatedLocalityState) {
                     setState(() {
                       locality = state.location;
                     });
-                    print("locality: $locality");
+                    
                   }
                   if (state is UpdatedPropertyTitleState) {
                     setState(() {
                       propertyName = state.title;
                     });
-                    print("name: $propertyName");
+                    
                   }
                   if (state is UpdatedPropertyDescriptionState) {
                     setState(() {
                       description = state.description;
                     });
-                    print("description: $description");
+                    
                   }
                   if (state is UpdateRentalFrequencyState) {
                     setState(() {
                       rentalFrequency = state.frequency;
                     });
-                    print("freq: " + rentalFrequency);
+                    
                   }
                   if (state is UpdatePropertyAreaState) {
                     setState(() {
                       area = state.area;
                       areaUnit = state.areaUnit;
                     });
-                    print("area: " + area + " area unit: " + areaUnit);
+                    
                   }
                   if (state is UpdatedPhoneState) {
                     setState(() {
                       phone = state.phone;
                     });
-                    print("phone: " + phone);
+                    
                   }
                   if (state is UploadingImagesState) {
                     BlocProvider.of<UpdatePropertyBloc>(context)
                         .add(UploadImagesEvent(propertyImagesList: state.propertyImageList));
-                    print("property images in state");
-                    print(state.propertyImageList);
+                    
+                    
                   }
                   if (state is UploadedImagesState) {
-                    print("images");
-                    print(state.propertyImageList.propertyImages.first.url);
+                    
+                    
                     state.propertyImageList.propertyImages.forEach((image) {
                       setState(() {
                         imageUrls.add(image.url);
                       });
                     });
-                    print(imageUrls);
+                    
                   }
                   // if (state is AddPropertyFeaturesState) {
                   //   propertyFeatures.add(state.value);
-                  //   print(propertyFeatures);
+                  //   
                   //   propertyFeatures.forEach((element) {
-                  //     print("feature: $element");
+                  //     
                   //   });
                   // }
                   // if (state is AddedNewFieldState) {
@@ -336,8 +336,8 @@ class _UpdatePropertyState extends State<UpdateProperty> with TickerProviderStat
                             );
                           }
 
-                          print(state);
-                          print(imageUrls);
+                          
+                          
                         },
                         child: Text(
                           state is UploadingImagesState ? 'Uploading images' : 'Update',

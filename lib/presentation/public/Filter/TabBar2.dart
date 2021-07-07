@@ -123,7 +123,6 @@ class _TabBar2State extends State<TabBar2> {
                         child: MaterialButton(
                           elevation: 0,
                           onPressed: () {
-                            print(e);
                             setState(() {
                               selectedPropertyType = e;
                             });

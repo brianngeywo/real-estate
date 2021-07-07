@@ -95,101 +95,98 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                     setState(() {
                       proposal = state.proposal;
                     });
-                    print("proposal: $proposal");
                   }
                   if (state is AddPropertySelectedCounty) {
                     setState(() {
                       county = state.county;
                     });
-                    print("county: $county");
                   }
                   if (state is AddPropertySelectedPropertyType) {
                     setState(() {
                       category = state.categoryTitle;
                     });
-                    print("category: $category");
                   }
                   if (state is AddPropertySelectedPropertySubType) {
                     setState(() {
                       subCategory = state.subcategoryTitle;
                     });
-                    print("sub categroy: $subCategory");
+                    
                   }
 
                   if (state is SelectedBathroomState) {
                     setState(() {
                       bathrooms = state.bathroom;
                     });
-                    print("bathrooms: $bathrooms");
+                    
                   }
                   if (state is SelectedBedroomState) {
                     setState(() {
                       bedrooms = state.bedroom;
                     });
-                    print("bedrooms: $bedrooms");
+                    
                   }
                   if (state is EnteredPriceState) {
                     setState(() {
                       price = state.price;
                     });
-                    print("price: $price");
+                    
                   }
                   if (state is AddedLocalityState) {
                     setState(() {
                       locality = state.location;
                     });
-                    print("locality: $locality");
+                    
                   }
                   if (state is AddedPropertyTitleState) {
                     setState(() {
                       propertyName = state.title;
                     });
-                    print("name: $propertyName");
+                    
                   }
                   if (state is AddedPropertyDescriptionState) {
                     setState(() {
                       description = state.description;
                     });
-                    print("description: $description");
+                    
                   }
                   if (state is AddRentalFrequencyState) {
                     setState(() {
                       rentalFrequency = state.frequency;
                     });
-                    print("freq: " + rentalFrequency);
+                    
                   }
                   if (state is AddPropertyAreaState) {
                     setState(() {
                       area = state.area;
                       areaUnit = state.areaUnit;
                     });
-                    print("area: " + area + " area unit: " + areaUnit);
+                    
                   }
                   if (state is AddedPhoneState) {
                     setState(() {
                       phone = state.phone;
                     });
-                    print("phone: " + phone);
+                    
                   }
                   if (state is UploadingImagesState) {
                     BlocProvider.of<AddPropertyBloc>(context)
                         .add(UploadImagesEvent(propertyImagesList: state.propertyImageList));
                   }
                   if (state is UploadedImagesState) {
-                    print("images");
-                    print(state.propertyImageList.propertyImages.first.url);
+                    
+                    
                     state.propertyImageList.propertyImages.forEach((image) {
                       setState(() {
                         imageUrls.add(image.url);
                       });
                     });
-                    print(imageUrls);
+                    
                   }
                   // if (state is AddPropertyFeaturesState) {
                   //   propertyFeatures.add(state.value);
-                  //   print(propertyFeatures);
+                  //   
                   //   propertyFeatures.forEach((element) {
-                  //     print("feature: $element");
+                  //     
                   //   });
                   // }
                   // if (state is AddedNewFieldState) {
@@ -324,8 +321,8 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                             );
                           }
 
-                          print(state);
-                          print(imageUrls);
+                          
+                          
                         },
                         child: Text(
                           state is UploadingImagesState ? 'Uploading images' : 'Upload Now',

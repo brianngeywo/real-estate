@@ -98,7 +98,6 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                     setState(() {
                       county = state.county;
                     });
-                    print("county $county");
                   }
                   if (state is SearchPropertySelectedPropertyType) {
                     setState(() {
@@ -109,13 +108,11 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                     setState(() {
                       subCategory = state.subcategoryTitle;
                     });
-                    print("subCategory $subCategory");
                   }
                   if (state is SelectedBedroomState) {
                     setState(() {
                       bedrooms = state.bedroom;
                     });
-                    print("beds $bedrooms");
                   }
                   if (state is EnteredMinPriceState) {
                     setState(() {
@@ -132,7 +129,6 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                     setState(() {
                       rentalFrequency = state.frequency;
                     });
-                    print("freq: " + rentalFrequency);
                   }
                 },
                 builder: (context, state) {
