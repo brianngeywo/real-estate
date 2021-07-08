@@ -10,6 +10,7 @@ class DrawerMenu extends StatefulWidget {
 }
 
 class _DrawerMenuState extends State<DrawerMenu> {
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -100,9 +101,9 @@ class _DrawerMenuState extends State<DrawerMenu> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 20,
-                )
+                SizedBox(height: 20),
+                
+              
               ],
             ),
           );

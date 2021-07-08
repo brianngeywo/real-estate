@@ -26,6 +26,8 @@ class RealifyPropertyApiProvider {
       "county": county,
       "description": description,
       "details": "$bedrooms bedroom $subCategory in $locality, $county",
+      "locality": locality,
+      "location": "$locality, $county county",
       "image": image,
       "images": imageUrls,
       "name": propertyName,

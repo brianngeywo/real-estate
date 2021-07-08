@@ -45,46 +45,46 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
             children: [
               Container(
                 color: Colors.white,
-                   child: Row(
-                      children: [
-                        Align(
-                          alignment: Alignment(0, 0.1),
-                          child: IconButton(
-                            icon: Icon(AntDesign.close),
-                            onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
-                            },
-                            iconSize: Sizeconfig.huge,
-                            color: ColorConfig.dark,
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment(0, 0.1),
-                          child: Text(
-                            "Filter",
-                            style: TextStyle(
-                              fontFamily: FontConfig.bold,
-                              fontSize: Sizeconfig.medium,
-                              color: ColorConfig.dark,
-                            ),
-                          ),
-                        ),
-                      ],
+                child: Row(
+                  children: [
+                    Align(
+                      alignment: Alignment(0, 0.1),
+                      child: IconButton(
+                        icon: Icon(AntDesign.close),
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                        },
+                        iconSize: Sizeconfig.huge,
+                        color: ColorConfig.dark,
+                      ),
                     ),
-                    // Padding(
-                    //   padding: const EdgeInsets.only(right: 15.0),
-                    //   child: InkWell(
-                    //     onTap: () {},
-                    //     child: Text(
-                    //       "Reset",
-                    //       style: TextStyle(
-                    //         fontFamily: FontConfig.regular,
-                    //         fontSize: Sizeconfig.small,
-                    //         color: ColorConfig.darkGreen,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
+                    Align(
+                      alignment: Alignment(0, 0.1),
+                      child: Text(
+                        "Filter",
+                        style: TextStyle(
+                          fontFamily: FontConfig.bold,
+                          fontSize: Sizeconfig.medium,
+                          color: ColorConfig.dark,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                // Padding(
+                //   padding: const EdgeInsets.only(right: 15.0),
+                //   child: InkWell(
+                //     onTap: () {},
+                //     child: Text(
+                //       "Reset",
+                //       style: TextStyle(
+                //         fontFamily: FontConfig.regular,
+                //         fontSize: Sizeconfig.small,
+                //         color: ColorConfig.darkGreen,
+                //       ),
+                //     ),
+                //   ),
+                // ),
               ),
               Container(height: 1, width: double.maxFinite, color: ColorConfig.grey.withOpacity(0.3)),
               BlocConsumer<SearchPropertyBloc, SearchPropertyState>(
@@ -98,21 +98,28 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                     setState(() {
                       county = state.county;
                     });
+                    print(county);
                   }
                   if (state is SearchPropertySelectedPropertyType) {
                     setState(() {
                       category = state.categoryTitle;
                     });
+                    print("category");
+                    print(category);
                   }
                   if (state is SearchPropertySelectedPropertySubType) {
                     setState(() {
                       subCategory = state.subcategoryTitle;
                     });
+                    print("sub category");
+                    print(subCategory);
                   }
                   if (state is SelectedBedroomState) {
                     setState(() {
                       bedrooms = state.bedroom;
                     });
+                    print("bedrooms");
+                    print(bedrooms);
                   }
                   if (state is EnteredMinPriceState) {
                     setState(() {
@@ -129,6 +136,8 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                     setState(() {
                       rentalFrequency = state.frequency;
                     });
+                    print("period");
+                    print(rentalFrequency);
                   }
                 },
                 builder: (context, state) {
@@ -222,7 +231,7 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                         context,
                         MaterialPageRoute(
                             builder: (context) => ListRealify(
-                                  proposal: proposal.isEmpty ? "buy" : proposal.toLowerCase(),
+                                  proposal: proposal.isEmpty ? "rent" : proposal.toLowerCase(),
                                   county: county.isEmpty ? "nairobi".toLowerCase() : county.toLowerCase(),
                                   propertyCategoryType:
                                       category.isEmpty ? "residential".toLowerCase() : category.toLowerCase(),
@@ -231,7 +240,7 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                                   bedrooms: bedrooms.isEmpty ? "studio".toLowerCase() : bedrooms.toLowerCase(),
                                   minPrice: minPrice.isEmpty ? "0" : minPrice,
                                   maxPrice: maxPrice.isEmpty ? "50000" : maxPrice,
-                                  paymentPeriod: rentalFrequency.isEmpty ? "daily".toLowerCase() : rentalFrequency,
+                                  paymentPeriod: rentalFrequency.isEmpty ? "daily".toLowerCase() : rentalFrequency.toLowerCase(),
                                 )));
                   },
                   child: Text(

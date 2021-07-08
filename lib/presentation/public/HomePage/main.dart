@@ -30,11 +30,11 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  closeDeviceDetails() async {
-    var box = await Hive.openBox("device details");
-    await box.clear();
-    await box.close();
-  }
+  // closeDeviceDetails() async {
+  //   var box = await Hive.openBox("device details");
+  //   await box.clear();
+  //   await box.close();
+  // }
 
   @override
   void initState() {
@@ -42,11 +42,11 @@ class _HomePageState extends State<HomePage> {
     getDeviceDetails();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    closeDeviceDetails();
-  }
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   closeDeviceDetails();
+  // }
 
   @override
   Widget build(BuildContext context) {
