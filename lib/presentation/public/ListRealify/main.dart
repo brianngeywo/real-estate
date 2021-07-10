@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -89,7 +88,23 @@ class _ListRealifyState extends State<ListRealify> {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  Container(),
+                  MaterialButton(
+                    color: ColorConfig.lightGreen,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(
+                      "Filter",
+                      style: TextStyle(
+                        fontFamily: FontConfig.regular,
+                        fontSize: Sizeconfig.medium,
+                        color: ColorConfig.light,
+                      ),
+                    ),
+                  ),
                   // InkWell(
                   //   onTap: () {
                   //     showDialogBox(context);
@@ -105,6 +120,33 @@ class _ListRealifyState extends State<ListRealify> {
                   // )
                 ],
               ),
+            ),
+
+            // Row(
+            //   children: [
+            //     SizedBox(
+            //       width: 10,
+            //     ),
+            //     MaterialButton(
+            //       color: ColorConfig.lightGreen,
+            //       textColor: ColorConfig.light,
+            //       onPressed: () => Navigator.of(context).push(
+            //         MaterialPageRoute(
+            //           builder: (context) => AddAdvertisementPage(stories: stories),
+            //         ),
+            //       ),
+            //       child: Text("adverts"),
+            //     ),
+            //     SizedBox(
+            //       width: 10,
+            //     ),
+
+            //     // AddAdvertisementPage(stories: stories,),
+            //   ],
+            // ),
+            // AddAdvertisementPage(stories: stories,),
+            SizedBox(
+              height: 10,
             ),
             Container(
               padding: EdgeInsets.only(right: 15, left: 15),
@@ -144,27 +186,13 @@ class _ListRealifyState extends State<ListRealify> {
                       SizedBox(
                         width: 10,
                       ),
-                      MaterialButton(
-                        color: ColorConfig.lightGreen,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Text(
-                          "Filter",
-                          style: TextStyle(
-                            fontFamily: FontConfig.regular,
-                            fontSize: Sizeconfig.medium,
-                            color: ColorConfig.light,
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                 ],
               ),
+            ),
+            SizedBox(
+              height: 10,
             ),
             Container(height: 1, width: double.maxFinite, color: ColorConfig.grey.withOpacity(0.3)),
             Expanded(

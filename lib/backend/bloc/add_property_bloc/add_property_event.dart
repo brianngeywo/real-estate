@@ -72,7 +72,7 @@ class AddLocalityEvent extends AddPropertyEvent {
 class AddPropertyTitleEvent extends AddPropertyEvent {
   final String title;
   AddPropertyTitleEvent({
-    this.title = '',
+    this.title = '', String phone,
   });
 }
 

@@ -8,12 +8,14 @@ class RealifyUser {
   final String role;
   final String id;
   final String email;
+  final String photoUrl;
   RealifyUser({
     this.name = '',
     this.phone = '',
     this.role = '',
     this.id = '',
     this.email = '',
+    this.photoUrl = '',
   });
 
   RealifyUser copyWith({
@@ -22,6 +24,7 @@ class RealifyUser {
     String role,
     String id,
     String email,
+    String photoUrl,
   }) {
     return RealifyUser(
       name: name ?? this.name,
@@ -29,6 +32,7 @@ class RealifyUser {
       role: role ?? this.role,
       id: id ?? this.id,
       email: email ?? this.email,
+      photoUrl: photoUrl ?? this.photoUrl,
     );
   }
 
@@ -39,6 +43,7 @@ class RealifyUser {
       'role': role,
       'id': id,
       'email': email,
+      'photoUrl': photoUrl,
     };
   }
 
@@ -49,6 +54,7 @@ class RealifyUser {
       role: map['role'],
       id: map['id'],
       email: map['email'],
+      photoUrl: map['photoUrl'],
     );
   }
 
@@ -58,6 +64,7 @@ class RealifyUser {
       phone: snapshot['phone'],
       role: snapshot['role'],
       id: snapshot['id'],
+      photoUrl: snapshot['photoUrl'],
       email: snapshot['email'],
     );
   }
@@ -68,23 +75,29 @@ class RealifyUser {
 
   @override
   String toString() {
-    return 'RealifyUser(name: $name, phone: $phone, role: $role, id: $id, email: $email)';
+    return 'RealifyUser(name: $name, phone: $phone, role: $role, id: $id, email: $email, photoUrl: $photoUrl)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-
+  
     return other is RealifyUser &&
-        other.name == name &&
-        other.phone == phone &&
-        other.role == role &&
-        other.id == id &&
-        other.email == email;
+      other.name == name &&
+      other.phone == phone &&
+      other.role == role &&
+      other.id == id &&
+      other.email == email &&
+      other.photoUrl == photoUrl;
   }
 
   @override
   int get hashCode {
-    return name.hashCode ^ phone.hashCode ^ role.hashCode ^ id.hashCode ^ email.hashCode;
+    return name.hashCode ^
+      phone.hashCode ^
+      role.hashCode ^
+      id.hashCode ^
+      email.hashCode ^
+      photoUrl.hashCode;
   }
 }

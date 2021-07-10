@@ -47,37 +47,16 @@ class AuthenticationApiProvider {
     );
   }
 
-  Future<bool> checkUser() async {
-    var box = await Hive.openBox('user');
-
-    bool userPresent;
-    if (box.isOpen) {
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(FirebaseAuth.instance.currentUser.uid)
-          .get()
-          .then((DocumentSnapshot documentSnapshot) {
-        if (documentSnapshot.exists) {
-          userPresent = true;
-          return userPresent;
-        } else {
-          userPresent = false;
-        }
-      });
-    }
-
-    return userPresent;
-  }
-
   addUserToFirestore(String name, String phone, String role) {
     var user = FirebaseAuth.instance.currentUser;
     var userid = FirebaseAuth.instance.currentUser.uid;
     FirebaseFirestore.instance.collection("users").doc(userid).set({
       "phone": phone,
-      "user id": userid,
+      "id": userid,
       "name": name,
       "role": role,
       "email": user.email,
+      "photoUrl": user.photoURL
     });
   }
 }

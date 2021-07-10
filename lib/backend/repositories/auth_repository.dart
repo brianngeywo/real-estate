@@ -54,15 +54,6 @@ class AuthRepository {
     }
   }
 
-  Future<bool> checkUser() async {
-    bool userPresent;
-    _authFirebaseProvider.checkUser().then((value) {
-      userPresent = value;
-      return userPresent;
-    });
-    return userPresent;
-  }
-
   addUserToFirebase(String name, String phone, String role) {
     _authFirebaseProvider.addUserToFirestore(name, phone, role);
   }

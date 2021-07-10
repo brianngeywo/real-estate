@@ -4,7 +4,7 @@ abstract class AuthBlocEvent {}
 
 class SigninWithGoogleEvent extends AuthBlocEvent {}
 
-class CheckUserInFirestoreEvent extends AuthBlocEvent {}
+// class CheckUserInFirestoreEvent extends AuthBlocEvent {}
 
 class AddUserToFirestoreEvent extends AuthBlocEvent {
   final String name;

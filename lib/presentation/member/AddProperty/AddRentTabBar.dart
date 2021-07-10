@@ -24,8 +24,8 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
   TextEditingController detailsTextEditingController = TextEditingController();
   TextEditingController priceTextEditingController = TextEditingController();
   TextEditingController descriptionTextEditingController = TextEditingController();
-  TextEditingController areaextEditingController = TextEditingController();
-  TextEditingController phoneextEditingController = TextEditingController();
+  TextEditingController areaTextEditingController = TextEditingController();
+  TextEditingController phoneTextEditingController = TextEditingController();
   List<Asset> images = <Asset>[];
   String _error = 'No Error Dectected';
   List<PropertyImage> urls = <PropertyImage>[];
@@ -136,91 +136,9 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
     );
   }
 
-  List<County> countyListDrop = [
-    County(title: "mombasa", countyCode: 1),
-    County(title: "Kwale", countyCode: 2),
-    County(title: "Kilifi", countyCode: 3),
-    County(title: "Tana River", countyCode: 4),
-    County(title: "Lamu", countyCode: 5),
-    County(title: "Taita Taveta", countyCode: 6),
-    County(title: "Garissa", countyCode: 7),
-    County(title: "Wajir", countyCode: 8),
-    County(title: "Mandera", countyCode: 9),
-    County(title: "Marsabit", countyCode: 10),
-    County(title: "Isiolo", countyCode: 11),
-    County(title: "Meru", countyCode: 12),
-    County(title: "Tharaka-Nithi", countyCode: 13),
-    County(title: "Embu", countyCode: 14),
-    County(title: "Kitui", countyCode: 15),
-    County(title: "Machakos", countyCode: 16),
-    County(title: "Makueni", countyCode: 17),
-    County(title: "Nyandarua", countyCode: 18),
-    County(title: "Nyeri", countyCode: 19),
-    County(title: "Kirinyaga", countyCode: 20),
-    County(title: "Murang'a", countyCode: 21),
-    County(title: "Kiambu", countyCode: 22),
-    County(title: "Turkana", countyCode: 23),
-    County(title: "West Pokot", countyCode: 24),
-    County(title: "Samburu", countyCode: 25),
-    County(title: "Trans Nzoia", countyCode: 26),
-    County(title: "Uasin Gishu", countyCode: 27),
-    County(title: "Elgeyo Marakwet", countyCode: 28),
-    County(title: "Nandi", countyCode: 29),
-    County(title: "Baringo", countyCode: 30),
-    County(title: "Laikipia", countyCode: 31),
-    County(title: "Nakuru", countyCode: 32),
-    County(title: "Narok", countyCode: 33),
-    County(title: "Kajiado", countyCode: 34),
-    County(title: "Kericho", countyCode: 35),
-    County(title: "Bomet", countyCode: 36),
-    County(title: "Kakamega", countyCode: 37),
-    County(title: "Vihiga", countyCode: 38),
-    County(title: "Bungoma", countyCode: 39),
-    County(title: "Busia", countyCode: 40),
-    County(title: "Siaya", countyCode: 41),
-    County(title: "Kisumu", countyCode: 42),
-    County(title: "Homa Bay", countyCode: 43),
-    County(title: "Migori", countyCode: 44),
-    County(title: "Kisii", countyCode: 45),
-    County(title: "Nyamira", countyCode: 46),
-    County(title: "Nairobi", countyCode: 47),
-  ];
   String _selectedLocation;
   int selected = null;
   List<DropdownMenuItem<int>> listDrop = [];
-
-  void loadData() {
-    listDrop = [];
-    listDrop.add(new DropdownMenuItem(
-      child: Text(
-        'Square Metres',
-        style: TextStyle(
-          color: Color.fromRGBO(0, 0, 0, 0.7),
-        ),
-      ),
-      value: 1,
-    ));
-    listDrop.add(new DropdownMenuItem(
-      child: Text(
-        'Square Feet',
-        style: TextStyle(
-          color: Color.fromRGBO(0, 0, 0, 0.7),
-        ),
-        // overflow: TextOverflow.ellipsis,
-      ),
-      value: 2,
-    ));
-    listDrop.add(new DropdownMenuItem(
-      child: Text(
-        'Square Yard',
-        style: TextStyle(
-          color: Color.fromRGBO(0, 0, 0, 0.7),
-        ),
-        // overflow: TextOverflow.ellipsis,
-      ),
-      value: 3,
-    ));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -552,33 +470,36 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
           builder: (context, state) {
             return Padding(
               padding: EdgeInsets.only(left: 20, right: 20),
-              child: TextFormField(
-                controller: detailsTextEditingController,
-                onChanged: (value) {
-                  BlocProvider.of<AddPropertyBloc>(context).add(AddPropertyTitleEvent(title: value));
-                },
-                style: TextStyle(
-                  fontFamily: FontConfig.regular,
-                  fontSize: Sizeconfig.small,
-                  color: ColorConfig.dark,
-                ),
-                decoration: InputDecoration(
-                  hintText: "property title",
-                  hintStyle: TextStyle(
-                    fontFamily: FontConfig.regular,
-                    fontSize: Sizeconfig.small,
-                    color: ColorConfig.dark,
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    width: 1,
+                    color: ColorConfig.smokeLight,
                   ),
-                  border: InputBorder.none,
+                ),
+                child: Padding(
+                padding: const EdgeInsets.only(left: 10),
+                  child: TextFormField(
+                    controller: detailsTextEditingController,
+                    onChanged: (value) =>
+                        BlocProvider.of<AddPropertyBloc>(context).add(AddPropertyTitleEvent(title: value)),
+                    keyboardType: TextInputType.name,
+                    decoration: InputDecoration(
+                      hintText: "property title",
+                      hintStyle: TextStyle(
+                        fontFamily: FontConfig.regular,
+                        fontSize: Sizeconfig.small,
+                        color: Color.fromRGBO(0, 0, 0, 0.5),
+                      ),
+                      border: InputBorder.none,
+                    ),
+                  ),
                 ),
               ),
             );
           },
         ),
-        Padding(
-          padding: const EdgeInsets.only(left: 15, right: 15),
-          child: Container(height: 1, width: double.maxFinite, color: ColorConfig.grey.withOpacity(0.3)),
-        ),
+
         SizedBox(
           height: 10,
         ),
@@ -586,35 +507,46 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
           builder: (context, state) {
             return Padding(
               padding: EdgeInsets.only(left: 20, right: 20),
-              child: TextFormField(
-                controller: descriptionTextEditingController,
-                minLines: 1,
-                maxLines: 500,
-                onChanged: (value) {
-                  BlocProvider.of<AddPropertyBloc>(context).add(AddPropertyDescriptionEvent(description: value));
-                },
-                style: TextStyle(
-                  fontFamily: FontConfig.regular,
-                  fontSize: Sizeconfig.small,
-                  color: ColorConfig.dark,
-                ),
-                decoration: InputDecoration(
-                  hintText: "Property Description",
-                  hintStyle: TextStyle(
-                    fontFamily: FontConfig.regular,
-                    fontSize: Sizeconfig.small,
-                    color: ColorConfig.dark,
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    width: 1,
+                    color: ColorConfig.smokeLight,
                   ),
-                  border: InputBorder.none,
+                ),
+                child: Padding(
+                 padding: const EdgeInsets.only(left: 10),
+                  child: TextFormField(
+                    controller: descriptionTextEditingController,
+                    minLines: 20,
+                    maxLines: 500,
+                    onChanged: (value) {
+                      BlocProvider.of<AddPropertyBloc>(context).add(AddPropertyDescriptionEvent(description: value));
+                    },
+                    style: TextStyle(
+                      fontFamily: FontConfig.regular,
+                      fontSize: Sizeconfig.small,
+                      color: ColorConfig.dark,
+                    ),
+                    decoration: InputDecoration(
+                      hintText: "Property Description",
+                      hintStyle: TextStyle(
+                        fontFamily: FontConfig.regular,
+                        fontSize: Sizeconfig.small,
+                       color: Color.fromRGBO(0, 0, 0, 0.5),
+                      ),
+                      border: InputBorder.none,
+                    ),
+                  ),
                 ),
               ),
             );
           },
         ),
-        Padding(
-          padding: const EdgeInsets.only(left: 15, right: 15),
-          child: Container(height: 1, width: double.maxFinite, color: ColorConfig.grey.withOpacity(0.3)),
-        ),
+        // Padding(
+        //   padding: const EdgeInsets.only(left: 15, right: 15),
+        //   child: Container(height: 1, width: double.maxFinite, color: ColorConfig.grey.withOpacity(0.3)),
+        // ),
         SizedBox(
           height: 20,
         ),
@@ -825,7 +757,7 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 5.0),
                         child: TextField(
-                          controller: areaextEditingController,
+                          controller: areaTextEditingController,
                           onChanged: (value) {
                             BlocProvider.of<AddPropertyBloc>(context).add(
                                 AddPropertyAreaEvent(area: value, areaUnit: areaUnit.isEmpty ? 'Sq.M.' : areaUnit));
@@ -841,7 +773,7 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
                             hintStyle: TextStyle(
                               fontFamily: FontConfig.regular,
                               fontSize: Sizeconfig.small,
-                              color: ColorConfig.dark,
+                               color: Color.fromRGBO(0, 0, 0, 0.5),
                             ),
                             border: InputBorder.none,
                           ),
@@ -1178,23 +1110,6 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
           child: Row(
             children: [
               Expanded(
-                flex: 1,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: ColorConfig.smoke,
-                    border: Border.all(
-                      width: 1,
-                      color: ColorConfig.smokeLight,
-                    ),
-                  ),
-                  child: Dropdown1(),
-                ),
-              ),
-              SizedBox(
-                width: 15,
-              ),
-              Expanded(
-                flex: 2,
                 child: BlocBuilder<AddPropertyBloc, AddPropertyState>(
                   builder: (context, state) {
                     return Container(
@@ -1207,12 +1122,12 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: TextFormField(
-                          controller: phoneextEditingController,
+                          controller: phoneTextEditingController,
                           onChanged: (value) =>
                               BlocProvider.of<AddPropertyBloc>(context).add(AddPhoneEvent(phone: value)),
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
-                            hintText: "798767470",
+                            hintText: "0798767470",
                             hintStyle: TextStyle(
                               fontFamily: FontConfig.regular,
                               fontSize: Sizeconfig.small,
@@ -1232,121 +1147,7 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
         SizedBox(
           height: 20,
         ),
-        // Padding(
-        //   padding: EdgeInsets.only(left: 15, right: 15),
-        //   child: Row(
-        //     children: [
-        //       Icon(
-        //         FontAwesome5.list_alt,
-        //         size: Sizeconfig.huge,
-        //         color: ColorConfig.darkGreen,
-        //       ),
-        //       SizedBox(
-        //         width: 10,
-        //       ),
-        //       Padding(
-        //         padding: const EdgeInsets.only(top: 8.0),
-        //         child: Text(
-        //           "Property Features",
-        //           style: TextStyle(
-        //             fontFamily: FontConfig.bold,
-        //             fontSize: Sizeconfig.medium,
-        //             color: ColorConfig.dark,
-        //           ),
-        //         ),
-        //       ),
-        //     ],
-        //   ),
-        // ),
-        // SizedBox(
-        //   height: 10,
-        // ),
-        // Padding(
-        //   padding: const EdgeInsets.only(left: 15, right: 15),
-        //   child: Container(
-        //     padding: EdgeInsets.only(
-        //       right: 15,
-        //       left: 10,
-        //     ),
-        //     height: 40,
-        //     decoration: BoxDecoration(
-        //       borderRadius: BorderRadius.circular(5),
-        //       border: Border.all(
-        //         width: 1,
-        //         color: ColorConfig.smokeLight,
-        //       ),
-        //     ),
-        //     child: Padding(
-        //       padding: const EdgeInsets.only(bottom: 5.0),
-        //       child: TextField(
-        //         style: TextStyle(
-        //           fontFamily: FontConfig.regular,
-        //           fontSize: Sizeconfig.small,
-        //           color: ColorConfig.dark,
-        //         ),
-        //         decoration: InputDecoration(
-        //           hintText: "abc...",
-        //           hintStyle: TextStyle(
-        //             fontFamily: FontConfig.regular,
-        //             fontSize: Sizeconfig.small,
-        //             color: ColorConfig.dark,
-        //           ),
-        //           border: InputBorder.none,
-        //         ),
-        //       ),
-        //     ),
-        //   ),
-        // ),
-        // BlocConsumer<AddPropertyBloc, AddPropertyState>(
-        //   listener: (context, state) {
-        //     if (state is AddedNewFieldState) {
-        //       // propertyFeatures.add(state.widget);
-        //       setState(() {
-        //         featuresListController = state.textEditingController;
-        //         textEditingValue = TextEditingValue(text: textEditingValueText + 1.toString());
-        //       });
-        //     }
-        //   },
-        //   builder: (context, state) {
-        //     if (widget.propertyFields.isNotEmpty) {
-        //       // propertyFeatures.add(state.widget);
-        //       print(textEditingValue);
-        //       return Column(
-        //         children: widget.propertyFields.map((feature) {
-        //           return Container(
-        //             child: feature,
-        //           );
-        //         }).toList(),
-        //       );
-        //     } else {
-        //       return Column(children: [
-        //         propertyFeatureWidget(featuresList, featuresListController),
-        //       ]);
-        //     }
-        //   },
-        // ),
-        // SizedBox(
-        //   height: 20,
-        // ),
-        // BlocBuilder<AddPropertyBloc, AddPropertyState>(
-        //   builder: (context, state) {
-        //     return MaterialButton(
-        //       onPressed: () {
-        //         BlocProvider.of<AddPropertyBloc>(context).add(AddNewFieldEvent(
-        //             widget: propertyFeatureWidget(featuresList, featuresListController),
-        //             propertyFields: propertyFeatures,
-        //             textEditingController: featuresListController,
-        //             textEditingValue: textEditingValue));
-        //       },
-        //       color: ColorConfig.lightGreen,
-        //       textColor: ColorConfig.light,
-        //       child: Text("Add field"),
-        //     );
-        //   },
-        // ),
-        // SizedBox(
-        //   height: 20,
-        // ),
+
         Padding(
           padding: EdgeInsets.only(left: 15, right: 15),
           child: Row(
@@ -1376,28 +1177,31 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
         SizedBox(
           height: 10,
         ),
-        isUploading ?
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center(
-              child: SizedBox(
-                height: 40,
-                width: 40,
-                child: CircularProgressIndicator(),
-              ),
-            ),
-          ) : SizedBox(height: 0),
-        isUploading ?
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center(
-              child: Text("Please wait while Saving images..."),
-            ),
-          ) : SizedBox(height: 0),
-        isUploading ?
-          SizedBox(
-            height: 5,
-          ) : SizedBox(height: 0),
+        isUploading
+            ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: SizedBox(
+                    height: 40,
+                    width: 40,
+                    child: CircularProgressIndicator(),
+                  ),
+                ),
+              )
+            : SizedBox(height: 0),
+        isUploading
+            ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: Text("Please wait while Saving images..."),
+                ),
+              )
+            : SizedBox(height: 0),
+        isUploading
+            ? SizedBox(
+                height: 5,
+              )
+            : SizedBox(height: 0),
         BlocConsumer<AddPropertyBloc, AddPropertyState>(
           listener: (context, state) {
             // if (state is UploadingImagesState) {

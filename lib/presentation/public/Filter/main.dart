@@ -16,7 +16,7 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
   TabController tabController;
   void initState() {
     super.initState();
-    tabController = new TabController(vsync: this, length: 1);
+    tabController = new TabController(vsync: this, length: 2);
     tabController.addListener(_handleTabSelection);
     proposal = "rent";
   }
@@ -25,7 +25,7 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
     setState(() {});
   }
 
-  String proposal = "";
+  String proposal = "buy";
   String county = "";
   String category = "";
   String subCategory = "";
@@ -93,6 +93,11 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                     setState(() {
                       proposal = state.proposal;
                     });
+                    if (proposal == "buy") {
+                      setState(() {
+                        rentalFrequency = "sale";
+                      });
+                    }
                   }
                   if (state is SearchPropertySelectedCounty) {
                     setState(() {
@@ -133,9 +138,15 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                   }
 
                   if (state is AddRentalFrequencyState) {
-                    setState(() {
-                      rentalFrequency = state.frequency;
-                    });
+                    if (proposal == "buy") {
+                      setState(() {
+                        rentalFrequency = "sale";
+                      });
+                    } else {
+                      setState(() {
+                        rentalFrequency = state.frequency;
+                      });
+                    }
                     print("period");
                     print(rentalFrequency);
                   }
@@ -147,12 +158,11 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                     child: TabBar(
                       controller: tabController,
                       onTap: (value) {
-                        // if (value == 0) {
-                        //   setState(() {
-                        //     proposal = "buy";
-                        //   });
-                        // } else
                         if (value == 0) {
+                          setState(() {
+                            proposal = "buy";
+                          });
+                        } else if (value == 1) {
                           setState(() {
                             proposal = "rent";
                           });
@@ -162,31 +172,31 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                             .add((SelectedProposalEvent(index: value, proposal: proposal)));
                       },
                       tabs: [
-                        // Tab(
-                        //   child: Container(
-                        //     height: 40,
-                        //     width: MediaQuery.of(context).size.width,
-                        //     decoration: BoxDecoration(
-                        //         color: tabController.index == 0 ? ColorConfig.lightGreen : ColorConfig.light,
-                        //         borderRadius: BorderRadius.all(
-                        //           Radius.circular(3),
-                        //         ),
-                        //         border: Border.all(width: 1, color: ColorConfig.smokeLight)),
-                        //     child: Center(
-                        //       child: Text(
-                        //         "Buy",
-                        //         style: TextStyle(
-                        //             fontFamily: FontConfig.bold,
-                        //             fontSize: Sizeconfig.small,
-                        //             color: tabController.index == 0 ? ColorConfig.light : ColorConfig.grey),
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
+                        Tab(
+                          child: Container(
+                            height: 40,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                                color: tabController.index == 0 ? ColorConfig.lightGreen : ColorConfig.light,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(3),
+                                ),
+                                border: Border.all(width: 1, color: ColorConfig.smokeLight)),
+                            child: Center(
+                              child: Text(
+                                "Buy",
+                                style: TextStyle(
+                                    fontFamily: FontConfig.bold,
+                                    fontSize: Sizeconfig.small,
+                                    color: tabController.index == 0 ? ColorConfig.light : ColorConfig.grey),
+                              ),
+                            ),
+                          ),
+                        ),
                         Tab(
                           child: Container(
                             decoration: BoxDecoration(
-                                color: tabController.index == 0 ? ColorConfig.lightGreen : ColorConfig.light,
+                                color: tabController.index == 1 ? ColorConfig.lightGreen : ColorConfig.light,
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(3),
                                 ),
@@ -199,7 +209,7 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                                 style: TextStyle(
                                     fontFamily: FontConfig.bold,
                                     fontSize: Sizeconfig.small,
-                                    color: tabController.index == 0 ? ColorConfig.light : ColorConfig.grey),
+                                    color: tabController.index == 1 ? ColorConfig.light : ColorConfig.grey),
                               ),
                             ),
                           ),
@@ -213,7 +223,7 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                 child: TabBarView(
                   controller: tabController,
                   children: [
-                    // TabBar1(),
+                    TabBar1(),
                     TabBar2(),
                   ],
                 ),
@@ -231,7 +241,7 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                         context,
                         MaterialPageRoute(
                             builder: (context) => ListRealify(
-                                  proposal: proposal.isEmpty ? "rent" : proposal.toLowerCase(),
+                                  proposal: proposal.isEmpty ? "buy" : proposal.toLowerCase(),
                                   county: county.isEmpty ? "nairobi".toLowerCase() : county.toLowerCase(),
                                   propertyCategoryType:
                                       category.isEmpty ? "residential".toLowerCase() : category.toLowerCase(),
@@ -240,7 +250,8 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                                   bedrooms: bedrooms.isEmpty ? "studio".toLowerCase() : bedrooms.toLowerCase(),
                                   minPrice: minPrice.isEmpty ? "0" : minPrice,
                                   maxPrice: maxPrice.isEmpty ? "50000" : maxPrice,
-                                  paymentPeriod: rentalFrequency.isEmpty ? "daily".toLowerCase() : rentalFrequency.toLowerCase(),
+                                  paymentPeriod:
+                                      rentalFrequency.isEmpty ? "daily".toLowerCase() : rentalFrequency.toLowerCase(),
                                 )));
                   },
                   child: Text(

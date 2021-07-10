@@ -117,99 +117,48 @@ class _ContactUsState extends State<ContactUs> {
                         color: Colors.grey.withOpacity(0.5),
                       ),
                     ),
-                    // Padding(
-                    //   padding: const EdgeInsets.only(
-                    //       top: 38.0, right: 0.0, left: 23.0),
-                    //   child: TextFormField(
-                    //     textAlignVertical: TextAlignVertical.center,
-                    //     keyboardType: TextInputType.emailAddress,
-                    //     style: TextStyle(
-                    //       color: ColorConfig.dark,
-                    //       fontFamily: FontConfig.regular,
-                    //       fontSize: Sizeconfig.small,
-                    //     ),
-                    //     cursorHeight: 20,
-                    //     cursorColor: ColorConfig.darkGreen,
-                    //     decoration: InputDecoration(
-                    //         hintText: "Email",
-                    //         hintStyle: TextStyle(
-                    //           fontFamily: FontConfig.regular,
-                    //           fontSize: Sizeconfig.small,
-                    //           color: Color.fromRGBO(0, 0, 0, 0.5),
-                    //         ),
-                    //         suffixIcon: Padding(
-                    //           padding: const EdgeInsets.only(top: 7.0),
-                    //           child: Icon(
-                    //             Foundation.asterisk,
-                    //             color: ColorConfig.darkGreen,
-                    //             size: Sizeconfig.small,
-                    //           ),
-                    //         ),
-                    //         border: InputBorder.none),
-                    //   ),
-                    // ),
-                    // Padding(
-                    //   padding: const EdgeInsets.only(
-                    //       top: 3.5, right: 20.0, left: 20.0),
-                    //   child: Divider(
-                    //     height: 1,
-                    //     thickness: 1,
-                    //     color: Colors.grey.withOpacity(0.5),
-                    //   ),
-                    // ),
+                   Padding(
+                      padding: const EdgeInsets.only(top: 20.0, right: 0.0, left: 23.0),
+                      child: TextFormField(
+                        onChanged: (value) {
+                          setState(() {
+                            phone = value;
+                          });
+                        },
+                        controller: phoneTextEditingController,
+                        textAlignVertical: TextAlignVertical.center,
+                        keyboardType: TextInputType.phone,
+                        style: TextStyle(
+                          color: ColorConfig.dark,
+                          fontFamily: FontConfig.regular,
+                          fontSize: Sizeconfig.small,
+                        ),
+                        cursorHeight: 20,
+                        cursorColor: ColorConfig.darkGreen,
+                        decoration: InputDecoration(
+                            hintText: "Phone number",
+                            hintStyle: TextStyle(
+                              fontFamily: FontConfig.regular,
+                              fontSize: Sizeconfig.small,
+                              color: Color.fromRGBO(0, 0, 0, 0.5),
+                            ),
+                            suffixIcon: Padding(
+                              padding: const EdgeInsets.only(top: 7.0),
+                              child: Icon(
+                                Foundation.asterisk,
+                                color: ColorConfig.darkGreen,
+                                size: Sizeconfig.small,
+                              ),
+                            ),
+                            border: InputBorder.none),
+                      ),
+                    ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 20.0, right: 25.0, left: 20.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: ColorConfig.smoke,
-                                border: Border.all(
-                                  width: 1,
-                                  color: ColorConfig.smokeLight,
-                                ),
-                              ),
-                              child: CurrencyCode(),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 15,
-                          ),
-                          Expanded(
-                            flex: 2,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  width: 1,
-                                  color: ColorConfig.smokeLight,
-                                ),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: TextFormField(
-                                  onChanged: (value) {
-                                    setState(() {
-                                      phone = "254$value";
-                                    });
-                                  },
-                                  controller: phoneTextEditingController,
-                                  keyboardType: TextInputType.number,
-                                  decoration: InputDecoration(
-                                    hintText: "798767470",
-                                    hintStyle: TextStyle(
-                                      fontFamily: FontConfig.regular,
-                                      fontSize: Sizeconfig.small,
-                                      color: Color.fromRGBO(0, 0, 0, 0.5),
-                                    ),
-                                    border: InputBorder.none,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                      padding: const EdgeInsets.only(top: 3.5, right: 20.0, left: 20.0),
+                      child: Divider(
+                        height: 1,
+                        thickness: 1,
+                        color: Colors.grey.withOpacity(0.5),
                       ),
                     ),
                     Padding(

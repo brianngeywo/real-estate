@@ -79,7 +79,7 @@ class RealifyPropertyApiProvider {
   sendContactMessageAndDetails(String name, String phone, String message, BuildContext context) async {
     await firebaseFirestore.collection("customer messages").doc(uuid).set({
       'name': name,
-      // 'email': email
+      'email': FirebaseAuth.instance.currentUser.email,
       'phone': phone,
       "message": message,
     }).then((value) => uuid = new Uuid().v1());

@@ -18,7 +18,7 @@ class AddProperty extends StatefulWidget {
 }
 
 class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin {
-  String proposal = "";
+  String proposal = "buy";
   String county = "";
   String category = "";
   String subCategory = "";
@@ -89,12 +89,20 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                 ),
               ),
               Container(height: 1, width: double.maxFinite, color: ColorConfig.grey.withOpacity(0.3)),
+              SizedBox(
+                height: 20,
+              ),
               BlocConsumer<AddPropertyBloc, AddPropertyState>(
                 listener: (context, state) {
                   if (state is AddPropertySelectedProposal) {
                     setState(() {
                       proposal = state.proposal;
                     });
+                    if (proposal == "buy") {
+                      setState(() {
+                        rentalFrequency = "sale";
+                      });
+                    }
                   }
                   if (state is AddPropertySelectedCounty) {
                     setState(() {
@@ -110,91 +118,72 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                     setState(() {
                       subCategory = state.subcategoryTitle;
                     });
-                    
                   }
 
                   if (state is SelectedBathroomState) {
                     setState(() {
                       bathrooms = state.bathroom;
                     });
-                    
                   }
                   if (state is SelectedBedroomState) {
                     setState(() {
                       bedrooms = state.bedroom;
                     });
-                    
                   }
                   if (state is EnteredPriceState) {
                     setState(() {
                       price = state.price;
                     });
-                    
                   }
                   if (state is AddedLocalityState) {
                     setState(() {
                       locality = state.location;
                     });
-                    
                   }
                   if (state is AddedPropertyTitleState) {
                     setState(() {
                       propertyName = state.title;
                     });
-                    
                   }
                   if (state is AddedPropertyDescriptionState) {
                     setState(() {
                       description = state.description;
                     });
-                    
                   }
                   if (state is AddRentalFrequencyState) {
-                    setState(() {
-                      rentalFrequency = state.frequency;
-                    });
-                    
+                    if (proposal == "buy") {
+                      setState(() {
+                        rentalFrequency = "sale";
+                      });
+                    } else {
+                      setState(() {
+                        rentalFrequency = state.frequency;
+                      });
+                    }
                   }
                   if (state is AddPropertyAreaState) {
                     setState(() {
                       area = state.area;
                       areaUnit = state.areaUnit;
                     });
-                    
                   }
                   if (state is AddedPhoneState) {
                     setState(() {
                       phone = state.phone;
                     });
-                    
                   }
                   if (state is UploadingImagesState) {
                     BlocProvider.of<AddPropertyBloc>(context)
                         .add(UploadImagesEvent(propertyImagesList: state.propertyImageList));
                   }
                   if (state is UploadedImagesState) {
-                    
-                    
                     state.propertyImageList.propertyImages.forEach((image) {
                       setState(() {
                         imageUrls.add(image.url);
                       });
                     });
-                    
                   }
-                  // if (state is AddPropertyFeaturesState) {
-                  //   propertyFeatures.add(state.value);
-                  //   
-                  //   propertyFeatures.forEach((element) {
-                  //     
-                  //   });
-                  // }
-                  // if (state is AddedNewFieldState) {
-                  //   // propertyFeatures.add(state.widget);
-                  //   setState(() {
-                  //     propertyFields = state.propertyFields;
-                  //   });
-                  // }
+
                   if (state is UploadedPropertyState) {
                     String message = "property successfully uploaded";
                     showSnackbar(message, context);
@@ -205,52 +194,47 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                   return TabBar(
                     controller: tabController,
                     onTap: (value) {
-                      // if (value == 0) {
-                      //   setState(() {
-                      //     proposal = "buy";
-                      //   });
-                      // } else
-                      if (value == 1) {
+                      if (value == 0) {
+                        setState(() {
+                          proposal = "buy";
+                        });
+                      } else if (value == 1) {
                         setState(() {
                           proposal = "rent";
                         });
                       }
-
+                      print(proposal);
                       BlocProvider.of<AddPropertyBloc>(context)
                           .add((SelectedProposalEvent(index: value, proposal: proposal)));
                     },
-                    tabs:
-                        // proposal.map((proposal) {
-                        //   return buildTabitems(context, proposal, tabController);
-                        // }).toList()
-                        [
-                      // Tab(
-                      //   child: Container(
-                      //     height: 40,
-                      //     width: MediaQuery.of(context).size.width,
-                      //     decoration: BoxDecoration(
-                      //         color: tabController.index == 0 ? ColorConfig.lightGreen : ColorConfig.light,
-                      //         borderRadius: BorderRadius.all(
-                      //           Radius.circular(3),
-                      //         ),
-                      //         border: Border.all(width: 1, color: ColorConfig.smokeLight)),
-                      //     child: Center(
-                      //       child: Text(
-                      //         "Sell",
-                      //         style: TextStyle(
-                      //             fontFamily: FontConfig.bold,
-                      //             fontSize: Sizeconfig.small,
-                      //             color: tabController.index == 0 ? ColorConfig.light : ColorConfig.grey),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
+                    tabs: [
                       Tab(
                         child: Container(
                           height: 40,
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
                               color: tabController.index == 0 ? ColorConfig.lightGreen : ColorConfig.light,
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(3),
+                              ),
+                              border: Border.all(width: 1, color: ColorConfig.smokeLight)),
+                          child: Center(
+                            child: Text(
+                              "Sell",
+                              style: TextStyle(
+                                  fontFamily: FontConfig.bold,
+                                  fontSize: Sizeconfig.small,
+                                  color: tabController.index == 0 ? ColorConfig.light : ColorConfig.grey),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Tab(
+                        child: Container(
+                          height: 40,
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                              color: tabController.index == 1 ? ColorConfig.lightGreen : ColorConfig.light,
                               borderRadius: BorderRadius.all(Radius.circular(3)),
                               border: Border.all(width: 1, color: ColorConfig.smokeLight)),
                           child: Center(
@@ -259,7 +243,7 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                               style: TextStyle(
                                   fontFamily: FontConfig.bold,
                                   fontSize: Sizeconfig.small,
-                                  color: tabController.index == 0 ? ColorConfig.light : ColorConfig.grey),
+                                  color: tabController.index == 1 ? ColorConfig.light : ColorConfig.grey),
                             ),
                           ),
                         ),
@@ -273,13 +257,8 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                 child: TabBarView(
                   controller: tabController,
                   children: [
-                    // BuyTabBar(
-                    //     // propertyFields: propertyFields,
-                    //     ),
-
-                    RentTabBar(
-                        // propertyFields: propertyFields,
-                        ),
+                    BuyTabBar(),
+                    RentTabBar(),
                   ],
                 ),
               ),
@@ -301,7 +280,7 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                           if (state is! UploadingImagesState) {
                             BlocProvider.of<AddPropertyBloc>(context).add(
                               UploadPropertyEvent(
-                                proposal: proposal.isEmpty ? "rent" : proposal.toLowerCase(),
+                                proposal: proposal.isEmpty ? "buy" : proposal.toLowerCase(),
                                 county: county.isEmpty ? "nairobi" : county.toLowerCase(),
                                 category: category.isEmpty ? "residential" : category.toLowerCase(),
                                 subCategory: subCategory.isEmpty ? "apartment" : subCategory.toLowerCase(),
@@ -311,7 +290,7 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                                 locality: locality.toLowerCase(),
                                 propertyName: propertyName.toLowerCase(),
                                 description: description.toLowerCase(),
-                                rentalFrequency: rentalFrequency.isEmpty ? "yearly" : rentalFrequency.toLowerCase(),
+                                rentalFrequency: rentalFrequency.isEmpty ? "daily" : rentalFrequency.toLowerCase(),
                                 area: area.isEmpty ? "0" : area.toLowerCase(),
                                 areaUnit: areaUnit.toLowerCase(),
                                 phone: phone.toLowerCase(),
@@ -320,9 +299,6 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                               ),
                             );
                           }
-
-                          
-                          
                         },
                         child: Text(
                           state is UploadingImagesState ? 'Uploading images' : 'Upload Now',

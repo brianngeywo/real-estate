@@ -85,58 +85,42 @@ class _SignUpState extends State<SignUp> {
                           SizedBox(
                             height: 30.0,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 7.0),
-                            child: TextFormField(
-                              controller: nameTextEditingController,
-                              textAlignVertical: TextAlignVertical.center,
-                              keyboardType: TextInputType.emailAddress,
-                              style: TextStyle(
-                                color: ColorConfig.dark,
-                                fontFamily: FontConfig.regular,
-                                fontSize: Sizeconfig.small,
-                              ),
-                              cursorHeight: 20,
-                              cursorColor: ColorConfig.darkGreen,
-                              decoration: InputDecoration(
-                                  hintText: "Personal Name/Company Name",
-                                  hintStyle: TextStyle(
-                                    fontFamily: FontConfig.regular,
-                                    fontSize: Sizeconfig.small,
-                                    color: Color.fromRGBO(0, 0, 0, 0.5),
-                                  ),
-                                  suffixIcon: Padding(
-                                    padding: const EdgeInsets.only(top: 7.0),
-                                    child: Icon(
-                                      Foundation.asterisk,
-                                      color: ColorConfig.darkGreen,
-                                      size: Sizeconfig.small,
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 2,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      width: 1,
+                                      color: ColorConfig.smokeLight,
                                     ),
                                   ),
-                                  border: InputBorder.none),
-                            ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: TextFormField(
+                                      controller: nameTextEditingController,
+                                      keyboardType: TextInputType.name,
+                                      decoration: InputDecoration(
+                                        hintText: "company name/ personal name",
+                                        hintStyle: TextStyle(
+                                          fontFamily: FontConfig.regular,
+                                          fontSize: Sizeconfig.small,
+                                          color: Color.fromRGBO(0, 0, 0, 0.5),
+                                        ),
+                                        border: InputBorder.none,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                           SizedBox(
                             height: 30,
                           ),
                           Row(
                             children: [
-                              Expanded(
-                                flex: 1,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: ColorConfig.smoke,
-                                    border: Border.all(
-                                      width: 1,
-                                      color: ColorConfig.smokeLight,
-                                    ),
-                                  ),
-                                  child: Dropdown(),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 15,
-                              ),
                               Expanded(
                                 flex: 2,
                                 child: Container(
@@ -152,7 +136,7 @@ class _SignUpState extends State<SignUp> {
                                       controller: phoneTextEditingController,
                                       keyboardType: TextInputType.number,
                                       decoration: InputDecoration(
-                                        hintText: "798767470",
+                                        hintText: "0798767470",
                                         hintStyle: TextStyle(
                                           fontFamily: FontConfig.regular,
                                           fontSize: Sizeconfig.small,
@@ -264,7 +248,7 @@ class _SignUpState extends State<SignUp> {
                 width: double.maxFinite,
                 padding: EdgeInsets.all(10),
                 color: Colors.white,
-                child: RaisedButton(
+                child: MaterialButton(
                   elevation: 0.0,
                   color: ColorConfig.darkGreen,
                   onPressed: () {
@@ -306,12 +290,12 @@ class _SignUpState extends State<SignUp> {
     RadioList(index: 2, name: 'Developer'),
   ];
   // Default Radio Button Item
-  String radioItem = 'Owner';
+  String radioItem = '';
 
   // Group Value for Radio Button.
-  int id = 1;
+  int id;
   String selectedRadioOption = "select Role";
-  Widget showDialogBox(BuildContext context) {
+  showDialogBox(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -382,13 +366,13 @@ class _SignUpState extends State<SignUp> {
                   Container(
                     padding: EdgeInsets.all(6),
                     width: double.maxFinite,
-                    height: 80,
+                    height: 70,
                     color: Colors.white,
-                    child: RaisedButton(
+                    child: MaterialButton(
                       elevation: 0.0,
                       color: ColorConfig.darkGreen,
                       onPressed: () {
-                        //Todo: select the role and navigate//
+                        Navigator.pop(context);
                       },
                       child: Text(
                         'DONE',
