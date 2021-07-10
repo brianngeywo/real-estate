@@ -573,7 +573,7 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                           ),
                         ),
                         Text(
-                          "+254" + widget.property.phone,
+                          widget.property.phone,
                           style: TextStyle(
                             fontFamily: FontConfig.bold,
                             fontSize: Sizeconfig.small,

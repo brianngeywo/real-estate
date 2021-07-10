@@ -103,28 +103,28 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                     setState(() {
                       county = state.county;
                     });
-                    print(county);
+                    // print(county);
                   }
                   if (state is SearchPropertySelectedPropertyType) {
                     setState(() {
                       category = state.categoryTitle;
                     });
-                    print("category");
-                    print(category);
+                    // print("category");
+                    // print(category);
                   }
                   if (state is SearchPropertySelectedPropertySubType) {
                     setState(() {
                       subCategory = state.subcategoryTitle;
                     });
-                    print("sub category");
-                    print(subCategory);
+                    // print("sub category");
+                    // print(subCategory);
                   }
                   if (state is SelectedBedroomState) {
                     setState(() {
                       bedrooms = state.bedroom;
                     });
-                    print("bedrooms");
-                    print(bedrooms);
+                    // print("bedrooms");
+                    // print(bedrooms);
                   }
                   if (state is EnteredMinPriceState) {
                     setState(() {
@@ -147,8 +147,8 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                         rentalFrequency = state.frequency;
                       });
                     }
-                    print("period");
-                    print(rentalFrequency);
+                    // print("period");
+                    // print(rentalFrequency);
                   }
                 },
                 builder: (context, state) {

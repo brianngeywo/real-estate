@@ -202,7 +202,7 @@ class _BuyTabBarState extends State<BuyTabBar> {
                         child: MaterialButton(
                           elevation: 0,
                           onPressed: () {
-                            print(e);
+                            // print(e);
                             setState(() {
                               selectedPropertyType = e;
                             });
@@ -919,61 +919,7 @@ class _BuyTabBarState extends State<BuyTabBar> {
         SizedBox(
           height: 10,
         ),
-        // Padding(
-        //   padding: EdgeInsets.only(left: 15, right: 15),
-        //   child: Row(
-        //     children: [
-        //       Icon(
-        //         FontAwesome5.hashtag,
-        //         size: Sizeconfig.huge,
-        //         color: ColorConfig.darkGreen,
-        //       ),
-        //       SizedBox(
-        //         width: 10,
-        //       ),
-        //       Padding(
-        //         padding: const EdgeInsets.only(top: 8.0),
-        //         child: Text(
-        //           "Permit Number",
-        //           style: TextStyle(
-        //             fontFamily: FontConfig.bold,
-        //             fontSize: Sizeconfig.medium,
-        //             color: ColorConfig.dark,
-        //           ),
-        //         ),
-        //       ),
-        //     ],
-        //   ),
-        // ),
-        // SizedBox(
-        //   height: 10,
-        // ),
-        // Padding(
-        //   padding: EdgeInsets.only(left: 15, right: 15),
-        //   child: TextFormField(
-        //     style: TextStyle(
-        //       fontFamily: FontConfig.regular,
-        //       fontSize: Sizeconfig.small,
-        //       color: ColorConfig.dark,
-        //     ),
-        //     decoration: InputDecoration(
-        //       hintText: "e.g 1234",
-        //       hintStyle: TextStyle(
-        //         fontFamily: FontConfig.regular,
-        //         fontSize: Sizeconfig.small,
-        //         color: ColorConfig.dark,
-        //       ),
-        //       border: InputBorder.none,
-        //     ),
-        //   ),
-        // ),
-        // Padding(
-        //   padding: const EdgeInsets.only(left: 15, right: 15),
-        //   child: Container(height: 1, width: double.maxFinite, color: ColorConfig.grey.withOpacity(0.3)),
-        // ),
-        // SizedBox(
-        //   height: 20,
-        // ),
+ 
         Padding(
           padding: EdgeInsets.only(left: 15, right: 15),
           child: Row(
@@ -1000,32 +946,7 @@ class _BuyTabBarState extends State<BuyTabBar> {
             ],
           ),
         ),
-        // SizedBox(
-        //   height: 10,
-        // ),
-        // Padding(
-        //   padding: EdgeInsets.only(left: 15, right: 15),
-        //   child: TextFormField(
-        //     style: TextStyle(
-        //       fontFamily: FontConfig.regular,
-        //       fontSize: Sizeconfig.small,
-        //       color: ColorConfig.dark,
-        //     ),
-        //     decoration: InputDecoration(
-        //       hintText: "someone@qwer.com",
-        //       hintStyle: TextStyle(
-        //         fontFamily: FontConfig.regular,
-        //         fontSize: Sizeconfig.small,
-        //         color: ColorConfig.dark,
-        //       ),
-        //       border: InputBorder.none,
-        //     ),
-        //   ),
-        // ),
-        // Padding(
-        //   padding: const EdgeInsets.only(left: 15, right: 15),
-        //   child: Container(height: 1, width: double.maxFinite, color: ColorConfig.grey.withOpacity(0.3)),
-        // ),
+       
         SizedBox(
           height: 20,
         ),

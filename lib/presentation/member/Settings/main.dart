@@ -23,11 +23,31 @@ class _SettingsState extends State<Settings> {
   TextEditingController phoneController = TextEditingController();
   bool fullNameValid = true;
   bool emailValid = true;
+  bool phoneValid = true;
   File _image;
   String profilePictureUrl = "";
   bool isUploading = false;
+  getUser() async {
+    RealifyUser currentUser = RealifyUser();
+    DocumentSnapshot userDocSnap = await usersRef.doc(auth.currentUser.uid).get();
+
+    currentUser = RealifyUser.fromSnapshot(userDocSnap);
+    setState(() {
+      fullNameController.text = currentUser.name;
+      emailController.text = currentUser.email;
+      phoneController.text = currentUser.phone;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUser();
+  }
+
   updateProfile() {
     setState(() {
+      phoneController.text.length < 10 || phoneController.text.isEmpty ? phoneValid = false : phoneValid = true;
       fullNameController.text.length < 3 || fullNameController.text.isEmpty
           ? fullNameValid = false
           : fullNameValid = true;
@@ -51,6 +71,7 @@ class _SettingsState extends State<Settings> {
       backgroundColor: Color.fromRGBO(255, 255, 255, 1),
       body: SafeArea(
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Container(
               color: Colors.white,
@@ -83,241 +104,247 @@ class _SettingsState extends State<Settings> {
             ),
             Divider(color: ColorConfig.grey.withOpacity(0.3)),
             Expanded(
-              flex: 14,
               child: FutureBuilder<DocumentSnapshot>(
-                  future:
-                      FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser.uid).get(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      RealifyUser user = RealifyUser.fromSnapshot(snapshot.data);
-                      return Container(
-                        color: ColorConfig.light,
-                        child: SingleChildScrollView(
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 15, left: 20),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  height: 15.0,
-                                ),
-                                _image != null
-                                    ? Center(
-                                        child: Container(
-                                          height: 120,
-                                          width: 120,
-                                          child: Image.file(_image),
-                                        ),
-                                      )
-                                    : Center(
-                                        child: Container(
-                                          height: 120,
-                                          width: 120,
-                                          child: user.photoUrl.isNotEmpty && user.photoUrl != null
-                                              ? ClipRRect(
-                                                  borderRadius: BorderRadius.circular(1000),
-                                                  child: CachedNetworkImage(imageUrl: user.photoUrl, fit: BoxFit.cover),
-                                                )
-                                              : CircleAvatar(
-                                                  backgroundColor: ColorConfig.lightGreen,
-                                                  child: Center(
-                                                    child: Text(
-                                                      "No Picture",
-                                                      style: TextStyle(
-                                                        color: ColorConfig.dark,
-                                                      ),
+                future: FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser.uid).get(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    RealifyUser user = RealifyUser.fromSnapshot(snapshot.data);
+                    return Container(
+                      color: ColorConfig.light,
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 15, left: 20),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: 15.0,
+                              ),
+                              _image != null
+                                  ? Center(
+                                      child: Container(
+                                        height: 120,
+                                        width: 120,
+                                        child: Image.file(_image),
+                                      ),
+                                    )
+                                  : Center(
+                                      child: Container(
+                                        height: 120,
+                                        width: 120,
+                                        child: user.photoUrl.isNotEmpty && user.photoUrl != null
+                                            ? ClipRRect(
+                                                borderRadius: BorderRadius.circular(1000),
+                                                child: CachedNetworkImage(imageUrl: user.photoUrl, fit: BoxFit.cover),
+                                              )
+                                            : CircleAvatar(
+                                                backgroundColor: ColorConfig.lightGreen,
+                                                child: Center(
+                                                  child: Text(
+                                                    "No Picture",
+                                                    style: TextStyle(
+                                                      color: ColorConfig.dark,
                                                     ),
                                                   ),
                                                 ),
-                                        ),
-                                      ),
-                                SizedBox(
-                                  height: 20.0,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    _image != null
-                                        ? MaterialButton(
-                                            onPressed: () {
-                                              SnackBar snackbar =
-                                                  SnackBar(content: Text('Please wait, we are uploading'));
-                                              ScaffoldMessenger.of(context).showSnackBar(snackbar);
-                                              uploadImages(context);
-                                            },
-                                            textColor: ColorConfig.light,
-                                            color: ColorConfig.lightGreen,
-                                            child: Container(
-                                              padding: EdgeInsets.all(5),
-                                              child: Text(
-                                                "Upload Photo".toUpperCase(),
-                                                style: TextStyle(
-                                                  color: ColorConfig.light,
-                                                  fontFamily: FontConfig.regular,
-                                                ),
                                               ),
-                                            ),
-                                          )
-                                        : MaterialButton(
-                                            onPressed: getImage,
-                                            textColor: ColorConfig.light,
-                                            color: ColorConfig.lightGreen,
-                                            child: Container(
-                                              padding: EdgeInsets.all(5),
-                                              child: Text(
-                                                "Choose Photo".toUpperCase(),
-                                                style: TextStyle(
-                                                  color: ColorConfig.light,
-                                                  fontFamily: FontConfig.regular,
-                                                ),
+                                      ),
+                                    ),
+                              SizedBox(
+                                height: 20.0,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  _image != null
+                                      ? MaterialButton(
+                                          onPressed: () {
+                                            SnackBar snackbar =
+                                                SnackBar(content: Text('Please wait, we are uploading'));
+                                            ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                                            uploadImages(context);
+                                          },
+                                          textColor: ColorConfig.light,
+                                          color: ColorConfig.lightGreen,
+                                          child: Container(
+                                            padding: EdgeInsets.all(5),
+                                            child: Text(
+                                              "Upload Photo".toUpperCase(),
+                                              style: TextStyle(
+                                                color: ColorConfig.light,
+                                                fontFamily: FontConfig.regular,
                                               ),
                                             ),
                                           ),
-                                  ],
+                                        )
+                                      : MaterialButton(
+                                          onPressed: getImage,
+                                          textColor: ColorConfig.light,
+                                          color: ColorConfig.lightGreen,
+                                          child: Container(
+                                            padding: EdgeInsets.all(5),
+                                            child: Text(
+                                              "Choose Photo".toUpperCase(),
+                                              style: TextStyle(
+                                                color: ColorConfig.light,
+                                                fontFamily: FontConfig.regular,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                ],
+                              ),
+                              SizedBox(height: 20),
+                              Text(
+                                "Name",
+                                style: TextStyle(
+                                  fontFamily: FontConfig.regular,
+                                  fontSize: Sizeconfig.small,
+                                  color: ColorConfig.darkGreen,
                                 ),
-                                SizedBox(height: 20),
-                                Text(
-                                  "Name",
-                                  style: TextStyle(
-                                    fontFamily: FontConfig.regular,
-                                    fontSize: Sizeconfig.small,
-                                    color: ColorConfig.darkGreen,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 7.0),
-                                  child: TextFormField(
-                                    controller: fullNameController,
-                                    keyboardType: TextInputType.name,
-                                    decoration: InputDecoration(
-                                      hintText: user.name,
-                                      hintStyle: TextStyle(
-                                        fontFamily: FontConfig.regular,
-                                        fontSize: Sizeconfig.small,
-                                        color: ColorConfig.dark,
-                                      ),
-                                      border: InputBorder.none,
-                                    ),
-                                  ),
-                                ),
-                                // SizedBox(height: 2),
-                                Divider(
-                                  height: 1,
-                                  thickness: 1,
-                                  color: Colors.grey.withOpacity(0.5),
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Text(
-                                  "Phone number",
-                                  style: TextStyle(
-                                    fontFamily: FontConfig.regular,
-                                    fontSize: Sizeconfig.small,
-                                    color: ColorConfig.darkGreen,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 7.0),
-                                  child: TextFormField(
-                                    controller: phoneController,
-                                    keyboardType: TextInputType.phone,
-                                    decoration: InputDecoration(
-                                      hintText: user.phone,
-                                      hintStyle: TextStyle(
-                                        fontFamily: FontConfig.regular,
-                                        fontSize: Sizeconfig.small,
-                                        color: ColorConfig.dark,
-                                      ),
-                                      border: InputBorder.none,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 2),
-                                Divider(
-                                  height: 1,
-                                  thickness: 1,
-                                  color: Colors.grey.withOpacity(0.5),
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Text(
-                                  "Email",
-                                  style: TextStyle(
-                                    fontFamily: FontConfig.regular,
-                                    fontSize: Sizeconfig.small,
-                                    color: ColorConfig.darkGreen,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 7.0),
-                                  child: TextFormField(
-                                    controller: emailController,
-                                    keyboardType: TextInputType.name,
-                                    decoration: InputDecoration(
-                                      hintText: user.email,
-                                      hintStyle: TextStyle(
-                                        fontFamily: FontConfig.regular,
-                                        fontSize: Sizeconfig.small,
-                                        color: ColorConfig.dark,
-                                      ),
-                                      border: InputBorder.none,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 2),
-                                Divider(
-                                  height: 1,
-                                  thickness: 1,
-                                  color: Colors.grey.withOpacity(0.5),
-                                ),
-                                SizedBox(height: 20),
-                                Text(
-                                  "Type",
-                                  style: TextStyle(
-                                    fontFamily: FontConfig.regular,
-                                    fontSize: Sizeconfig.small,
-                                    color: ColorConfig.darkGreen,
-                                  ),
-                                ),
-                                SizedBox(height: 20),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 7.0),
-                                  child: Text(
-                                    user.role,
-                                    style: TextStyle(
+                              ),
+                              SizedBox(height: 5),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 7.0),
+                                child: TextFormField(
+                                  controller: fullNameController,
+                                  keyboardType: TextInputType.name,
+                                  decoration: InputDecoration(
+                                    hintText: user.name,
+                                    hintStyle: TextStyle(
                                       fontFamily: FontConfig.regular,
                                       fontSize: Sizeconfig.small,
                                       color: ColorConfig.dark,
                                     ),
+                                    errorText: fullNameValid ? null : "full name is not valid",
+                                    border: InputBorder.none,
                                   ),
                                 ),
-                                SizedBox(height: 20),
-                                Divider(
-                                  height: 1,
-                                  thickness: 1,
-                                  color: Colors.grey.withOpacity(0.5),
+                              ),
+                              SizedBox(height: 5),
+                              Divider(
+                                height: 1,
+                                thickness: 1,
+                                color: Colors.grey.withOpacity(0.5),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Text(
+                                "Phone number",
+                                style: TextStyle(
+                                  fontFamily: FontConfig.regular,
+                                  fontSize: Sizeconfig.small,
+                                  color: ColorConfig.darkGreen,
                                 ),
-                                SizedBox(
-                                  height: 20,
+                              ),
+                              SizedBox(height: 5),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 7.0),
+                                child: TextFormField(
+                                  controller: phoneController,
+                                  keyboardType: TextInputType.phone,
+                                  decoration: InputDecoration(
+                                    hintText: user.phone,
+                                    hintStyle: TextStyle(
+                                      fontFamily: FontConfig.regular,
+                                      fontSize: Sizeconfig.small,
+                                      color: ColorConfig.dark,
+                                    ),
+                                    errorText: phoneValid ? null : "phone number is not valid",
+                                    border: InputBorder.none,
+                                  ),
                                 ),
-                              ],
-                            ),
+                              ),
+                              SizedBox(height: 5),
+                              Divider(
+                                height: 1,
+                                thickness: 1,
+                                color: Colors.grey.withOpacity(0.5),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Text(
+                                "Email",
+                                style: TextStyle(
+                                  fontFamily: FontConfig.regular,
+                                  fontSize: Sizeconfig.small,
+                                  color: ColorConfig.darkGreen,
+                                ),
+                              ),
+                              SizedBox(height: 5),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 7.0),
+                                child: TextFormField(
+                                  controller: emailController,
+                                  keyboardType: TextInputType.name,
+                                  decoration: InputDecoration(
+                                    hintText: user.email,
+                                    hintStyle: TextStyle(
+                                      fontFamily: FontConfig.regular,
+                                      fontSize: Sizeconfig.small,
+                                      color: ColorConfig.dark,
+                                    ),
+                                    errorText: emailValid ? null : "email address is not valid",
+                                    border: InputBorder.none,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 5),
+                              Divider(
+                                height: 1,
+                                thickness: 1,
+                                color: Colors.grey.withOpacity(0.5),
+                              ),
+                              SizedBox(height: 20),
+                              Text(
+                                "Type",
+                                style: TextStyle(
+                                  fontFamily: FontConfig.regular,
+                                  fontSize: Sizeconfig.small,
+                                  color: ColorConfig.darkGreen,
+                                ),
+                              ),
+                              SizedBox(height: 5),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 7.0),
+                                child: Text(
+                                  user.role,
+                                  style: TextStyle(
+                                    fontFamily: FontConfig.regular,
+                                    fontSize: Sizeconfig.small,
+                                    color: ColorConfig.dark,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 5),
+                              Divider(
+                                height: 1,
+                                thickness: 1,
+                                color: Colors.grey.withOpacity(0.5),
+                              ),
+                            ],
                           ),
                         ),
-                      );
-                    }
-                    return Center(
-                        child: SizedBox(
-                            height: 50,
-                            width: 50,
-                            child: Container(
-                              child: CircularProgressIndicator(
-                                color: ColorConfig.lightGreen,
-                              ),
-                            )));
-                  }),
+                      ),
+                    );
+                  }
+                  return Center(
+                    child: SizedBox(
+                      height: 50,
+                      width: 50,
+                      child: Container(
+                        child: CircularProgressIndicator(
+                          color: ColorConfig.lightGreen,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
             Divider(color: ColorConfig.grey.withOpacity(0.3)),
             Container(

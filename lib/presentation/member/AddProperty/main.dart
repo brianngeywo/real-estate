@@ -203,7 +203,7 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                           proposal = "rent";
                         });
                       }
-                      print(proposal);
+                      // print(proposal);
                       BlocProvider.of<AddPropertyBloc>(context)
                           .add((SelectedProposalEvent(index: value, proposal: proposal)));
                     },

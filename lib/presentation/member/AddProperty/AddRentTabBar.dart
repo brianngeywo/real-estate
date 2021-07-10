@@ -203,7 +203,7 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
                         child: MaterialButton(
                           elevation: 0,
                           onPressed: () {
-                            print(e);
+                            // print(e);
                             setState(() {
                               selectedPropertyType = e;
                             });
