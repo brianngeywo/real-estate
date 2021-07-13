@@ -1,3 +1,4 @@
+import 'package:Realify/backend/models/Property_image.dart';
 import 'package:Realify/backend/models/RealifyProperty.dart';
 import 'package:Realify/backend/services/RealifyPropertyApiProvider.dart';
 import 'package:Realify/presentation/my_imports.dart';
@@ -26,7 +27,8 @@ class RealifyPropertyRepository {
     realifyPropertyApiProvider.reportPropertyListing(typeOfProblem, name, phone, description, context, property);
   }
 
-  postImage(Asset imageFile) {
-    realifyPropertyApiProvider.postImage(imageFile);
+  Future<PropertyList> uploadFiles(List<Asset> _images) async {
+    PropertyList propertyImagesList = await realifyPropertyApiProvider.uploadFiles(_images);
+    return propertyImagesList;
   }
 }

@@ -6,13 +6,14 @@ import 'package:Realify/backend/repositories/RealifyPropertyRepository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
+import 'package:multi_image_picker2/multi_image_picker2.dart';
 
 part 'update_property_event.dart';
 part 'update_property_state.dart';
 
 class UpdatePropertyBloc extends Bloc<UpdatePropertyEvent, UpdatePropertyState> {
   UpdatePropertyBloc() : super(UpdatePropertyInitial());
-    RealifyPropertyRepository repository = RealifyPropertyRepository();
+  RealifyPropertyRepository repository = RealifyPropertyRepository();
   TextEditingController controller = TextEditingController();
   List<String> imageUrls = <String>[];
 
@@ -51,7 +52,7 @@ class UpdatePropertyBloc extends Bloc<UpdatePropertyEvent, UpdatePropertyState> 
       yield UpdatedPropertyDescriptionState(description: event.description);
     }
     if (event is AddRentalFrequencyEvent) {
-      yield UpdateRentalFrequencyState(frequency: event.frequency.toLowerCase(),index: event.index);
+      yield UpdateRentalFrequencyState(frequency: event.frequency.toLowerCase(), index: event.index);
     }
     if (event is AddPropertyAreaEvent) {
       yield UpdatePropertyAreaState(area: event.area, areaUnit: event.areaUnit);
@@ -59,15 +60,16 @@ class UpdatePropertyBloc extends Bloc<UpdatePropertyEvent, UpdatePropertyState> 
     if (event is AddPhoneEvent) {
       yield UpdatedPhoneState(phone: event.phone);
     }
-    if (event is AddPropertyFeaturesEvent) {
-      yield UpdatePropertyFeaturesState(value: event.value);
+    if (event is StartPropertyUploadEvent) {
+      yield StartPropertyUploadState();
     }
-    if (event is UploadingImagesEvent) {
-      yield* _mapUploadingImagesToState(event);
+    if (event is StartPropertyUpdateEvent) {
+      yield StartPropertyUpdateState();
     }
     if (event is UploadImagesEvent) {
-      yield* _mapUploadedImagesToState(event);
+      yield* _mapUploadImagesToState(event);
     }
+
     if (event is UploadPropertyEvent) {
       repository.updateProperty(
           event.proposal,
@@ -90,14 +92,10 @@ class UpdatePropertyBloc extends Bloc<UpdatePropertyEvent, UpdatePropertyState> 
       yield UploadedPropertyState();
     }
   }
-  }
-Stream<UpdatePropertyState> _mapUploadedImagesToState(UploadImagesEvent event) async* {
-
-  yield UploadedImagesState(propertyImageList: event.propertyImagesList);
 }
 
-Stream<UpdatePropertyState> _mapUploadingImagesToState(UploadingImagesEvent event) async* {
-
-  yield UploadingImagesState(propertyImageList: event.propertyImagesList);
+Stream<UpdatePropertyState> _mapUploadImagesToState(UploadImagesEvent event) async* {
+  RealifyPropertyRepository repository = RealifyPropertyRepository();
+  PropertyList propertyImagesList = await repository.uploadFiles(event.propertyImagesList);
+  yield UploadedImagesState(propertyImageList: propertyImagesList);
 }
-

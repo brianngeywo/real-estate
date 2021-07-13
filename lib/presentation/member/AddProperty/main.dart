@@ -1,5 +1,4 @@
 import 'package:Realify/backend/bloc/add_property_bloc/add_property_bloc.dart';
-import 'package:Realify/backend/models/Property_image.dart';
 import 'package:Realify/backend/models/Proposal.dart';
 import 'package:Realify/backend/models/RealifyProperty.dart';
 import 'package:Realify/backend/repositories/RealifyPropertyRepository.dart';
@@ -8,7 +7,9 @@ import 'package:Realify/presentation/member/AddProperty/AddRentTabBar.dart';
 import 'package:Realify/presentation/member/AddProperty/reusables/main.dart';
 import 'package:Realify/presentation/my_imports.dart';
 import 'package:Realify/presentation/public/HomePage/main.dart';
+import 'package:Realify/presentation/widget/progress_dialog/main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:multi_image_picker2/multi_image_picker2.dart';
 
 class AddProperty extends StatefulWidget {
   final RealifyPropertyRepository realifyPropertyRepository;
@@ -102,6 +103,10 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                       setState(() {
                         rentalFrequency = "sale";
                       });
+                    } else if (proposal == "rent" && (rentalFrequency.isEmpty || rentalFrequency == "sale")) {
+                      setState(() {
+                        rentalFrequency = "monthly";
+                      });
                     }
                   }
                   if (state is AddPropertySelectedCounty) {
@@ -119,7 +124,6 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                       subCategory = state.subcategoryTitle;
                     });
                   }
-
                   if (state is SelectedBathroomState) {
                     setState(() {
                       bathrooms = state.bathroom;
@@ -155,6 +159,10 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                       setState(() {
                         rentalFrequency = "sale";
                       });
+                    } else if (proposal == "rent" && (rentalFrequency.isEmpty || rentalFrequency == "sale")) {
+                      setState(() {
+                        rentalFrequency = "monthly";
+                      });
                     } else {
                       setState(() {
                         rentalFrequency = state.frequency;
@@ -172,22 +180,43 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                       phone = state.phone;
                     });
                   }
-                  if (state is UploadingImagesState) {
-                    BlocProvider.of<AddPropertyBloc>(context)
-                        .add(UploadImagesEvent(propertyImagesList: state.propertyImageList));
-                  }
                   if (state is UploadedImagesState) {
                     state.propertyImageList.propertyImages.forEach((image) {
                       setState(() {
                         imageUrls.add(image.url);
                       });
                     });
+                    if (proposal == "buy") {
+                      setState(() {
+                        rentalFrequency = "sale";
+                      });
+                    }
+                    BlocProvider.of<AddPropertyBloc>(context).add(
+                      UploadPropertyEvent(
+                        proposal: proposal.isEmpty ? "buy" : proposal.toLowerCase(),
+                        county: county.isEmpty ? "nairobi" : county.toLowerCase(),
+                        category: category.isEmpty ? "residential" : category.toLowerCase(),
+                        subCategory: subCategory.isEmpty ? "apartment" : subCategory.toLowerCase(),
+                        price: price.toLowerCase(),
+                        bedrooms: bedrooms.isEmpty ? "studio" : bedrooms.toLowerCase(),
+                        bathrooms: bathrooms.isEmpty ? "0" : bathrooms.toLowerCase(),
+                        locality: locality.toLowerCase(),
+                        propertyName: propertyName.toLowerCase(),
+                        description: description.toLowerCase(),
+                        rentalFrequency: rentalFrequency.isEmpty ? "daily" : rentalFrequency.toLowerCase(),
+                        area: area.isEmpty ? "0" : area.toLowerCase(),
+                        areaUnit: areaUnit.toLowerCase(),
+                        phone: phone.toLowerCase(),
+                        image: imageUrls[0],
+                        images: imageUrls,
+                      ),
+                    );
+                    // print(imageUrls);
                   }
 
                   if (state is UploadedPropertyState) {
                     String message = "property successfully uploaded";
                     showSnackbar(message, context);
-                    Navigator.of(context).pop();
                   }
                 },
                 builder: (context, state) {
@@ -264,6 +293,10 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
               ),
               BlocBuilder<AddPropertyBloc, AddPropertyState>(
                 builder: (context, state) {
+                  if (state is UploadedPropertyState) {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                  }
                   return Container(
                     height: 73,
                     width: double.maxFinite,
@@ -275,37 +308,21 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                       color: Colors.white,
                       child: MaterialButton(
                         elevation: 0.0,
-                        color: state is UploadingImagesState ? ColorConfig.smokeDark : ColorConfig.darkGreen,
+                        color: imageUrls != null ? ColorConfig.darkGreen : ColorConfig.lightGreenBg,
                         onPressed: () {
-                          if (state is! UploadingImagesState) {
-                            BlocProvider.of<AddPropertyBloc>(context).add(
-                              UploadPropertyEvent(
-                                proposal: proposal.isEmpty ? "buy" : proposal.toLowerCase(),
-                                county: county.isEmpty ? "nairobi" : county.toLowerCase(),
-                                category: category.isEmpty ? "residential" : category.toLowerCase(),
-                                subCategory: subCategory.isEmpty ? "apartment" : subCategory.toLowerCase(),
-                                price: price.toLowerCase(),
-                                bedrooms: bedrooms.isEmpty ? "studio" : bedrooms.toLowerCase(),
-                                bathrooms: bathrooms.isEmpty ? "0" : bathrooms.toLowerCase(),
-                                locality: locality.toLowerCase(),
-                                propertyName: propertyName.toLowerCase(),
-                                description: description.toLowerCase(),
-                                rentalFrequency: rentalFrequency.isEmpty ? "daily" : rentalFrequency.toLowerCase(),
-                                area: area.isEmpty ? "0" : area.toLowerCase(),
-                                areaUnit: areaUnit.toLowerCase(),
-                                phone: phone.toLowerCase(),
-                                image: imageUrls[0],
-                                images: imageUrls,
-                              ),
-                            );
-                          }
+                          // print(state.toString());
+                          BlocProvider.of<AddPropertyBloc>(context).add(StartPropertyUploadEvent());
+                          showMyDialogBox(
+                            context,
+                            "creating your listing",
+                          );
                         },
                         child: Text(
-                          state is UploadingImagesState ? 'Uploading images' : 'Upload Now',
+                          imageUrls == null ? 'Waiting for images...' : 'Upload Now',
                           style: TextStyle(
                             fontFamily: FontConfig.bold,
                             fontSize: Sizeconfig.small,
-                            color: ColorConfig.light,
+                            color: imageUrls != null ? ColorConfig.light : ColorConfig.darkGreen,
                           ),
                           textAlign: TextAlign.center,
                         ),

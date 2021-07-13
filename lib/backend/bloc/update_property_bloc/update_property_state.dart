@@ -113,26 +113,15 @@ class UpdatedPhoneState extends UpdatePropertyState {
   });
 }
 
-class UpdatePropertyFeaturesState extends UpdatePropertyState {
-  final String value;
-  UpdatePropertyFeaturesState({
-    this.value = '',
-  });
-}
-
 class UploadedPropertyState extends UpdatePropertyState {}
 
+class StartPropertyUploadState extends UpdatePropertyState {}
+
+class StartPropertyUpdateState extends UpdatePropertyState {}
 
 class UploadedImagesState extends UpdatePropertyState {
   final PropertyList propertyImageList;
   UploadedImagesState({
-    @required this.propertyImageList,
-  });
-}
-
-class UploadingImagesState extends UpdatePropertyState {
-  final PropertyList propertyImageList;
-  UploadingImagesState({
     @required this.propertyImageList,
   });
 }

@@ -52,7 +52,8 @@ class _SignUpState extends State<SignUp> {
                         onPressed: () {
                           // Navigator.push(context,
                           //     MaterialPageRoute(builder: (context) => SignIn()));
-                          Navigator.of(context).pop();
+                          BlocProvider.of<AuthBloc>(context).add(SignoutOfGoogleEvent());
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> HomePage()));
                         },
                         iconSize: Sizeconfig.huge,
                         color: ColorConfig.dark,

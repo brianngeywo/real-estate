@@ -113,38 +113,13 @@ class AddedPhoneState extends AddPropertyState {
   });
 }
 
-class AddPropertyFeaturesState extends AddPropertyState {
-  final String value;
-  AddPropertyFeaturesState({
-    this.value = '',
-  });
-}
-
-class AddedNewFieldState extends AddPropertyState {
-  final TextEditingController textEditingController;
-  final List propertyFields;
-  AddedNewFieldState({
-    // @required this.propertyFeatures,
-    @required this.textEditingController,
-    this.propertyFields,
-  });
-}
+class StartPropertyUploadState extends AddPropertyState {}
 
 class UploadedPropertyState extends AddPropertyState {}
-
-class AddedImagesState extends AddPropertyState {}
 
 class UploadedImagesState extends AddPropertyState {
   final PropertyList propertyImageList;
   UploadedImagesState({
-    @required this.propertyImageList,
-  });
-}
-
-
-class UploadingImagesState extends AddPropertyState {
-  final PropertyList propertyImageList;
-  UploadingImagesState({
     @required this.propertyImageList,
   });
 }

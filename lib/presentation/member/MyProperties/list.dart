@@ -1,6 +1,7 @@
 import 'package:Realify/backend/models/RealifyProperty.dart';
 import 'package:Realify/presentation/member/UpdateProperty/UpdateProperty.dart';
 import 'package:Realify/presentation/my_imports.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MyPropertiesList extends StatelessWidget {
   MyPropertiesList({Key key, this.property}) : super(key: key);
@@ -247,4 +248,5 @@ class MyPropertiesList extends StatelessWidget {
       ],
     );
   }
+
 }

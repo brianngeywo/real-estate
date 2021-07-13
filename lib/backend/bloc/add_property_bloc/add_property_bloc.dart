@@ -6,6 +6,7 @@ import 'package:Realify/backend/repositories/RealifyPropertyRepository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
+import 'package:multi_image_picker2/multi_image_picker2.dart';
 
 part 'add_property_event.dart';
 part 'add_property_state.dart';
@@ -19,6 +20,9 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
   Stream<AddPropertyState> mapEventToState(
     AddPropertyEvent event,
   ) async* {
+    if (event is AddPropertyInitialEvent) {
+      yield AddPropertyInitial();
+    }
     if (event is SelectedProposalEvent) {
       yield AddPropertySelectedProposal(index: event.index, proposal: event.proposal);
     }
@@ -40,6 +44,7 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
     if (event is SelectedBedroomEvent) {
       yield SelectedBedroomState(bedroom: event.bedroom, index: event.index);
     }
+
     if (event is AddLocalityEvent) {
       yield AddedLocalityState(location: event.location);
     }
@@ -50,7 +55,7 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
       yield AddedPropertyDescriptionState(description: event.description);
     }
     if (event is AddRentalFrequencyEvent) {
-      yield AddRentalFrequencyState(frequency: event.frequency.toLowerCase(),index: event.index);
+      yield AddRentalFrequencyState(frequency: event.frequency.toLowerCase(), index: event.index);
     }
     if (event is AddPropertyAreaEvent) {
       yield AddPropertyAreaState(area: event.area, areaUnit: event.areaUnit);
@@ -58,25 +63,11 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
     if (event is AddPhoneEvent) {
       yield AddedPhoneState(phone: event.phone);
     }
-    if (event is AddPropertyFeaturesEvent) {
-      yield AddPropertyFeaturesState(value: event.value);
-    }
-    if (event is AddNewFieldEvent) {
-      event.propertyFields.add(event.widget);
-      controller.value = TextEditingValue(text: event.textEditingController.text);
-      yield AddedNewFieldState(
-        propertyFields: event.propertyFields,
-        textEditingController: TextEditingController.fromValue(controller.value),
-      );
-    }
-    if (event is AddedImagesEvent) {
-      yield AddedImagesState();
-    }
-    if (event is UploadingImagesEvent) {
-      yield* _mapUploadingImagesToState(event);
+    if (event is StartPropertyUploadEvent) {
+      yield StartPropertyUploadState();
     }
     if (event is UploadImagesEvent) {
-      yield* _mapUploadedImagesToState(event);
+      yield* _mapUploadImagesToState(event);
     }
     if (event is UploadPropertyEvent) {
       repository.uploadProperty(
@@ -101,10 +92,8 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
   }
 }
 
-Stream<AddPropertyState> _mapUploadedImagesToState(UploadImagesEvent event) async* {
-  yield UploadedImagesState(propertyImageList: event.propertyImagesList);
-}
-
-Stream<AddPropertyState> _mapUploadingImagesToState(UploadingImagesEvent event) async* {
-  yield UploadingImagesState(propertyImageList: event.propertyImagesList);
+Stream<AddPropertyState> _mapUploadImagesToState(UploadImagesEvent event) async* {
+  RealifyPropertyRepository repository = RealifyPropertyRepository();
+  PropertyList propertyImagesList = await repository.uploadFiles(event.propertyImagesList);
+  yield UploadedImagesState(propertyImageList: propertyImagesList);
 }

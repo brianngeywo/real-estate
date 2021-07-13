@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:Realify/backend/models/realify_user.dart';
 import 'package:Realify/presentation/my_imports.dart';
 import 'package:Realify/presentation/widget/progress_dialog/main.dart';
+// import 'package:Realify/presentation/widget/progress_dialog/main.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,9 +22,11 @@ class _SettingsState extends State<Settings> {
   TextEditingController fullNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  TextEditingController roleController = TextEditingController();
   bool fullNameValid = true;
   bool emailValid = true;
   bool phoneValid = true;
+  bool roleValid = true;
   File _image;
   String profilePictureUrl = "";
   bool isUploading = false;
@@ -36,6 +39,7 @@ class _SettingsState extends State<Settings> {
       fullNameController.text = currentUser.name;
       emailController.text = currentUser.email;
       phoneController.text = currentUser.phone;
+      roleController.text = currentUser.role;
     });
   }
 
@@ -47,16 +51,19 @@ class _SettingsState extends State<Settings> {
 
   updateProfile() {
     setState(() {
+      roleController.text.length < 5 || roleController.text.isEmpty ? roleValid = false : roleValid = true;
       phoneController.text.length < 10 || phoneController.text.isEmpty ? phoneValid = false : phoneValid = true;
       fullNameController.text.length < 3 || fullNameController.text.isEmpty
           ? fullNameValid = false
           : fullNameValid = true;
       !emailController.text.contains("@") || emailController.text.isEmpty ? emailValid = false : emailValid = true;
 
-      if (fullNameValid && emailValid) {
+      if (fullNameValid && emailValid && roleValid && phoneValid) {
         FirebaseFirestore.instance.collection('users').doc(auth.currentUser.uid).update({
           "name": fullNameController.text,
           "email": emailController.text.trim(),
+          "phone": phoneController.text.trim(),
+          "role": roleController.text,
         }).then((value) {
           SnackBar snackbar = SnackBar(content: Text('update successful, page will update on next visit'));
           ScaffoldMessenger.of(context).showSnackBar(snackbar);
@@ -218,7 +225,7 @@ class _SettingsState extends State<Settings> {
                                       fontSize: Sizeconfig.small,
                                       color: ColorConfig.dark,
                                     ),
-                                    errorText: fullNameValid ? null : "full name is not valid",
+                                    errorText: fullNameValid ? null : "name is not valid",
                                     border: InputBorder.none,
                                   ),
                                 ),
@@ -311,12 +318,18 @@ class _SettingsState extends State<Settings> {
                               SizedBox(height: 5),
                               Padding(
                                 padding: const EdgeInsets.only(left: 7.0),
-                                child: Text(
-                                  user.role,
-                                  style: TextStyle(
-                                    fontFamily: FontConfig.regular,
-                                    fontSize: Sizeconfig.small,
-                                    color: ColorConfig.dark,
+                                child: TextFormField(
+                                  controller: roleController,
+                                  keyboardType: TextInputType.name,
+                                  decoration: InputDecoration(
+                                    hintText: user.role,
+                                    hintStyle: TextStyle(
+                                      fontFamily: FontConfig.regular,
+                                      fontSize: Sizeconfig.small,
+                                      color: ColorConfig.dark,
+                                    ),
+                                    errorText: roleValid ? null : "role entered is not valid",
+                                    border: InputBorder.none,
                                   ),
                                 ),
                               ),
@@ -326,6 +339,7 @@ class _SettingsState extends State<Settings> {
                                 thickness: 1,
                                 color: Colors.grey.withOpacity(0.5),
                               ),
+                              SizedBox(height: 20),
                             ],
                           ),
                         ),
@@ -393,8 +407,9 @@ class _SettingsState extends State<Settings> {
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          return ProgressDialog(
-            message: "updating profile...",
+          return showMyDialogBox(
+            context,
+            "updating profile...",
           );
         });
     postImage(_image).then((_) {

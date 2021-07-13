@@ -1,23 +1,37 @@
+import 'package:Realify/backend/models/Property_image.dart';
 import 'package:Realify/backend/models/RealifyProperty.dart';
 import 'package:Realify/presentation/my_imports.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:multi_image_picker2/multi_image_picker2.dart';
 import 'package:uuid/uuid.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class RealifyPropertyApiProvider {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   var user = FirebaseAuth.instance.currentUser;
   String uuid = Uuid().v1();
-  uploadProperty(proposal, county, category, subCategory, price, bedrooms, locality, propertyName, description,
-      rentalFrequency, area, areaUnit, phone, bathrooms, image, imageUrls,) async {
-    await firebaseFirestore
-        .collection("users")
-        .doc(user.uid)
-        .collection("rentals")
-        .doc(uuid)
-        .set({
+    PropertyList propertyList;
+  PropertyImage propertyImage;
+  uploadProperty(
+    proposal,
+    county,
+    category,
+    subCategory,
+    price,
+    bedrooms,
+    locality,
+    propertyName,
+    description,
+    rentalFrequency,
+    area,
+    areaUnit,
+    phone,
+    bathrooms,
+    image,
+    imageUrls,
+  ) async {
+    await firebaseFirestore.collection("users").doc(user.uid).collection("rentals").doc(uuid).set({
       "area": area,
       "areaUnit": areaUnit,
       "bathrooms": bathrooms,
@@ -41,6 +55,7 @@ class RealifyPropertyApiProvider {
       // "propertyFeatures": property.propertyFeatures
     }).then((value) => uuid = new Uuid().v1());
   }
+
   updateProperty(proposal, county, category, subCategory, price, bedrooms, locality, propertyName, description,
       rentalFrequency, area, areaUnit, phone, bathrooms, image, imageUrls, propertyId) async {
     await firebaseFirestore.collection("users").doc(user.uid).collection("rentals").doc(propertyId).update({
@@ -63,6 +78,7 @@ class RealifyPropertyApiProvider {
       "subCategoryType": subCategory,
     });
   }
+
   reportPropertyListing(String typeOfProblem, String name, String phone, String description, BuildContext context,
       RealifyProperty property) async {
     await firebaseFirestore.collection("property reports").doc(uuid).set({
@@ -87,12 +103,37 @@ class RealifyPropertyApiProvider {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  Future<dynamic> postImage(Asset imageFile) async {
+  Future<PropertyImage> postImage(Asset imageFile) async {
+    String url;
     String fileName = DateTime.now().millisecondsSinceEpoch.toString();
     String id = Uuid().v4();
-    Reference reference = FirebaseStorage.instance.ref().child("$id/$fileName");
-    UploadTask uploadTask = reference.putData((await imageFile.getByteData()).buffer.asUint8List());
-    String imagesurl = await (await uploadTask).ref.getDownloadURL();
-    return imagesurl;
+    firebase_storage.Reference reference = firebase_storage.FirebaseStorage.instance.ref("$id/$fileName");
+    firebase_storage.UploadTask uploadTask = reference.putData((await imageFile.getByteData()).buffer.asUint8List());
+    uploadTask.snapshotEvents.listen((firebase_storage.TaskSnapshot snapshot) {
+      // print('Task state: ${snapshot.state}');
+      // print('Progress: ${(snapshot.bytesTransferred / snapshot.totalBytes) * 100} %');
+      // BlocProvider.of<AddPropertyBloc>(context).add(UploadingImagesEvent());
+    }, onError: (e) {
+      // The final snapshot is also available on the task via `.snapshot`,
+      // this can include 2 additional states, `TaskState.error` & `TaskState.canceled`
+      // print(uploadTask.snapshot);
+
+      if (e.code == 'permission-denied') {
+        // print('User does not have permission to upload to this reference.');
+      }
+    });
+
+    // We can still optionally use the Future alongside the stream.
+
+    await uploadTask;
+    // print('Upload complete.');
+    propertyImage = PropertyImage(url: await (await uploadTask).ref.getDownloadURL());
+    return propertyImage;
+  }
+
+  Future<PropertyList> uploadFiles(List<Asset> _images) async {
+    propertyList = PropertyList(propertyImages: await Future.wait(_images.map((_image) => postImage(_image))));
+
+    return propertyList;
   }
 }

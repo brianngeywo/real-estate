@@ -108,28 +108,18 @@ class AddPhoneEvent extends UpdatePropertyEvent {
   });
 }
 
-class AddPropertyFeaturesEvent extends UpdatePropertyEvent {
-  final String value;
-  AddPropertyFeaturesEvent({
-    this.value = '',
-  });
-}
 
 class UploadImagesEvent extends UpdatePropertyEvent {
-  final PropertyList propertyImagesList;
+  final List<Asset> propertyImagesList;
   UploadImagesEvent({
     @required this.propertyImagesList,
   });
 }
 
-class UploadingImagesEvent extends UpdatePropertyEvent {
-  final PropertyList propertyImagesList;
-  UploadingImagesEvent({
-    @required this.propertyImagesList,
-  });
-}
 
-class AddedImagesEvent extends UpdatePropertyEvent {}
+class StartPropertyUploadEvent extends UpdatePropertyEvent {}
+
+class StartPropertyUpdateEvent extends UpdatePropertyEvent {}
 
 class UploadPropertyEvent extends UpdatePropertyEvent {
   final String proposal;

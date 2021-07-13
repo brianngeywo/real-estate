@@ -1,4 +1,5 @@
 import 'package:Realify/presentation/member/UpdateProperty/AddBuyTabBar.dart';
+import 'package:Realify/presentation/widget/progress_dialog/main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:Realify/backend/bloc/update_property_bloc/update_property_bloc.dart';
 import 'package:Realify/backend/models/RealifyProperty.dart';
@@ -106,6 +107,10 @@ class _UpdatePropertyState extends State<UpdateProperty> with TickerProviderStat
                       setState(() {
                         rentalFrequency = "sale";
                       });
+                    } else if (proposal == "rent" && (rentalFrequency.isEmpty || rentalFrequency == "sale")) {
+                      setState(() {
+                        rentalFrequency = "monthly";
+                      });
                     }
                   }
                   if (state is UpdatePropertySelectedCounty) {
@@ -162,6 +167,10 @@ class _UpdatePropertyState extends State<UpdateProperty> with TickerProviderStat
                       setState(() {
                         rentalFrequency = "sale";
                       });
+                    } else if (proposal == "rent" && (rentalFrequency.isEmpty || rentalFrequency == "sale")) {
+                      setState(() {
+                        rentalFrequency = "monthly";
+                      });
                     } else {
                       setState(() {
                         rentalFrequency = state.frequency;
@@ -179,22 +188,73 @@ class _UpdatePropertyState extends State<UpdateProperty> with TickerProviderStat
                       phone = state.phone;
                     });
                   }
-                  if (state is UploadingImagesState) {
-                    BlocProvider.of<UpdatePropertyBloc>(context)
-                        .add(UploadImagesEvent(propertyImagesList: state.propertyImageList));
-                  }
+
                   if (state is UploadedImagesState) {
                     state.propertyImageList.propertyImages.forEach((image) {
                       setState(() {
                         imageUrls.add(image.url);
                       });
                     });
+                    if (proposal == "buy") {
+                      setState(() {
+                        rentalFrequency = "sale";
+                      });
+                    }
+                    BlocProvider.of<UpdatePropertyBloc>(context).add(
+                      UploadPropertyEvent(
+                        proposal: proposal.isEmpty ? widget.property.proposal : proposal.toLowerCase(),
+                        category: category.isEmpty ? widget.property.categoryType : category.toLowerCase(),
+                        subCategory: subCategory.isEmpty ? widget.property.subCategoryType : subCategory.toLowerCase(),
+                        price: price.isEmpty ? widget.property.price : price.toLowerCase(),
+                        bedrooms: bedrooms.isEmpty ? widget.property.bedrooms : bedrooms.toLowerCase(),
+                        bathrooms: bathrooms.isEmpty ? widget.property.bathrooms : bathrooms.toLowerCase(),
+                        propertyName: propertyName.isEmpty ? widget.property.details : propertyName.toLowerCase(),
+                        description: description.isEmpty ? widget.property.description : description.toLowerCase(),
+                        rentalFrequency:
+                            rentalFrequency.isEmpty ? widget.property.paymentPeriod : rentalFrequency.toLowerCase(),
+                        area: area.isEmpty ? widget.property.area : area.toLowerCase(),
+                        areaUnit: widget.property.areaUnit,
+                        phone: phone.isEmpty ? widget.property.phone : phone.toLowerCase(),
+                        image: imageUrls.length <= 0 || imageUrls.length == null
+                            ? widget.property.images[0]
+                            : imageUrls[0],
+                        images: imageUrls.length <= 0 || imageUrls.length == null ? widget.property.images : imageUrls,
+                        county: widget.property.county,
+                        locality: widget.property.locality,
+                        propertyId: widget.property.id,
+                      ),
+                    );
+                    print(imageUrls);
                   }
-          
+                  if (state is StartPropertyUpdateState) {
+                    BlocProvider.of<UpdatePropertyBloc>(context).add(
+                      UploadPropertyEvent(
+                        proposal: proposal.isEmpty ? widget.property.proposal : proposal.toLowerCase(),
+                        category: category.isEmpty ? widget.property.categoryType : category.toLowerCase(),
+                        subCategory: subCategory.isEmpty ? widget.property.subCategoryType : subCategory.toLowerCase(),
+                        price: price.isEmpty ? widget.property.price : price.toLowerCase(),
+                        bedrooms: bedrooms.isEmpty ? widget.property.bedrooms : bedrooms.toLowerCase(),
+                        bathrooms: bathrooms.isEmpty ? widget.property.bathrooms : bathrooms.toLowerCase(),
+                        propertyName: propertyName.isEmpty ? widget.property.details : propertyName.toLowerCase(),
+                        description: description.isEmpty ? widget.property.description : description.toLowerCase(),
+                        rentalFrequency:
+                            rentalFrequency.isEmpty ? widget.property.paymentPeriod : rentalFrequency.toLowerCase(),
+                        area: area.isEmpty ? widget.property.area : area.toLowerCase(),
+                        areaUnit: widget.property.areaUnit,
+                        phone: phone.isEmpty ? widget.property.phone : phone.toLowerCase(),
+                        image: imageUrls.length <= 0 || imageUrls.length == null
+                            ? widget.property.images[0]
+                            : imageUrls[0],
+                        images: imageUrls.length <= 0 || imageUrls.length == null ? widget.property.images : imageUrls,
+                        county: widget.property.county,
+                        locality: widget.property.locality,
+                        propertyId: widget.property.id,
+                      ),
+                    );
+                  }
                   if (state is UploadedPropertyState) {
-                    String message = "property successfully uploaded";
+                    String message = "property listing successfully updated";
                     showSnackbar(message, context);
-                    Navigator.of(context).pop();
                   }
                 },
                 builder: (context, state) {
@@ -275,6 +335,9 @@ class _UpdatePropertyState extends State<UpdateProperty> with TickerProviderStat
               ),
               BlocBuilder<UpdatePropertyBloc, UpdatePropertyState>(
                 builder: (context, state) {
+                  if (state is UploadedPropertyState) {
+                    Navigator.of(context).pop();
+                  }
                   return Container(
                     height: 73,
                     width: double.maxFinite,
@@ -286,43 +349,17 @@ class _UpdatePropertyState extends State<UpdateProperty> with TickerProviderStat
                       color: Colors.white,
                       child: MaterialButton(
                         elevation: 0.0,
-                        color: state is UploadingImagesState ? ColorConfig.smokeDark : ColorConfig.darkGreen,
+                        color: ColorConfig.darkGreen,
                         onPressed: () {
-                          if (state is! UploadingImagesState) {
-                            BlocProvider.of<UpdatePropertyBloc>(context).add(
-                              UploadPropertyEvent(
-                                proposal: proposal.isEmpty ? widget.property.proposal : proposal.toLowerCase(),
-                                category: category.isEmpty ? widget.property.categoryType : category.toLowerCase(),
-                                subCategory:
-                                    subCategory.isEmpty ? widget.property.subCategoryType : subCategory.toLowerCase(),
-                                price: price.isEmpty ? widget.property.price : price.toLowerCase(),
-                                bedrooms: bedrooms.isEmpty ? widget.property.bedrooms : bedrooms.toLowerCase(),
-                                bathrooms: bathrooms.isEmpty ? widget.property.bathrooms : bathrooms.toLowerCase(),
-                                propertyName:
-                                    propertyName.isEmpty ? widget.property.details : propertyName.toLowerCase(),
-                                description:
-                                    description.isEmpty ? widget.property.description : description.toLowerCase(),
-                                rentalFrequency: rentalFrequency.isEmpty
-                                    ? widget.property.paymentPeriod
-                                    : rentalFrequency.toLowerCase(),
-                                area: area.isEmpty ? widget.property.area : area.toLowerCase(),
-                                areaUnit: widget.property.areaUnit,
-                                phone: phone.isEmpty ? widget.property.phone : phone.toLowerCase(),
-                                image: imageUrls.length <= 0 || imageUrls.length == null
-                                    ? widget.property.images[0]
-                                    : imageUrls[0],
-                                images: imageUrls.length <= 0 || imageUrls.length == null
-                                    ? widget.property.images
-                                    : imageUrls,
-                                county: widget.property.county,
-                                locality: widget.property.locality,
-                                propertyId: widget.property.id,
-                              ),
-                            );
-                          }
+                          BlocProvider.of<UpdatePropertyBloc>(context).add(StartPropertyUploadEvent());
+                          showMyDialogBox(
+                            context,
+                            "updating your listing",
+                          );
+                          // print(state.toString());
                         },
                         child: Text(
-                          state is UploadingImagesState ? 'Uploading images' : 'Update',
+                          'Update',
                           style: TextStyle(
                             fontFamily: FontConfig.bold,
                             fontSize: Sizeconfig.small,

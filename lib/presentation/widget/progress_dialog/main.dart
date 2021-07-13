@@ -1,8 +1,10 @@
+import 'package:Realify/presentation/my_imports.dart';
+import 'package:Realify/presentation/themes/TypoGraphy.dart';
 import 'package:flutter/material.dart';
 
 class ProgressDialog extends StatelessWidget {
   String message;
-  ProgressDialog({this.message});
+  ProgressDialog({@required this.message});
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -15,12 +17,12 @@ class ProgressDialog extends StatelessWidget {
             children: [
               SizedBox(width: 6.0),
               CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
+                valueColor: AlwaysStoppedAnimation<Color>(ColorConfig.lightGreen),
               ),
               SizedBox(width: 26.0),
               Text(
                 message,
-                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
+                style: TextStyle(fontFamily: FontConfig.regular),
               ),
             ],
           ),
@@ -28,4 +30,12 @@ class ProgressDialog extends StatelessWidget {
       ),
     );
   }
+}
+
+showMyDialogBox(BuildContext context, String message) {
+  showDialog(context: context, builder: (BuildContext context) {
+    return ProgressDialog(
+          message: message,
+        );
+  });
 }

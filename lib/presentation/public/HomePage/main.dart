@@ -1,5 +1,6 @@
 import 'package:Realify/backend/bloc/auth_bloc/auth_bloc_bloc.dart';
 import 'package:Realify/backend/repositories/RealifyPropertyRepository.dart';
+import 'package:Realify/presentation/member/AddProperty/main.dart';
 import 'package:Realify/presentation/my_imports.dart';
 import 'package:Realify/presentation/public/Filter/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -151,9 +152,34 @@ class _HomePageState extends State<HomePage> {
                                           ),
                                         ),
                                         SizedBox(
-                                          height: 10.0,
+                                          height: 12.0,
                                         ),
-                                        Container(),
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 40, right: 40),
+                                          child: Container(
+                                            height: 40,
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(3),
+                                                border: Border.all(
+                                                  color: ColorConfig.light,
+                                                )),
+                                            width: double.maxFinite,
+                                            child: MaterialButton(
+                                              onPressed: () {
+                                                Navigator.push(
+                                                    context, MaterialPageRoute(builder: (context) => AddProperty()));
+                                              },
+                                              child: Text(
+                                                "Add Property Listing",
+                                                style: TextStyle(
+                                                  fontFamily: FontConfig.regular,
+                                                  fontSize: Sizeconfig.small,
+                                                  color: ColorConfig.light,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
                                         SizedBox(
                                           height: SizeConfig.isMobilePortrait ? 150 : 70,
                                         ),
@@ -214,7 +240,7 @@ class _HomePageState extends State<HomePage> {
                                           "Affordable Rentals in Kenya",
                                           style: TextStyle(
                                               fontFamily: FontConfig.bold,
-                                              fontSize: Sizeconfig.small,
+                                              fontSize: Sizeconfig.medium,
                                               color: ColorConfig.light),
                                         ),
                                       ),
@@ -240,74 +266,85 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                       ),
                                       SizedBox(
-                                        height: 10.0,
+                                        height: 12.0,
                                       ),
 
-                                      !snapshot.hasData
-                                          ? Padding(
-                                              padding: EdgeInsets.only(left: 40, right: 40),
-                                              child: Container(
-                                                height: 40,
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(3),
-                                                  border: Border.all(
-                                                    color: ColorConfig.light,
-                                                  ),
-                                                  color: ColorConfig.light,
-                                                ),
-                                                width: double.maxFinite,
-                                                child: MaterialButton(
-                                                  onPressed: () {
-                                                    BlocProvider.of<AuthBloc>(context).add(SigninWithGoogleEvent());
-                                                  },
-                                                  child: Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                    children: [
-                                                      Icon(
-                                                        FontAwesome.google,
-                                                        color: ColorConfig.lightGreen,
-                                                      ),
-                                                      Text("Continue with Google")
-                                                    ],
-                                                  ),
-                                                  textColor: ColorConfig.dark,
-                                                ),
-                                              ),
-                                            )
-                                          : Container(),
+                                      // !snapshot.hasData
+                                      //     ? Padding(
+                                      //         padding: EdgeInsets.only(left: 40, right: 40),
+                                      //         child: Container(
+                                      //           height: 40,
+                                      //           decoration: BoxDecoration(
+                                      //             borderRadius: BorderRadius.circular(3),
+                                      //             border: Border.all(
+                                      //               color: ColorConfig.light,
+                                      //             ),
+                                      //             color: ColorConfig.light,
+                                      //           ),
+                                      //           width: double.maxFinite,
+                                      //           child: MaterialButton(
+                                      //             onPressed: () {
+                                      //               BlocProvider.of<AuthBloc>(context).add(SigninWithGoogleEvent());
+                                      //             },
+                                      //             child: Row(
+                                      //               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      //               children: [
+                                      //                 Icon(
+                                      //                   FontAwesome.google,
+                                      //                   color: ColorConfig.lightGreen,
+                                      //                 ),
+                                      //                 Text("Continue with Google")
+                                      //               ],
+                                      //             ),
+                                      //             textColor: ColorConfig.dark,
+                                      //           ),
+                                      //         ),
+                                      //       )
+                                      //     : Container(),
                                       // SizedBox(
                                       //   height: 10.0,
                                       // ),
-                                      // Padding(
-                                      //   padding: EdgeInsets.only(left: 40, right: 40),
-                                      //   child: Container(
-                                      //     height: 40,
-                                      //     decoration: BoxDecoration(
-                                      //         borderRadius: BorderRadius.circular(3),
-                                      //         border: Border.all(
-                                      //           color: ColorConfig.light,
-                                      //         )),
-                                      //     width: double.maxFinite,
-                                      //     child: MaterialButton(
-                                      //       onPressed: () {
-                                      //         Navigator.push(
-                                      //             context,
-                                      //             MaterialPageRoute(
-                                      //                 builder: (context) => AddProperty(
-                                      //                       realifyPropertyRepository: widget.realifyPropertyRepository,
-                                      //                     )));
-                                      //       },
-                                      //       child: Text(
-                                      //         "Add Property Listing",
-                                      //         style: TextStyle(
-                                      //           fontFamily: FontConfig.regular,
-                                      //           fontSize: Sizeconfig.small,
-                                      //           color: ColorConfig.light,
-                                      //         ),
-                                      //       ),
-                                      //     ),
-                                      //   ),
-                                      // ),
+
+                                      snapshot.hasData
+                                          ? SizedBox(height: 0.0)
+                                          : Center(
+                                              child: Text(
+                                                "Log in to add new property listing",
+                                                style: TextStyle(
+                                                    fontFamily: FontConfig.bold,
+                                                    fontSize: Sizeconfig.small,
+                                                    color: ColorConfig.light),
+                                              ),
+                                            ),
+                                      SizedBox(height: snapshot.hasData ? 0 : 12),
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 40, right: 40),
+                                        child: Container(
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(3),
+                                              border: Border.all(
+                                                color: ColorConfig.light,
+                                              )),
+                                          width: double.maxFinite,
+                                          child: MaterialButton(
+                                            onPressed: () {
+                                              snapshot.hasData
+                                                  ? Navigator.push(
+                                                      context, MaterialPageRoute(builder: (context) => AddProperty()))
+                                                  : BlocProvider.of<AuthBloc>(context).add(SigninWithGoogleEvent());
+                                            },
+                                            child: Text(
+                                              snapshot.hasData ? "Add Property Listing" : "Login",
+                                              style: TextStyle(
+                                                fontFamily: FontConfig.regular,
+                                                fontSize: Sizeconfig.small,
+                                                color: ColorConfig.light,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                       SizedBox(
                                         height: SizeConfig.isMobilePortrait ? 150 : 70,
                                       ),

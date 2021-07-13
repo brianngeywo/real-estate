@@ -2,7 +2,9 @@ part of 'add_property_bloc.dart';
 
 @immutable
 abstract class AddPropertyEvent {}
-
+class AddPropertyInitialEvent extends AddPropertyEvent {
+ 
+}
 class SelectedCountyEvent extends AddPropertyEvent {
   final String county;
   SelectedCountyEvent({
@@ -72,7 +74,8 @@ class AddLocalityEvent extends AddPropertyEvent {
 class AddPropertyTitleEvent extends AddPropertyEvent {
   final String title;
   AddPropertyTitleEvent({
-    this.title = '', String phone,
+    this.title = '',
+    String phone,
   });
 }
 
@@ -88,7 +91,7 @@ class AddRentalFrequencyEvent extends AddPropertyEvent {
   final int index;
   AddRentalFrequencyEvent({
     @required this.frequency,
-    this.index=0,
+    this.index = 0,
   });
 }
 
@@ -108,42 +111,14 @@ class AddPhoneEvent extends AddPropertyEvent {
   });
 }
 
-class AddPropertyFeaturesEvent extends AddPropertyEvent {
-  final String value;
-  AddPropertyFeaturesEvent({
-    this.value = '',
-  });
-}
-
-class AddNewFieldEvent extends AddPropertyEvent {
-  final TextEditingValue textEditingValue;
-  final TextEditingController textEditingController;
-  final List propertyFields;
-  final Widget widget;
-  AddNewFieldEvent({
-    @required this.widget,
-    @required this.textEditingController,
-    @required this.textEditingValue,
-    this.propertyFields = const [],
-  });
-}
-
 class UploadImagesEvent extends AddPropertyEvent {
-  final PropertyList propertyImagesList;
+  final List<Asset> propertyImagesList;
   UploadImagesEvent({
     @required this.propertyImagesList,
   });
-
 }
 
-class UploadingImagesEvent extends AddPropertyEvent {
-final PropertyList propertyImagesList;
-  UploadingImagesEvent({
-   @required this.propertyImagesList,
-  });
-}
-
-class AddedImagesEvent extends AddPropertyEvent {}
+class StartPropertyUploadEvent extends AddPropertyEvent {}
 
 class UploadPropertyEvent extends AddPropertyEvent {
   final String proposal;
