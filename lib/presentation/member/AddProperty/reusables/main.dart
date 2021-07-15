@@ -65,7 +65,6 @@ Widget propertyFeatureWidget(List inputs, TextEditingController controller) {
             controller: controller,
             onSubmitted: (value) {
               inputs.add(controller.text);
-              // BlocProvider.of<AddPropertyBloc>(context).add(AddPropertyFeaturesEvent(value: controller.text));
             },
             style: TextStyle(
               fontFamily: FontConfig.regular,

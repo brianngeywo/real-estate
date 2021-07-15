@@ -31,23 +31,11 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  // closeDeviceDetails() async {
-  //   var box = await Hive.openBox("device details");
-  //   await box.clear();
-  //   await box.close();
-  // }
-
   @override
   void initState() {
     super.initState();
     getDeviceDetails();
   }
-
-  // @override
-  // void dispose() {
-  //   super.dispose();
-  //   closeDeviceDetails();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +130,7 @@ class _HomePageState extends State<HomePage> {
                                                   context, MaterialPageRoute(builder: (context) => Filter()));
                                             },
                                             child: Text(
-                                              "Let's Search",
+                                              "Let's Search".toUpperCase(),
                                               style: TextStyle(
                                                 fontFamily: FontConfig.bold,
                                                 fontSize: Sizeconfig.small,
@@ -170,7 +158,7 @@ class _HomePageState extends State<HomePage> {
                                                     context, MaterialPageRoute(builder: (context) => AddProperty()));
                                               },
                                               child: Text(
-                                                "Add Property Listing",
+                                                "Add Property Listing".toUpperCase(),
                                                 style: TextStyle(
                                                   fontFamily: FontConfig.regular,
                                                   fontSize: Sizeconfig.small,
@@ -256,7 +244,7 @@ class _HomePageState extends State<HomePage> {
                                             Navigator.push(context, MaterialPageRoute(builder: (context) => Filter()));
                                           },
                                           child: Text(
-                                            "Let's Search",
+                                            "Let's Search".toUpperCase(),
                                             style: TextStyle(
                                               fontFamily: FontConfig.bold,
                                               fontSize: Sizeconfig.small,
@@ -268,51 +256,14 @@ class _HomePageState extends State<HomePage> {
                                       SizedBox(
                                         height: 12.0,
                                       ),
-
-                                      // !snapshot.hasData
-                                      //     ? Padding(
-                                      //         padding: EdgeInsets.only(left: 40, right: 40),
-                                      //         child: Container(
-                                      //           height: 40,
-                                      //           decoration: BoxDecoration(
-                                      //             borderRadius: BorderRadius.circular(3),
-                                      //             border: Border.all(
-                                      //               color: ColorConfig.light,
-                                      //             ),
-                                      //             color: ColorConfig.light,
-                                      //           ),
-                                      //           width: double.maxFinite,
-                                      //           child: MaterialButton(
-                                      //             onPressed: () {
-                                      //               BlocProvider.of<AuthBloc>(context).add(SigninWithGoogleEvent());
-                                      //             },
-                                      //             child: Row(
-                                      //               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                      //               children: [
-                                      //                 Icon(
-                                      //                   FontAwesome.google,
-                                      //                   color: ColorConfig.lightGreen,
-                                      //                 ),
-                                      //                 Text("Continue with Google")
-                                      //               ],
-                                      //             ),
-                                      //             textColor: ColorConfig.dark,
-                                      //           ),
-                                      //         ),
-                                      //       )
-                                      //     : Container(),
-                                      // SizedBox(
-                                      //   height: 10.0,
-                                      // ),
-
                                       snapshot.hasData
                                           ? SizedBox(height: 0.0)
                                           : Center(
                                               child: Text(
-                                                "Log in to add new property listing",
+                                                "Log in to add new property listing".toUpperCase(),
                                                 style: TextStyle(
                                                     fontFamily: FontConfig.bold,
-                                                    fontSize: Sizeconfig.small,
+                                                    fontSize: Sizeconfig.tiny,
                                                     color: ColorConfig.light),
                                               ),
                                             ),
@@ -335,7 +286,9 @@ class _HomePageState extends State<HomePage> {
                                                   : BlocProvider.of<AuthBloc>(context).add(SigninWithGoogleEvent());
                                             },
                                             child: Text(
-                                              snapshot.hasData ? "Add Property Listing" : "Login",
+                                              snapshot.hasData
+                                                  ? "Add Property Listing".toUpperCase()
+                                                  : "Login".toUpperCase(),
                                               style: TextStyle(
                                                 fontFamily: FontConfig.regular,
                                                 fontSize: Sizeconfig.small,
@@ -348,57 +301,6 @@ class _HomePageState extends State<HomePage> {
                                       SizedBox(
                                         height: SizeConfig.isMobilePortrait ? 150 : 70,
                                       ),
-                                      // Center(
-                                      //   child: Text(
-                                      //     "Continue your last search",
-                                      //     style: TextStyle(
-                                      //         fontFamily: FontConfig.regular,
-                                      //         fontSize: Sizeconfig.small,
-                                      //         color: ColorConfig.light),
-                                      //   ),
-                                      // ),
-                                      // SizedBox(
-                                      //   height: 15.0,
-                                      // ),
-                                      // Padding(
-                                      //   padding: EdgeInsets.only(left: 40, right: 40, bottom: 10),
-                                      //   child: Container(
-                                      //     height: 40,
-                                      //     decoration: BoxDecoration(
-                                      //       borderRadius: BorderRadius.circular(3),
-                                      //       border: Border.all(
-                                      //         color: ColorConfig.light,
-                                      //       ),
-                                      //     ),
-                                      //     width: double.maxFinite,
-                                      //     child: FlatButton(
-                                      //       onPressed: () {
-                                      //         Navigator.push(
-                                      //             context,
-                                      //             MaterialPageRoute(
-                                      //                 builder: (context) => AddProperty()));
-                                      //       },
-                                      //       child: Row(
-                                      //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      //         children: [
-                                      //           Text(
-                                      //             "Add Property",
-                                      //             style: TextStyle(
-                                      //               fontFamily: FontConfig.regular,
-                                      //               fontSize: Sizeconfig.small,
-                                      //               color: ColorConfig.light,
-                                      //             ),
-                                      //           ),
-                                      //           Icon(
-                                      //             Ionicons.ios_arrow_forward,
-                                      //             size: Sizeconfig.huge,
-                                      //             color: ColorConfig.light,
-                                      //           ),
-                                      //         ],
-                                      //       ),
-                                      //     ),
-                                      //   ),
-                                      // ),
                                     ],
                                   ),
                                 ],
