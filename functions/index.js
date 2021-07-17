@@ -56,6 +56,29 @@ exports.deleteRentalOnAllListings = functions.firestore
             .collection("rentals").doc(rentalId).delete();
     });
 
+exports.createUserSearchQuery = functions.firestore
+    .document("/users/{user_id}/searches/{searchId}")
+    .onCreate(async (snapshot, context) => {
+        const searchId = context.params.searchId;
+        const user_id = context.params.user_id;
+        const userSearchRef = admin
+            .firestore()
+            .collection("users")
+            .doc(user_id)
+            .collection("searches")
+
+        const allUsersSearchesListings = admin
+            .firestore()
+            .collection("searches")
+        const userSearchSnapshot = await userSearchRef.get();
+        userSearchSnapshot.forEach(doc => {
+            if (doc.exists) {
+                const allUsersSearchListingData = doc.data();
+                allUsersSearchesListings.doc(searchId).set(allUsersSearchListingData);
+            }
+        })
+    });
+
 exports.paymentCallback = functions.https.onRequest(async (req, res) => {
     // Get the stk response body
     const callbackData = req.body.Body.stkCallback;

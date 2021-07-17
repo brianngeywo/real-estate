@@ -11,7 +11,7 @@ class RealifyPropertyApiProvider {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   var user = FirebaseAuth.instance.currentUser;
   String uuid = Uuid().v1();
-    PropertyList propertyList;
+  PropertyList propertyList;
   PropertyImage propertyImage;
   uploadProperty(
     proposal,
@@ -135,5 +135,60 @@ class RealifyPropertyApiProvider {
     propertyList = PropertyList(propertyImages: await Future.wait(_images.map((_image) => postImage(_image))));
 
     return propertyList;
+  }
+
+  saveSearchedQuery(String proposal, String propertyCategoryType, String propertySubCategoryType, String bedrooms,
+      String minPrice, String maxPrice, String county, String paymentPeriod) {
+    var auth = FirebaseAuth.instance;
+    auth.currentUser != null
+        ? saveUserSearch(auth.currentUser, proposal, propertyCategoryType, propertySubCategoryType, bedrooms, minPrice,
+            maxPrice, county, paymentPeriod)
+        : saveNormalSearch(proposal, propertyCategoryType, propertySubCategoryType, bedrooms, minPrice, maxPrice,
+            county, paymentPeriod);
+  }
+
+  saveUserSearch(
+    User user,
+    String proposal,
+    String propertyCategoryType,
+    String propertySubCategoryType,
+    String bedrooms,
+    String minPrice,
+    String maxPrice,
+    String county,
+    String paymentPeriod,
+  ) async {
+    await firebaseFirestore.collection("users").doc(user.uid).collection("searches").doc(new Uuid().v4()).set({
+      "proposal": proposal,
+      "propertyCategoryType": propertyCategoryType,
+      "propertySubCategoryType": propertySubCategoryType,
+      "bedrooms": bedrooms,
+      "minPrice": minPrice,
+      "maxPrice": maxPrice,
+      "county": county,
+      "paymentPeriod": paymentPeriod,
+    });
+  }
+
+  saveNormalSearch(
+    String proposal,
+    String propertyCategoryType,
+    String propertySubCategoryType,
+    String bedrooms,
+    String minPrice,
+    String maxPrice,
+    String county,
+    String paymentPeriod,
+  ) async {
+    await firebaseFirestore.collection("searches").doc(new Uuid().v4()).set({
+      "proposal": proposal,
+      "propertyCategoryType": propertyCategoryType,
+      "propertySubCategoryType": propertySubCategoryType,
+      "bedrooms": bedrooms,
+      "minPrice": minPrice,
+      "maxPrice": maxPrice,
+      "county": county,
+      "paymentPeriod": paymentPeriod,
+    });
   }
 }

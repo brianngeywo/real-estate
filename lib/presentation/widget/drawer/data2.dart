@@ -65,8 +65,7 @@ class Data2 extends StatelessWidget {
               //   ),
               // ),
               snapshot.hasData
-                  ?
-                   InkWell(
+                  ? InkWell(
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => AddProperty()));
                       },
@@ -200,31 +199,31 @@ class Data2 extends StatelessWidget {
               // SizedBox(
               //   height: 20,
               // ),
-              InkWell(
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => ContactUs()));
-                },
-                child: Row(
-                  children: [
-                    Icon(
-                      IconName.iconcontactus,
-                      size: Sizeconfig.large,
-                      color: ColorConfig.grey,
-                    ),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    Text(
-                      MenuName.contactus,
-                      style: TextStyle(
-                          fontFamily: FontConfig.regular, fontSize: Sizeconfig.small, color: ColorConfig.grey),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
+              snapshot.hasData
+                  ? InkWell(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => ContactUs()));
+                      },
+                      child: Row(
+                        children: [
+                          Icon(
+                            IconName.iconcontactus,
+                            size: Sizeconfig.large,
+                            color: ColorConfig.grey,
+                          ),
+                          SizedBox(
+                            width: 15,
+                          ),
+                          Text(
+                            MenuName.contactus,
+                            style: TextStyle(
+                                fontFamily: FontConfig.regular, fontSize: Sizeconfig.small, color: ColorConfig.grey),
+                          ),
+                        ],
+                      ),
+                    )
+                  : SizedBox(height: 0),
+              SizedBox(height: snapshot.hasData ? 20 : 0),
               InkWell(
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => AboutUs()));

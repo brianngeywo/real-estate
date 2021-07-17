@@ -247,6 +247,7 @@ final proposalList = [
 final propertyCategoryTypeList = ["Residential", "Commercial"];
 final residentialCategoryTypeList = [
   "Apartment",
+  "Bed and Breakfast",
   "Bedsitter Apartment",
   "Block of Flats",
   "Bungalow",
@@ -300,7 +301,6 @@ final bedroomList = [
   "8+",
 ];
 final bathroomList = [
-  "0",
   "1",
   "2",
   "3",

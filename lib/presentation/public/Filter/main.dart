@@ -6,6 +6,7 @@ import 'package:Realify/presentation/public/Filter/reusables/main.dart';
 import 'package:Realify/presentation/public/HomePage/main.dart';
 import 'package:Realify/presentation/public/ListRealify/main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 
 class Filter extends StatefulWidget {
   @override
@@ -18,7 +19,7 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
     super.initState();
     tabController = new TabController(vsync: this, length: 2);
     tabController.addListener(_handleTabSelection);
-    proposal = "rent";
+    proposal = "buy";
   }
 
   void _handleTabSelection() {
@@ -161,10 +162,14 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                         if (value == 0) {
                           setState(() {
                             proposal = "buy";
+                            minPrice = "";
+                            maxPrice = "";
                           });
                         } else if (value == 1) {
                           setState(() {
                             proposal = "rent";
+                            minPrice = "";
+                            maxPrice = "";
                           });
                         }
 
@@ -237,22 +242,27 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                   elevation: 0.0,
                   color: ColorConfig.darkGreen,
                   onPressed: () {
-                    Navigator.push(
+                    if (minPrice.isEmpty && maxPrice.isEmpty) {
+                      showSnackbar("Please enter a minimum and maximum price.", context);
+                    } else {
+                      Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ListRealify(
-                                  proposal: proposal.isEmpty ? "buy" : proposal.toLowerCase(),
-                                  county: county.isEmpty ? "nairobi".toLowerCase() : county.toLowerCase(),
-                                  propertyCategoryType:
-                                      category.isEmpty ? "residential".toLowerCase() : category.toLowerCase(),
-                                  propertySubCategoryType:
-                                      subCategory.isEmpty ? "apartment".toLowerCase() : subCategory.toLowerCase(),
-                                  bedrooms: bedrooms.isEmpty ? "studio".toLowerCase() : bedrooms.toLowerCase(),
-                                  minPrice: minPrice.isEmpty ? "0" : minPrice,
-                                  maxPrice: maxPrice.isEmpty ? "50000" : maxPrice,
-                                  paymentPeriod:
-                                      rentalFrequency.isEmpty ? "daily".toLowerCase() : rentalFrequency.toLowerCase(),
-                                )));
+                          builder: (context) => ListRealify(
+                            proposal: proposal.isEmpty ? "buy" : proposal.toLowerCase(),
+                            county: county.isEmpty ? "nairobi".toLowerCase() : county.toLowerCase(),
+                            propertyCategoryType:
+                                category.isEmpty ? "residential".toLowerCase() : category.toLowerCase(),
+                            propertySubCategoryType:
+                                subCategory.isEmpty ? "apartment".toLowerCase() : subCategory.toLowerCase(),
+                            bedrooms: bedrooms.isEmpty ? "studio".toLowerCase() : bedrooms.toLowerCase(),
+                            minPrice: minPrice,
+                            maxPrice: maxPrice,
+                            paymentPeriod: rentalFrequency.isEmpty ? "daily".toLowerCase() : rentalFrequency.toLowerCase(),
+                          ),
+                        ),
+                      );
+                    }
                   },
                   child: Text(
                     "Search",

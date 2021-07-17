@@ -1,4 +1,4 @@
-
+import 'package:Realify/backend/repositories/RealifyPropertyRepository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:Realify/backend/models/RealifyProperty.dart';
@@ -39,7 +39,11 @@ class _ListRealifyState extends State<ListRealify> {
   static String county;
   static String paymentPeriod;
   int selectedRadio;
+  RealifyPropertyRepository repository = RealifyPropertyRepository();
+
   void initState() {
+    repository.saveSearchedQuery(widget.proposal, widget.propertyCategoryType, widget.propertySubCategoryType,
+        widget.bedrooms, widget.minPrice, widget.maxPrice, widget.county, widget.paymentPeriod);
     super.initState();
     selectedRadio = 0;
     proposal = widget.proposal;
@@ -224,15 +228,23 @@ class _ListRealifyState extends State<ListRealify> {
                         }
                         if (snapshot.data == null || snapshot.data.docs.isEmpty) {
                           return Center(
-                            child: SizedBox(
-                              height: 50,
-                              // width: 50,
-                              child: Text("No results",
-                                  style: TextStyle(
-                                    fontSize: Sizeconfig.large,
-                                    color: ColorConfig.lightGreen,
-                                    fontFamily: FontConfig.regular,
-                                  )),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: SizedBox(
+                                height: 200,
+                                // width: 50,
+                                child: Center(
+                                  child: Text(
+                                    "Sorry No results :(",
+                                    style: TextStyle(
+                                      fontSize: Sizeconfig.large,
+                                      color: Colors.black,
+                                      fontFamily: FontConfig.bold,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
                             ),
                           );
                         }

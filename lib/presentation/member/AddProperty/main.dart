@@ -9,7 +9,6 @@ import 'package:Realify/presentation/my_imports.dart';
 import 'package:Realify/presentation/public/HomePage/main.dart';
 import 'package:Realify/presentation/widget/progress_dialog/main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:multi_image_picker2/multi_image_picker2.dart';
 
 class AddProperty extends StatefulWidget {
   final RealifyPropertyRepository realifyPropertyRepository;
@@ -33,8 +32,6 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
   String area = "";
   String areaUnit = "";
   String phone = "";
-  // List propertyFeatures = [];
-  // List propertyFields = [];
   List<String> imageUrls = [];
 
   RealifyProperty property;
@@ -199,7 +196,7 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                         subCategory: subCategory.isEmpty ? "apartment" : subCategory.toLowerCase(),
                         price: price.toLowerCase(),
                         bedrooms: bedrooms.isEmpty ? "studio" : bedrooms.toLowerCase(),
-                        bathrooms: bathrooms.isEmpty ? "0" : bathrooms.toLowerCase(),
+                        bathrooms: bathrooms.isEmpty ? "1" : bathrooms.toLowerCase(),
                         locality: locality.toLowerCase(),
                         propertyName: propertyName.toLowerCase(),
                         description: description.toLowerCase(),
@@ -310,7 +307,6 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                         elevation: 0.0,
                         color: imageUrls != null ? ColorConfig.darkGreen : ColorConfig.lightGreenBg,
                         onPressed: () {
-                          // print(state.toString());
                           BlocProvider.of<AddPropertyBloc>(context).add(StartPropertyUploadEvent());
                           showMyDialogBox(
                             context,

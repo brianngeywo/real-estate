@@ -31,4 +31,10 @@ class RealifyPropertyRepository {
     PropertyList propertyImagesList = await realifyPropertyApiProvider.uploadFiles(_images);
     return propertyImagesList;
   }
+
+  saveSearchedQuery(String proposal, String propertyCategoryType, String propertySubCategoryType, String bedrooms,
+      String minPrice, String maxPrice, String county, String paymentPeriod) {
+    realifyPropertyApiProvider.saveSearchedQuery(
+        proposal, propertyCategoryType, propertySubCategoryType, bedrooms, minPrice, maxPrice, county, paymentPeriod);
+  }
 }

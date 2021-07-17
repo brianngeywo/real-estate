@@ -5,6 +5,7 @@ import 'package:Realify/backend/models/RealifyProperty.dart';
 import 'package:Realify/backend/models/radio_list.dart';
 import 'package:Realify/backend/repositories/RealifyPropertyRepository.dart';
 import 'package:Realify/presentation/my_imports.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 
 class Report extends StatefulWidget {
   final RealifyProperty property;
@@ -28,6 +29,8 @@ class _ReportState extends State<Report> {
   TextEditingController nameTextEditingController = TextEditingController();
   TextEditingController phoneTextEditingController = TextEditingController();
   TextEditingController descriptionTextEditingController = TextEditingController();
+  final requiredValidator = RequiredValidator(errorText: 'this field is required');
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -35,242 +38,255 @@ class _ReportState extends State<Report> {
       child: Scaffold(
         backgroundColor: ColorConfig.light,
         body: SafeArea(
-          child: ListView(
-            children: [
-              Container(
-                color: Colors.white,
-                child: Row(
-                  children: [
-                    Align(
-                      alignment: Alignment(0, 0.1),
-                      child: IconButton(
-                        icon: Icon(AntDesign.arrowleft),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        iconSize: Sizeconfig.huge,
-                        color: ColorConfig.dark,
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment(0, 0.1),
-                      child: Text(
-                        "Report Property",
-                        style: TextStyle(
-                          fontFamily: FontConfig.bold,
-                          fontSize: Sizeconfig.medium,
+          child: Form(
+            key: _formKey,
+            autovalidateMode: AutovalidateMode.always,
+            child: ListView(
+              children: [
+                Container(
+                  color: Colors.white,
+                  child: Row(
+                    children: [
+                      Align(
+                        alignment: Alignment(0, 0.1),
+                        child: IconButton(
+                          icon: Icon(AntDesign.arrowleft),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          iconSize: Sizeconfig.huge,
                           color: ColorConfig.dark,
                         ),
                       ),
-                    ),
-                  ],
+                      Align(
+                        alignment: Alignment(0, 0.1),
+                        child: Text(
+                          "Report Property",
+                          style: TextStyle(
+                            fontFamily: FontConfig.bold,
+                            fontSize: Sizeconfig.medium,
+                            color: ColorConfig.dark,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              Divider(color: ColorConfig.grey.withOpacity(0.3)),
-              SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 15, right: 20),
-                child: Column(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        showDialogBox(context);
-                      },
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              BlocBuilder<ReportPropertyBloc, ReportPropertyState>(
-                                builder: (context, state) {
-                                  if (state is ReportRadioButtonSelectedState) {
-                                    setState(() {
-                                      selectedRadioOption = state.title;
-                                    });
-                                    
-                                    
-                                  }
-                                  return Text(
-                                    selectedRadioOption,
-                                    style: TextStyle(
-                                      fontFamily: FontConfig.regular,
-                                      fontSize: Sizeconfig.small,
-                                      color: Color.fromRGBO(0, 0, 0, 0.5),
-                                    ),
-                                  );
-                                },
+                Divider(color: ColorConfig.grey.withOpacity(0.3)),
+                SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 20),
+                  child: Column(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          showDialogBox(context);
+                        },
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                BlocBuilder<ReportPropertyBloc, ReportPropertyState>(
+                                  builder: (context, state) {
+                                    if (state is ReportRadioButtonSelectedState) {
+                                      setState(() {
+                                        selectedRadioOption = state.title;
+                                      });
+                                    }
+                                    return Text(
+                                      selectedRadioOption,
+                                      style: TextStyle(
+                                        fontFamily: FontConfig.regular,
+                                        fontSize: Sizeconfig.small,
+                                        color: Color.fromRGBO(0, 0, 0, 0.5),
+                                      ),
+                                    );
+                                  },
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 15),
+                                  child: Icon(
+                                    Foundation.asterisk,
+                                    color: ColorConfig.darkGreen,
+                                    size: Sizeconfig.small,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Divider(color: ColorConfig.grey.withOpacity(0.3)),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 7.0),
+                        child: TextFormField(
+                          validator: requiredValidator,
+                          controller: nameTextEditingController,
+                          textAlignVertical: TextAlignVertical.center,
+                          keyboardType: TextInputType.name,
+                          style: TextStyle(
+                            color: ColorConfig.dark,
+                            fontFamily: FontConfig.regular,
+                            fontSize: Sizeconfig.small,
+                          ),
+                          cursorHeight: 20,
+                          cursorColor: ColorConfig.darkGreen,
+                          decoration: InputDecoration(
+                              hintText: "Name",
+                              hintStyle: TextStyle(
+                                fontFamily: FontConfig.regular,
+                                fontSize: Sizeconfig.small,
+                                color: Color.fromRGBO(0, 0, 0, 0.5),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 15),
+                              suffixIcon: Padding(
+                                padding: const EdgeInsets.only(
+                                  top: 7.0,
+                                ),
                                 child: Icon(
                                   Foundation.asterisk,
                                   color: ColorConfig.darkGreen,
                                   size: Sizeconfig.small,
                                 ),
                               ),
-                            ],
+                              border: InputBorder.none),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 3.5),
+                        child: Divider(
+                          height: 1,
+                          thickness: 1,
+                          color: Colors.grey.withOpacity(0.5),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 7.0),
+                        child: TextFormField(
+                          validator: requiredValidator,
+                          controller: phoneTextEditingController,
+                          textAlignVertical: TextAlignVertical.center,
+                          keyboardType: TextInputType.phone,
+                          style: TextStyle(
+                            color: ColorConfig.dark,
+                            fontFamily: FontConfig.regular,
+                            fontSize: Sizeconfig.small,
                           ),
-                          SizedBox(
-                            height: 10,
+                          cursorHeight: 20,
+                          cursorColor: ColorConfig.darkGreen,
+                          decoration: InputDecoration(
+                              hintText: "Phone number",
+                              hintStyle: TextStyle(
+                                fontFamily: FontConfig.regular,
+                                fontSize: Sizeconfig.small,
+                                color: Color.fromRGBO(0, 0, 0, 0.5),
+                              ),
+                              suffixIcon: Padding(
+                                padding: const EdgeInsets.only(top: 7.0),
+                                child: Icon(
+                                  Foundation.asterisk,
+                                  color: ColorConfig.darkGreen,
+                                  size: Sizeconfig.small,
+                                ),
+                              ),
+                              border: InputBorder.none),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 3.5),
+                        child: Divider(
+                          height: 1,
+                          thickness: 1,
+                          color: Colors.grey.withOpacity(0.5),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 7.0),
+                        child: TextFormField(
+                          validator: requiredValidator,
+                          minLines: 5,
+                          maxLines: 100,
+                          controller: descriptionTextEditingController,
+                          textAlignVertical: TextAlignVertical.center,
+                          keyboardType: TextInputType.text,
+                          style: TextStyle(
+                            color: ColorConfig.dark,
+                            fontFamily: FontConfig.regular,
+                            fontSize: Sizeconfig.small,
                           ),
-                          Divider(color: ColorConfig.grey.withOpacity(0.3)),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 7.0),
-                      child: TextFormField(
-                        controller: nameTextEditingController,
-                        textAlignVertical: TextAlignVertical.center,
-                        keyboardType: TextInputType.name,
-                        style: TextStyle(
-                          color: ColorConfig.dark,
-                          fontFamily: FontConfig.regular,
-                          fontSize: Sizeconfig.small,
+                          cursorHeight: 20,
+                          cursorColor: ColorConfig.darkGreen,
+                          decoration: InputDecoration(
+                              hintText: "Description",
+                              hintStyle: TextStyle(
+                                fontFamily: FontConfig.regular,
+                                fontSize: Sizeconfig.small,
+                                color: Color.fromRGBO(0, 0, 0, 0.5),
+                              ),
+                              suffixIcon: Padding(
+                                padding: const EdgeInsets.only(top: 7.0),
+                                child: Icon(
+                                  Foundation.asterisk,
+                                  color: ColorConfig.darkGreen,
+                                  size: Sizeconfig.small,
+                                ),
+                              ),
+                              border: InputBorder.none),
                         ),
-                        cursorHeight: 20,
-                        cursorColor: ColorConfig.darkGreen,
-                        decoration: InputDecoration(
-                            hintText: "Name",
-                            hintStyle: TextStyle(
-                              fontFamily: FontConfig.regular,
-                              fontSize: Sizeconfig.small,
-                              color: Color.fromRGBO(0, 0, 0, 0.5),
-                            ),
-                            suffixIcon: Padding(
-                              padding: const EdgeInsets.only(
-                                top: 7.0,
-                              ),
-                              child: Icon(
-                                Foundation.asterisk,
-                                color: ColorConfig.darkGreen,
-                                size: Sizeconfig.small,
-                              ),
-                            ),
-                            border: InputBorder.none),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 3.5),
-                      child: Divider(
-                        height: 1,
-                        thickness: 1,
-                        color: Colors.grey.withOpacity(0.5),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 7.0),
-                      child: TextFormField(
-                        controller: phoneTextEditingController,
-                        textAlignVertical: TextAlignVertical.center,
-                        keyboardType: TextInputType.phone,
-                        style: TextStyle(
-                          color: ColorConfig.dark,
-                          fontFamily: FontConfig.regular,
-                          fontSize: Sizeconfig.small,
+                      Padding(
+                        padding: const EdgeInsets.only(top: 3.5),
+                        child: Divider(
+                          height: 1,
+                          thickness: 1,
+                          color: Colors.grey.withOpacity(0.5),
                         ),
-                        cursorHeight: 20,
-                        cursorColor: ColorConfig.darkGreen,
-                        decoration: InputDecoration(
-                            hintText: "Phone number",
-                            hintStyle: TextStyle(
-                              fontFamily: FontConfig.regular,
-                              fontSize: Sizeconfig.small,
-                              color: Color.fromRGBO(0, 0, 0, 0.5),
-                            ),
-                            suffixIcon: Padding(
-                              padding: const EdgeInsets.only(top: 7.0),
-                              child: Icon(
-                                Foundation.asterisk,
-                                color: ColorConfig.darkGreen,
-                                size: Sizeconfig.small,
-                              ),
-                            ),
-                            border: InputBorder.none),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 3.5),
-                      child: Divider(
-                        height: 1,
-                        thickness: 1,
-                        color: Colors.grey.withOpacity(0.5),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 7.0),
-                      child: TextFormField(
-                        controller: descriptionTextEditingController,
-                        textAlignVertical: TextAlignVertical.center,
-                        keyboardType: TextInputType.text,
-                        style: TextStyle(
-                          color: ColorConfig.dark,
-                          fontFamily: FontConfig.regular,
-                          fontSize: Sizeconfig.small,
-                        ),
-                        cursorHeight: 20,
-                        cursorColor: ColorConfig.darkGreen,
-                        decoration: InputDecoration(
-                            hintText: "Description",
-                            hintStyle: TextStyle(
-                              fontFamily: FontConfig.regular,
-                              fontSize: Sizeconfig.small,
-                              color: Color.fromRGBO(0, 0, 0, 0.5),
-                            ),
-                            suffixIcon: Padding(
-                              padding: const EdgeInsets.only(top: 7.0),
-                              child: Icon(
-                                Foundation.asterisk,
-                                color: ColorConfig.darkGreen,
-                                size: Sizeconfig.small,
-                              ),
-                            ),
-                            border: InputBorder.none),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 3.5),
-                      child: Divider(
-                        height: 1,
-                        thickness: 1,
-                        color: Colors.grey.withOpacity(0.5),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Divider(color: ColorConfig.grey.withOpacity(0.3)),
-              Container(
-                height: 68,
-                width: double.maxFinite,
-                padding: EdgeInsets.all(10),
-                color: Colors.white,
-                child: MaterialButton(
-                  elevation: 0.0,
-                  color: ColorConfig.darkGreen,
-                  onPressed: () {
-                    repository.reportPropertyListing(selectedRadioOption, nameTextEditingController.text,
-                        phoneTextEditingController.text, descriptionTextEditingController.text, context, widget.property);
-                    setState(() {
-                      descriptionTextEditingController.text = "";
-                      nameTextEditingController.text = "";
-                      phoneTextEditingController.text = "";
-                    });
-                  },
-                  child: Text(
-                    "Send Report",
-                    style: TextStyle(
-                      color: ColorConfig.light,
-                      fontSize: Sizeconfig.small,
-                      fontFamily: FontConfig.bold,
-                    ),
-                    textAlign: TextAlign.center,
+                    ],
                   ),
                 ),
-              ),
-            ],
+                Divider(color: ColorConfig.grey.withOpacity(0.3)),
+                Container(
+                  height: 68,
+                  width: double.maxFinite,
+                  padding: EdgeInsets.all(10),
+                  color: Colors.white,
+                  child: MaterialButton(
+                    elevation: 0.0,
+                    color: ColorConfig.darkGreen,
+                    onPressed: () {
+                      selectedRadioOption == "select a Problem"
+                          ? showSnackbar("please select a problem you are facing", context)
+                          : nameTextEditingController.text.isNotEmpty &&
+                                  phoneTextEditingController.text.isNotEmpty &&
+                                  descriptionTextEditingController.text.isNotEmpty
+                              ? repository.reportPropertyListing(
+                                  selectedRadioOption,
+                                  nameTextEditingController.text,
+                                  phoneTextEditingController.text,
+                                  descriptionTextEditingController.text,
+                                  context,
+                                  widget.property)
+                              : showSnackbar("filling all details will help us solve this problem faster, Please enter as much details as possible", context);
+                    },
+                    child: Text(
+                      "Send Report",
+                      style: TextStyle(
+                        color: ColorConfig.light,
+                        fontSize: Sizeconfig.small,
+                        fontFamily: FontConfig.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -282,6 +298,7 @@ class _ReportState extends State<Report> {
     RadioList(index: 1, name: "inaccurate property images"),
     RadioList(index: 2, name: "unauthorised use of images"),
     RadioList(index: 3, name: "property not available"),
+    RadioList(index: 3, name: "suspicious property owner"),
     RadioList(index: 4, name: "other"),
   ];
 
@@ -312,7 +329,7 @@ class _ReportState extends State<Report> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "SELECT ROLE",
+                            "SELECT OPTION",
                             style: TextStyle(
                               fontFamily: FontConfig.bold,
                               fontSize: Sizeconfig.medium,
@@ -352,7 +369,6 @@ class _ReportState extends State<Report> {
 
                                           BlocProvider.of<ReportPropertyBloc>(context)
                                               .add(SelectRadioButtonEvent(index: e.index, title: e.name));
-                                          
                                         }),
                                   )
                                   .toList(),
@@ -373,7 +389,7 @@ class _ReportState extends State<Report> {
                       //               setState(() {
                       //                 selectedRadio = value;
                       //               });
-                      //               
+                      //
                       //             })),
                       //     new Text(
                       //       'property location is wrong',
@@ -395,7 +411,7 @@ class _ReportState extends State<Report> {
                       //               setState(() {
                       //                 selectedRadio = value;
                       //               });
-                      //               
+                      //
                       //             })),
                       //     new Text(
                       //       'inaccurate property images',
@@ -417,7 +433,7 @@ class _ReportState extends State<Report> {
                       //               setState(() {
                       //                 selectedRadio = value;
                       //               });
-                      //               
+                      //
                       //             })),
                       //     new Text(
                       //       'Unauthorized use of images',
@@ -439,7 +455,7 @@ class _ReportState extends State<Report> {
                       //               setState(() {
                       //                 selectedRadio = value;
                       //               });
-                      //               
+                      //
                       //             })),
                       //     new Text(
                       //       'Property is not available',
@@ -461,7 +477,7 @@ class _ReportState extends State<Report> {
                       //               setState(() {
                       //                 selectedRadio = value;
                       //               });
-                      //               
+                      //
                       //             })),
                       //     new Text(
                       //       'Others',
