@@ -6,11 +6,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class AuthenticationApiProvider {
-  final FirebaseAuth _firebaseAuth;
-  AuthenticationApiProvider({
-    FirebaseAuth firebaseAuth,
-  })  : assert(firebaseAuth != null),
-        _firebaseAuth = firebaseAuth;
 
   addUserToFirestore(String name, String phone, String role) {
     var user = FirebaseAuth.instance.currentUser;

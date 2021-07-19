@@ -58,7 +58,7 @@ class AboutUs extends StatelessWidget {
                       height: 10,
                     ),
                     Text(
-                      '''We are a kenyan startup that looks to make it easier for any kenyan to find a place to stay. We mainly operate in nairobi and will soon expand to the rest of kenya so to ensure all kenyans get access to this service. We work by linking property owners, real estate agents, property managers to any kenyan who is looking for a house to live in or sell.''',
+                      '''Kwetu app looks to make it easier for anyone to find a place to stay. Whether you want to stay for a day or for a year, We'll help you find it. We are operational in all major towns in kenya to ensure anyone get access to this service. We work by linking property owners, real estate agents, property managers to anyone who is looking for a house to live in or sell.''',
                       style: TextStyle(
                           fontFamily: FontConfig.regular, fontSize: Sizeconfig.medium, color: ColorConfig.grey),
                     ),

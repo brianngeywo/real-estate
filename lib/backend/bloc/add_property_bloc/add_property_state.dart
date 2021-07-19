@@ -67,6 +67,19 @@ class SelectedBedroomState extends AddPropertyState {
   });
 }
 
+class SelectedBedroomsOfferedState extends AddPropertyState {
+  final List<dynamic> bedrooms;
+  SelectedBedroomsOfferedState({
+    @required this.bedrooms,
+  });
+}
+
+class SelectedBedroomsPricesState extends AddPropertyState {
+  final List<String> prices;
+  SelectedBedroomsPricesState({
+    @required this.prices,
+  });
+}
 class AddedLocalityState extends AddPropertyState {
   final String location;
   AddedLocalityState({

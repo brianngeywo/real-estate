@@ -79,6 +79,16 @@ exports.createUserSearchQuery = functions.firestore
         })
     });
 
+exports.deleteUserSearchesListings = functions.firestore
+    .document("/users/{user_id}/searches/{searchId}")
+    .onDelete(async (snapshot, context) => {
+        const searchId = context.params.searchId;
+        const user_id = context.params.user_id;
+        admin
+            .firestore()
+            .collection("searches").doc(searchId).delete();
+    });
+
 exports.paymentCallback = functions.https.onRequest(async (req, res) => {
     // Get the stk response body
     const callbackData = req.body.Body.stkCallback;

@@ -23,11 +23,11 @@ class _TabBar2State extends State<TabBar2> {
   @override
   void initState() {
     super.initState();
-    minPriceTextEditingController.clear();
-    maxPriceTextEditingController.clear();
     rentalFrequency = "daily";
     selectedPropertyType = "Apartment";
     bedrooms = "studio";
+    BlocProvider.of<SearchPropertyBloc>(context)
+        .add((SelectedSubCategoryEvent(subcategoryTitle: selectedPropertyType)));
   }
 
   @override
@@ -64,7 +64,6 @@ class _TabBar2State extends State<TabBar2> {
             ),
           ),
           SizedBox(height: 10),
-
           BlocBuilder<SearchPropertyBloc, SearchPropertyState>(
             builder: (context, state) {
               return Wrap(
@@ -339,10 +338,7 @@ class _TabBar2State extends State<TabBar2> {
               );
             },
           ),
-          SizedBox(
-            height: 20,
-          ),
-          Padding(
+        Padding(
             padding: EdgeInsets.only(left: 15, right: 15),
             child: Row(
               children: [
@@ -415,102 +411,6 @@ class _TabBar2State extends State<TabBar2> {
           SizedBox(
             height: 10,
           ),
-          // Padding(
-          //   padding: EdgeInsets.only(left: 15, right: 15),
-          //   child: Row(
-          //     children: [
-          //       Expanded(
-          //         child: InkWell(
-          //           onTap: () {
-          //             showDialogBox(context);
-          //           },
-          //           child: Container(
-          //             height: 40,
-          //             padding: EdgeInsets.only(left: 10, right: 10),
-          //             decoration: BoxDecoration(
-          //               borderRadius: BorderRadius.circular(5),
-          //               border: Border.all(
-          //                 width: 1,
-          //                 color: ColorConfig.smokeDark,
-          //               ),
-          //             ),
-          //             child: Row(
-          //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //               children: [
-          //                 Text(
-          //                   '0',
-          //                   style: TextStyle(
-          //                     fontFamily: FontConfig.regular,
-          //                     fontSize: Sizeconfig.small,
-          //                     color: ColorConfig.grey,
-          //                   ),
-          //                 ),
-          //                 Icon(
-          //                   Ionicons.md_arrow_dropdown,
-          //                   size: Sizeconfig.large,
-          //                   color: ColorConfig.grey,
-          //                 ),
-          //               ],
-          //             ),
-          //           ),
-          //         ),
-          //       ),
-          //       SizedBox(
-          //         width: 5,
-          //       ),
-          //       Text(
-          //         'to',
-          //         style: TextStyle(
-          //           fontFamily: FontConfig.regular,
-          //           fontSize: Sizeconfig.medium,
-          //           color: ColorConfig.grey,
-          //         ),
-          //       ),
-          //       SizedBox(
-          //         width: 5,
-          //       ),
-          //       Expanded(
-          //         child: InkWell(
-          //           onTap: () {
-          //             showDialogBox(context);
-          //           },
-          //           child: Container(
-          //             height: 40,
-          //             padding: EdgeInsets.only(left: 10, right: 10),
-          //             decoration: BoxDecoration(
-          //               borderRadius: BorderRadius.circular(5),
-          //               border: Border.all(
-          //                 width: 1,
-          //                 color: ColorConfig.smokeDark,
-          //               ),
-          //             ),
-          //             child: Row(
-          //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //               children: [
-          //                 Text(
-          //                   'Any',
-          //                   style: TextStyle(
-          //                     fontFamily: FontConfig.regular,
-          //                     fontSize: Sizeconfig.small,
-          //                     color: ColorConfig.grey,
-          //                   ),
-          //                 ),
-          //                 Icon(
-          //                   Ionicons.md_arrow_dropdown,
-          //                   size: Sizeconfig.large,
-          //                   color: ColorConfig.grey,
-          //                 ),
-          //               ],
-          //             ),
-          //           ),
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
-          // SizedBox(
-          //   height: 20,
-          // ),
           Padding(
             padding: EdgeInsets.only(left: 15, right: 15),
             child: Row(

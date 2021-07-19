@@ -89,26 +89,6 @@ Widget propertyFeatureWidget(List inputs, TextEditingController controller) {
 
 List propertyFeatures = [];
 
-convertListToMap(proposal, county, category, subCategory, price, bedrooms, locality, propertyName, description,
-    rentalFrequency, area, areaUnit, phone, bathrooms, image, imageUrls, BuildContext context) {
-  String message = "";
-  RealifyPropertyRepository repository = RealifyPropertyRepository();
-  // // Map map = list.asMap();
-  // var map = Map<String, String>.fromIterable(list);
-  // RealifyProperty property = RealifyProperty.fromMap(map);
-  // print(map);
-  // print(property);
-  try {
-    repository.uploadProperty(proposal, county, category, subCategory, price, bedrooms, locality, propertyName,
-        description, rentalFrequency, area, areaUnit, phone, bathrooms, image, imageUrls);
-    message = "property uploaded successfully!";
-  } catch (e) {
-    message = "there was a problem when uploading property";
-  }
-
-  showSnackbar(message, context);
-}
-
 // TODO: bedrooms tabbar
 
 class Bedroomtype extends StatefulWidget {

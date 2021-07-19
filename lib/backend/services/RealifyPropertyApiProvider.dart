@@ -14,23 +14,24 @@ class RealifyPropertyApiProvider {
   PropertyList propertyList;
   PropertyImage propertyImage;
   uploadProperty(
-    proposal,
-    county,
-    category,
-    subCategory,
-    price,
-    bedrooms,
-    locality,
-    propertyName,
-    description,
-    rentalFrequency,
-    area,
-    areaUnit,
-    phone,
-    bathrooms,
-    image,
-    imageUrls,
-  ) async {
+      proposal,
+      county,
+      category,
+      subCategory,
+      price,
+      bedrooms,
+      locality,
+      propertyName,
+      description,
+      rentalFrequency,
+      area,
+      areaUnit,
+      phone,
+      bathrooms,
+      image,
+      imageUrls,
+      bedroomsOffered,
+      bedroomsOfferedPrice) async {
     await firebaseFirestore.collection("users").doc(user.uid).collection("rentals").doc(uuid).set({
       "area": area,
       "areaUnit": areaUnit,
@@ -46,12 +47,15 @@ class RealifyPropertyApiProvider {
       "images": imageUrls,
       "name": propertyName,
       "paymentPeriod": rentalFrequency,
+      "bedroomsOffered": bedroomsOffered,
+      "bedroomsOfferedPrice": bedroomsOfferedPrice,
       "phone": phone,
       "email": user.email,
       "price": price,
       "proposal": proposal,
       "subCategoryType": subCategory,
       "id": uuid,
+      "userId": user.uid
       // "propertyFeatures": property.propertyFeatures
     }).then((value) => uuid = new Uuid().v1());
   }

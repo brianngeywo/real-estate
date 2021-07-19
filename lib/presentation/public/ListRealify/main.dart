@@ -14,16 +14,18 @@ class ListRealify extends StatefulWidget {
   final String maxPrice;
   final String county;
   final String paymentPeriod;
+  final List<String> bedroomsOfferedPrice;
   const ListRealify({
     Key key,
-    this.proposal = '',
-    this.propertyCategoryType = '',
-    this.propertySubCategoryType = '',
-    this.bedrooms = '',
-    this.minPrice = '',
-    this.maxPrice = '',
-    this.county = '',
-    this.paymentPeriod = '',
+    @required this.proposal,
+    @required this.propertyCategoryType,
+    @required this.propertySubCategoryType,
+    @required this.bedrooms,
+    @required this.minPrice,
+    @required this.maxPrice,
+    @required this.county,
+    @required this.paymentPeriod,
+    this.bedroomsOfferedPrice,
   }) : super(key: key);
   @override
   _ListRealifyState createState() => _ListRealifyState();
@@ -125,30 +127,6 @@ class _ListRealifyState extends State<ListRealify> {
                 ],
               ),
             ),
-
-            // Row(
-            //   children: [
-            //     SizedBox(
-            //       width: 10,
-            //     ),
-            //     MaterialButton(
-            //       color: ColorConfig.lightGreen,
-            //       textColor: ColorConfig.light,
-            //       onPressed: () => Navigator.of(context).push(
-            //         MaterialPageRoute(
-            //           builder: (context) => AddAdvertisementPage(stories: stories),
-            //         ),
-            //       ),
-            //       child: Text("adverts"),
-            //     ),
-            //     SizedBox(
-            //       width: 10,
-            //     ),
-
-            //     // AddAdvertisementPage(stories: stories,),
-            //   ],
-            // ),
-            // AddAdvertisementPage(stories: stories,),
             SizedBox(
               height: 10,
             ),
@@ -170,23 +148,6 @@ class _ListRealifyState extends State<ListRealify> {
                       )),
                   Row(
                     children: [
-                      // Container(
-                      //   width: 50,
-                      //   child: FlatButton(
-                      //     color: ColorConfig.smokeDark,
-                      //     shape: RoundedRectangleBorder(
-                      //       borderRadius: BorderRadius.circular(5),
-                      //     ),
-                      //     onPressed: () {
-                      //       showDialogBox2(context);
-                      //     },
-                      //     child: Icon(
-                      //       Feather.list,
-                      //       size: Sizeconfig.large,
-                      //       color: ColorConfig.greyDark,
-                      //     ),
-                      //   ),
-                      // ),
                       SizedBox(
                         width: 10,
                       ),
@@ -209,9 +170,6 @@ class _ListRealifyState extends State<ListRealify> {
                           .where("proposal", isEqualTo: proposal)
                           .where("categoryType", isEqualTo: propertyCategoryType)
                           .where("subCategoryType", isEqualTo: propertySubCategoryType)
-                          .where("price", isGreaterThanOrEqualTo: minPrice)
-                          .where("price", isLessThanOrEqualTo: maxPrice)
-                          .where("bedrooms", isEqualTo: bedrooms)
                           .where("county", isEqualTo: county)
                           .where("paymentPeriod", isEqualTo: paymentPeriod)
                           .get(),
@@ -253,13 +211,20 @@ class _ListRealifyState extends State<ListRealify> {
                             child: Column(
                                 children: snapshot.data.docs.map((element) {
                               RealifyProperty property = RealifyProperty.fromSnapshot(element);
-
-                              return Padding(
-                                padding: EdgeInsets.only(top: 20, right: 15, left: 15),
-                                child: MyRecommendedList(
-                                  property: property,
-                                ),
-                              );
+                              if (property.bedroomsOfferedPrice.any((e) =>
+                                      int.parse(e) >= int.parse(minPrice) && int.parse(e) <= int.parse(maxPrice)) &&
+                                  property.bedroomsOffered.contains(bedrooms)) {
+                                return Padding(
+                                  padding: EdgeInsets.only(top: 20, right: 15, left: 15),
+                                  child: MyRecommendedList(
+                                    property: property,
+                                  ),
+                                );
+                              } else {
+                                return Center(
+                                  child: SizedBox(height: 0),
+                                );
+                              }
                             }).toList()),
                           );
                         }
@@ -271,80 +236,6 @@ class _ListRealifyState extends State<ListRealify> {
                           ),
                         );
                       }),
-                  // FutureBuilder(
-                  //     future: DefaultAssetBundle.of(context).loadString('assets/json/recommended.json'),
-                  //     builder: (context, snapshot) {
-                  //       var recommended_data = json.decode(snapshot.data.toString());
-                  //
-                  //
-                  //       return ListView.builder(
-                  //         physics: ScrollPhysics(),
-                  //         itemBuilder: (BuildContext context, int index) {
-                  //           return SingleChildScrollView(
-                  //             child: Column(
-                  //               children: [
-                  //                 Padding(
-                  //                   padding: EdgeInsets.only(top: 20, right: 15, left: 15),
-                  //                   child: RecommendedList(
-                  //                     recommended_data: recommended_data,
-                  //                     index: index,
-                  //                   ),
-                  //                 ),
-                  //               ],
-                  //             ),
-                  //           );
-                  //         },
-                  //         itemCount: recommended_data == null ? 0 : recommended_data.length,
-                  //       );
-                  //     }),
-                  // Align(
-                  //   alignment: Alignment.bottomCenter,
-                  //   child: Padding(
-                  //     padding: const EdgeInsets.only(bottom: 10),
-                  //     child: Container(
-                  //       height: 45,
-                  //       width: 100,
-                  //       child: InkWell(
-                  //         onTap: () {
-                  //           Navigator.push(
-                  //               context,
-                  //               MaterialPageRoute(
-                  //                   builder: (context) => Mapview()));
-                  //         },
-                  //         child: Container(
-                  //           //padding: EdgeInsets.only(left: 10),
-                  //           height: 35,
-                  //           width: 100,
-                  //           decoration: BoxDecoration(
-                  //             color: ColorConfig.light,
-                  //             border: Border.all(
-                  //               width: 1,
-                  //               color: ColorConfig.darkGreen,
-                  //             ),
-                  //           ),
-                  //           child: Row(
-                  //             mainAxisAlignment: MainAxisAlignment.center,
-                  //             children: [
-                  //               Icon(
-                  //                 Ionicons.md_map,
-                  //                 color: ColorConfig.darkGreen,
-                  //                 size: Sizeconfig.huge,
-                  //               ),
-                  //               Text(
-                  //                 "Map View",
-                  //                 style: TextStyle(
-                  //                   fontFamily: FontConfig.regular,
-                  //                   fontSize: Sizeconfig.medium,
-                  //                   color: ColorConfig.darkGreen,
-                  //                 ),
-                  //               )
-                  //             ],
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
                 ],
               ),
             ),

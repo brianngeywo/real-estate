@@ -18,7 +18,8 @@ class AddProperty extends StatefulWidget {
 }
 
 class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin {
-  String proposal = "buy";
+  List<dynamic> bedroomsOffered = [];
+  String proposal = "lodge";
   String county = "";
   String category = "";
   String subCategory = "";
@@ -33,14 +34,16 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
   String areaUnit = "";
   String phone = "";
   List<String> imageUrls = [];
+  List<String> prices = [];
 
   RealifyProperty property;
   TabController tabController;
+
   void initState() {
     super.initState();
     tabController = new TabController(vsync: this, length: proposalList.length);
     tabController.addListener(_handleTabSelection);
-    proposal = "rent";
+    proposal = "lodge";
   }
 
   void _handleTabSelection() {
@@ -66,7 +69,7 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                       child: IconButton(
                         icon: Icon(AntDesign.arrowleft),
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
                         },
                         iconSize: Sizeconfig.huge,
                         color: ColorConfig.dark,
@@ -96,15 +99,15 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                     setState(() {
                       proposal = state.proposal;
                     });
-                    if (proposal == "buy") {
-                      setState(() {
-                        rentalFrequency = "sale";
-                      });
-                    } else if (proposal == "rent" && (rentalFrequency.isEmpty || rentalFrequency == "sale")) {
-                      setState(() {
-                        rentalFrequency = "monthly";
-                      });
-                    }
+                    // if (proposal == "buy") {
+                    //   setState(() {
+                    //     rentalFrequency = "sale";
+                    //   });
+                    // } else if (proposal == "rent" && (rentalFrequency.isEmpty || rentalFrequency == "sale")) {
+                    //   setState(() {
+                    //     rentalFrequency = "monthly";
+                    //   });
+                    // }
                   }
                   if (state is AddPropertySelectedCounty) {
                     setState(() {
@@ -131,6 +134,18 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                       bedrooms = state.bedroom;
                     });
                   }
+
+                  if (state is SelectedBedroomsOfferedState) {
+                    setState(() {
+                      bedroomsOffered = [];
+                    });
+                    state.bedrooms.forEach((element) {
+                      setState(() {
+                        bedroomsOffered.add(element);
+                      });
+                    });
+                    print(bedroomsOffered);
+                  }
                   if (state is EnteredPriceState) {
                     setState(() {
                       price = state.price;
@@ -151,12 +166,21 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                       description = state.description;
                     });
                   }
+                  if (state is SelectedBedroomsPricesState) {
+                    setState(() {
+                      prices = [];
+                      prices.addAll(state.prices);
+                    });
+                    print("prices");
+                    print(prices);
+                  }
                   if (state is AddRentalFrequencyState) {
-                    if (proposal == "buy") {
-                      setState(() {
-                        rentalFrequency = "sale";
-                      });
-                    } else if (proposal == "rent" && (rentalFrequency.isEmpty || rentalFrequency == "sale")) {
+                    // if (proposal == "buy") {
+                    //   setState(() {
+                    //     rentalFrequency = "sale";
+                    //   });
+                    // } else
+                    if (proposal == "rent" && (rentalFrequency.isEmpty || rentalFrequency == "sale")) {
                       setState(() {
                         rentalFrequency = "monthly";
                       });
@@ -183,30 +207,34 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                         imageUrls.add(image.url);
                       });
                     });
-                    if (proposal == "buy") {
-                      setState(() {
-                        rentalFrequency = "sale";
-                      });
-                    }
+                    setState(() {
+                      imageUrls.addAll(state.propertyImageList.propertyImages.map((image) => image.url));
+                    });
+                    // if (proposal == "buy") {
+                    //   setState(() {
+                    //     rentalFrequency = "sale";
+                    //   });
+                    // }
                     BlocProvider.of<AddPropertyBloc>(context).add(
                       UploadPropertyEvent(
-                        proposal: proposal.isEmpty ? "buy" : proposal.toLowerCase(),
-                        county: county.isEmpty ? "nairobi" : county.toLowerCase(),
-                        category: category.isEmpty ? "residential" : category.toLowerCase(),
-                        subCategory: subCategory.isEmpty ? "apartment" : subCategory.toLowerCase(),
-                        price: price.toLowerCase(),
-                        bedrooms: bedrooms.isEmpty ? "studio" : bedrooms.toLowerCase(),
-                        bathrooms: bathrooms.isEmpty ? "1" : bathrooms.toLowerCase(),
-                        locality: locality.toLowerCase(),
-                        propertyName: propertyName.toLowerCase(),
-                        description: description.toLowerCase(),
-                        rentalFrequency: rentalFrequency.isEmpty ? "daily" : rentalFrequency.toLowerCase(),
-                        area: area.isEmpty ? "0" : area.toLowerCase(),
-                        areaUnit: areaUnit.toLowerCase(),
-                        phone: phone.toLowerCase(),
-                        image: imageUrls[0],
-                        images: imageUrls,
-                      ),
+                          proposal: proposal.isEmpty ? "lodge" : proposal.toLowerCase(),
+                          county: county.isEmpty ? "nairobi" : county.toLowerCase(),
+                          category: category.isEmpty ? "residential" : category.toLowerCase(),
+                          subCategory: subCategory.isEmpty ? "hotel" : subCategory.toLowerCase(),
+                          price: price.toLowerCase(),
+                          bedrooms: bedrooms.isEmpty ? "studio" : bedrooms.toLowerCase(),
+                          bathrooms: bathrooms.isEmpty ? "1" : bathrooms.toLowerCase(),
+                          locality: locality.toLowerCase(),
+                          propertyName: propertyName.toLowerCase(),
+                          description: description.toLowerCase(),
+                          rentalFrequency: rentalFrequency.isEmpty ? "daily" : rentalFrequency.toLowerCase(),
+                          area: area.isEmpty ? "0" : area.toLowerCase(),
+                          areaUnit: area.isEmpty ? "sq.m." : areaUnit.toLowerCase(),
+                          phone: phone.toLowerCase(),
+                          image: imageUrls[0],
+                          images: imageUrls,
+                          bedroomsOffered: bedroomsOffered,
+                          bedroomsOfferedPrice: prices),
                     );
                     // print(imageUrls);
                   }
@@ -222,7 +250,7 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                     onTap: (value) {
                       if (value == 0) {
                         setState(() {
-                          proposal = "buy";
+                          proposal = "lodge";
                         });
                       } else if (value == 1) {
                         setState(() {
@@ -246,7 +274,7 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                               border: Border.all(width: 1, color: ColorConfig.smokeLight)),
                           child: Center(
                             child: Text(
-                              "Sell",
+                              "Lodging",
                               style: TextStyle(
                                   fontFamily: FontConfig.bold,
                                   fontSize: Sizeconfig.small,
@@ -265,7 +293,7 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                               border: Border.all(width: 1, color: ColorConfig.smokeLight)),
                           child: Center(
                             child: Text(
-                              "Rent",
+                              "Rental",
                               style: TextStyle(
                                   fontFamily: FontConfig.bold,
                                   fontSize: Sizeconfig.small,
@@ -305,7 +333,7 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                       color: Colors.white,
                       child: MaterialButton(
                         elevation: 0.0,
-                        color: imageUrls != null ? ColorConfig.darkGreen : ColorConfig.lightGreenBg,
+                        color: ColorConfig.darkGreen,
                         onPressed: () {
                           BlocProvider.of<AddPropertyBloc>(context).add(StartPropertyUploadEvent());
                           showMyDialogBox(
@@ -314,11 +342,11 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                           );
                         },
                         child: Text(
-                          imageUrls == null ? 'Waiting for images...' : 'Upload Now',
+                          'Upload Now',
                           style: TextStyle(
                             fontFamily: FontConfig.bold,
                             fontSize: Sizeconfig.small,
-                            color: imageUrls != null ? ColorConfig.light : ColorConfig.darkGreen,
+                            color: ColorConfig.light
                           ),
                           textAlign: TextAlign.center,
                         ),

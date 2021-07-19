@@ -139,7 +139,7 @@ class _MyPropertiesState extends State<MyProperties> with TickerProviderStateMix
                           child: Text("You haven't posted any property",
                               style: TextStyle(
                                 fontSize: Sizeconfig.large,
-                                color: ColorConfig.lightGreen,
+                                color: ColorConfig.dark,
                                 fontFamily: FontConfig.regular,
                               )),
                         ),

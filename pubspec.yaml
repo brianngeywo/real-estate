@@ -25,6 +25,7 @@ dependencies:
   flutter_bloc: ^7.0.1
   flutter_icons: ^1.1.0
   flutter_launcher_icons: ^0.9.0
+  flutter_rating_bar: ^4.0.0
   flutter_statusbarcolor: ^0.2.3
   flutter_vector_icons: ^0.2.1
   fluttericon: ^1.0.7
@@ -39,6 +40,7 @@ dependencies:
   line_awesome_flutter: ^1.0.1
   mpesa_flutter_plugin: ^1.0.0
   multi_image_picker2: ^5.0.2
+  multiselect_formfield: ^0.1.6
   octicons_icon: ^0.0.2
   outline_material_icons: ^0.1.1
   package_info_plus: ^1.0.3

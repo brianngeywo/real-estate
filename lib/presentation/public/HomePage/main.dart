@@ -110,7 +110,7 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                         Center(
                                           child: Text(
-                                            "Affordable Rentals in Kenya",
+                                            "Find a place to stay.",
                                             style: TextStyle(
                                                 fontFamily: FontConfig.bold,
                                                 fontSize: Sizeconfig.small,
@@ -225,7 +225,7 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                       Center(
                                         child: Text(
-                                          "Affordable Rentals in Kenya",
+                                          "Find a place to stay.",
                                           style: TextStyle(
                                               fontFamily: FontConfig.bold,
                                               fontSize: Sizeconfig.medium,

@@ -2,9 +2,9 @@ part of 'add_property_bloc.dart';
 
 @immutable
 abstract class AddPropertyEvent {}
-class AddPropertyInitialEvent extends AddPropertyEvent {
- 
-}
+
+class AddPropertyInitialEvent extends AddPropertyEvent {}
+
 class SelectedCountyEvent extends AddPropertyEvent {
   final String county;
   SelectedCountyEvent({
@@ -25,6 +25,20 @@ class SelectedBedroomEvent extends AddPropertyEvent {
   SelectedBedroomEvent({
     this.index = 0,
     this.bedroom = "",
+  });
+}
+
+class SelectedBedroomsOfferedEvent extends AddPropertyEvent {
+  final List<dynamic> bedrooms;
+  SelectedBedroomsOfferedEvent({
+    @required this.bedrooms,
+  });
+}
+
+class SelectedBedroomsPricesEvent extends AddPropertyEvent {
+  final List<String> prices;
+  SelectedBedroomsPricesEvent({
+    @required this.prices,
   });
 }
 
@@ -137,6 +151,8 @@ class UploadPropertyEvent extends AddPropertyEvent {
   final String phone;
   final String image;
   final List<String> images;
+  final List<dynamic> bedroomsOffered;
+  final List<dynamic> bedroomsOfferedPrice;
   UploadPropertyEvent({
     @required this.proposal,
     @required this.county,
@@ -154,5 +170,7 @@ class UploadPropertyEvent extends AddPropertyEvent {
     @required this.phone,
     @required this.image,
     @required this.images,
+    @required this.bedroomsOffered,
+    @required this.bedroomsOfferedPrice,
   });
 }

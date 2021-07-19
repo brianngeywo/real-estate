@@ -15,7 +15,6 @@ class _RecommendedListState extends State<RecommendedList> {
   bool islike = true;
   RealifyProperty property;
 
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -235,8 +234,7 @@ class _RecommendedListState extends State<RecommendedList> {
 
 class MyRecommendedList extends StatefulWidget {
   MyRecommendedList({Key key, this.property}) : super(key: key);
-  RealifyProperty property;
-  
+  final RealifyProperty property;
 
   @override
   _MyRecommendedListState createState() => _MyRecommendedListState();
@@ -244,14 +242,28 @@ class MyRecommendedList extends StatefulWidget {
 
 class _MyRecommendedListState extends State<MyRecommendedList> {
   bool islike = true;
+  @override
+  void initState() {
+    super.initState();
+    List<dynamic> bedroomsOffered = widget.property.bedroomsOffered;
+    List<dynamic> bedroomsOfferedPrice = widget.property.bedroomsOfferedPrice;
+    final String selectedBedrooms = bedroomsOffered.join(' & ').toString();
+    final String selectedBedroomsPrice = bedroomsOfferedPrice.join(' & ').toString();
+    print(selectedBedrooms);
+    theBedrooms = selectedBedrooms;
+    theBedroomsPrice = selectedBedroomsPrice;
+  }
 
+  String theBedrooms = "";
+  String theBedroomsPrice = "";
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         InkWell(
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => PropertyDetails(property: widget.property)));
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => PropertyDetails(property: widget.property)));
           },
           child: Container(
             height: 100,
@@ -310,7 +322,7 @@ class _MyRecommendedListState extends State<MyRecommendedList> {
                               width: 3,
                             ),
                             Text(
-                              "Property",
+                              widget.property.images.length.toString() + " images",
                               style: TextStyle(
                                 fontFamily: FontConfig.regular,
                                 fontSize: Sizeconfig.tiny,
@@ -347,42 +359,40 @@ class _MyRecommendedListState extends State<MyRecommendedList> {
                                         bottom: 5,
                                       ),
                                       child: Text(
-                                        "\Kshs",
+                                        "\Kshs ",
                                         style: TextStyle(
                                           fontFamily: FontConfig.regular,
                                           color: ColorConfig.dark,
-                                          fontSize: Sizeconfig.tiny,
+                                          fontSize: Sizeconfig.medium,
                                         ),
                                       ),
                                     ),
                                     Text(
-                                      "" + widget.property.price,
+                                      theBedroomsPrice,
                                       style: TextStyle(
                                         fontFamily: FontConfig.bold,
                                         color: ColorConfig.greyDark,
-                                        fontSize: Sizeconfig.large,
+                                        fontSize: Sizeconfig.medium,
                                       ),
                                     ),
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                        bottom: 3,
-                                      ),
-                                      child: Text(
-                                        widget.property.paymentPeriod,
-                                        style: TextStyle(
-                                          fontFamily: FontConfig.regular,
-                                          color: ColorConfig.dark,
-                                          fontSize: Sizeconfig.tiny,
-                                        ),
-                                      ),
-                                    )
                                   ],
                                 ),
                                 SizedBox(
-                                  height: 5,
+                                  height: 7,
                                 ),
                                 Text(
-                                  "" + widget.property.county,
+                                  widget.property.paymentPeriod,
+                                  style: TextStyle(
+                                    fontFamily: FontConfig.regular,
+                                    color: ColorConfig.dark,
+                                    fontSize: Sizeconfig.tiny,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 7,
+                                ),
+                                Text(
+                                  widget.property.county,
                                   style: TextStyle(
                                     fontFamily: FontConfig.regular,
                                     color: ColorConfig.grey,
@@ -410,7 +420,7 @@ class _MyRecommendedListState extends State<MyRecommendedList> {
                           ],
                         ),
                         SizedBox(
-                          height: 5,
+                          height: 7,
                         ),
                         Text(
                           widget.property.subCategoryType,
@@ -420,36 +430,56 @@ class _MyRecommendedListState extends State<MyRecommendedList> {
                             fontSize: Sizeconfig.tiny,
                           ),
                         ),
+                        // SizedBox(
+                        //   height: 5,
+                        // ),
+                        // RatingBar(
+                        //   initialRating: 3.2,
+                        //   direction: Axis.horizontal,
+                        //   allowHalfRating: true,
+                        //   itemCount: 5,
+                        //   itemSize: Sizeconfig.large,
+                        //   ratingWidget: RatingWidget(
+                        //     full: Icon(Icons.star, color: Colors.amber),
+                        //     half: Icon(Icons.star_half, color: Colors.amber),
+                        //     empty: Icon(Icons.star_outline, color: Colors.amber),
+                        //   ),
+                        //   itemPadding: EdgeInsets.symmetric(horizontal: 0.0),
+                        //   onRatingUpdate: (rating) {
+                        //     print(rating);
+                        //   },
+                        // ),
                         SizedBox(
-                          height: 10,
+                          height: 7,
                         ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              widget.property.bedrooms +" Bed",
+                              theBedrooms + " Bedrooms",
                               style: TextStyle(
                                 fontFamily: FontConfig.bold,
                                 fontSize: Sizeconfig.tiny,
                               ),
                             ),
+                             SizedBox(width: 15),
                             Text(
-                              widget.property.bathrooms + " Baths",
+                              widget.property.bathrooms + " Bathrooms",
                               style: TextStyle(
                                 fontFamily: FontConfig.bold,
                                 fontSize: Sizeconfig.tiny,
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 20.0),
-                              child: Text(
-                                "100 sqm",
-                                style: TextStyle(
-                                  fontFamily: FontConfig.bold,
-                                  fontSize: Sizeconfig.tiny,
-                                ),
-                              ),
-                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.only(right: 20.0),
+                            //   child: Text(
+                            //     widget.property.area + " " + widget.property.areaUnit,
+                            //     style: TextStyle(
+                            //       fontFamily: FontConfig.bold,
+                            //       fontSize: Sizeconfig.tiny,
+                            //     ),
+                            //   ),
+                            // ),
                           ],
                         ),
                       ],

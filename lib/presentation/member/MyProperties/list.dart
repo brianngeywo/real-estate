@@ -3,16 +3,38 @@ import 'package:Realify/presentation/member/UpdateProperty/UpdateProperty.dart';
 import 'package:Realify/presentation/my_imports.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class MyPropertiesList extends StatelessWidget {
+class MyPropertiesList extends StatefulWidget {
   MyPropertiesList({Key key, this.property}) : super(key: key);
   final RealifyProperty property;
+
+  @override
+  State<MyPropertiesList> createState() => _MyPropertiesListState();
+}
+
+class _MyPropertiesListState extends State<MyPropertiesList> {
+    @override
+  void initState() {
+    super.initState();
+    List<dynamic> bedroomsOffered = widget.property.bedroomsOffered;
+    List<dynamic> bedroomsOfferedPrice = widget.property.bedroomsOfferedPrice;
+    final String selectedBedrooms = bedroomsOffered.join(' & ').toString();
+    final String selectedBedroomsPrice = bedroomsOfferedPrice.join(' & ').toString();
+    print(selectedBedrooms);
+    theBedrooms = selectedBedrooms;
+    theBedroomsPrice = selectedBedroomsPrice;
+  }
+
+  String theBedrooms = "";
+
+  String theBedroomsPrice = "";
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         InkWell(
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => PropertyDetails(property: property)));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => PropertyDetails(property: widget.property)));
           },
           child: Container(
             height: 100,
@@ -35,13 +57,13 @@ class MyPropertiesList extends StatelessWidget {
                         topLeft: Radius.circular(5),
                       )),
                       child: Hero(
-                        tag: "image-${property.image}-${property.images[0]}",
+                        tag: "image-${widget.property.image}-${widget.property.images[0]}",
                         child: Image(
                           fit: BoxFit.cover,
                           height: 150,
                           width: 98,
                           image: NetworkImage(
-                            "" + property.images[0],
+                            "" + widget.property.images[0],
                           ),
                         ),
                       ),
@@ -71,7 +93,7 @@ class MyPropertiesList extends StatelessWidget {
                               width: 3,
                             ),
                             Text(
-                              "Property",
+                              widget.property.images.length.toString() + " images",
                               style: TextStyle(
                                 fontFamily: FontConfig.regular,
                                 fontSize: Sizeconfig.tiny,
@@ -108,42 +130,41 @@ class MyPropertiesList extends StatelessWidget {
                                         bottom: 5,
                                       ),
                                       child: Text(
-                                        "\Kshs",
+                                        "\Kshs ",
                                         style: TextStyle(
                                           fontFamily: FontConfig.regular,
                                           color: ColorConfig.dark,
-                                          fontSize: Sizeconfig.tiny,
+                                          fontSize: Sizeconfig.medium,
                                         ),
                                       ),
                                     ),
                                     Text(
-                                      "" + property.price,
+                                      theBedroomsPrice,
                                       style: TextStyle(
                                         fontFamily: FontConfig.bold,
                                         color: ColorConfig.greyDark,
-                                        fontSize: Sizeconfig.large,
+                                        fontSize: Sizeconfig.medium,
                                       ),
                                     ),
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                        bottom: 3,
-                                      ),
-                                      child: Text(
-                                        property.paymentPeriod,
-                                        style: TextStyle(
-                                          fontFamily: FontConfig.regular,
-                                          color: ColorConfig.dark,
-                                          fontSize: Sizeconfig.tiny,
-                                        ),
-                                      ),
-                                    )
+                                    
                                   ],
                                 ),
                                 SizedBox(
-                                  height: 5,
+                                  height: 7,
+                                ),
+                               Text(
+                                 widget.property.paymentPeriod,
+                                 style: TextStyle(
+                                   fontFamily: FontConfig.regular,
+                                   color: ColorConfig.dark,
+                                   fontSize: Sizeconfig.tiny,
+                                 ),
+                               ),
+                                SizedBox(
+                                  height: 7,
                                 ),
                                 Text(
-                                  "" + property.county,
+                                  "" + widget.property.county,
                                   style: TextStyle(
                                     fontFamily: FontConfig.regular,
                                     color: ColorConfig.grey,
@@ -174,7 +195,7 @@ class MyPropertiesList extends StatelessWidget {
                                 SizedBox(width: 5),
                                 InkWell(
                                   onTap: () => Navigator.of(context)
-                                      .push(MaterialPageRoute(builder: (context) => UpdateProperty(property: property,))),
+                                      .push(MaterialPageRoute(builder: (context) => UpdateProperty(property: widget.property,))),
                                   child: Container(
                                     height: 36,
                                     width: 36,
@@ -195,10 +216,10 @@ class MyPropertiesList extends StatelessWidget {
                           ],
                         ),
                         SizedBox(
-                          height: 5,
+                          height: 7,
                         ),
                         Text(
-                          property.subCategoryType,
+                          widget.property.subCategoryType,
                           style: TextStyle(
                             fontFamily: FontConfig.regular,
                             color: ColorConfig.grey,
@@ -209,32 +230,33 @@ class MyPropertiesList extends StatelessWidget {
                           height: 10,
                         ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              property.bedrooms + " Bed",
+                              theBedrooms + " Bedrooms",
                               style: TextStyle(
                                 fontFamily: FontConfig.bold,
                                 fontSize: Sizeconfig.tiny,
                               ),
                             ),
+                            SizedBox(width: 15),
                             Text(
-                              property.bathrooms + " Baths",
+                              widget.property.bathrooms + " Bathrooms",
                               style: TextStyle(
                                 fontFamily: FontConfig.bold,
                                 fontSize: Sizeconfig.tiny,
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 20.0),
-                              child: Text(
-                                "100 sqm",
-                                style: TextStyle(
-                                  fontFamily: FontConfig.bold,
-                                  fontSize: Sizeconfig.tiny,
-                                ),
-                              ),
-                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.only(right: 20.0),
+                            //   child: Text(
+                            //     "100 sqm",
+                            //     style: TextStyle(
+                            //       fontFamily: FontConfig.bold,
+                            //       fontSize: Sizeconfig.tiny,
+                            //     ),
+                            //   ),
+                            // ),
                           ],
                         ),
                       ],
@@ -248,5 +270,4 @@ class MyPropertiesList extends StatelessWidget {
       ],
     );
   }
-
 }

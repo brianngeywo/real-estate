@@ -23,11 +23,11 @@ class _TabBar1State extends State<TabBar1> {
   @override
   void initState() {
     super.initState();
-    minPriceTextEditingController.clear();
-    maxPriceTextEditingController.clear();
     rentalFrequency = "daily";
-    selectedPropertyType = "Apartment";
+    selectedPropertyType = "Hotel";
     bedrooms = "studio";
+    BlocProvider.of<SearchPropertyBloc>(context)
+        .add((SelectedSubCategoryEvent(subcategoryTitle: selectedPropertyType)));
   }
 
   @override
@@ -64,15 +64,11 @@ class _TabBar1State extends State<TabBar1> {
             ),
           ),
           SizedBox(height: 10),
-          // Propertytype(),
-          // SizedBox(
-          //   height: 10,
-          // ),
           BlocBuilder<SearchPropertyBloc, SearchPropertyState>(
             builder: (context, state) {
               return Wrap(
                 direction: Axis.horizontal,
-                children: residentialCategoryTypeList
+                children: lodgingsList
                     .map(
                       (e) => Padding(
                         padding: EdgeInsets.all(5),
@@ -344,6 +340,79 @@ class _TabBar1State extends State<TabBar1> {
           ),
           SizedBox(
             height: 20,
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 15, right: 15),
+            child: Row(
+              children: [
+                Icon(
+                  MaterialCommunityIcons.av_timer,
+                  size: Sizeconfig.huge,
+                  color: ColorConfig.darkGreen,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(
+                    "Payment period",
+                    style: TextStyle(
+                      fontFamily: FontConfig.bold,
+                      fontSize: Sizeconfig.medium,
+                      color: ColorConfig.dark,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 10),
+          BlocBuilder<SearchPropertyBloc, SearchPropertyState>(
+            builder: (context, state) {
+              return Container(
+                height: 60,
+                width: double.infinity,
+                padding: EdgeInsets.only(left: 10, top: 10),
+                child: Wrap(
+                  children: rentalFrequencyList
+                      .map(
+                        (e) => Container(
+                          margin: EdgeInsets.symmetric(horizontal: 6),
+                          decoration: BoxDecoration(
+                              color: rentalFrequency == e ? ColorConfig.lightGreen : ColorConfig.light,
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(3),
+                              ),
+                              border: Border.all(width: 1, color: ColorConfig.smokeLight)),
+                          height: 40,
+                          width: 60,
+                          child: InkWell(
+                            onTap: () {
+                              setState(() {
+                                rentalFrequency = e;
+                              });
+                              BlocProvider.of<SearchPropertyBloc>(context).add(AddRentalFrequencyEvent(frequency: e));
+                            },
+                            child: Center(
+                              child: Text(
+                                e,
+                                style: TextStyle(
+                                    fontFamily: FontConfig.bold,
+                                    fontSize: Sizeconfig.small,
+                                    color: rentalFrequency == e ? ColorConfig.light : ColorConfig.grey),
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                      .toList(),
+                ),
+              );
+            },
+          ),
+          SizedBox(
+            height: 10,
           ),
           Padding(
             padding: EdgeInsets.only(left: 15, right: 15),

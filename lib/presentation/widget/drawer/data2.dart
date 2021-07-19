@@ -65,31 +65,32 @@ class Data2 extends StatelessWidget {
               //   ),
               // ),
               snapshot.hasData
-                  ? InkWell(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => AddProperty()));
-                      },
-                      child: Row(
-                        children: [
-                          Icon(
-                            IconName.iconproperty,
-                            size: Sizeconfig.large,
-                            color: ColorConfig.grey,
-                          ),
-                          SizedBox(
-                            width: 15,
-                          ),
-                          Text(
-                            MenuName.property,
-                            style: TextStyle(
-                                fontFamily: FontConfig.regular, fontSize: Sizeconfig.small, color: ColorConfig.grey),
-                          ),
-                        ],
-                      ),
-                    )
-                  : SizedBox(
-                      height: 0,
+                  ?
+              InkWell(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => AddProperty()));
+                },
+                child: Row(
+                  children: [
+                    Icon(
+                      IconName.iconproperty,
+                      size: Sizeconfig.large,
+                      color: ColorConfig.grey,
                     ),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    Text(
+                      MenuName.property,
+                      style: TextStyle(
+                          fontFamily: FontConfig.regular, fontSize: Sizeconfig.small, color: ColorConfig.grey),
+                    ),
+                  ],
+                ),
+              )
+              : SizedBox(
+                  height: 0,
+                ),
               SizedBox(height: snapshot.hasData ? 20 : 0),
               snapshot.hasData
                   ? InkWell(

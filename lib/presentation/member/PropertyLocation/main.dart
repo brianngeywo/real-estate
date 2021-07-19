@@ -25,10 +25,7 @@ class _PropertyLocationState extends State<PropertyLocation> {
                     child: IconButton(
                       icon: Icon(AntDesign.arrowleft),
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => PropertyDetails(property: property)));
+                        Navigator.of(context).pop();
                       },
                       iconSize: Sizeconfig.huge,
                       color: ColorConfig.dark,

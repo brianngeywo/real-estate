@@ -19,14 +19,14 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
     super.initState();
     tabController = new TabController(vsync: this, length: 2);
     tabController.addListener(_handleTabSelection);
-    proposal = "buy";
+    proposal = "lodge";
   }
 
   void _handleTabSelection() {
     setState(() {});
   }
 
-  String proposal = "buy";
+  String proposal = "lodge";
   String county = "";
   String category = "";
   String subCategory = "";
@@ -53,7 +53,7 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                       child: IconButton(
                         icon: Icon(AntDesign.close),
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                          Navigator.of(context).pop();
                         },
                         iconSize: Sizeconfig.huge,
                         color: ColorConfig.dark,
@@ -94,38 +94,26 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                     setState(() {
                       proposal = state.proposal;
                     });
-                    if (proposal == "buy") {
-                      setState(() {
-                        rentalFrequency = "sale";
-                      });
-                    }
                   }
                   if (state is SearchPropertySelectedCounty) {
                     setState(() {
                       county = state.county;
                     });
-                    // print(county);
                   }
                   if (state is SearchPropertySelectedPropertyType) {
                     setState(() {
                       category = state.categoryTitle;
                     });
-                    // print("category");
-                    // print(category);
                   }
                   if (state is SearchPropertySelectedPropertySubType) {
                     setState(() {
                       subCategory = state.subcategoryTitle;
                     });
-                    // print("sub category");
-                    // print(subCategory);
                   }
                   if (state is SelectedBedroomState) {
                     setState(() {
                       bedrooms = state.bedroom;
                     });
-                    // print("bedrooms");
-                    // print(bedrooms);
                   }
                   if (state is EnteredMinPriceState) {
                     setState(() {
@@ -139,17 +127,9 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                   }
 
                   if (state is AddRentalFrequencyState) {
-                    if (proposal == "buy") {
-                      setState(() {
-                        rentalFrequency = "sale";
-                      });
-                    } else {
-                      setState(() {
-                        rentalFrequency = state.frequency;
-                      });
-                    }
-                    // print("period");
-                    // print(rentalFrequency);
+                    setState(() {
+                      rentalFrequency = state.frequency;
+                    });
                   }
                 },
                 builder: (context, state) {
@@ -161,18 +141,13 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                       onTap: (value) {
                         if (value == 0) {
                           setState(() {
-                            proposal = "buy";
-                            minPrice = "";
-                            maxPrice = "";
+                            proposal = "lodge";
                           });
                         } else if (value == 1) {
                           setState(() {
                             proposal = "rent";
-                            minPrice = "";
-                            maxPrice = "";
                           });
                         }
-
                         BlocProvider.of<SearchPropertyBloc>(context)
                             .add((SelectedProposalEvent(index: value, proposal: proposal)));
                       },
@@ -189,7 +164,7 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                                 border: Border.all(width: 1, color: ColorConfig.smokeLight)),
                             child: Center(
                               child: Text(
-                                "Buy",
+                                "Lodging",
                                 style: TextStyle(
                                     fontFamily: FontConfig.bold,
                                     fontSize: Sizeconfig.small,
@@ -249,16 +224,17 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                         context,
                         MaterialPageRoute(
                           builder: (context) => ListRealify(
-                            proposal: proposal.isEmpty ? "buy" : proposal.toLowerCase(),
+                            proposal: proposal.isEmpty ? "lodge" : proposal.toLowerCase(),
                             county: county.isEmpty ? "nairobi".toLowerCase() : county.toLowerCase(),
                             propertyCategoryType:
                                 category.isEmpty ? "residential".toLowerCase() : category.toLowerCase(),
                             propertySubCategoryType:
-                                subCategory.isEmpty ? "apartment".toLowerCase() : subCategory.toLowerCase(),
+                                subCategory.isEmpty ? "hotel".toLowerCase() : subCategory.toLowerCase(),
                             bedrooms: bedrooms.isEmpty ? "studio".toLowerCase() : bedrooms.toLowerCase(),
                             minPrice: minPrice,
                             maxPrice: maxPrice,
-                            paymentPeriod: rentalFrequency.isEmpty ? "daily".toLowerCase() : rentalFrequency.toLowerCase(),
+                            paymentPeriod:
+                                rentalFrequency.isEmpty ? "daily".toLowerCase() : rentalFrequency.toLowerCase(),
                           ),
                         ),
                       );

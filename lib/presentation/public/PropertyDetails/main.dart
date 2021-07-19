@@ -1,5 +1,12 @@
+import 'package:Realify/backend/models/realify_user.dart';
+import 'package:Realify/constants.dart';
+import 'package:Realify/main.dart';
+import 'package:Realify/presentation/member/Location/main.dart';
+import 'package:Realify/presentation/member/PropertyLocation/main.dart';
 import 'package:Realify/presentation/member/Report/main.dart';
 import 'package:Realify/presentation/public/PropertyDetails/image_gallery.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:readmore/readmore.dart';
 
 import 'package:Realify/backend/models/RealifyProperty.dart';
@@ -17,8 +24,31 @@ class PropertyDetails extends StatefulWidget {
 }
 
 class _PropertyDetailsState extends State<PropertyDetails> {
+  RealifyUser user = RealifyUser();
   bool issaved = true;
   void togglesaved() {}
+  getUser() async {
+    DocumentSnapshot userDocSnap = await usersRef.doc(widget.property.userId).get();
+    setState(() {
+      user = RealifyUser.fromSnapshot(userDocSnap);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUser();
+    List<dynamic> bedroomsOffered = widget.property.bedroomsOffered;
+    List<dynamic> bedroomsOfferedPrice = widget.property.bedroomsOfferedPrice;
+    final String selectedBedrooms = bedroomsOffered.join(' & ').toString();
+    final String selectedBedroomsPrice = bedroomsOfferedPrice.join(' & ').toString();
+    print(selectedBedrooms);
+    theBedrooms = selectedBedrooms;
+    theBedroomsPrice = selectedBedroomsPrice;
+  }
+
+  String theBedrooms = "";
+  String theBedroomsPrice = "";
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +71,7 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                                     property: widget.property,
                                   ))),
                           child: Container(
-                            height: 240,
+                            height: widget.property.images.length == 1 ? MediaQuery.of(context).size.width : 240,
                             width: double.maxFinite,
                             child: ListView(
                                 scrollDirection: Axis.horizontal,
@@ -129,7 +159,7 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                           alignment: Alignment.bottomLeft,
                           child: Container(
                             height: 25,
-                            width: 40,
+                            width: 80,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(3),
@@ -139,21 +169,21 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                             child: Row(
                               children: [
                                 SizedBox(
-                                  width: 5,
+                                  width: 7,
                                 ),
                                 Icon(
                                   FontAwesome.camera,
                                   color: ColorConfig.light,
-                                  size: Sizeconfig.tiny,
+                                  size: Sizeconfig.small,
                                 ),
                                 SizedBox(
-                                  width: 3,
+                                  width: 5,
                                 ),
                                 Text(
-                                  widget.property.images.length.toString(),
+                                  widget.property.images.length.toString() + " images",
                                   style: TextStyle(
                                     fontFamily: FontConfig.regular,
-                                    fontSize: Sizeconfig.tiny,
+                                    fontSize: Sizeconfig.medium,
                                     color: ColorConfig.light,
                                   ),
                                 )
@@ -173,7 +203,7 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                             bottom: 10,
                           ),
                           child: Text(
-                            "\Kshs",
+                            "\Kshs ",
                             style: TextStyle(
                               fontFamily: FontConfig.regular,
                               color: ColorConfig.dark,
@@ -185,9 +215,12 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                           width: 2,
                         ),
                         Text(
-                          widget.property.price,
+                         theBedroomsPrice,
                           style: TextStyle(
-                              fontFamily: FontConfig.bold, color: ColorConfig.greyDark, fontSize: Sizeconfig.higantic),
+                            fontFamily: FontConfig.bold,
+                            color: ColorConfig.greyDark,
+                            fontSize: Sizeconfig.huge,
+                          ),
                         ),
                         SizedBox(
                           width: 2,
@@ -211,7 +244,7 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                   Padding(
                     padding: const EdgeInsets.only(top: 15, left: 20, right: 15),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Row(
                           children: [
@@ -226,7 +259,7 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                             Padding(
                               padding: EdgeInsets.only(top: 8),
                               child: Text(
-                                widget.property.bedrooms + " Beds",
+                                theBedrooms + " Bedrooms",
                                 style: TextStyle(
                                   fontFamily: FontConfig.regular,
                                   fontSize: Sizeconfig.small,
@@ -249,7 +282,7 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                             Padding(
                               padding: EdgeInsets.only(top: 8),
                               child: Text(
-                                widget.property.bathrooms + " Bath",
+                                widget.property.bathrooms + " Bathrooms",
                                 style: TextStyle(
                                   fontFamily: FontConfig.regular,
                                   fontSize: Sizeconfig.small,
@@ -259,30 +292,60 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                             )
                           ],
                         ),
-                        Row(
-                          children: [
-                            Icon(
-                              AntDesign.appstore_o,
-                              size: Sizeconfig.huge,
-                              color: ColorConfig.darkGreen,
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 8),
-                              child: Text(
-                                widget.property.area + " " + widget.property.areaUnit,
-                                style: TextStyle(
-                                  fontFamily: FontConfig.regular,
-                                  fontSize: Sizeconfig.small,
-                                  color: ColorConfig.dark,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                        // Row(
+                        //   children: [
+                        //     Icon(
+                        //       AntDesign.appstore_o,
+                        //       size: Sizeconfig.huge,
+                        //       color: ColorConfig.darkGreen,
+                        //     ),
+                        //     SizedBox(
+                        //       width: 10,
+                        //     ),
+                        //     Padding(
+                        //       padding: EdgeInsets.only(top: 8),
+                        //       child: Text(
+                        //         widget.property.area + " " + widget.property.areaUnit,
+                        //         style: TextStyle(
+                        //           fontFamily: FontConfig.regular,
+                        //           fontSize: Sizeconfig.small,
+                        //           color: ColorConfig.dark,
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
                       ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Divider(
+                    color: ColorConfig.grey.withOpacity(0.3),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
+                    child: GestureDetector(
+                      onTap: () {
+                        // Navigator.push(context, MaterialPageRoute(builder: (context) => PropertyLocation()));
+                      },
+                      child: Row(
+                        children: [
+                          Icon(FontAwesome5.globe_africa, size: Sizeconfig.huge, color: ColorConfig.darkGreen),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            widget.property.location,
+                            style: TextStyle(
+                              fontFamily: FontConfig.bold,
+                              fontSize: Sizeconfig.medium,
+                              color: ColorConfig.dark,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -393,7 +456,7 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                           ),
                         ),
                         Text(
-                          "\Kshs" + widget.property.price,
+                          "\Kshs " + theBedroomsPrice,
                           style: TextStyle(
                             fontFamily: FontConfig.bold,
                             fontSize: Sizeconfig.small,
@@ -415,7 +478,7 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Beds",
+                          "Bedrooms",
                           style: TextStyle(
                             fontFamily: FontConfig.regular,
                             fontSize: Sizeconfig.small,
@@ -423,7 +486,7 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                           ),
                         ),
                         Text(
-                          widget.property.bedrooms,
+                          theBedrooms,
                           style: TextStyle(
                             fontFamily: FontConfig.bold,
                             fontSize: Sizeconfig.small,
@@ -445,7 +508,7 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Bath",
+                          "Bathrooms",
                           style: TextStyle(
                             fontFamily: FontConfig.regular,
                             fontSize: Sizeconfig.small,
@@ -594,7 +657,7 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                     child: Text(
                       "Description",
                       style: TextStyle(
-                        fontFamily: FontConfig.regular,
+                        fontFamily: FontConfig.bold,
                         fontSize: Sizeconfig.compact,
                         color: ColorConfig.dark,
                       ),
@@ -736,32 +799,85 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                   //     ),
                   //   ),
                   // ),
-                  // Padding(
-                  //   padding: const EdgeInsets.only(top: 8.0),
-                  //   child: Divider(
-                  //     color: ColorConfig.grey.withOpacity(0.3),
-                  //   ),
-                  // ),
-                  // Padding(
-                  //   padding: EdgeInsets.only(top: 5, left: 20, right: 15),
-                  //   child: Text(
-                  //     "Listing provided by",
-                  //     style: TextStyle(
-                  //       fontFamily: FontConfig.regular,
-                  //       fontSize: Sizeconfig.compact,
-                  //       color: ColorConfig.dark,
-                  //     ),
-                  //   ),
-                  // ),
-                  // Container(
-                  //   child: Image(
-                  //     image:
-                  //         NetworkImage("https://image.freepik.com/free-vector/real-estate-logo-template_1156-724.jpg"),
-                  //     height: 150,
-                  //     width: MediaQuery.of(context).size.width * 90,
-                  //     fit: BoxFit.cover,
-                  //   ),
-                  // ),
+                  user != null
+                      ? Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Divider(
+                            color: ColorConfig.grey.withOpacity(0.3),
+                          ),
+                        )
+                      : SizedBox(),
+                  user != null
+                      ? Padding(
+                          padding: EdgeInsets.only(top: 5, left: 20, right: 15),
+                          child: Text(
+                            "Listing provided by",
+                            style: TextStyle(
+                              fontFamily: FontConfig.bold,
+                              fontSize: Sizeconfig.compact,
+                              color: ColorConfig.dark,
+                            ),
+                          ),
+                        )
+                      : SizedBox(),
+                  SizedBox(height: user != null ? 5 : 0),
+                  user != null
+                      ? Container(
+                          padding: const EdgeInsets.only(top: 5, left: 15, right: 15),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(1000),
+                                    child: CachedNetworkImage(
+                                      imageUrl: user.photoUrl,
+                                      height: 60,
+                                      width: 60,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 15,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        user.name,
+                                        style: TextStyle(
+                                          fontFamily: FontConfig.bold,
+                                          fontSize: Sizeconfig.medium,
+                                          color: ColorConfig.dark,
+                                        ),
+                                      ),
+                                      SizedBox(height: 7),
+                                      Text(
+                                        user.role,
+                                        style: TextStyle(
+                                          fontFamily: FontConfig.regular,
+                                          fontSize: Sizeconfig.small,
+                                          color: ColorConfig.dark,
+                                        ),
+                                      ),
+                                      SizedBox(height: 7),
+                                      Text(
+                                        user.phone,
+                                        style: TextStyle(
+                                          fontFamily: FontConfig.regular,
+                                          fontSize: Sizeconfig.small,
+                                          color: ColorConfig.dark,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              Container(),
+                            ],
+                          ),
+                        )
+                      : SizedBox(),
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
                     child: Divider(
@@ -801,8 +917,68 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                       ),
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Divider(
+                      color: ColorConfig.grey.withOpacity(0.3),
+                    ),
+                  ),
+                  // Container(
+                  //   padding: const EdgeInsets.only(top: 5, left: 15, right: 15),
+                  //   child: InkWell(
+                  //     onTap: () {
+                  //       Navigator.push(context, MaterialPageRoute(builder: (context) => Location()));
+                  //     },
+                  //     child: Row(
+                  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //       children: [
+                  //         Row(
+                  //           children: [
+                  //             Icon(FontAwesome5.compass, size: Sizeconfig.huge, color: ColorConfig.darkGreen),
+                  //             SizedBox(
+                  //               width: 10,
+                  //             ),
+                  //             Column(
+                  //               crossAxisAlignment: CrossAxisAlignment.start,
+                  //               children: [
+                  //                 Text(
+                  //                   "Location & Nearby",
+                  //                   style: TextStyle(
+                  //                     fontFamily: FontConfig.bold,
+                  //                     fontSize: Sizeconfig.medium,
+                  //                     color: ColorConfig.dark,
+                  //                   ),
+                  //                 ),
+                  //                 SizedBox(
+                  //                   height: 5,
+                  //                 ),
+                  //                 Text(
+                  //                   "View Property location and nearby amenities",
+                  //                   style: TextStyle(
+                  //                     fontFamily: FontConfig.regular,
+                  //                     fontSize: Sizeconfig.tiny,
+                  //                     color: ColorConfig.dark,
+                  //                   ),
+                  //                 ),
+                  //               ],
+                  //             ),
+                  //           ],
+                  //         ),
+                  //         Icon(
+                  //           AntDesign.arrowright,
+                  //         )
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(top: 8.0),
+                  //   child: Divider(
+                  //     color: ColorConfig.grey.withOpacity(0.3),
+                  //   ),
+                  // ),
                   SizedBox(
-                    height: 60,
+                    height: 50,
                   ),
                   // Divider(
                   //   color: ColorConfig.grey.withOpacity(0.3),

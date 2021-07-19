@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:Realify/backend/models/realify_user.dart';
+import 'package:Realify/constants.dart';
+import 'package:Realify/main.dart';
 import 'package:Realify/presentation/my_imports.dart';
 import 'package:Realify/presentation/widget/progress_dialog/main.dart';
 // import 'package:Realify/presentation/widget/progress_dialog/main.dart';
@@ -17,8 +19,6 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  final CollectionReference usersRef = FirebaseFirestore.instance.collection('users');
-  FirebaseAuth auth = FirebaseAuth.instance;
   TextEditingController fullNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();

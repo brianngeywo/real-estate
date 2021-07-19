@@ -1,14 +1,12 @@
 import 'dart:convert';
 
-import 'package:Realify/presentation/member/AddProperty/Counties.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:Realify/backend/models/Proposal.dart';
+import 'package:Realify/presentation/member/AddProperty/Counties.dart';
 
 class RealifyProperty {
-  // String selectedpropertyCategoryType;
-  // List propertyFeatures = [];
   String id;
   String proposal;
   String county;
@@ -28,9 +26,11 @@ class RealifyProperty {
   String areaUnit;
   String phone;
   String email;
+  String userId;
   List<String> images;
+  List<dynamic> bedroomsOffered;
+  List<dynamic> bedroomsOfferedPrice;
   RealifyProperty({
-    // this.propertyFeatures = const [],
     this.id = '',
     this.proposal = '',
     this.county = '',
@@ -50,67 +50,72 @@ class RealifyProperty {
     this.areaUnit = '',
     this.phone = '',
     this.email = '',
+    this.userId = '',
     this.images = const [],
+    this.bedroomsOffered = const [],
+    this.bedroomsOfferedPrice = const [],
   });
-  // double area;
-  // String permitNumber;
-  // String contactDetails;
-  // int contactPhoneNumber;
 
   @override
   String toString() {
-    return 'RealifyProperty(id: $id, proposal: $proposal, county: $county, name: $name, subCategoryType: $subCategoryType, categoryType: $categoryType, price: $price, bedrooms: $bedrooms, bathrooms: $bathrooms, image: $image, details: $details, description: $description, locality: $locality, location: $location, paymentPeriod: $paymentPeriod, area: $area, areaUnit: $areaUnit, phone: $phone, email: $email, images: $images)';
+    return 'RealifyProperty(id: $id, proposal: $proposal, county: $county, name: $name, subCategoryType: $subCategoryType, categoryType: $categoryType, price: $price, bedrooms: $bedrooms, bathrooms: $bathrooms, image: $image, details: $details, description: $description, locality: $locality, location: $location, paymentPeriod: $paymentPeriod, area: $area, areaUnit: $areaUnit, phone: $phone, email: $email, userId: $userId, images: $images, bedroomsOffered: $bedroomsOffered, bedroomsOfferedPrice: $bedroomsOfferedPrice)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-
+  
     return other is RealifyProperty &&
-        other.id == id &&
-        other.proposal == proposal &&
-        other.county == county &&
-        other.name == name &&
-        other.subCategoryType == subCategoryType &&
-        other.categoryType == categoryType &&
-        other.price == price &&
-        other.bedrooms == bedrooms &&
-        other.bathrooms == bathrooms &&
-        other.image == image &&
-        other.details == details &&
-        other.description == description &&
-        other.locality == locality &&
-        other.location == location &&
-        other.paymentPeriod == paymentPeriod &&
-        other.area == area &&
-        other.areaUnit == areaUnit &&
-        other.phone == phone &&
-        other.email == email &&
-        listEquals(other.images, images);
+      other.id == id &&
+      other.proposal == proposal &&
+      other.county == county &&
+      other.name == name &&
+      other.subCategoryType == subCategoryType &&
+      other.categoryType == categoryType &&
+      other.price == price &&
+      other.bedrooms == bedrooms &&
+      other.bathrooms == bathrooms &&
+      other.image == image &&
+      other.details == details &&
+      other.description == description &&
+      other.locality == locality &&
+      other.location == location &&
+      other.paymentPeriod == paymentPeriod &&
+      other.area == area &&
+      other.areaUnit == areaUnit &&
+      other.phone == phone &&
+      other.email == email &&
+      other.userId == userId &&
+      listEquals(other.images, images) &&
+      listEquals(other.bedroomsOffered, bedroomsOffered) &&
+      listEquals(other.bedroomsOfferedPrice, bedroomsOfferedPrice);
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-        proposal.hashCode ^
-        county.hashCode ^
-        name.hashCode ^
-        subCategoryType.hashCode ^
-        categoryType.hashCode ^
-        price.hashCode ^
-        bedrooms.hashCode ^
-        bathrooms.hashCode ^
-        image.hashCode ^
-        details.hashCode ^
-        description.hashCode ^
-        locality.hashCode ^
-        location.hashCode ^
-        paymentPeriod.hashCode ^
-        area.hashCode ^
-        areaUnit.hashCode ^
-        phone.hashCode ^
-        email.hashCode ^
-        images.hashCode;
+      proposal.hashCode ^
+      county.hashCode ^
+      name.hashCode ^
+      subCategoryType.hashCode ^
+      categoryType.hashCode ^
+      price.hashCode ^
+      bedrooms.hashCode ^
+      bathrooms.hashCode ^
+      image.hashCode ^
+      details.hashCode ^
+      description.hashCode ^
+      locality.hashCode ^
+      location.hashCode ^
+      paymentPeriod.hashCode ^
+      area.hashCode ^
+      areaUnit.hashCode ^
+      phone.hashCode ^
+      email.hashCode ^
+      userId.hashCode ^
+      images.hashCode ^
+      bedroomsOffered.hashCode ^
+      bedroomsOfferedPrice.hashCode;
   }
 
   Map<String, dynamic> toMap() {
@@ -134,7 +139,10 @@ class RealifyProperty {
       'areaUnit': areaUnit,
       'phone': phone,
       'email': email,
+      'userId': userId,
       'images': images,
+      'bedroomsOffered': bedroomsOffered,
+      'bedroomsOfferedPrice': bedroomsOfferedPrice,
     };
   }
 
@@ -159,13 +167,15 @@ class RealifyProperty {
       areaUnit: map['areaUnit'],
       phone: map['phone'],
       email: map['email'],
+      userId: map['userId'],
       images: List<String>.from(map['images']),
+      bedroomsOffered: List<dynamic>.from(map['bedroomsOffered']),
+      bedroomsOfferedPrice: List<dynamic>.from(map['bedroomsOfferedPrice']),
     );
   }
 
   factory RealifyProperty.fromSnapshot(DocumentSnapshot snapshot) {
     return RealifyProperty(
-      //  propertyFeatures: List.from(snapshot['propertyFeatures']),
       proposal: snapshot['proposal'],
       county: snapshot['county'],
       name: snapshot['name'],
@@ -184,8 +194,11 @@ class RealifyProperty {
       area: snapshot['area'],
       areaUnit: snapshot['areaUnit'],
       phone: snapshot['phone'],
+      userId: snapshot['userId'],
       email: snapshot['email'],
       images: List<String>.from(snapshot['images']),
+      bedroomsOffered: List<dynamic>.from(snapshot['bedroomsOffered']),
+      bedroomsOfferedPrice: List<dynamic>.from(snapshot['bedroomsOfferedPrice']),
     );
   }
 
@@ -213,7 +226,10 @@ class RealifyProperty {
     String areaUnit,
     String phone,
     String email,
+    String userId,
     List<String> images,
+    List<dynamic> bedroomsOffered,
+    List<dynamic> bedroomsOfferedPrice,
   }) {
     return RealifyProperty(
       id: id ?? this.id,
@@ -235,7 +251,10 @@ class RealifyProperty {
       areaUnit: areaUnit ?? this.areaUnit,
       phone: phone ?? this.phone,
       email: email ?? this.email,
+      userId: userId ?? this.userId,
       images: images ?? this.images,
+      bedroomsOffered: bedroomsOffered ?? this.bedroomsOffered,
+      bedroomsOfferedPrice: bedroomsOfferedPrice ?? this.bedroomsOfferedPrice,
     );
   }
 }
@@ -296,9 +315,7 @@ final bedroomList = [
   "3",
   "4",
   "5",
-  "6",
-  "7",
-  "8+",
+  "6+",
 ];
 final bathroomList = [
   "1",
@@ -359,4 +376,17 @@ List<County> countyListDrop = [
   County(title: "Kisii", countyCode: 45),
   County(title: "Nyamira", countyCode: 46),
   County(title: "Nairobi", countyCode: 47),
+];
+final lodgingsList = [
+  "Hotel",
+  "Motel",
+  "Resort hotel",
+  "Inn",
+  "Guest house",
+  "Bed and breakfast",
+  "Farm stay",
+  "Hostel",
+  "Mountain hut",
+  "Capsule hotel",
+  "Camping cabins",
 ];
