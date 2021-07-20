@@ -7,6 +7,7 @@ import 'package:Realify/presentation/my_imports.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:multi_image_picker2/multi_image_picker2.dart';
 import 'package:multiselect_formfield/multiselect_formfield.dart';
+import 'package:searchfield/searchfield.dart';
 
 class RentTabBar extends StatefulWidget {
   // List propertyFields;
@@ -146,7 +147,7 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
     BlocProvider.of<AddPropertyBloc>(context).add(SelectedBedroomsPricesEvent(prices: texts));
     setState(() {
       prices = [];
-     prices.addAll(texts);
+      prices.addAll(texts);
     });
     return texts;
   }
@@ -162,8 +163,7 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
               _apartmentBedrooms != null &&
               _apartmentBedrooms.length > 0 &&
               prices != null &&
-              prices.length > 0
-              ) {
+              prices.length > 0) {
             if (images != null && images.length > 0) {
               BlocProvider.of<AddPropertyBloc>(context).add(UploadImagesEvent(propertyImagesList: images));
             } else {
@@ -440,7 +440,7 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
                                       style: TextStyle(
                                         fontFamily: FontConfig.regular,
                                         fontSize: Sizeconfig.small,
-                                        color: ColorConfig.greyLight,
+                                        color: ColorConfig.dark,
                                       ),
                                       decoration: InputDecoration(
                                         hintText: ".e.g area, town",
@@ -462,6 +462,70 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
                     ),
                   );
                 },
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Container(
+                height: 70,
+                width: double.maxFinite,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 15),
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(
+                          right: 15,
+                          left: 10,
+                        ),
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: ColorConfig.smokeLight,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              MaterialIcons.location_on,
+                              size: 20,
+                              color: ColorConfig.grey,
+                            ),
+                            Flexible(
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 5.0),
+                                child: SearchField(
+                                  suggestions: lodgingsList,
+                                  searchStyle: TextStyle(
+                                    fontFamily: FontConfig.regular,
+                                    fontSize: Sizeconfig.small,
+                                    color: ColorConfig.dark,
+                                  ),
+                                  searchInputDecoration: InputDecoration(
+                                    hintText: ".e.g area, town",
+                                    hintStyle: TextStyle(
+                                      fontFamily: FontConfig.regular,
+                                      fontSize: Sizeconfig.small,
+                                      color: ColorConfig.greyLight,
+                                    ),
+                                    border: InputBorder.none,
+                                  ),
+                                  maxSuggestionsInViewPort: 6,
+                                  itemHeight: 50,
+                                  onTap: (x) {
+                                    print(x);
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10,
               ),
               Padding(
                 padding: EdgeInsets.only(left: 15, right: 15),
