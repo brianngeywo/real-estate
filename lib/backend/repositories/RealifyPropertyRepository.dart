@@ -1,5 +1,6 @@
 import 'package:Realify/backend/models/Property_image.dart';
 import 'package:Realify/backend/models/RealifyProperty.dart';
+import 'package:Realify/backend/models/places.dart';
 import 'package:Realify/backend/services/RealifyPropertyApiProvider.dart';
 import 'package:Realify/presentation/my_imports.dart';
 import 'package:multi_image_picker2/multi_image_picker2.dart';
@@ -24,7 +25,8 @@ class RealifyPropertyRepository {
       image,
       imageUrls,
       bedroomsOffered,
-      bedroomsOfferedPrice) async {
+      bedroomsOfferedPrice,
+      place) async {
     await realifyPropertyApiProvider.uploadProperty(
         proposal,
         county,
@@ -43,13 +45,50 @@ class RealifyPropertyRepository {
         image,
         imageUrls,
         bedroomsOffered,
-        bedroomsOfferedPrice);
+        bedroomsOfferedPrice,
+        place);
   }
 
-  updateProperty(proposal, county, category, subCategory, price, bedrooms, locality, propertyName, description,
-      rentalFrequency, area, areaUnit, phone, bathrooms, image, imageUrls, propertyId) async {
-    await realifyPropertyApiProvider.updateProperty(proposal, county, category, subCategory, price, bedrooms, locality,
-        propertyName, description, rentalFrequency, area, areaUnit, phone, bathrooms, image, imageUrls, propertyId);
+  updateProperty(
+      proposal,
+      county,
+      category,
+      subCategory,
+      price,
+      bedrooms,
+      locality,
+      propertyName,
+      description,
+      rentalFrequency,
+      area,
+      areaUnit,
+      phone,
+      bathrooms,
+      image,
+      imageUrls,
+      propertyId,
+      bedroomsOffered,
+      bedroomsOfferedPrice) async {
+    await realifyPropertyApiProvider.updateProperty(
+        proposal,
+        county,
+        category,
+        subCategory,
+        price,
+        bedrooms,
+        locality,
+        propertyName,
+        description,
+        rentalFrequency,
+        area,
+        areaUnit,
+        phone,
+        bathrooms,
+        image,
+        imageUrls,
+        propertyId,
+        bedroomsOffered,
+        bedroomsOfferedPrice);
   }
 
   sendContactMessage(String name, String phone, String message, BuildContext context) {

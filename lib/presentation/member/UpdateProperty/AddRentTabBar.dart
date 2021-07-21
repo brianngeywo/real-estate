@@ -1,15 +1,11 @@
-import 'package:Realify/presentation/widget/progress_dialog/main.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:multi_image_picker2/multi_image_picker2.dart';
-import 'package:uuid/uuid.dart';
-
 import 'package:Realify/backend/bloc/update_property_bloc/update_property_bloc.dart';
 import 'package:Realify/backend/models/Property_image.dart';
 import 'package:Realify/backend/models/RealifyProperty.dart';
-import 'package:Realify/presentation/member/UpdateProperty/AddBuyTabBar.dart';
-import 'package:Realify/presentation/member/UpdateProperty/Counties.dart';
 import 'package:Realify/presentation/my_imports.dart';
+import 'package:multiselect_formfield/multiselect_formfield.dart';
 
 class RentTabBar extends StatefulWidget {
   final RealifyProperty property;
@@ -27,6 +23,11 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
   TextEditingController descriptionTextEditingController = TextEditingController();
   TextEditingController areaTextEditingController = TextEditingController();
   TextEditingController phoneTextEditingController = TextEditingController();
+  final requiredValidator = RequiredValidator(errorText: 'this field is required');
+  List _apartmentBedrooms = [];
+  List<dynamic> prices = [];
+  final _formKey = GlobalKey<FormState>();
+  Map<int, TextEditingController> _mapControllers = Map();
   List<Asset> images = <Asset>[];
   String _error = 'No Error Dectected';
   List<PropertyImage> urls = <PropertyImage>[];
@@ -44,6 +45,8 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
     areaTextEditingController.text = widget.property.area;
     phoneTextEditingController.text = widget.property.phone;
     rentalFrequency = widget.property.paymentPeriod;
+    _apartmentBedrooms = widget.property.bedroomsOffered;
+    prices = widget.property.bedroomsOfferedPrice;
   }
 
   String rentalFrequency = "";
@@ -129,6 +132,32 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
     );
   }
 
+  TextEditingController _controllerOf(int index) {
+    var item = _mapControllers[index];
+    if (item == null) {
+      item = TextEditingController();
+      _mapControllers[index] = item;
+    }
+    return item;
+  }
+
+  List<String> _textsOf(Map<int, TextEditingController> mapControllers) {
+    // Sort map by index of the builder.
+    var sortedKeys = mapControllers.keys.toList()..sort();
+
+    List<String> texts = [];
+    for (var key in sortedKeys) {
+      texts.add(mapControllers[key].text);
+    }
+    print(texts);
+    BlocProvider.of<UpdatePropertyBloc>(context).add(SelectedBedroomsPricesEvent(prices: texts));
+    setState(() {
+      prices = [];
+      prices.addAll(texts);
+    });
+    return texts;
+  }
+
   int selected = null;
   List<DropdownMenuItem<int>> listDrop = [];
 
@@ -170,7 +199,10 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
     return BlocConsumer<UpdatePropertyBloc, UpdatePropertyState>(
       listener: (context, state) {
         if (state is StartPropertyUploadState) {
-          if (images != null && images.length > 0) {
+          if ( _apartmentBedrooms != null &&
+              _apartmentBedrooms.length > 0 &&
+              prices != null &&
+              prices.length > 0 && images != null && images.length > 0) {
             BlocProvider.of<UpdatePropertyBloc>(context).add(UploadImagesEvent(propertyImagesList: images));
           } else {
             BlocProvider.of<UpdatePropertyBloc>(context).add(StartPropertyUpdateEvent());
@@ -178,7 +210,6 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
         }
       },
       builder: (context, state) {
-   
         return ListView(
           addAutomaticKeepAlives: true,
           children: [
@@ -372,156 +403,6 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
             ),
 
             SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 15, right: 15),
-              child: Row(
-                children: [
-                  Icon(
-                    Ionicons.ios_pricetag,
-                    size: Sizeconfig.huge,
-                    color: ColorConfig.darkGreen,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Text(
-                      "Price",
-                      style: TextStyle(
-                        fontFamily: FontConfig.bold,
-                        fontSize: Sizeconfig.medium,
-                        color: ColorConfig.dark,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            BlocBuilder<UpdatePropertyBloc, UpdatePropertyState>(
-              builder: (context, state) {
-                return Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
-                  child: Container(
-                    padding: EdgeInsets.only(
-                      right: 15,
-                      left: 10,
-                    ),
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: ColorConfig.smokeLight,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 5.0),
-                      child: TextField(
-                        controller: priceTextEditingController,
-                        onChanged: (value) {
-                          BlocProvider.of<UpdatePropertyBloc>(context).add(EnteredPriceEvent(price: value));
-                        },
-                        keyboardType: TextInputType.number,
-                        style: TextStyle(
-                          fontFamily: FontConfig.regular,
-                          fontSize: Sizeconfig.small,
-                          color: ColorConfig.dark,
-                        ),
-                        decoration: InputDecoration(
-                          hintText: widget.property.price,
-                          hintStyle: TextStyle(
-                            fontFamily: FontConfig.regular,
-                            fontSize: Sizeconfig.small,
-                            color: ColorConfig.dark,
-                          ),
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 15, right: 15),
-              child: Row(
-                children: [
-                  Icon(
-                    MaterialCommunityIcons.av_timer,
-                    size: Sizeconfig.huge,
-                    color: ColorConfig.darkGreen,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Text(
-                      "Payment period",
-                      style: TextStyle(
-                        fontFamily: FontConfig.bold,
-                        fontSize: Sizeconfig.medium,
-                        color: ColorConfig.dark,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            // Rentaltype(),
-            SizedBox(
-              height: 10,
-            ),
-            BlocBuilder<UpdatePropertyBloc, UpdatePropertyState>(
-              builder: (context, state) {
-                return Container(
-                  height: 60,
-                  width: double.infinity,
-                  padding: EdgeInsets.only(left: 10, top: 10),
-                  child: Wrap(
-                    children: rentalFrequencyList
-                        .map(
-                          (e) => Container(
-                            margin: EdgeInsets.symmetric(horizontal: 6),
-                            decoration: BoxDecoration(
-                                color: rentalFrequency == e ? ColorConfig.lightGreen : ColorConfig.light,
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(3),
-                                ),
-                                border: Border.all(width: 1, color: ColorConfig.smokeLight)),
-                            height: 40,
-                            width: 60,
-                            child: InkWell(
-                              onTap: () {
-                                setState(() {
-                                  rentalFrequency = e;
-                                });
-                                BlocProvider.of<UpdatePropertyBloc>(context).add(AddRentalFrequencyEvent(frequency: e));
-                              },
-                              child: Center(
-                                child: Text(
-                                  e,
-                                  style: TextStyle(
-                                      fontFamily: FontConfig.bold,
-                                      fontSize: Sizeconfig.small,
-                                      color: rentalFrequency == e ? ColorConfig.light : ColorConfig.grey),
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
-                        .toList(),
-                  ),
-                );
-              },
-            ),
-            SizedBox(
               height: 10,
             ),
             Padding(
@@ -700,51 +581,81 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
                 ],
               ),
             ),
-            // Bedroomtype(),
+            SizedBox(
+              height: 10,
+            ),
             BlocBuilder<UpdatePropertyBloc, UpdatePropertyState>(
               builder: (context, state) {
                 return Container(
-                  // height: 60,
-                  width: double.infinity,
-                  padding: EdgeInsets.only(left: 10, top: 10),
-                  child: Wrap(
-                    children: bedroomList
-                        .map(
-                          (e) => Container(
-                            margin: EdgeInsets.symmetric(horizontal: 6, vertical: 6),
-                            decoration: BoxDecoration(
-                                color: bedrooms == e ? ColorConfig.lightGreen : ColorConfig.light,
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(3),
-                                ),
-                                border: Border.all(width: 1, color: ColorConfig.smokeLight)),
-                            height: 40,
-                            width: 60,
-                            child: InkWell(
-                              onTap: () {
-                                setState(() {
-                                  bedrooms = e;
-                                });
-                                BlocProvider.of<UpdatePropertyBloc>(context)
-                                    .add(SelectedBedroomEvent(bedroom: bedrooms));
-                              },
-                              child: Center(
-                                child: Text(
-                                  e,
-                                  style: TextStyle(
-                                      fontFamily: FontConfig.bold,
-                                      fontSize: Sizeconfig.small,
-                                      color: bedrooms == e ? ColorConfig.light : ColorConfig.grey),
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
-                        .toList(),
+                  padding: EdgeInsets.all(16),
+                  child: MultiSelectFormField(
+                    autovalidate: false,
+                    fillColor: ColorConfig.smokeLight,
+                    chipBackGroundColor: ColorConfig.lightGreen,
+                    chipLabelStyle: TextStyle(fontWeight: FontWeight.bold, color: ColorConfig.light),
+                    dialogTextStyle: TextStyle(fontFamily: FontConfig.regular, fontSize: Sizeconfig.medium),
+                    checkBoxActiveColor: ColorConfig.lightGreen,
+                    checkBoxCheckColor: ColorConfig.light,
+                    dialogShapeBorder: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                    title: Text(
+                      "Choose bedrooms offered at the property",
+                      style: TextStyle(fontFamily: FontConfig.regular, fontSize: Sizeconfig.large),
+                    ),
+                    dataSource: [
+                      {
+                        "display": "studio",
+                        "value": "studio",
+                      },
+                      {
+                        "display": "bedsitter",
+                        "value": "bedsitter",
+                      },
+                      {
+                        "display": "1 bedroom",
+                        "value": "1",
+                      },
+                      {
+                        "display": "2 bedroom",
+                        "value": "2",
+                      },
+                      {
+                        "display": "3 bedroom",
+                        "value": "3",
+                      },
+                      {
+                        "display": "4 bedroom",
+                        "value": "4",
+                      },
+                      {
+                        "display": "5 bedroom",
+                        "value": "5",
+                      },
+                      {
+                        "display": "6+ bedroom",
+                        "value": "6+",
+                      },
+                    ],
+                    textField: 'display',
+                    valueField: 'value',
+                    okButtonLabel: 'OK',
+                    cancelButtonLabel: 'CANCEL',
+                    hintWidget: Text('Please choose one or more'),
+                    initialValue: _apartmentBedrooms,
+                    onSaved: (value) {
+                      if (value == null) return;
+                      setState(() {
+                        _apartmentBedrooms = value;
+                      });
+                      if (_apartmentBedrooms.length > 0) {
+                        BlocProvider.of<UpdatePropertyBloc>(context).add(SelectedBedroomsOfferedEvent(bedrooms: value));
+                      }
+                      print(_apartmentBedrooms);
+                    },
                   ),
                 );
               },
             ),
+
             SizedBox(
               height: 10,
             ),
@@ -821,7 +732,171 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
             SizedBox(
               height: 10,
             ),
+            Padding(
+              padding: EdgeInsets.only(left: 15, right: 15),
+              child: Row(
+                children: [
+                  Icon(
+                    Ionicons.ios_pricetag,
+                    size: Sizeconfig.huge,
+                    color: ColorConfig.darkGreen,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      "Price",
+                      style: TextStyle(
+                        fontFamily: FontConfig.bold,
+                        fontSize: Sizeconfig.medium,
+                        color: ColorConfig.dark,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            _apartmentBedrooms.length > 0
+                ? Container(
+                    child: ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: _apartmentBedrooms.length,
+                      itemBuilder: (context, index) {
+                        return BlocBuilder<UpdatePropertyBloc, UpdatePropertyState>(
+                          builder: (context, state) {
+                            return Padding(
+                              padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
+                              child: Container(
+                                padding: EdgeInsets.only(right: 15, left: 10),
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: ColorConfig.smokeLight,
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 5.0),
+                                  child: TextFormField(
+                                    validator: requiredValidator,
+                                    controller: _controllerOf(index),
+                                    onChanged: (value) {
+                                      // BlocProvider.of<AddPropertyBloc>(context).add(EnteredPriceEvent(price: value));
+                                      // prices.add(_controllerOf(index).text);
+                                      // print(prices);
+                                      _formKey.currentState.save();
+                                      _textsOf(_mapControllers);
+                                    },
+                                    keyboardType: TextInputType.number,
+                                    style: TextStyle(
+                                      fontFamily: FontConfig.regular,
+                                      fontSize: Sizeconfig.small,
+                                      color: ColorConfig.dark,
+                                    ),
+                                    decoration: InputDecoration(
+                                      hintText: _apartmentBedrooms[index].toString() + " bedroom Price*",
+                                      hintStyle: TextStyle(
+                                        fontFamily: FontConfig.regular,
+                                        fontSize: Sizeconfig.small,
+                                        color: ColorConfig.dark,
+                                      ),
+                                      border: InputBorder.none,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
+                    child:
+                        Text("Please choose bedrooms offered first!", style: TextStyle(fontFamily: FontConfig.regular)),
+                  ),
 
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 15, right: 15),
+              child: Row(
+                children: [
+                  Icon(
+                    MaterialCommunityIcons.av_timer,
+                    size: Sizeconfig.huge,
+                    color: ColorConfig.darkGreen,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      "Payment period",
+                      style: TextStyle(
+                        fontFamily: FontConfig.bold,
+                        fontSize: Sizeconfig.medium,
+                        color: ColorConfig.dark,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            // Rentaltype(),
+            SizedBox(
+              height: 10,
+            ),
+            BlocBuilder<UpdatePropertyBloc, UpdatePropertyState>(
+              builder: (context, state) {
+                return Container(
+                  height: 60,
+                  width: double.infinity,
+                  padding: EdgeInsets.only(left: 10, top: 10),
+                  child: Wrap(
+                    children: rentalFrequencyList
+                        .map(
+                          (e) => Container(
+                            margin: EdgeInsets.symmetric(horizontal: 6),
+                            decoration: BoxDecoration(
+                                color: rentalFrequency == e ? ColorConfig.lightGreen : ColorConfig.light,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(3),
+                                ),
+                                border: Border.all(width: 1, color: ColorConfig.smokeLight)),
+                            height: 40,
+                            width: 60,
+                            child: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  rentalFrequency = e;
+                                });
+                                BlocProvider.of<UpdatePropertyBloc>(context).add(AddRentalFrequencyEvent(frequency: e));
+                              },
+                              child: Center(
+                                child: Text(
+                                  e,
+                                  style: TextStyle(
+                                      fontFamily: FontConfig.bold,
+                                      fontSize: Sizeconfig.small,
+                                      color: rentalFrequency == e ? ColorConfig.light : ColorConfig.grey),
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                );
+              },
+            ),
+            SizedBox(
+              height: 10,
+            ),
             Padding(
               padding: EdgeInsets.only(left: 15, right: 15),
               child: Row(

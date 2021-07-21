@@ -1,6 +1,7 @@
 import 'package:Realify/backend/bloc/add_property_bloc/add_property_bloc.dart';
 import 'package:Realify/backend/models/Proposal.dart';
 import 'package:Realify/backend/models/RealifyProperty.dart';
+import 'package:Realify/backend/models/places.dart';
 import 'package:Realify/backend/repositories/RealifyPropertyRepository.dart';
 import 'package:Realify/presentation/member/AddProperty/AddBuyTabBar.dart';
 import 'package:Realify/presentation/member/AddProperty/AddRentTabBar.dart';
@@ -35,6 +36,7 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
   String phone = "";
   List<String> imageUrls = [];
   List<String> prices = [];
+  Place placeDetails = new Place();
 
   RealifyProperty property;
   TabController tabController;
@@ -99,15 +101,6 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                     setState(() {
                       proposal = state.proposal;
                     });
-                    // if (proposal == "buy") {
-                    //   setState(() {
-                    //     rentalFrequency = "sale";
-                    //   });
-                    // } else if (proposal == "rent" && (rentalFrequency.isEmpty || rentalFrequency == "sale")) {
-                    //   setState(() {
-                    //     rentalFrequency = "monthly";
-                    //   });
-                    // }
                   }
                   if (state is AddPropertySelectedCounty) {
                     setState(() {
@@ -171,15 +164,8 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                       prices = [];
                       prices.addAll(state.prices);
                     });
-                    print("prices");
-                    print(prices);
                   }
                   if (state is AddRentalFrequencyState) {
-                    // if (proposal == "buy") {
-                    //   setState(() {
-                    //     rentalFrequency = "sale";
-                    //   });
-                    // } else
                     if (proposal == "rent" && (rentalFrequency.isEmpty || rentalFrequency == "sale")) {
                       setState(() {
                         rentalFrequency = "monthly";
@@ -201,6 +187,11 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                       phone = state.phone;
                     });
                   }
+                  if (state is AddPlaceDetailsState) {
+                    setState(() {
+                      placeDetails = state.place;
+                    });
+                  }
                   if (state is UploadedImagesState) {
                     state.propertyImageList.propertyImages.forEach((image) {
                       setState(() {
@@ -210,15 +201,10 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                     setState(() {
                       imageUrls.addAll(state.propertyImageList.propertyImages.map((image) => image.url));
                     });
-                    // if (proposal == "buy") {
-                    //   setState(() {
-                    //     rentalFrequency = "sale";
-                    //   });
-                    // }
                     BlocProvider.of<AddPropertyBloc>(context).add(
                       UploadPropertyEvent(
                           proposal: proposal.isEmpty ? "lodge" : proposal.toLowerCase(),
-                          county: county.isEmpty ? "nairobi" : county.toLowerCase(),
+                          county: county.isEmpty ? "Nairobi County" : county,
                           category: category.isEmpty ? "residential" : category.toLowerCase(),
                           subCategory: subCategory.isEmpty ? "hotel" : subCategory.toLowerCase(),
                           price: price.toLowerCase(),
@@ -234,7 +220,7 @@ class _AddPropertyState extends State<AddProperty> with TickerProviderStateMixin
                           image: imageUrls[0],
                           images: imageUrls,
                           bedroomsOffered: bedroomsOffered,
-                          bedroomsOfferedPrice: prices),
+                          bedroomsOfferedPrice: prices, place: placeDetails),
                     );
                     // print(imageUrls);
                   }

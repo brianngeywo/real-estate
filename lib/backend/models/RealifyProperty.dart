@@ -30,6 +30,10 @@ class RealifyProperty {
   List<String> images;
   List<dynamic> bedroomsOffered;
   List<dynamic> bedroomsOfferedPrice;
+  String route;
+  String country;
+  double lat;
+  double lng;
   RealifyProperty({
     this.id = '',
     this.proposal = '',
@@ -54,68 +58,80 @@ class RealifyProperty {
     this.images = const [],
     this.bedroomsOffered = const [],
     this.bedroomsOfferedPrice = const [],
+    this.route = '',
+    this.country = '',
+    this.lat = 0.0,
+    this.lng = 0.0,
   });
 
   @override
   String toString() {
-    return 'RealifyProperty(id: $id, proposal: $proposal, county: $county, name: $name, subCategoryType: $subCategoryType, categoryType: $categoryType, price: $price, bedrooms: $bedrooms, bathrooms: $bathrooms, image: $image, details: $details, description: $description, locality: $locality, location: $location, paymentPeriod: $paymentPeriod, area: $area, areaUnit: $areaUnit, phone: $phone, email: $email, userId: $userId, images: $images, bedroomsOffered: $bedroomsOffered, bedroomsOfferedPrice: $bedroomsOfferedPrice)';
+    return 'RealifyProperty(id: $id, proposal: $proposal, county: $county, name: $name, subCategoryType: $subCategoryType, categoryType: $categoryType, price: $price, bedrooms: $bedrooms, bathrooms: $bathrooms, image: $image, details: $details, description: $description, locality: $locality, location: $location, paymentPeriod: $paymentPeriod, area: $area, areaUnit: $areaUnit, phone: $phone, email: $email, userId: $userId, images: $images, bedroomsOffered: $bedroomsOffered, bedroomsOfferedPrice: $bedroomsOfferedPrice, route: $route, country: $country, lat: $lat, lng: $lng)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
+
     return other is RealifyProperty &&
-      other.id == id &&
-      other.proposal == proposal &&
-      other.county == county &&
-      other.name == name &&
-      other.subCategoryType == subCategoryType &&
-      other.categoryType == categoryType &&
-      other.price == price &&
-      other.bedrooms == bedrooms &&
-      other.bathrooms == bathrooms &&
-      other.image == image &&
-      other.details == details &&
-      other.description == description &&
-      other.locality == locality &&
-      other.location == location &&
-      other.paymentPeriod == paymentPeriod &&
-      other.area == area &&
-      other.areaUnit == areaUnit &&
-      other.phone == phone &&
-      other.email == email &&
-      other.userId == userId &&
-      listEquals(other.images, images) &&
-      listEquals(other.bedroomsOffered, bedroomsOffered) &&
-      listEquals(other.bedroomsOfferedPrice, bedroomsOfferedPrice);
+        other.id == id &&
+        other.proposal == proposal &&
+        other.county == county &&
+        other.name == name &&
+        other.subCategoryType == subCategoryType &&
+        other.categoryType == categoryType &&
+        other.price == price &&
+        other.bedrooms == bedrooms &&
+        other.bathrooms == bathrooms &&
+        other.image == image &&
+        other.details == details &&
+        other.description == description &&
+        other.locality == locality &&
+        other.location == location &&
+        other.paymentPeriod == paymentPeriod &&
+        other.area == area &&
+        other.areaUnit == areaUnit &&
+        other.phone == phone &&
+        other.email == email &&
+        other.userId == userId &&
+        listEquals(other.images, images) &&
+        listEquals(other.bedroomsOffered, bedroomsOffered) &&
+        listEquals(other.bedroomsOfferedPrice, bedroomsOfferedPrice) &&
+        other.route == route &&
+        other.country == country &&
+        other.lat == lat &&
+        other.lng == lng;
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-      proposal.hashCode ^
-      county.hashCode ^
-      name.hashCode ^
-      subCategoryType.hashCode ^
-      categoryType.hashCode ^
-      price.hashCode ^
-      bedrooms.hashCode ^
-      bathrooms.hashCode ^
-      image.hashCode ^
-      details.hashCode ^
-      description.hashCode ^
-      locality.hashCode ^
-      location.hashCode ^
-      paymentPeriod.hashCode ^
-      area.hashCode ^
-      areaUnit.hashCode ^
-      phone.hashCode ^
-      email.hashCode ^
-      userId.hashCode ^
-      images.hashCode ^
-      bedroomsOffered.hashCode ^
-      bedroomsOfferedPrice.hashCode;
+        proposal.hashCode ^
+        county.hashCode ^
+        name.hashCode ^
+        subCategoryType.hashCode ^
+        categoryType.hashCode ^
+        price.hashCode ^
+        bedrooms.hashCode ^
+        bathrooms.hashCode ^
+        image.hashCode ^
+        details.hashCode ^
+        description.hashCode ^
+        locality.hashCode ^
+        location.hashCode ^
+        paymentPeriod.hashCode ^
+        area.hashCode ^
+        areaUnit.hashCode ^
+        phone.hashCode ^
+        email.hashCode ^
+        userId.hashCode ^
+        images.hashCode ^
+        bedroomsOffered.hashCode ^
+        bedroomsOfferedPrice.hashCode ^
+        route.hashCode ^
+        country.hashCode ^
+        lat.hashCode ^
+        lng.hashCode;
   }
 
   Map<String, dynamic> toMap() {
@@ -143,6 +159,10 @@ class RealifyProperty {
       'images': images,
       'bedroomsOffered': bedroomsOffered,
       'bedroomsOfferedPrice': bedroomsOfferedPrice,
+      'route': route,
+      'country': country,
+      'lat': lat,
+      'lng': lng,
     };
   }
 
@@ -171,6 +191,10 @@ class RealifyProperty {
       images: List<String>.from(map['images']),
       bedroomsOffered: List<dynamic>.from(map['bedroomsOffered']),
       bedroomsOfferedPrice: List<dynamic>.from(map['bedroomsOfferedPrice']),
+      route: map['route'],
+      country: map['country'],
+      lat: map['lat'],
+      lng: map['lng'],
     );
   }
 
@@ -199,6 +223,10 @@ class RealifyProperty {
       images: List<String>.from(snapshot['images']),
       bedroomsOffered: List<dynamic>.from(snapshot['bedroomsOffered']),
       bedroomsOfferedPrice: List<dynamic>.from(snapshot['bedroomsOfferedPrice']),
+      route: snapshot['route'],
+      country: snapshot['country'],
+      lat: snapshot['lat'],
+      lng: snapshot['lng'],
     );
   }
 
@@ -230,6 +258,10 @@ class RealifyProperty {
     List<String> images,
     List<dynamic> bedroomsOffered,
     List<dynamic> bedroomsOfferedPrice,
+    String route,
+    String country,
+    double lat,
+    double lng,
   }) {
     return RealifyProperty(
       id: id ?? this.id,
@@ -255,6 +287,10 @@ class RealifyProperty {
       images: images ?? this.images,
       bedroomsOffered: bedroomsOffered ?? this.bedroomsOffered,
       bedroomsOfferedPrice: bedroomsOfferedPrice ?? this.bedroomsOfferedPrice,
+      route: route ?? this.route,
+      country: country ?? this.country,
+      lat: lat ?? this.lat,
+      lng: lng ?? this.lng,
     );
   }
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:Realify/backend/models/Property_image.dart';
 import 'package:Realify/backend/models/RealifyProperty.dart';
+import 'package:Realify/backend/models/places.dart';
 import 'package:Realify/backend/repositories/RealifyPropertyRepository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
@@ -66,29 +67,42 @@ class UpdatePropertyBloc extends Bloc<UpdatePropertyEvent, UpdatePropertyState> 
     if (event is StartPropertyUpdateEvent) {
       yield StartPropertyUpdateState();
     }
+
+    if (event is SelectedBedroomsPricesEvent) {
+      yield SelectedBedroomsPricesState(prices: event.prices);
+    }
+    if (event is SelectedBedroomEvent) {
+      yield SelectedBedroomState(bedroom: event.bedroom, index: event.index);
+    }
+    if (event is UpdatePlaceDetailsEvent) {
+      yield UpdatePlaceDetailsState(place: event.place);
+    }
     if (event is UploadImagesEvent) {
       yield* _mapUploadImagesToState(event);
     }
 
     if (event is UploadPropertyEvent) {
       repository.updateProperty(
-          event.proposal,
-          event.county,
-          event.category,
-          event.subCategory,
-          event.price,
-          event.bedrooms,
-          event.locality,
-          event.propertyName,
-          event.description,
-          event.rentalFrequency,
-          event.area,
-          event.areaUnit,
-          event.phone,
-          event.bathrooms,
-          event.image,
-          event.images,
-          event.propertyId);
+        event.proposal,
+        event.county,
+        event.category,
+        event.subCategory,
+        event.price,
+        event.bedrooms,
+        event.locality,
+        event.propertyName,
+        event.description,
+        event.rentalFrequency,
+        event.area,
+        event.areaUnit,
+        event.phone,
+        event.bathrooms,
+        event.image,
+        event.images,
+        event.propertyId,
+        event.bedroomsOffered,
+        event.bedroomsOfferedPrice,
+      );
       yield UploadedPropertyState();
     }
   }

@@ -1,5 +1,8 @@
 import 'package:Realify/backend/bloc/search_property_bloc/search_property_bloc_bloc.dart';
 import 'package:Realify/backend/models/RealifyProperty.dart';
+import 'package:Realify/backend/models/places.dart';
+import 'package:Realify/backend/services/place_service.dart';
+import 'package:Realify/presentation/member/AddProperty/address_search.dart';
 import 'package:Realify/presentation/my_imports.dart';
 import 'package:Realify/presentation/public/Filter/Counties.dart';
 import 'package:Realify/presentation/public/Filter/main.dart';
@@ -19,7 +22,8 @@ class _TabBar2State extends State<TabBar2> {
   String bedrooms = "";
   final requiredValidator = RequiredValidator(errorText: 'this field is required');
   final _formKey = GlobalKey<FormState>();
-  String _selectedLocation;
+  final _controller = TextEditingController();
+  Place placeDetails = Place();
   @override
   void initState() {
     super.initState();
@@ -121,7 +125,7 @@ class _TabBar2State extends State<TabBar2> {
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Text(
-                    "Select County",
+                    "Enter area name or town",
                     style: TextStyle(
                       fontFamily: FontConfig.bold,
                       fontSize: Sizeconfig.medium,
@@ -132,80 +136,84 @@ class _TabBar2State extends State<TabBar2> {
               ],
             ),
           ),
-          Container(
-            height: 70,
-            width: double.maxFinite,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 15, top: 15, right: 15),
-              child: Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(
-                      right: 15,
-                      left: 10,
-                    ),
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: ColorConfig.smokeLight,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(
-                          MaterialIcons.location_on,
-                          size: 20,
-                          color: ColorConfig.grey,
+          SizedBox(
+            height: 10,
+          ),
+          BlocBuilder<SearchPropertyBloc, SearchPropertyState>(
+            builder: (context, state) {
+              return Container(
+                height: 60,
+                width: double.maxFinite,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(
+                          right: 15,
+                          left: 10,
                         ),
-                        Flexible(
-                          fit: FlexFit.tight,
-                          child: BlocConsumer<SearchPropertyBloc, SearchPropertyState>(
-                            listener: (context, state) {
-                              if (state is SearchPropertySelectedCounty) {}
-                            },
-                            builder: (context, state) {
-                              return Padding(
-                                  padding: const EdgeInsets.only(left: 10),
-                                  child: DropdownButtonHideUnderline(
-                                    child: DropdownButton(
-                                      // itemHeight: 2,
-                                      iconSize: 25,
-                                      elevation: 0,
-                                      value: _selectedLocation,
-                                      hint: Text(
-                                        _selectedLocation == null ? "Nairobi".toUpperCase() : _selectedLocation,
-                                        style: TextStyle(
-                                          color: Color.fromRGBO(0, 0, 0, 0.7),
-                                        ),
-                                      ),
-                                      items: countyListDrop.map((e) {
-                                        return DropdownMenuItem(
-                                          child: Text(
-                                            e.title.toUpperCase(),
-                                            style: TextStyle(
-                                              color: Color.fromRGBO(0, 0, 0, 0.7),
-                                            ),
-                                          ),
-                                          value: e.title,
-                                        );
-                                      }).toList(),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          _selectedLocation = value;
-                                        });
-                                        BlocProvider.of<SearchPropertyBloc>(context)
-                                            .add(SelectedCountyEvent(county: value.toUpperCase()));
-                                      },
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: ColorConfig.smokeLight,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              MaterialIcons.location_on,
+                              size: 20,
+                              color: ColorConfig.grey,
+                            ),
+                            Flexible(
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 5.0, left: 5.0),
+                                child: TextField(
+                                  controller: _controller,
+                                  style: TextStyle(
+                                    fontFamily: FontConfig.regular,
+                                    fontSize: Sizeconfig.small,
+                                    color: ColorConfig.dark,
+                                  ),
+                                  readOnly: true,
+                                  onTap: () async {
+                                    // generate a new token here
+                                    final Suggestion result = await showSearch(
+                                      context: context,
+                                      delegate: AddressSearch(),
+                                    );
+                                    // This will change the text displayed in the TextField
+                                    if (result != null) {
+                                      placeDetails = await PlaceApiProvider().getPlaceDetailFromId(result.placeId);
+                                      setState(() {
+                                        _controller.text = result.description;
+                                      });
+                                      placeDetails != null
+                                          ?   BlocProvider.of<SearchPropertyBloc>(context)
+                                            .add(SelectedCountyEvent(county: placeDetails.administrativeAreaLevel1))
+                                          : null;
+                                    }
+                                  },
+                                  decoration: InputDecoration(
+                                    hintText: ".e.g area, town",
+                                    hintStyle: TextStyle(
+                                      fontFamily: FontConfig.regular,
+                                      fontSize: Sizeconfig.small,
+                                      color: ColorConfig.greyLight,
                                     ),
-                                  ));
-                            },
-                          ),
+                                    border: InputBorder.none,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
+                ),
+              );
+            },
           ),
           SizedBox(
             height: 10,

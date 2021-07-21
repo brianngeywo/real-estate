@@ -225,7 +225,7 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                         MaterialPageRoute(
                           builder: (context) => ListRealify(
                             proposal: proposal.isEmpty ? "lodge" : proposal.toLowerCase(),
-                            county: county.isEmpty ? "nairobi".toLowerCase() : county.toLowerCase(),
+                            county: county.isEmpty ? "Nairobi County" : county,
                             propertyCategoryType:
                                 category.isEmpty ? "residential".toLowerCase() : category.toLowerCase(),
                             propertySubCategoryType:

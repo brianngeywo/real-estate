@@ -1,5 +1,6 @@
 import 'package:Realify/backend/models/Property_image.dart';
 import 'package:Realify/backend/models/RealifyProperty.dart';
+import 'package:Realify/backend/models/places.dart';
 import 'package:Realify/presentation/my_imports.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,35 +15,41 @@ class RealifyPropertyApiProvider {
   PropertyList propertyList;
   PropertyImage propertyImage;
   uploadProperty(
-      proposal,
-      county,
-      category,
-      subCategory,
-      price,
-      bedrooms,
-      locality,
-      propertyName,
-      description,
-      rentalFrequency,
-      area,
-      areaUnit,
-      phone,
-      bathrooms,
-      image,
-      imageUrls,
-      bedroomsOffered,
-      bedroomsOfferedPrice) async {
+    proposal,
+    county,
+    category,
+    subCategory,
+    price,
+    bedrooms,
+    locality,
+    propertyName,
+    description,
+    rentalFrequency,
+    area,
+    areaUnit,
+    phone,
+    bathrooms,
+    image,
+    imageUrls,
+    bedroomsOffered,
+    bedroomsOfferedPrice,
+    place,
+  ) async {
     await firebaseFirestore.collection("users").doc(user.uid).collection("rentals").doc(uuid).set({
       "area": area,
       "areaUnit": areaUnit,
       "bathrooms": bathrooms,
       "bedrooms": bedrooms,
       "categoryType": category,
-      "county": county,
+      "county": place.administrativeAreaLevel1,
       "description": description,
-      "details": "$bedrooms bedroom $subCategory in $locality, $county",
-      "locality": locality,
-      "location": "$locality, $county county",
+      "details": "$bedrooms bedroom in ${place.formattedAddress}",
+      "route": place.route,
+      "locality": place.locality,
+      "location": place.formattedAddress,
+      "country": place.country,
+      "lat": place.lat,
+      "lng": place.lng,
       "image": image,
       "images": imageUrls,
       "name": propertyName,
@@ -61,7 +68,10 @@ class RealifyPropertyApiProvider {
   }
 
   updateProperty(proposal, county, category, subCategory, price, bedrooms, locality, propertyName, description,
-      rentalFrequency, area, areaUnit, phone, bathrooms, image, imageUrls, propertyId) async {
+      rentalFrequency, area, areaUnit, phone, bathrooms, image, imageUrls, propertyId,
+    bedroomsOffered,
+    bedroomsOfferedPrice,
+  ) async {
     await firebaseFirestore.collection("users").doc(user.uid).collection("rentals").doc(propertyId).update({
       "area": area,
       "areaUnit": areaUnit,
@@ -70,7 +80,7 @@ class RealifyPropertyApiProvider {
       "categoryType": category,
       "county": county,
       "description": description,
-      "details": "$bedrooms bedroom $subCategory in $locality, $county",
+      "details": "$bedrooms bedroom in $locality, $county",
       "image": image,
       "images": imageUrls,
       "name": propertyName,

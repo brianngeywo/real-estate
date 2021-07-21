@@ -1,6 +1,9 @@
 import 'package:Realify/backend/models/RealifyProperty.dart';
+import 'package:Realify/backend/models/places.dart';
 import 'package:Realify/backend/models/realify_user.dart';
 import 'package:Realify/backend/repositories/auth_repository.dart';
+import 'package:Realify/backend/services/place_service.dart';
+import 'package:Realify/presentation/member/AddProperty/address_search.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:Realify/backend/bloc/add_property_bloc/add_property_bloc.dart';
 import 'package:Realify/presentation/my_imports.dart';
@@ -8,6 +11,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:multi_image_picker2/multi_image_picker2.dart';
 import 'package:multiselect_formfield/multiselect_formfield.dart';
 import 'package:searchfield/searchfield.dart';
+import 'package:uuid/uuid.dart';
 
 class RentTabBar extends StatefulWidget {
   // List propertyFields;
@@ -27,14 +31,31 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
   TextEditingController descriptionTextEditingController = TextEditingController();
   TextEditingController areaTextEditingController = TextEditingController();
   TextEditingController phoneTextEditingController = TextEditingController();
-
+  final _controller = TextEditingController();
+  String route = "";
+  String locality = "";
+  String county = "";
+  String country = "";
+  String formattedAddress = "";
+  double lat = 0;
+  double lng = 0;
   final requiredValidator = RequiredValidator(errorText: 'this field is required');
   List<Asset> images = <Asset>[];
   String _error = 'No Error Dectected';
   String areaUnit = "";
   RealifyUser user = RealifyUser();
   List _apartmentBedrooms = [];
-
+  List<String> prices = [];
+  String rentalFrequency = "daily";
+  String selectedPropertyType = "Apartment";
+  String bedrooms = "studio";
+  String bathrooms = "1";
+  final _formKey = GlobalKey<FormState>();
+  String _selectedLocation;
+  int selected = null;
+  List<DropdownMenuItem<int>> listDrop = [];
+  Map<int, TextEditingController> _mapControllers = Map();
+  Place placeDetails = Place();
   getUser() {
     authRepository.getUser().then(
           (value) => {
@@ -56,12 +77,6 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
     _apartmentBedrooms = [];
   }
 
-  List<String> prices = [];
-  String rentalFrequency = "daily";
-  String selectedPropertyType = "Apartment";
-  String bedrooms = "studio";
-  String bathrooms = "1";
-  final _formKey = GlobalKey<FormState>();
   Future<void> loadAssets() async {
     List<Asset> resultList = <Asset>[];
     String error = 'No Error Detected';
@@ -121,11 +136,6 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
     );
   }
 
-  String _selectedLocation;
-  int selected = null;
-  List<DropdownMenuItem<int>> listDrop = [];
-  Map<int, TextEditingController> _mapControllers = Map();
-
   TextEditingController _controllerOf(int index) {
     var item = _mapControllers[index];
     if (item == null) {
@@ -157,13 +167,13 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
     return BlocConsumer<AddPropertyBloc, AddPropertyState>(
       listener: (context, state) {
         if (state is StartPropertyUploadState) {
-          if (locationTextEditingController.text.isNotEmpty &&
-              descriptionTextEditingController.text.isNotEmpty &&
+          if (descriptionTextEditingController.text.isNotEmpty &&
               phoneTextEditingController.text.isNotEmpty &&
               _apartmentBedrooms != null &&
               _apartmentBedrooms.length > 0 &&
               prices != null &&
-              prices.length > 0) {
+              prices.length > 0 &&
+              placeDetails != null) {
             if (images != null && images.length > 0) {
               BlocProvider.of<AddPropertyBloc>(context).add(UploadImagesEvent(propertyImagesList: images));
             } else {
@@ -181,7 +191,7 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
       builder: (context, state) {
         return Form(
           key: _formKey,
-          autovalidateMode: AutovalidateMode.always,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           child: ListView(
             addAutomaticKeepAlives: true,
             children: [
@@ -261,7 +271,6 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
                   );
                 },
               ),
-
               SizedBox(
                 height: 10,
               ),
@@ -280,114 +289,7 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Text(
-                        "Select county",
-                        style: TextStyle(
-                          fontFamily: FontConfig.bold,
-                          fontSize: Sizeconfig.medium,
-                          color: ColorConfig.dark,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                height: 70,
-                width: double.maxFinite,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 15, top: 15, right: 15),
-                  child: Column(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(
-                          right: 15,
-                          left: 10,
-                        ),
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: ColorConfig.smokeLight,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Row(
-                          children: [
-                            Icon(
-                              MaterialIcons.location_on,
-                              size: 20,
-                              color: ColorConfig.grey,
-                            ),
-                            Flexible(
-                              fit: FlexFit.tight,
-                              child: BlocConsumer<AddPropertyBloc, AddPropertyState>(
-                                listener: (context, state) {
-                                  if (state is AddPropertySelectedCounty) {}
-                                },
-                                builder: (context, state) {
-                                  return Padding(
-                                      padding: const EdgeInsets.only(left: 10),
-                                      child: DropdownButtonHideUnderline(
-                                        child: DropdownButton(
-                                          // itemHeight: 2,
-                                          iconSize: 25,
-                                          elevation: 0,
-                                          value: _selectedLocation,
-                                          hint: Text(
-                                            _selectedLocation == null ? "Nairobi".toUpperCase() : _selectedLocation,
-                                            style: TextStyle(
-                                              color: Color.fromRGBO(0, 0, 0, 0.7),
-                                            ),
-                                          ),
-                                          items: countyListDrop.map((e) {
-                                            return DropdownMenuItem(
-                                              child: Text(
-                                                e.title.toUpperCase(),
-                                                style: TextStyle(
-                                                  color: Color.fromRGBO(0, 0, 0, 0.7),
-                                                ),
-                                              ),
-                                              value: e.title,
-                                            );
-                                          }).toList(),
-                                          onChanged: (value) {
-                                            setState(() {
-                                              _selectedLocation = value;
-                                            });
-                                            BlocProvider.of<AddPropertyBloc>(context)
-                                                .add(SelectedCountyEvent(county: value.toUpperCase()));
-                                          },
-                                        ),
-                                      ));
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 15, right: 15),
-                child: Row(
-                  children: [
-                    Icon(
-                      FontAwesome5.city,
-                      size: Sizeconfig.huge,
-                      color: ColorConfig.darkGreen,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Text(
-                        "Enter area name and town",
+                        "Enter area name or town",
                         style: TextStyle(
                           fontFamily: FontConfig.bold,
                           fontSize: Sizeconfig.medium,
@@ -404,10 +306,10 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
               BlocBuilder<AddPropertyBloc, AddPropertyState>(
                 builder: (context, state) {
                   return Container(
-                    height: 70,
+                    height: 60,
                     width: double.maxFinite,
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 15, top: 15, right: 15),
+                      padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
                       child: Column(
                         children: [
                           Container(
@@ -429,19 +331,40 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
                                 ),
                                 Flexible(
                                   child: Padding(
-                                    padding: const EdgeInsets.only(bottom: 5.0),
-                                    child: TextFormField(
-                                      validator: requiredValidator,
-                                      controller: locationTextEditingController,
-                                      onChanged: (value) {
-                                        BlocProvider.of<AddPropertyBloc>(context)
-                                            .add(AddLocalityEvent(location: value));
-                                      },
+                                    padding: const EdgeInsets.only(bottom: 5.0, left: 5.0),
+                                    child: TextField(
+                                      controller: _controller,
                                       style: TextStyle(
                                         fontFamily: FontConfig.regular,
                                         fontSize: Sizeconfig.small,
                                         color: ColorConfig.dark,
                                       ),
+                                      readOnly: true,
+                                      onTap: () async {
+                                        // generate a new token here
+                                        final Suggestion result = await showSearch(
+                                          context: context,
+                                          delegate: AddressSearch(),
+                                        );
+                                        // This will change the text displayed in the TextField
+                                        if (result != null) {
+                                          placeDetails = await PlaceApiProvider().getPlaceDetailFromId(result.placeId);
+                                          setState(() {
+                                            _controller.text = result.description;
+                                            route = placeDetails.route;
+                                            locality = placeDetails.locality;
+                                            county = placeDetails.administrativeAreaLevel1;
+                                            country = placeDetails.country;
+                                            formattedAddress = placeDetails.formattedAddress;
+                                            lat = placeDetails.lat;
+                                            lng = placeDetails.lng;
+                                          });
+                                          placeDetails != null
+                                              ? BlocProvider.of<AddPropertyBloc>(context)
+                                                  .add(AddPlaceDetailsEvent(place: placeDetails))
+                                              : null;
+                                        }
+                                      },
                                       decoration: InputDecoration(
                                         hintText: ".e.g area, town",
                                         hintStyle: TextStyle(
@@ -462,67 +385,6 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
                     ),
                   );
                 },
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Container(
-                height: 70,
-                width: double.maxFinite,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
-                  child: Column(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(
-                          right: 15,
-                          left: 10,
-                        ),
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: ColorConfig.smokeLight,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Row(
-                          children: [
-                            Icon(
-                              MaterialIcons.location_on,
-                              size: 20,
-                              color: ColorConfig.grey,
-                            ),
-                            Flexible(
-                              child: Padding(
-                                padding: const EdgeInsets.only(bottom: 5.0),
-                                child: SearchField(
-                                  suggestions: lodgingsList,
-                                  searchStyle: TextStyle(
-                                    fontFamily: FontConfig.regular,
-                                    fontSize: Sizeconfig.small,
-                                    color: ColorConfig.dark,
-                                  ),
-                                  searchInputDecoration: InputDecoration(
-                                    hintText: ".e.g area, town",
-                                    hintStyle: TextStyle(
-                                      fontFamily: FontConfig.regular,
-                                      fontSize: Sizeconfig.small,
-                                      color: ColorConfig.greyLight,
-                                    ),
-                                    border: InputBorder.none,
-                                  ),
-                                  maxSuggestionsInViewPort: 6,
-                                  itemHeight: 50,
-                                  onTap: (x) {
-                                    print(x);
-                                  },
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
               ),
               SizedBox(
                 height: 10,

@@ -1,53 +1,21 @@
 import 'dart:convert';
-import 'dart:io';
-
+import 'package:Realify/backend/models/places.dart';
+import 'package:Realify/con.dart';
+import 'package:Realify/presentation/my_imports.dart';
 import 'package:http/http.dart';
-
-class Place {
-  String streetNumber;
-  String street;
-  String city;
-  String zipCode;
-
-  Place({
-    this.streetNumber,
-    this.street,
-    this.city,
-    this.zipCode,
-  });
-
-  @override
-  String toString() {
-    return 'Place(streetNumber: $streetNumber, street: $street, city: $city, zipCode: $zipCode)';
-  }
-}
-
-class Suggestion {
-  final String placeId;
-  final String description;
-
-  Suggestion(this.placeId, this.description);
-
-  @override
-  String toString() {
-    return 'Suggestion(description: $description, placeId: $placeId)';
-  }
-}
 
 class PlaceApiProvider {
   final client = Client();
 
-  PlaceApiProvider(this.sessionToken);
+  PlaceApiProvider();
 
-  final sessionToken;
+  static final String androidKey = kGoogleApiKey;
+  // static final String iosKey = 'YOUR_API_KEY_HERE';
+  final apiKey = androidKey;
 
-  static final String androidKey = 'YOUR_API_KEY_HERE';
-  static final String iosKey = 'YOUR_API_KEY_HERE';
-  final apiKey = Platform.isAndroid ? androidKey : iosKey;
-
-  Future<List<Suggestion>> fetchSuggestions(String input, String lang) async {
+  Future<List<Suggestion>> fetchSuggestions(String input, BuildContext context) async {
     final request =
-        'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&types=address&language=$lang&components=country:ch&key=$apiKey&sessiontoken=$sessionToken';
+        'https://maps.googleapis.com/maps/api/place/queryautocomplete/json?key=$apiKey&language=en&input=$input';
     final response = await client.get(Uri.parse(request));
 
     if (response.statusCode == 200) {
@@ -66,31 +34,40 @@ class PlaceApiProvider {
   }
 
   Future<Place> getPlaceDetailFromId(String placeId) async {
-    final request =
-        'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&fields=address_component&key=$apiKey&sessiontoken=$sessionToken';
+    final request = 'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&language=en&key=$apiKey';
     final response = await client.get(Uri.parse(request));
-
+    print(response);
     if (response.statusCode == 200) {
       final result = json.decode(response.body);
       if (result['status'] == 'OK') {
         final components = result['result']['address_components'] as List<dynamic>;
+        final coordinates = result['result']['geometry']['location'] as Map<String, dynamic>;
+        var formatted_address = result['result']['formatted_address'] as String;
         // build result
         final place = Place();
         components.forEach((c) {
           final List type = c['types'];
-          if (type.contains('street_number')) {
-            place.streetNumber = c['long_name'];
-          }
           if (type.contains('route')) {
-            place.street = c['long_name'];
+            place.route = c['long_name'];
           }
           if (type.contains('locality')) {
-            place.city = c['long_name'];
+            place.locality = c['long_name'];
           }
-          if (type.contains('postal_code')) {
-            place.zipCode = c['long_name'];
+          if (type.contains('administrative_area_level_1')) {
+            place.administrativeAreaLevel1 = c['long_name'];
+          }
+          if (type.contains('country')) {
+            place.country = c['long_name'];
           }
         });
+        coordinates.forEach((key, value) {
+          if (key == 'lat') {
+              place.lat = value;
+          }else if (key == 'lng') {
+             place.lng = value;
+          }
+        });
+        place.formattedAddress = formatted_address;
         return place;
       }
       throw Exception(result['error_message']);

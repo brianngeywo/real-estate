@@ -1,14 +1,28 @@
-
 import 'package:Realify/backend/models/RealifyProperty.dart';
 import 'package:Realify/presentation/my_imports.dart';
 
 class PropertyLocation extends StatefulWidget {
+  final RealifyProperty property;
+  const PropertyLocation({
+    Key key,
+    @required this.property,
+  }) : super(key: key);
+
   @override
   _PropertyLocationState createState() => _PropertyLocationState();
 }
 
 class _PropertyLocationState extends State<PropertyLocation> {
-  RealifyProperty property;
+  GoogleMapController _controller;
+  List<Marker> _markers = [];
+  @override
+  void initState() {
+    super.initState();
+    _markers.add(Marker(
+        markerId: MarkerId(widget.property.id),
+        position: LatLng(widget.property.lat, widget.property.lng),
+        infoWindow: InfoWindow(title: widget.property.details)));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +48,7 @@ class _PropertyLocationState extends State<PropertyLocation> {
                   Align(
                     alignment: Alignment(0, 0.1),
                     child: Text(
-                      "Property Location",
+                      widget.property.location,
                       style: TextStyle(
                         fontFamily: FontConfig.bold,
                         fontSize: Sizeconfig.medium,
@@ -45,18 +59,17 @@ class _PropertyLocationState extends State<PropertyLocation> {
                 ],
               ),
             ),
-            Container(
-                height: 1,
-                width: double.maxFinite,
-                color: ColorConfig.grey.withOpacity(0.3)),
+            Container(height: 1, width: double.maxFinite, color: ColorConfig.grey.withOpacity(0.3)),
             Expanded(
               flex: 1,
               child: GoogleMap(
-                zoomControlsEnabled: false,
                 initialCameraPosition: CameraPosition(
-                  target: LatLng(37.78825, -122.4324),
-                  zoom: 10.0,
+                  target: LatLng(widget.property.lat, widget.property.lng),
+                  zoom: 12,
                 ),
+                mapType: MapType.normal,
+                markers: Set<Marker>.of(_markers),
+                onMapCreated: (GoogleMapController controller) {},
               ),
             ),
           ],

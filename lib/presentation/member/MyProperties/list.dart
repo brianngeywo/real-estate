@@ -174,6 +174,7 @@ class _MyPropertiesListState extends State<MyPropertiesList> {
                               ],
                             ),
                             Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 // InkWell(
                                 //   onTap: () {},

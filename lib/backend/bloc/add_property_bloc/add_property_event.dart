@@ -125,6 +125,13 @@ class AddPhoneEvent extends AddPropertyEvent {
   });
 }
 
+class AddPlaceDetailsEvent extends AddPropertyEvent {
+  final Place place;
+  AddPlaceDetailsEvent({
+    @required this.place,
+  });
+}
+
 class UploadImagesEvent extends AddPropertyEvent {
   final List<Asset> propertyImagesList;
   UploadImagesEvent({
@@ -153,6 +160,7 @@ class UploadPropertyEvent extends AddPropertyEvent {
   final List<String> images;
   final List<dynamic> bedroomsOffered;
   final List<dynamic> bedroomsOfferedPrice;
+  final Place place;
   UploadPropertyEvent({
     @required this.proposal,
     @required this.county,
@@ -172,5 +180,7 @@ class UploadPropertyEvent extends AddPropertyEvent {
     @required this.images,
     @required this.bedroomsOffered,
     @required this.bedroomsOfferedPrice,
+    @required this.place,
   });
 }
+

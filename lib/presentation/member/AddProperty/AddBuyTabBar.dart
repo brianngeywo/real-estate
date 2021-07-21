@@ -1,7 +1,10 @@
 import 'package:Realify/backend/models/Property_image.dart';
 import 'package:Realify/backend/models/RealifyProperty.dart';
+import 'package:Realify/backend/models/places.dart';
 import 'package:Realify/backend/models/realify_user.dart';
 import 'package:Realify/backend/repositories/auth_repository.dart';
+import 'package:Realify/backend/services/place_service.dart';
+import 'package:Realify/presentation/member/AddProperty/address_search.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:Realify/backend/bloc/add_property_bloc/add_property_bloc.dart';
 import 'package:Realify/presentation/my_imports.dart';
@@ -26,11 +29,19 @@ class _BuyTabBarState extends State<BuyTabBar> {
   TextEditingController descriptionTextEditingController = TextEditingController();
   TextEditingController areaTextEditingController = TextEditingController();
   TextEditingController phoneTextEditingController = TextEditingController();
+  final _controller = TextEditingController();
+  String route = "";
+  String locality = "";
+  String county = "";
+  String country = "";
+  String formattedAddress = "";
+  double lat = 0;
+  double lng = 0;
   AuthRepository authRepository = AuthRepository();
   List<Asset> images = <Asset>[];
   String _error = 'No Error Dectected';
   List<PropertyImage> urls = <PropertyImage>[];
-
+ Place placeDetails = Place();
   String areaUnit = "sq.m.";
   String selectedPropertyType = "Hotel";
   String bedrooms = "studio";
@@ -153,8 +164,7 @@ class _BuyTabBarState extends State<BuyTabBar> {
     return BlocConsumer<AddPropertyBloc, AddPropertyState>(
       listener: (context, state) {
         if (state is StartPropertyUploadState) {
-          if (locationTextEditingController.text.isNotEmpty &&
-              descriptionTextEditingController.text.isNotEmpty &&
+          if (descriptionTextEditingController.text.isNotEmpty &&
               phoneTextEditingController.text.isNotEmpty &&
               _apartmentBedrooms != null &&
               _apartmentBedrooms.length > 0 &&
@@ -177,7 +187,7 @@ class _BuyTabBarState extends State<BuyTabBar> {
       builder: (context, state) {
         return Form(
           key: _formKey,
-          autovalidateMode: AutovalidateMode.always,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           child: ListView(
             addAutomaticKeepAlives: true,
             children: [
@@ -213,7 +223,6 @@ class _BuyTabBarState extends State<BuyTabBar> {
               SizedBox(
                 height: 10,
               ),
-              // Propertytype(),
               SizedBox(
                 height: 10,
               ),
@@ -239,7 +248,6 @@ class _BuyTabBarState extends State<BuyTabBar> {
                               child: MaterialButton(
                                 elevation: 0,
                                 onPressed: () {
-                                  // print(e);
                                   setState(() {
                                     selectedPropertyType = e;
                                   });
@@ -275,114 +283,7 @@ class _BuyTabBarState extends State<BuyTabBar> {
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Text(
-                        "Select county",
-                        style: TextStyle(
-                          fontFamily: FontConfig.bold,
-                          fontSize: Sizeconfig.medium,
-                          color: ColorConfig.dark,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                height: 70,
-                width: double.maxFinite,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 15, top: 15, right: 15),
-                  child: Column(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(
-                          right: 15,
-                          left: 10,
-                        ),
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: ColorConfig.smokeLight,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Row(
-                          children: [
-                            Icon(
-                              MaterialIcons.location_on,
-                              size: 20,
-                              color: ColorConfig.grey,
-                            ),
-                            Flexible(
-                              fit: FlexFit.tight,
-                              child: BlocConsumer<AddPropertyBloc, AddPropertyState>(
-                                listener: (context, state) {
-                                  if (state is AddPropertySelectedCounty) {}
-                                },
-                                builder: (context, state) {
-                                  return Padding(
-                                      padding: const EdgeInsets.only(left: 10),
-                                      child: DropdownButtonHideUnderline(
-                                        child: DropdownButton(
-                                          // itemHeight: 2,
-                                          iconSize: 25,
-                                          elevation: 0,
-                                          value: _selectedLocation,
-                                          hint: Text(
-                                            _selectedLocation == null ? "Nairobi".toUpperCase() : _selectedLocation,
-                                            style: TextStyle(
-                                              color: Color.fromRGBO(0, 0, 0, 0.7),
-                                            ),
-                                          ),
-                                          items: countyListDrop.map((e) {
-                                            return DropdownMenuItem(
-                                              child: Text(
-                                                e.title.toUpperCase(),
-                                                style: TextStyle(
-                                                  color: Color.fromRGBO(0, 0, 0, 0.7),
-                                                ),
-                                              ),
-                                              value: e.title,
-                                            );
-                                          }).toList(),
-                                          onChanged: (value) {
-                                            setState(() {
-                                              _selectedLocation = value;
-                                            });
-                                            BlocProvider.of<AddPropertyBloc>(context)
-                                                .add(SelectedCountyEvent(county: value.toUpperCase()));
-                                          },
-                                        ),
-                                      ));
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 15, right: 15),
-                child: Row(
-                  children: [
-                    Icon(
-                      FontAwesome5.city,
-                      size: Sizeconfig.huge,
-                      color: ColorConfig.darkGreen,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Text(
-                        "Enter area name and town",
+                        "Enter area name or town",
                         style: TextStyle(
                           fontFamily: FontConfig.bold,
                           fontSize: Sizeconfig.medium,
@@ -399,10 +300,10 @@ class _BuyTabBarState extends State<BuyTabBar> {
               BlocBuilder<AddPropertyBloc, AddPropertyState>(
                 builder: (context, state) {
                   return Container(
-                    height: 70,
+                    height: 60,
                     width: double.maxFinite,
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 15, top: 15, right: 15),
+                      padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
                       child: Column(
                         children: [
                           Container(
@@ -424,19 +325,40 @@ class _BuyTabBarState extends State<BuyTabBar> {
                                 ),
                                 Flexible(
                                   child: Padding(
-                                    padding: const EdgeInsets.only(bottom: 5.0),
-                                    child: TextFormField(
-                                      validator: requiredValidator,
-                                      controller: locationTextEditingController,
-                                      onChanged: (value) {
-                                        BlocProvider.of<AddPropertyBloc>(context)
-                                            .add(AddLocalityEvent(location: value));
-                                      },
+                                    padding: const EdgeInsets.only(bottom: 5.0, left: 5.0),
+                                    child: TextField(
+                                      controller: _controller,
                                       style: TextStyle(
                                         fontFamily: FontConfig.regular,
                                         fontSize: Sizeconfig.small,
-                                        color: ColorConfig.greyLight,
+                                        color: ColorConfig.dark,
                                       ),
+                                      readOnly: true,
+                                      onTap: () async {
+                                        // generate a new token here
+                                        final Suggestion result = await showSearch(
+                                          context: context,
+                                          delegate: AddressSearch(),
+                                        );
+                                        // This will change the text displayed in the TextField
+                                        if (result != null) {
+                                          placeDetails = await PlaceApiProvider().getPlaceDetailFromId(result.placeId);
+                                          setState(() {
+                                            _controller.text = result.description;
+                                            route = placeDetails.route;
+                                            locality = placeDetails.locality;
+                                            county = placeDetails.administrativeAreaLevel1;
+                                            country = placeDetails.country;
+                                            formattedAddress = placeDetails.formattedAddress;
+                                            lat = placeDetails.lat;
+                                            lng = placeDetails.lng;
+                                          });
+                                          placeDetails != null
+                                              ? BlocProvider.of<AddPropertyBloc>(context)
+                                                  .add(AddPlaceDetailsEvent(place: placeDetails))
+                                              : null;
+                                        }
+                                      },
                                       decoration: InputDecoration(
                                         hintText: ".e.g area, town",
                                         hintStyle: TextStyle(
@@ -457,6 +379,9 @@ class _BuyTabBarState extends State<BuyTabBar> {
                     ),
                   );
                 },
+              ),
+              SizedBox(
+                height: 10,
               ),
               Padding(
                 padding: EdgeInsets.only(left: 15, right: 15),

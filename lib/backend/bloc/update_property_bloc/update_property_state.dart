@@ -112,7 +112,26 @@ class UpdatedPhoneState extends UpdatePropertyState {
     this.phone = '',
   });
 }
+class UpdatePlaceDetailsState extends UpdatePropertyState {
+  final Place place;
+  UpdatePlaceDetailsState({
+    @required this.place,
+  });
+}
 
+class SelectedBedroomsOfferedState extends UpdatePropertyState {
+  final List<dynamic> bedrooms;
+  SelectedBedroomsOfferedState({
+    @required this.bedrooms,
+  });
+}
+
+class SelectedBedroomsPricesState extends UpdatePropertyState {
+  final List<String> prices;
+  SelectedBedroomsPricesState({
+    @required this.prices,
+  });
+}
 class UploadedPropertyState extends UpdatePropertyState {}
 
 class StartPropertyUploadState extends UpdatePropertyState {}

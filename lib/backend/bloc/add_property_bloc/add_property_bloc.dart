@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:Realify/backend/models/Property_image.dart';
 import 'package:Realify/backend/models/RealifyProperty.dart';
+import 'package:Realify/backend/models/places.dart';
 import 'package:Realify/backend/repositories/RealifyPropertyRepository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
@@ -74,6 +75,9 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
     if (event is UploadImagesEvent) {
       yield* _mapUploadImagesToState(event);
     }
+    if (event is AddPlaceDetailsEvent) {
+      yield AddPlaceDetailsState(place: event.place);
+    }
     if (event is UploadPropertyEvent) {
       repository.uploadProperty(
           event.proposal,
@@ -93,7 +97,8 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
           event.image,
           event.images,
           event.bedroomsOffered,
-          event.bedroomsOfferedPrice);
+          event.bedroomsOfferedPrice,
+          event.place);
       yield UploadedPropertyState();
     }
   }

@@ -1,5 +1,5 @@
 import 'package:Realify/backend/models/realify_user.dart';
-import 'package:Realify/constants.dart';
+import 'package:Realify/con.dart';
 import 'package:Realify/main.dart';
 import 'package:Realify/presentation/member/Location/main.dart';
 import 'package:Realify/presentation/member/PropertyLocation/main.dart';
@@ -215,7 +215,7 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                           width: 2,
                         ),
                         Text(
-                         theBedroomsPrice,
+                          theBedroomsPrice,
                           style: TextStyle(
                             fontFamily: FontConfig.bold,
                             color: ColorConfig.greyDark,
@@ -328,21 +328,28 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                     padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
                     child: GestureDetector(
                       onTap: () {
-                        // Navigator.push(context, MaterialPageRoute(builder: (context) => PropertyLocation()));
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => PropertyLocation(property: widget.property)));
                       },
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Icon(FontAwesome5.globe_africa, size: Sizeconfig.huge, color: ColorConfig.darkGreen),
-                          SizedBox(
-                            width: 10,
+                          Row(
+                            children: [
+                              Icon(FontAwesome5.globe_africa, size: Sizeconfig.huge, color: ColorConfig.darkGreen),
+                              SizedBox(width: 10),
+                              Text(
+                                widget.property.location,
+                                style: TextStyle(
+                                  fontFamily: FontConfig.bold,
+                                  fontSize: Sizeconfig.medium,
+                                  color: ColorConfig.dark,
+                                ),
+                              ),
+                            ],
                           ),
-                          Text(
-                            widget.property.location,
-                            style: TextStyle(
-                              fontFamily: FontConfig.bold,
-                              fontSize: Sizeconfig.medium,
-                              color: ColorConfig.dark,
-                            ),
+                          Icon(
+                            AntDesign.arrowright,
                           ),
                         ],
                       ),
@@ -404,7 +411,7 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                   Padding(
                     padding: const EdgeInsets.only(top: 5, left: 20, right: 15),
                     child: Text(
-                      widget.property.details,
+                      widget.property.name.isEmpty ? widget.property.details : widget.property.name,
                       style: TextStyle(
                         fontFamily: FontConfig.regular,
                         fontSize: Sizeconfig.tiny,
@@ -878,6 +885,42 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                           ),
                         )
                       : SizedBox(),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Divider(
+                      color: ColorConfig.grey.withOpacity(0.3),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(
+                      top: 5,
+                      left: 15,
+                      right: 15,
+                    ),
+                    child: InkWell(
+                      onTap: () {},
+                      child: Row(
+                        children: [
+                          Icon(
+                            Foundation.alert,
+                            size: Sizeconfig.huge,
+                            color: ColorConfig.red,
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            "Please visit the site before making any payment",
+                            style: TextStyle(
+                              fontFamily: FontConfig.bold,
+                              fontSize: Sizeconfig.small,
+                              color: ColorConfig.red,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
                     child: Divider(

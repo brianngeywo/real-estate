@@ -33,9 +33,9 @@ class _UpdatePropertyState extends State<UpdateProperty> with TickerProviderStat
   String area = "";
   String areaUnit = "";
   String phone = "";
-  // List propertyFeatures = [];
-  // List propertyFields = [];
+  List<String> prices = [];
   List<String> imageUrls = [];
+  List<dynamic> bedroomsOffered = [];
 
   TabController tabController;
   void initState() {
@@ -103,15 +103,6 @@ class _UpdatePropertyState extends State<UpdateProperty> with TickerProviderStat
                     setState(() {
                       proposal = state.proposal;
                     });
-                    if (proposal == "buy") {
-                      setState(() {
-                        rentalFrequency = "sale";
-                      });
-                    } else if (proposal == "rent" && (rentalFrequency.isEmpty || rentalFrequency == "sale")) {
-                      setState(() {
-                        rentalFrequency = "monthly";
-                      });
-                    }
                   }
                   if (state is UpdatePropertySelectedCounty) {
                     setState(() {
@@ -159,15 +150,28 @@ class _UpdatePropertyState extends State<UpdateProperty> with TickerProviderStat
                       description = state.description;
                     });
                   }
+                  if (state is SelectedBedroomsOfferedState) {
+                    setState(() {
+                      bedroomsOffered = [];
+                    });
+                    state.bedrooms.forEach((element) {
+                      setState(() {
+                        bedroomsOffered.add(element);
+                      });
+                    });
+                    print(bedroomsOffered);
+                  }
+                  if (state is SelectedBedroomsPricesState) {
+                    setState(() {
+                      prices = [];
+                      prices.addAll(state.prices);
+                    });
+                  }
                   if (state is UpdateRentalFrequencyState) {
                     setState(() {
                       rentalFrequency = state.frequency;
                     });
-                    if (proposal == "buy") {
-                      setState(() {
-                        rentalFrequency = "sale";
-                      });
-                    } else if (proposal == "rent" && (rentalFrequency.isEmpty || rentalFrequency == "sale")) {
+                    if (proposal == "rent" && (rentalFrequency.isEmpty || rentalFrequency == "sale")) {
                       setState(() {
                         rentalFrequency = "monthly";
                       });
@@ -188,18 +192,10 @@ class _UpdatePropertyState extends State<UpdateProperty> with TickerProviderStat
                       phone = state.phone;
                     });
                   }
-
                   if (state is UploadedImagesState) {
-                    state.propertyImageList.propertyImages.forEach((image) {
-                      setState(() {
-                        imageUrls.add(image.url);
-                      });
+                    setState(() {
+                      imageUrls.addAll(state.propertyImageList.propertyImages.map((image) => image.url));
                     });
-                    if (proposal == "buy") {
-                      setState(() {
-                        rentalFrequency = "sale";
-                      });
-                    }
                     BlocProvider.of<UpdatePropertyBloc>(context).add(
                       UploadPropertyEvent(
                         proposal: proposal.isEmpty ? widget.property.proposal : proposal.toLowerCase(),
@@ -222,6 +218,8 @@ class _UpdatePropertyState extends State<UpdateProperty> with TickerProviderStat
                         county: widget.property.county,
                         locality: widget.property.locality,
                         propertyId: widget.property.id,
+                        bedroomsOfferedPrice: prices,
+                        bedroomsOffered: bedroomsOffered,
                       ),
                     );
                     print(imageUrls);
@@ -249,6 +247,8 @@ class _UpdatePropertyState extends State<UpdateProperty> with TickerProviderStat
                         county: widget.property.county,
                         locality: widget.property.locality,
                         propertyId: widget.property.id,
+                        bedroomsOffered: bedroomsOffered,
+                        bedroomsOfferedPrice: prices,
                       ),
                     );
                   }
@@ -263,7 +263,7 @@ class _UpdatePropertyState extends State<UpdateProperty> with TickerProviderStat
                     onTap: (value) {
                       if (value == 0) {
                         setState(() {
-                          proposal = "buy";
+                          proposal = "lodge";
                         });
                       } else if (value == 1) {
                         setState(() {
@@ -287,7 +287,7 @@ class _UpdatePropertyState extends State<UpdateProperty> with TickerProviderStat
                               border: Border.all(width: 1, color: ColorConfig.smokeLight)),
                           child: Center(
                             child: Text(
-                              "Sell",
+                              "Lodging",
                               style: TextStyle(
                                   fontFamily: FontConfig.bold,
                                   fontSize: Sizeconfig.small,

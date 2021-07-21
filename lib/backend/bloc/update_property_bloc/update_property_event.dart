@@ -115,7 +115,26 @@ class UploadImagesEvent extends UpdatePropertyEvent {
     @required this.propertyImagesList,
   });
 }
+class UpdatePlaceDetailsEvent extends UpdatePropertyEvent {
+  final Place place;
+  UpdatePlaceDetailsEvent({
+    @required this.place,
+  });
+}
 
+class SelectedBedroomsOfferedEvent extends UpdatePropertyEvent {
+  final List<dynamic> bedrooms;
+  SelectedBedroomsOfferedEvent({
+    @required this.bedrooms,
+  });
+}
+
+class SelectedBedroomsPricesEvent extends UpdatePropertyEvent {
+  final List<String> prices;
+  SelectedBedroomsPricesEvent({
+    @required this.prices,
+  });
+}
 
 class StartPropertyUploadEvent extends UpdatePropertyEvent {}
 
@@ -139,6 +158,8 @@ class UploadPropertyEvent extends UpdatePropertyEvent {
   final String image;
   final String propertyId;
   final List<String> images;
+    final List<dynamic> bedroomsOffered;
+  final List<dynamic> bedroomsOfferedPrice;
   UploadPropertyEvent({
     @required this.propertyId,
     @required this.proposal,
@@ -157,5 +178,7 @@ class UploadPropertyEvent extends UpdatePropertyEvent {
     @required this.phone,
     @required this.image,
     @required this.images,
+    @required this.bedroomsOffered,
+    @required this.bedroomsOfferedPrice,
   });
 }

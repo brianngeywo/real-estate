@@ -130,6 +130,13 @@ class StartPropertyUploadState extends AddPropertyState {}
 
 class UploadedPropertyState extends AddPropertyState {}
 
+class AddPlaceDetailsState extends AddPropertyState {
+  final Place place;
+  AddPlaceDetailsState({
+    @required this.place,
+  });
+}
+
 class UploadedImagesState extends AddPropertyState {
   final PropertyList propertyImageList;
   UploadedImagesState({
