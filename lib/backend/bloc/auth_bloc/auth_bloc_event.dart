@@ -2,7 +2,13 @@ part of 'auth_bloc_bloc.dart';
 
 abstract class AuthBlocEvent {}
 
-class SigninWithGoogleEvent extends AuthBlocEvent {}
+class SigninWithGoogleEvent extends AuthBlocEvent {
+  BuildContext context;
+  SigninWithGoogleEvent({
+    @required this.context,
+  });
+
+}
 
 class AddUserToFirestoreEvent extends AuthBlocEvent {
   final String name;
@@ -14,4 +20,5 @@ class AddUserToFirestoreEvent extends AuthBlocEvent {
     @required this.role,
   });
 }
-class  SignoutOfGoogleEvent extends AuthBlocEvent {}
+
+class SignoutOfGoogleEvent extends AuthBlocEvent {}

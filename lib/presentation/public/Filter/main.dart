@@ -226,10 +226,6 @@ class _FilterState extends State<Filter> with TickerProviderStateMixin {
                           builder: (context) => ListRealify(
                             proposal: proposal.isEmpty ? "lodge" : proposal.toLowerCase(),
                             county: county.isEmpty ? "Nairobi County" : county,
-                            propertyCategoryType:
-                                category.isEmpty ? "residential".toLowerCase() : category.toLowerCase(),
-                            propertySubCategoryType:
-                                subCategory.isEmpty ? "hotel".toLowerCase() : subCategory.toLowerCase(),
                             bedrooms: bedrooms.isEmpty ? "studio".toLowerCase() : bedrooms.toLowerCase(),
                             minPrice: minPrice,
                             maxPrice: maxPrice,

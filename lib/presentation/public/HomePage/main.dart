@@ -283,7 +283,7 @@ class _HomePageState extends State<HomePage> {
                                               snapshot.hasData
                                                   ? Navigator.push(
                                                       context, MaterialPageRoute(builder: (context) => AddProperty()))
-                                                  : BlocProvider.of<AuthBloc>(context).add(SigninWithGoogleEvent());
+                                                  : BlocProvider.of<AuthBloc>(context).add(SigninWithGoogleEvent(context: context));
                                             },
                                             child: Text(
                                               snapshot.hasData

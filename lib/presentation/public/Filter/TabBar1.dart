@@ -39,77 +39,77 @@ class _TabBar1State extends State<TabBar1> {
     return SingleChildScrollView(
       child: Form(
         key: _formKey,
-        autovalidateMode: AutovalidateMode.always,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         child: Column(children: [
-          Padding(
-            padding: EdgeInsets.only(left: 15, right: 15),
-            child: Row(
-              children: [
-                Icon(
-                  Entypo.home,
-                  size: Sizeconfig.huge,
-                  color: ColorConfig.darkGreen,
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Text(
-                    "Property Types",
-                    style: TextStyle(
-                      fontFamily: FontConfig.bold,
-                      fontSize: Sizeconfig.medium,
-                      color: ColorConfig.dark,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 10),
-          BlocBuilder<SearchPropertyBloc, SearchPropertyState>(
-            builder: (context, state) {
-              return Wrap(
-                direction: Axis.horizontal,
-                children: lodgingsList
-                    .map(
-                      (e) => Padding(
-                        padding: EdgeInsets.all(5),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: selectedPropertyType == e ? ColorConfig.lightGreen : ColorConfig.light,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(4),
-                            ),
-                            border: Border.all(
-                              width: 1,
-                              color: selectedPropertyType == e ? ColorConfig.lightGreen : ColorConfig.smokeDark,
-                            ),
-                          ),
-                          child: MaterialButton(
-                            elevation: 0,
-                            onPressed: () {
-                              setState(() {
-                                selectedPropertyType = e;
-                              });
-                              BlocProvider.of<SearchPropertyBloc>(context)
-                                  .add((SelectedSubCategoryEvent(subcategoryTitle: e)));
-                            },
-                            color: Colors.transparent,
-                            textColor: selectedPropertyType == e ? ColorConfig.light : ColorConfig.grey,
-                            child: Text(e),
-                          ),
-                        ),
-                      ),
-                    )
-                    .toList(),
-              );
-            },
-          ),
-          SizedBox(
-            height: 10,
-          ),
+          // Padding(
+          //   padding: EdgeInsets.only(left: 15, right: 15),
+          //   child: Row(
+          //     children: [
+          //       Icon(
+          //         Entypo.home,
+          //         size: Sizeconfig.huge,
+          //         color: ColorConfig.darkGreen,
+          //       ),
+          //       SizedBox(
+          //         width: 10,
+          //       ),
+          //       Padding(
+          //         padding: const EdgeInsets.only(top: 8.0),
+          //         child: Text(
+          //           "Property Types",
+          //           style: TextStyle(
+          //             fontFamily: FontConfig.bold,
+          //             fontSize: Sizeconfig.medium,
+          //             color: ColorConfig.dark,
+          //           ),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // SizedBox(height: 10),
+          // BlocBuilder<SearchPropertyBloc, SearchPropertyState>(
+          //   builder: (context, state) {
+          //     return Wrap(
+          //       direction: Axis.horizontal,
+          //       children: lodgingsList
+          //           .map(
+          //             (e) => Padding(
+          //               padding: EdgeInsets.all(5),
+          //               child: Container(
+          //                 decoration: BoxDecoration(
+          //                   color: selectedPropertyType == e ? ColorConfig.lightGreen : ColorConfig.light,
+          //                   borderRadius: BorderRadius.all(
+          //                     Radius.circular(4),
+          //                   ),
+          //                   border: Border.all(
+          //                     width: 1,
+          //                     color: selectedPropertyType == e ? ColorConfig.lightGreen : ColorConfig.smokeDark,
+          //                   ),
+          //                 ),
+          //                 child: MaterialButton(
+          //                   elevation: 0,
+          //                   onPressed: () {
+          //                     setState(() {
+          //                       selectedPropertyType = e;
+          //                     });
+          //                     BlocProvider.of<SearchPropertyBloc>(context)
+          //                         .add((SelectedSubCategoryEvent(subcategoryTitle: e)));
+          //                   },
+          //                   color: Colors.transparent,
+          //                   textColor: selectedPropertyType == e ? ColorConfig.light : ColorConfig.grey,
+          //                   child: Text(e),
+          //                 ),
+          //               ),
+          //             ),
+          //           )
+          //           .toList(),
+          //     );
+          //   },
+          // ),
+          // SizedBox(
+          //   height: 10,
+          // ),
           Padding(
             padding: EdgeInsets.only(left: 15, right: 15),
             child: Row(

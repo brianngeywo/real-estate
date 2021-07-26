@@ -1,6 +1,7 @@
 import 'package:Realify/backend/bloc/auth_bloc/auth_bloc_bloc.dart';
 import 'package:Realify/backend/bloc/selected_radio_bloc/select_radio_button_bloc.dart';
 import 'package:Realify/backend/models/radio_list.dart';
+import 'package:Realify/backend/repositories/auth_repository.dart';
 import 'package:Realify/presentation/member/Settings/main.dart';
 import 'package:Realify/presentation/my_imports.dart';
 import 'package:Realify/presentation/public/SignUp/DropDown.dart';
@@ -13,6 +14,7 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  AuthRepository _authRepository = AuthRepository();
   int selectedRadio;
   TextEditingController nameTextEditingController = TextEditingController();
   TextEditingController phoneTextEditingController = TextEditingController();
@@ -21,6 +23,7 @@ class _SignUpState extends State<SignUp> {
   void initState() {
     super.initState();
     selectedRadio = 0;
+    _authRepository.addUserToFirebase("", "", "");
   }
 
   setSelectedRadio(int val) {

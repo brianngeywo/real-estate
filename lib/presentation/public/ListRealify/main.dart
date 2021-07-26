@@ -7,8 +7,8 @@ import 'package:Realify/presentation/public/PropertyDetails/List.dart';
 
 class ListRealify extends StatefulWidget {
   final String proposal;
-  final String propertyCategoryType;
-  final String propertySubCategoryType;
+  // final String propertyCategoryType;
+  // final String propertySubCategoryType;
   final String bedrooms;
   final String minPrice;
   final String maxPrice;
@@ -18,8 +18,8 @@ class ListRealify extends StatefulWidget {
   const ListRealify({
     Key key,
     @required this.proposal,
-    @required this.propertyCategoryType,
-    @required this.propertySubCategoryType,
+    // @required this.propertyCategoryType,
+    // @required this.propertySubCategoryType,
     @required this.bedrooms,
     @required this.minPrice,
     @required this.maxPrice,
@@ -33,8 +33,8 @@ class ListRealify extends StatefulWidget {
 
 class _ListRealifyState extends State<ListRealify> {
   static String proposal;
-  static String propertyCategoryType;
-  static String propertySubCategoryType;
+  // static String propertyCategoryType;
+  // static String propertySubCategoryType;
   static String bedrooms;
   static String minPrice;
   static String maxPrice;
@@ -44,13 +44,13 @@ class _ListRealifyState extends State<ListRealify> {
   RealifyPropertyRepository repository = RealifyPropertyRepository();
 
   void initState() {
-    repository.saveSearchedQuery(widget.proposal, widget.propertyCategoryType, widget.propertySubCategoryType,
+    repository.saveSearchedQuery(widget.proposal, 
         widget.bedrooms, widget.minPrice, widget.maxPrice, widget.county, widget.paymentPeriod);
     super.initState();
     selectedRadio = 0;
     proposal = widget.proposal;
-    propertyCategoryType = widget.propertyCategoryType;
-    propertySubCategoryType = widget.propertySubCategoryType;
+    // propertyCategoryType = widget.propertyCategoryType;
+    // propertySubCategoryType = widget.propertySubCategoryType;
     bedrooms = widget.bedrooms;
     minPrice = widget.minPrice;
     maxPrice = widget.maxPrice;
@@ -168,8 +168,8 @@ class _ListRealifyState extends State<ListRealify> {
                       future: FirebaseFirestore.instance
                           .collection("rentals")
                           .where("proposal", isEqualTo: proposal)
-                          .where("categoryType", isEqualTo: propertyCategoryType)
-                          .where("subCategoryType", isEqualTo: propertySubCategoryType)
+                          // .where("categoryType", isEqualTo: propertyCategoryType)
+                          // .where("subCategoryType", isEqualTo: propertySubCategoryType)
                           .where("county", isEqualTo: county)
                           .where("paymentPeriod", isEqualTo: paymentPeriod)
                           .get(),

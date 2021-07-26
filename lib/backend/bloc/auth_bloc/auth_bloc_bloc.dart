@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:Realify/backend/repositories/auth_repository.dart';
+import 'package:Realify/presentation/my_imports.dart';
+import 'package:Realify/presentation/widget/progress_dialog/main.dart';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -13,11 +15,9 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
   AuthBloc() : super(AuthInitial());
 
   @override
-  Stream<AuthBlocState> mapEventToState(
-    AuthBlocEvent event,
-  ) async* {
+  Stream<AuthBlocState> mapEventToState(AuthBlocEvent event) async* {
     if (event is SigninWithGoogleEvent) {
-      yield* _mapSignIntoGoogleAccount(event);
+      yield* _mapSignIntoGoogleAccount(event, event.context);
     } else if (event is AddUserToFirestoreEvent) {
       yield* _mapAddUserToFirestore(event);
     } else if (event is SignoutOfGoogleEvent) {
@@ -26,13 +26,16 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
   }
 }
 
-Stream<AuthBlocState> _mapSignIntoGoogleAccount(SigninWithGoogleEvent event) async* {
+Stream<AuthBlocState> _mapSignIntoGoogleAccount(SigninWithGoogleEvent event, BuildContext context) async* {
   AuthRepository _authRepository = AuthRepository();
+  showMyDialogBox(context, "Signing in");
   var documents = await _authRepository.signInAndGetUser();
   if (documents.length > 0) {
     yield UserRegisteredState();
+    Navigator.of(context).pop();
   } else if (documents.length <= 0 || documents.length == null) {
     yield UserNotRegisteredState();
+    Navigator.of(context).pop();
   }
 }
 

@@ -67,8 +67,24 @@ class RealifyPropertyApiProvider {
     }).then((value) => uuid = new Uuid().v1());
   }
 
-  updateProperty(proposal, county, category, subCategory, price, bedrooms, locality, propertyName, description,
-      rentalFrequency, area, areaUnit, phone, bathrooms, image, imageUrls, propertyId,
+  updateProperty(
+    proposal,
+    county,
+    category,
+    subCategory,
+    price,
+    bedrooms,
+    locality,
+    propertyName,
+    description,
+    rentalFrequency,
+    area,
+    areaUnit,
+    phone,
+    bathrooms,
+    image,
+    imageUrls,
+    propertyId,
     bedroomsOffered,
     bedroomsOfferedPrice,
   ) async {
@@ -151,21 +167,17 @@ class RealifyPropertyApiProvider {
     return propertyList;
   }
 
-  saveSearchedQuery(String proposal, String propertyCategoryType, String propertySubCategoryType, String bedrooms,
-      String minPrice, String maxPrice, String county, String paymentPeriod) {
+  saveSearchedQuery(
+      String proposal, String bedrooms, String minPrice, String maxPrice, String county, String paymentPeriod) {
     var auth = FirebaseAuth.instance;
     auth.currentUser != null
-        ? saveUserSearch(auth.currentUser, proposal, propertyCategoryType, propertySubCategoryType, bedrooms, minPrice,
-            maxPrice, county, paymentPeriod)
-        : saveNormalSearch(proposal, propertyCategoryType, propertySubCategoryType, bedrooms, minPrice, maxPrice,
-            county, paymentPeriod);
+        ? saveUserSearch(auth.currentUser, proposal, bedrooms, minPrice, maxPrice, county, paymentPeriod)
+        : saveNormalSearch(proposal, bedrooms, minPrice, maxPrice, county, paymentPeriod);
   }
 
   saveUserSearch(
     User user,
     String proposal,
-    String propertyCategoryType,
-    String propertySubCategoryType,
     String bedrooms,
     String minPrice,
     String maxPrice,
@@ -174,8 +186,6 @@ class RealifyPropertyApiProvider {
   ) async {
     await firebaseFirestore.collection("users").doc(user.uid).collection("searches").doc(new Uuid().v4()).set({
       "proposal": proposal,
-      "propertyCategoryType": propertyCategoryType,
-      "propertySubCategoryType": propertySubCategoryType,
       "bedrooms": bedrooms,
       "minPrice": minPrice,
       "maxPrice": maxPrice,
@@ -186,8 +196,6 @@ class RealifyPropertyApiProvider {
 
   saveNormalSearch(
     String proposal,
-    String propertyCategoryType,
-    String propertySubCategoryType,
     String bedrooms,
     String minPrice,
     String maxPrice,
@@ -196,8 +204,6 @@ class RealifyPropertyApiProvider {
   ) async {
     await firebaseFirestore.collection("searches").doc(new Uuid().v4()).set({
       "proposal": proposal,
-      "propertyCategoryType": propertyCategoryType,
-      "propertySubCategoryType": propertySubCategoryType,
       "bedrooms": bedrooms,
       "minPrice": minPrice,
       "maxPrice": maxPrice,

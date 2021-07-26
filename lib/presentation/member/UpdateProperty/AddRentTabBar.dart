@@ -210,824 +210,828 @@ class _RentTabBarState extends State<RentTabBar> with AutomaticKeepAliveClientMi
         }
       },
       builder: (context, state) {
-        return ListView(
-          addAutomaticKeepAlives: true,
-          children: [
-            SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 15, right: 15),
-              child: Row(
-                children: [
-                  Icon(
-                    Entypo.home,
-                    size: Sizeconfig.huge,
-                    color: ColorConfig.darkGreen,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Text(
-                      "Property Types",
-                      style: TextStyle(
-                        fontFamily: FontConfig.bold,
-                        fontSize: Sizeconfig.medium,
-                        color: ColorConfig.dark,
-                      ),
-                    ),
-                  ),
-                ],
+        return Form(
+           key: _formKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          child: ListView(
+            addAutomaticKeepAlives: true,
+            children: [
+              SizedBox(
+                height: 10,
               ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            // Propertytype(),
-            SizedBox(
-              height: 10,
-            ),
-            BlocBuilder<UpdatePropertyBloc, UpdatePropertyState>(
-              builder: (context, state) {
-                return Wrap(
-                  direction: Axis.horizontal,
-                  children: residentialCategoryTypeList
-                      .map(
-                        (e) => Padding(
-                          padding: EdgeInsets.all(5),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color:
-                                  selectedPropertyType == e.toLowerCase() ? ColorConfig.lightGreen : ColorConfig.light,
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(4),
-                              ),
-                              border: Border.all(
-                                width: 1,
-                                color: selectedPropertyType == e.toLowerCase()
-                                    ? ColorConfig.lightGreen
-                                    : ColorConfig.smokeDark,
-                              ),
-                            ),
-                            child: MaterialButton(
-                              elevation: 0,
-                              onPressed: () {
-                                setState(() {
-                                  selectedPropertyType = e.toLowerCase();
-                                });
-                                BlocProvider.of<UpdatePropertyBloc>(context)
-                                    .add((SelectedSubCategoryEvent(subcategoryTitle: e)));
-                              },
-                              color: Colors.transparent,
-                              textColor: selectedPropertyType == e.toLowerCase() ? ColorConfig.light : ColorConfig.grey,
-                              child: Text(e),
-                            ),
-                          ),
-                        ),
-                      )
-                      .toList(),
-                );
-              },
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 15, right: 15),
-              child: Row(
-                children: [
-                  Icon(
-                    FontAwesome5.clipboard_list,
-                    size: Sizeconfig.huge,
-                    color: ColorConfig.darkGreen,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Text(
-                      "Property Details",
-                      style: TextStyle(
-                        fontFamily: FontConfig.bold,
-                        fontSize: Sizeconfig.medium,
-                        color: ColorConfig.dark,
-                      ),
+              Padding(
+                padding: EdgeInsets.only(left: 15, right: 15),
+                child: Row(
+                  children: [
+                    Icon(
+                      Entypo.home,
+                      size: Sizeconfig.huge,
+                      color: ColorConfig.darkGreen,
                     ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            BlocBuilder<UpdatePropertyBloc, UpdatePropertyState>(
-              builder: (context, state) {
-                return Padding(
-                  padding: EdgeInsets.only(left: 20, right: 20),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 1,
-                        color: ColorConfig.smokeLight,
-                      ),
+                    SizedBox(
+                      width: 10,
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: TextFormField(
-                        controller: detailsTextEditingController,
-                        onChanged: (value) =>
-                            BlocProvider.of<UpdatePropertyBloc>(context).add(AddPropertyTitleEvent(title: value)),
-                        keyboardType: TextInputType.name,
-                        decoration: InputDecoration(
-                          hintText: "property title",
-                          hintStyle: TextStyle(
-                            fontFamily: FontConfig.regular,
-                            fontSize: Sizeconfig.small,
-                            color: Color.fromRGBO(0, 0, 0, 0.5),
-                          ),
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
-
-            SizedBox(
-              height: 10,
-            ),
-            BlocBuilder<UpdatePropertyBloc, UpdatePropertyState>(
-              builder: (context, state) {
-                return Padding(
-                  padding: EdgeInsets.only(left: 20, right: 20),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 1,
-                        color: ColorConfig.smokeLight,
-                      ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: TextFormField(
-                        controller: descriptionTextEditingController,
-                        minLines: 20,
-                        maxLines: 500,
-                        onChanged: (value) {
-                          BlocProvider.of<UpdatePropertyBloc>(context)
-                              .add(AddPropertyDescriptionEvent(description: value));
-                        },
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        "Property Types",
                         style: TextStyle(
-                          fontFamily: FontConfig.regular,
-                          fontSize: Sizeconfig.small,
+                          fontFamily: FontConfig.bold,
+                          fontSize: Sizeconfig.medium,
                           color: ColorConfig.dark,
                         ),
-                        decoration: InputDecoration(
-                          hintText: "Property Description",
-                          hintStyle: TextStyle(
-                            fontFamily: FontConfig.regular,
-                            fontSize: Sizeconfig.small,
-                            color: Color.fromRGBO(0, 0, 0, 0.5),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              // Propertytype(),
+              SizedBox(
+                height: 10,
+              ),
+              BlocBuilder<UpdatePropertyBloc, UpdatePropertyState>(
+                builder: (context, state) {
+                  return Wrap(
+                    direction: Axis.horizontal,
+                    children: residentialCategoryTypeList
+                        .map(
+                          (e) => Padding(
+                            padding: EdgeInsets.all(5),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color:
+                                    selectedPropertyType == e.toLowerCase() ? ColorConfig.lightGreen : ColorConfig.light,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(4),
+                                ),
+                                border: Border.all(
+                                  width: 1,
+                                  color: selectedPropertyType == e.toLowerCase()
+                                      ? ColorConfig.lightGreen
+                                      : ColorConfig.smokeDark,
+                                ),
+                              ),
+                              child: MaterialButton(
+                                elevation: 0,
+                                onPressed: () {
+                                  setState(() {
+                                    selectedPropertyType = e.toLowerCase();
+                                  });
+                                  BlocProvider.of<UpdatePropertyBloc>(context)
+                                      .add((SelectedSubCategoryEvent(subcategoryTitle: e)));
+                                },
+                                color: Colors.transparent,
+                                textColor: selectedPropertyType == e.toLowerCase() ? ColorConfig.light : ColorConfig.grey,
+                                child: Text(e),
+                              ),
+                            ),
                           ),
-                          border: InputBorder.none,
+                        )
+                        .toList(),
+                  );
+                },
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 15, right: 15),
+                child: Row(
+                  children: [
+                    Icon(
+                      FontAwesome5.clipboard_list,
+                      size: Sizeconfig.huge,
+                      color: ColorConfig.darkGreen,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        "Property Details",
+                        style: TextStyle(
+                          fontFamily: FontConfig.bold,
+                          fontSize: Sizeconfig.medium,
+                          color: ColorConfig.dark,
                         ),
                       ),
                     ),
-                  ),
-                );
-              },
-            ),
-
-            SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 15, right: 15),
-              child: Row(
-                children: [
-                  Icon(
-                    AntDesign.appstore_o,
-                    size: Sizeconfig.huge,
-                    color: ColorConfig.darkGreen,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Text(
-                      "Area",
-                      style: TextStyle(
-                        fontFamily: FontConfig.bold,
-                        fontSize: Sizeconfig.medium,
-                        color: ColorConfig.dark,
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              BlocBuilder<UpdatePropertyBloc, UpdatePropertyState>(
+                builder: (context, state) {
+                  return Padding(
+                    padding: EdgeInsets.only(left: 20, right: 20),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1,
+                          color: ColorConfig.smokeLight,
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: TextFormField(
+                          controller: detailsTextEditingController,
+                          onChanged: (value) =>
+                              BlocProvider.of<UpdatePropertyBloc>(context).add(AddPropertyTitleEvent(title: value)),
+                          keyboardType: TextInputType.name,
+                          decoration: InputDecoration(
+                            hintText: "property title",
+                            hintStyle: TextStyle(
+                              fontFamily: FontConfig.regular,
+                              fontSize: Sizeconfig.small,
+                              color: Color.fromRGBO(0, 0, 0, 0.5),
+                            ),
+                            border: InputBorder.none,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  );
+                },
               ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            BlocBuilder<UpdatePropertyBloc, UpdatePropertyState>(
-              builder: (context, state) {
-                return Container(
-                  padding: EdgeInsets.only(
-                    right: 15,
-                    left: 10,
-                  ),
-                  height: 80,
-                  width: MediaQuery.of(context).size.width,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          padding: EdgeInsets.only(
-                            right: 15,
-                            left: 10,
+        
+              SizedBox(
+                height: 10,
+              ),
+              BlocBuilder<UpdatePropertyBloc, UpdatePropertyState>(
+                builder: (context, state) {
+                  return Padding(
+                    padding: EdgeInsets.only(left: 20, right: 20),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1,
+                          color: ColorConfig.smokeLight,
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: TextFormField(
+                          controller: descriptionTextEditingController,
+                          minLines: 20,
+                          maxLines: 500,
+                          onChanged: (value) {
+                            BlocProvider.of<UpdatePropertyBloc>(context)
+                                .add(AddPropertyDescriptionEvent(description: value));
+                          },
+                          style: TextStyle(
+                            fontFamily: FontConfig.regular,
+                            fontSize: Sizeconfig.small,
+                            color: ColorConfig.dark,
                           ),
-                          height: 40,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              border: Border.all(
-                                width: 1,
-                                color: ColorConfig.smokeLight,
-                              )),
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 5.0),
-                            child: TextField(
-                              controller: areaTextEditingController,
-                              onChanged: (value) {
-                                BlocProvider.of<UpdatePropertyBloc>(context).add(
-                                    AddPropertyAreaEvent(area: value, areaUnit: areaUnit.isEmpty ? 'Sq.M.' : areaUnit));
-                              },
-                              keyboardType: TextInputType.number,
-                              style: TextStyle(
-                                fontFamily: FontConfig.regular,
-                                fontSize: Sizeconfig.small,
-                                color: ColorConfig.dark,
-                              ),
-                              decoration: InputDecoration(
-                                hintText: widget.property.area,
-                                hintStyle: TextStyle(
+                          decoration: InputDecoration(
+                            hintText: "Property Description",
+                            hintStyle: TextStyle(
+                              fontFamily: FontConfig.regular,
+                              fontSize: Sizeconfig.small,
+                              color: Color.fromRGBO(0, 0, 0, 0.5),
+                            ),
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+        
+              SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 15, right: 15),
+                child: Row(
+                  children: [
+                    Icon(
+                      AntDesign.appstore_o,
+                      size: Sizeconfig.huge,
+                      color: ColorConfig.darkGreen,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        "Area",
+                        style: TextStyle(
+                          fontFamily: FontConfig.bold,
+                          fontSize: Sizeconfig.medium,
+                          color: ColorConfig.dark,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              BlocBuilder<UpdatePropertyBloc, UpdatePropertyState>(
+                builder: (context, state) {
+                  return Container(
+                    padding: EdgeInsets.only(
+                      right: 15,
+                      left: 10,
+                    ),
+                    height: 80,
+                    width: MediaQuery.of(context).size.width,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            padding: EdgeInsets.only(
+                              right: 15,
+                              left: 10,
+                            ),
+                            height: 40,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  width: 1,
+                                  color: ColorConfig.smokeLight,
+                                )),
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 5.0),
+                              child: TextField(
+                                controller: areaTextEditingController,
+                                onChanged: (value) {
+                                  BlocProvider.of<UpdatePropertyBloc>(context).add(
+                                      AddPropertyAreaEvent(area: value, areaUnit: areaUnit.isEmpty ? 'Sq.M.' : areaUnit));
+                                },
+                                keyboardType: TextInputType.number,
+                                style: TextStyle(
                                   fontFamily: FontConfig.regular,
                                   fontSize: Sizeconfig.small,
                                   color: ColorConfig.dark,
                                 ),
-                                border: InputBorder.none,
+                                decoration: InputDecoration(
+                                  hintText: widget.property.area,
+                                  hintStyle: TextStyle(
+                                    fontFamily: FontConfig.regular,
+                                    fontSize: Sizeconfig.small,
+                                    color: ColorConfig.dark,
+                                  ),
+                                  border: InputBorder.none,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                        child: Container(
-                          height: 40,
-                          decoration: BoxDecoration(
-                              color: ColorConfig.smokeLight,
-                              border: Border.all(
-                                width: 1,
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          child: Container(
+                            height: 40,
+                            decoration: BoxDecoration(
                                 color: ColorConfig.smokeLight,
+                                border: Border.all(
+                                  width: 1,
+                                  color: ColorConfig.smokeLight,
+                                ),
+                                borderRadius: BorderRadius.circular(3)),
+                            child: BlocConsumer<UpdatePropertyBloc, UpdatePropertyState>(
+                              listener: (context, state) {
+                                if (state is UpdatePropertyAreaState) {}
+                              },
+                              builder: (context, state) {
+                                return Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: DropdownButtonHideUnderline(
+                                      child: DropdownButton(
+                                        // itemHeight: 2,
+                                        iconSize: 25,
+                                        elevation: 0,
+                                        value: selected,
+                                        hint: Text(
+                                          'Square Metres',
+                                          style: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 0.7),
+                                          ),
+                                        ),
+                                        items: listDrop,
+                                        onChanged: (value) {
+                                          selected = value;
+                                          setState(() {
+                                            switch (value) {
+                                              case 1:
+                                                BlocProvider.of<UpdatePropertyBloc>(context)
+                                                    .add(AddPropertyAreaEvent(areaUnit: 'Sq.M.'));
+                                                break;
+                                              case 2:
+                                                BlocProvider.of<UpdatePropertyBloc>(context)
+                                                    .add(AddPropertyAreaEvent(areaUnit: 'Sq.Ft.'));
+                                                break;
+                                              case 3:
+                                                BlocProvider.of<UpdatePropertyBloc>(context)
+                                                    .add(AddPropertyAreaEvent(areaUnit: 'Sq.Yd'));
+                                                break;
+                                              default:
+                                                BlocProvider.of<UpdatePropertyBloc>(context)
+                                                    .add(AddPropertyAreaEvent(areaUnit: 'Sq.M.'));
+                                            }
+                                          });
+                                        },
+                                      ),
+                                    ));
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 15, right: 15),
+                child: Row(
+                  children: [
+                    Icon(
+                      FontAwesome.bed,
+                      size: Sizeconfig.huge,
+                      color: ColorConfig.darkGreen,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        "Bedrooms",
+                        style: TextStyle(
+                          fontFamily: FontConfig.bold,
+                          fontSize: Sizeconfig.medium,
+                          color: ColorConfig.dark,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              BlocBuilder<UpdatePropertyBloc, UpdatePropertyState>(
+                builder: (context, state) {
+                  return Container(
+                    padding: EdgeInsets.all(16),
+                    child: MultiSelectFormField(
+                      autovalidate: false,
+                      fillColor: ColorConfig.smokeLight,
+                      chipBackGroundColor: ColorConfig.lightGreen,
+                      chipLabelStyle: TextStyle(fontWeight: FontWeight.bold, color: ColorConfig.light),
+                      dialogTextStyle: TextStyle(fontFamily: FontConfig.regular, fontSize: Sizeconfig.medium),
+                      checkBoxActiveColor: ColorConfig.lightGreen,
+                      checkBoxCheckColor: ColorConfig.light,
+                      dialogShapeBorder: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                      title: Text(
+                        "Choose bedrooms offered at the property",
+                        style: TextStyle(fontFamily: FontConfig.regular, fontSize: Sizeconfig.large),
+                      ),
+                      dataSource: [
+                        {
+                          "display": "studio",
+                          "value": "studio",
+                        },
+                        {
+                          "display": "bedsitter",
+                          "value": "bedsitter",
+                        },
+                        {
+                          "display": "1 bedroom",
+                          "value": "1",
+                        },
+                        {
+                          "display": "2 bedroom",
+                          "value": "2",
+                        },
+                        {
+                          "display": "3 bedroom",
+                          "value": "3",
+                        },
+                        {
+                          "display": "4 bedroom",
+                          "value": "4",
+                        },
+                        {
+                          "display": "5 bedroom",
+                          "value": "5",
+                        },
+                        {
+                          "display": "6+ bedroom",
+                          "value": "6+",
+                        },
+                      ],
+                      textField: 'display',
+                      valueField: 'value',
+                      okButtonLabel: 'OK',
+                      cancelButtonLabel: 'CANCEL',
+                      hintWidget: Text('Please choose one or more'),
+                      initialValue: _apartmentBedrooms,
+                      onSaved: (value) {
+                        if (value == null) return;
+                        setState(() {
+                          _apartmentBedrooms = value;
+                        });
+                        if (_apartmentBedrooms.length > 0) {
+                          BlocProvider.of<UpdatePropertyBloc>(context).add(SelectedBedroomsOfferedEvent(bedrooms: value));
+                        }
+                        print(_apartmentBedrooms);
+                      },
+                    ),
+                  );
+                },
+              ),
+        
+              SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 15, right: 15),
+                child: Row(
+                  children: [
+                    Icon(
+                      FontAwesome.bed,
+                      size: Sizeconfig.huge,
+                      color: ColorConfig.darkGreen,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        "Bathrooms",
+                        style: TextStyle(
+                          fontFamily: FontConfig.bold,
+                          fontSize: Sizeconfig.medium,
+                          color: ColorConfig.dark,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              // Bathroomtype(),
+              BlocBuilder<UpdatePropertyBloc, UpdatePropertyState>(
+                builder: (context, state) {
+                  return Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.only(left: 10, top: 10),
+                    child: Wrap(
+                      children: bathroomList
+                          .map(
+                            (e) => Container(
+                              margin: EdgeInsets.symmetric(horizontal: 6, vertical: 6),
+                              decoration: BoxDecoration(
+                                  color: bathrooms == e ? ColorConfig.lightGreen : ColorConfig.light,
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(3),
+                                  ),
+                                  border: Border.all(width: 1, color: ColorConfig.smokeLight)),
+                              height: 40,
+                              width: 60,
+                              child: InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    bathrooms = e;
+                                  });
+                                  BlocProvider.of<UpdatePropertyBloc>(context)
+                                      .add(SelectedBathroomEvent(bathroom: bathrooms));
+                                },
+                                child: Center(
+                                  child: Text(
+                                    e,
+                                    style: TextStyle(
+                                        fontFamily: FontConfig.bold,
+                                        fontSize: Sizeconfig.small,
+                                        color: bathrooms == e ? ColorConfig.light : ColorConfig.grey),
+                                  ),
+                                ),
                               ),
-                              borderRadius: BorderRadius.circular(3)),
-                          child: BlocConsumer<UpdatePropertyBloc, UpdatePropertyState>(
-                            listener: (context, state) {
-                              if (state is UpdatePropertyAreaState) {}
-                            },
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  );
+                },
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 15, right: 15),
+                child: Row(
+                  children: [
+                    Icon(
+                      Ionicons.ios_pricetag,
+                      size: Sizeconfig.huge,
+                      color: ColorConfig.darkGreen,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        "Price",
+                        style: TextStyle(
+                          fontFamily: FontConfig.bold,
+                          fontSize: Sizeconfig.medium,
+                          color: ColorConfig.dark,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              _apartmentBedrooms.length > 0
+                  ? Container(
+                      child: ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: _apartmentBedrooms.length,
+                        itemBuilder: (context, index) {
+                          return BlocBuilder<UpdatePropertyBloc, UpdatePropertyState>(
                             builder: (context, state) {
                               return Padding(
-                                  padding: const EdgeInsets.only(left: 10),
-                                  child: DropdownButtonHideUnderline(
-                                    child: DropdownButton(
-                                      // itemHeight: 2,
-                                      iconSize: 25,
-                                      elevation: 0,
-                                      value: selected,
-                                      hint: Text(
-                                        'Square Metres',
-                                        style: TextStyle(
-                                          color: Color.fromRGBO(0, 0, 0, 0.7),
-                                        ),
-                                      ),
-                                      items: listDrop,
+                                padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
+                                child: Container(
+                                  padding: EdgeInsets.only(right: 15, left: 10),
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    color: ColorConfig.smokeLight,
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(bottom: 5.0),
+                                    child: TextFormField(
+                                      validator: requiredValidator,
+                                      controller: _controllerOf(index),
                                       onChanged: (value) {
-                                        selected = value;
-                                        setState(() {
-                                          switch (value) {
-                                            case 1:
-                                              BlocProvider.of<UpdatePropertyBloc>(context)
-                                                  .add(AddPropertyAreaEvent(areaUnit: 'Sq.M.'));
-                                              break;
-                                            case 2:
-                                              BlocProvider.of<UpdatePropertyBloc>(context)
-                                                  .add(AddPropertyAreaEvent(areaUnit: 'Sq.Ft.'));
-                                              break;
-                                            case 3:
-                                              BlocProvider.of<UpdatePropertyBloc>(context)
-                                                  .add(AddPropertyAreaEvent(areaUnit: 'Sq.Yd'));
-                                              break;
-                                            default:
-                                              BlocProvider.of<UpdatePropertyBloc>(context)
-                                                  .add(AddPropertyAreaEvent(areaUnit: 'Sq.M.'));
-                                          }
-                                        });
+                                        // BlocProvider.of<AddPropertyBloc>(context).add(EnteredPriceEvent(price: value));
+                                        // prices.add(_controllerOf(index).text);
+                                        // print(prices);
+                                        _formKey.currentState.save();
+                                        _textsOf(_mapControllers);
                                       },
-                                    ),
-                                  ));
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 15, right: 15),
-              child: Row(
-                children: [
-                  Icon(
-                    FontAwesome.bed,
-                    size: Sizeconfig.huge,
-                    color: ColorConfig.darkGreen,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Text(
-                      "Bedrooms",
-                      style: TextStyle(
-                        fontFamily: FontConfig.bold,
-                        fontSize: Sizeconfig.medium,
-                        color: ColorConfig.dark,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            BlocBuilder<UpdatePropertyBloc, UpdatePropertyState>(
-              builder: (context, state) {
-                return Container(
-                  padding: EdgeInsets.all(16),
-                  child: MultiSelectFormField(
-                    autovalidate: false,
-                    fillColor: ColorConfig.smokeLight,
-                    chipBackGroundColor: ColorConfig.lightGreen,
-                    chipLabelStyle: TextStyle(fontWeight: FontWeight.bold, color: ColorConfig.light),
-                    dialogTextStyle: TextStyle(fontFamily: FontConfig.regular, fontSize: Sizeconfig.medium),
-                    checkBoxActiveColor: ColorConfig.lightGreen,
-                    checkBoxCheckColor: ColorConfig.light,
-                    dialogShapeBorder: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
-                    title: Text(
-                      "Choose bedrooms offered at the property",
-                      style: TextStyle(fontFamily: FontConfig.regular, fontSize: Sizeconfig.large),
-                    ),
-                    dataSource: [
-                      {
-                        "display": "studio",
-                        "value": "studio",
-                      },
-                      {
-                        "display": "bedsitter",
-                        "value": "bedsitter",
-                      },
-                      {
-                        "display": "1 bedroom",
-                        "value": "1",
-                      },
-                      {
-                        "display": "2 bedroom",
-                        "value": "2",
-                      },
-                      {
-                        "display": "3 bedroom",
-                        "value": "3",
-                      },
-                      {
-                        "display": "4 bedroom",
-                        "value": "4",
-                      },
-                      {
-                        "display": "5 bedroom",
-                        "value": "5",
-                      },
-                      {
-                        "display": "6+ bedroom",
-                        "value": "6+",
-                      },
-                    ],
-                    textField: 'display',
-                    valueField: 'value',
-                    okButtonLabel: 'OK',
-                    cancelButtonLabel: 'CANCEL',
-                    hintWidget: Text('Please choose one or more'),
-                    initialValue: _apartmentBedrooms,
-                    onSaved: (value) {
-                      if (value == null) return;
-                      setState(() {
-                        _apartmentBedrooms = value;
-                      });
-                      if (_apartmentBedrooms.length > 0) {
-                        BlocProvider.of<UpdatePropertyBloc>(context).add(SelectedBedroomsOfferedEvent(bedrooms: value));
-                      }
-                      print(_apartmentBedrooms);
-                    },
-                  ),
-                );
-              },
-            ),
-
-            SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 15, right: 15),
-              child: Row(
-                children: [
-                  Icon(
-                    FontAwesome.bed,
-                    size: Sizeconfig.huge,
-                    color: ColorConfig.darkGreen,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Text(
-                      "Bathrooms",
-                      style: TextStyle(
-                        fontFamily: FontConfig.bold,
-                        fontSize: Sizeconfig.medium,
-                        color: ColorConfig.dark,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            // Bathroomtype(),
-            BlocBuilder<UpdatePropertyBloc, UpdatePropertyState>(
-              builder: (context, state) {
-                return Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.only(left: 10, top: 10),
-                  child: Wrap(
-                    children: bathroomList
-                        .map(
-                          (e) => Container(
-                            margin: EdgeInsets.symmetric(horizontal: 6, vertical: 6),
-                            decoration: BoxDecoration(
-                                color: bathrooms == e ? ColorConfig.lightGreen : ColorConfig.light,
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(3),
-                                ),
-                                border: Border.all(width: 1, color: ColorConfig.smokeLight)),
-                            height: 40,
-                            width: 60,
-                            child: InkWell(
-                              onTap: () {
-                                setState(() {
-                                  bathrooms = e;
-                                });
-                                BlocProvider.of<UpdatePropertyBloc>(context)
-                                    .add(SelectedBathroomEvent(bathroom: bathrooms));
-                              },
-                              child: Center(
-                                child: Text(
-                                  e,
-                                  style: TextStyle(
-                                      fontFamily: FontConfig.bold,
-                                      fontSize: Sizeconfig.small,
-                                      color: bathrooms == e ? ColorConfig.light : ColorConfig.grey),
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
-                        .toList(),
-                  ),
-                );
-              },
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 15, right: 15),
-              child: Row(
-                children: [
-                  Icon(
-                    Ionicons.ios_pricetag,
-                    size: Sizeconfig.huge,
-                    color: ColorConfig.darkGreen,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Text(
-                      "Price",
-                      style: TextStyle(
-                        fontFamily: FontConfig.bold,
-                        fontSize: Sizeconfig.medium,
-                        color: ColorConfig.dark,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            _apartmentBedrooms.length > 0
-                ? Container(
-                    child: ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: _apartmentBedrooms.length,
-                      itemBuilder: (context, index) {
-                        return BlocBuilder<UpdatePropertyBloc, UpdatePropertyState>(
-                          builder: (context, state) {
-                            return Padding(
-                              padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
-                              child: Container(
-                                padding: EdgeInsets.only(right: 15, left: 10),
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  color: ColorConfig.smokeLight,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(bottom: 5.0),
-                                  child: TextFormField(
-                                    validator: requiredValidator,
-                                    controller: _controllerOf(index),
-                                    onChanged: (value) {
-                                      // BlocProvider.of<AddPropertyBloc>(context).add(EnteredPriceEvent(price: value));
-                                      // prices.add(_controllerOf(index).text);
-                                      // print(prices);
-                                      _formKey.currentState.save();
-                                      _textsOf(_mapControllers);
-                                    },
-                                    keyboardType: TextInputType.number,
-                                    style: TextStyle(
-                                      fontFamily: FontConfig.regular,
-                                      fontSize: Sizeconfig.small,
-                                      color: ColorConfig.dark,
-                                    ),
-                                    decoration: InputDecoration(
-                                      hintText: _apartmentBedrooms[index].toString() + " bedroom Price*",
-                                      hintStyle: TextStyle(
+                                      keyboardType: TextInputType.number,
+                                      style: TextStyle(
                                         fontFamily: FontConfig.regular,
                                         fontSize: Sizeconfig.small,
                                         color: ColorConfig.dark,
                                       ),
-                                      border: InputBorder.none,
+                                      decoration: InputDecoration(
+                                        hintText: _apartmentBedrooms[index].toString() + " bedroom Price*",
+                                        hintStyle: TextStyle(
+                                          fontFamily: FontConfig.regular,
+                                          fontSize: Sizeconfig.small,
+                                          color: ColorConfig.dark,
+                                        ),
+                                        border: InputBorder.none,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            );
-                          },
-                        );
-                      },
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
+                      child:
+                          Text("Please choose bedrooms offered first!", style: TextStyle(fontFamily: FontConfig.regular)),
                     ),
-                  )
-                : Padding(
-                    padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
-                    child:
-                        Text("Please choose bedrooms offered first!", style: TextStyle(fontFamily: FontConfig.regular)),
-                  ),
-
-            SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 15, right: 15),
-              child: Row(
-                children: [
-                  Icon(
-                    MaterialCommunityIcons.av_timer,
-                    size: Sizeconfig.huge,
-                    color: ColorConfig.darkGreen,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Text(
-                      "Payment period",
-                      style: TextStyle(
-                        fontFamily: FontConfig.bold,
-                        fontSize: Sizeconfig.medium,
-                        color: ColorConfig.dark,
+        
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 15, right: 15),
+                child: Row(
+                  children: [
+                    Icon(
+                      MaterialCommunityIcons.av_timer,
+                      size: Sizeconfig.huge,
+                      color: ColorConfig.darkGreen,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        "Payment period",
+                        style: TextStyle(
+                          fontFamily: FontConfig.bold,
+                          fontSize: Sizeconfig.medium,
+                          color: ColorConfig.dark,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            // Rentaltype(),
-            SizedBox(
-              height: 10,
-            ),
-            BlocBuilder<UpdatePropertyBloc, UpdatePropertyState>(
-              builder: (context, state) {
-                return Container(
-                  height: 60,
-                  width: double.infinity,
-                  padding: EdgeInsets.only(left: 10, top: 10),
-                  child: Wrap(
-                    children: rentalFrequencyList
-                        .map(
-                          (e) => Container(
-                            margin: EdgeInsets.symmetric(horizontal: 6),
+              // Rentaltype(),
+              SizedBox(
+                height: 10,
+              ),
+              BlocBuilder<UpdatePropertyBloc, UpdatePropertyState>(
+                builder: (context, state) {
+                  return Container(
+                    height: 60,
+                    width: double.infinity,
+                    padding: EdgeInsets.only(left: 10, top: 10),
+                    child: Wrap(
+                      children: rentalFrequencyList
+                          .map(
+                            (e) => Container(
+                              margin: EdgeInsets.symmetric(horizontal: 6),
+                              decoration: BoxDecoration(
+                                  color: rentalFrequency == e ? ColorConfig.lightGreen : ColorConfig.light,
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(3),
+                                  ),
+                                  border: Border.all(width: 1, color: ColorConfig.smokeLight)),
+                              height: 40,
+                              width: 60,
+                              child: InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    rentalFrequency = e;
+                                  });
+                                  BlocProvider.of<UpdatePropertyBloc>(context).add(AddRentalFrequencyEvent(frequency: e));
+                                },
+                                child: Center(
+                                  child: Text(
+                                    e,
+                                    style: TextStyle(
+                                        fontFamily: FontConfig.bold,
+                                        fontSize: Sizeconfig.small,
+                                        color: rentalFrequency == e ? ColorConfig.light : ColorConfig.grey),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  );
+                },
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 15, right: 15),
+                child: Row(
+                  children: [
+                    Icon(
+                      Ionicons.ios_call,
+                      size: Sizeconfig.huge,
+                      color: ColorConfig.darkGreen,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        "Contact Details",
+                        style: TextStyle(
+                          fontFamily: FontConfig.bold,
+                          fontSize: Sizeconfig.medium,
+                          color: ColorConfig.dark,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: BlocBuilder<UpdatePropertyBloc, UpdatePropertyState>(
+                        builder: (context, state) {
+                          return Container(
                             decoration: BoxDecoration(
-                                color: rentalFrequency == e ? ColorConfig.lightGreen : ColorConfig.light,
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(3),
-                                ),
-                                border: Border.all(width: 1, color: ColorConfig.smokeLight)),
-                            height: 40,
-                            width: 60,
-                            child: InkWell(
-                              onTap: () {
-                                setState(() {
-                                  rentalFrequency = e;
-                                });
-                                BlocProvider.of<UpdatePropertyBloc>(context).add(AddRentalFrequencyEvent(frequency: e));
-                              },
-                              child: Center(
-                                child: Text(
-                                  e,
-                                  style: TextStyle(
-                                      fontFamily: FontConfig.bold,
-                                      fontSize: Sizeconfig.small,
-                                      color: rentalFrequency == e ? ColorConfig.light : ColorConfig.grey),
+                              border: Border.all(
+                                width: 1,
+                                color: ColorConfig.smokeLight,
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: TextFormField(
+                                controller: phoneTextEditingController,
+                                onChanged: (value) =>
+                                    BlocProvider.of<UpdatePropertyBloc>(context).add(AddPhoneEvent(phone: value)),
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  hintText: "0798767470",
+                                  hintStyle: TextStyle(
+                                    fontFamily: FontConfig.regular,
+                                    fontSize: Sizeconfig.small,
+                                    color: Color.fromRGBO(0, 0, 0, 0.5),
+                                  ),
+                                  border: InputBorder.none,
                                 ),
                               ),
                             ),
-                          ),
-                        )
-                        .toList(),
-                  ),
-                );
-              },
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 15, right: 15),
-              child: Row(
-                children: [
-                  Icon(
-                    Ionicons.ios_call,
-                    size: Sizeconfig.huge,
-                    color: ColorConfig.darkGreen,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Text(
-                      "Contact Details",
-                      style: TextStyle(
-                        fontFamily: FontConfig.bold,
-                        fontSize: Sizeconfig.medium,
-                        color: ColorConfig.dark,
+                          );
+                        },
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: BlocBuilder<UpdatePropertyBloc, UpdatePropertyState>(
-                      builder: (context, state) {
-                        return Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              width: 1,
-                              color: ColorConfig.smokeLight,
-                            ),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 10),
-                            child: TextFormField(
-                              controller: phoneTextEditingController,
-                              onChanged: (value) =>
-                                  BlocProvider.of<UpdatePropertyBloc>(context).add(AddPhoneEvent(phone: value)),
-                              keyboardType: TextInputType.number,
-                              decoration: InputDecoration(
-                                hintText: "0798767470",
-                                hintStyle: TextStyle(
-                                  fontFamily: FontConfig.regular,
-                                  fontSize: Sizeconfig.small,
-                                  color: Color.fromRGBO(0, 0, 0, 0.5),
-                                ),
-                                border: InputBorder.none,
-                              ),
-                            ),
-                          ),
-                        );
+              SizedBox(
+                height: 20,
+              ),
+        
+              Padding(
+                padding: EdgeInsets.only(left: 15, right: 15),
+                child: Row(
+                  children: [
+                    Icon(
+                      Entypo.image_inverted,
+                      size: Sizeconfig.huge,
+                      color: ColorConfig.darkGreen,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        "Property Image",
+                        style: TextStyle(
+                          fontFamily: FontConfig.bold,
+                          fontSize: Sizeconfig.medium,
+                          color: ColorConfig.dark,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              BlocBuilder<UpdatePropertyBloc, UpdatePropertyState>(
+                builder: (context, state) {
+                  return Container(
+                    padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 20),
+                    child: InkWell(
+                      onTap: () {
+                        loadAssets();
                       },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-
-            Padding(
-              padding: EdgeInsets.only(left: 15, right: 15),
-              child: Row(
-                children: [
-                  Icon(
-                    Entypo.image_inverted,
-                    size: Sizeconfig.huge,
-                    color: ColorConfig.darkGreen,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Text(
-                      "Property Image",
-                      style: TextStyle(
-                        fontFamily: FontConfig.bold,
-                        fontSize: Sizeconfig.medium,
-                        color: ColorConfig.dark,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            BlocBuilder<UpdatePropertyBloc, UpdatePropertyState>(
-              builder: (context, state) {
-                return Container(
-                  padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 20),
-                  child: InkWell(
-                    onTap: () {
-                      loadAssets();
-                    },
-                    child: DottedBorder(
-                      strokeWidth: 2,
-                      color: ColorConfig.greyLight,
-                      strokeCap: StrokeCap.butt,
-                      child: Container(
-                        height: 150,
-                        width: MediaQuery.of(context).size.width,
-                        child: Center(
-                          child: Image(
-                            height: 72,
-                            width: 72,
-                            image: AssetImage("assets/images/interface.png"),
+                      child: DottedBorder(
+                        strokeWidth: 2,
+                        color: ColorConfig.greyLight,
+                        strokeCap: StrokeCap.butt,
+                        child: Container(
+                          height: 150,
+                          width: MediaQuery.of(context).size.width,
+                          child: Center(
+                            child: Image(
+                              height: 72,
+                              width: 72,
+                              image: AssetImage("assets/images/interface.png"),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                );
-              },
-            ),
-            images.length > 0 ? buildGridView() : buildCurrentGridView()
-          ],
+                  );
+                },
+              ),
+              images.length > 0 ? buildGridView() : buildCurrentGridView()
+            ],
+          ),
         );
       },
     );

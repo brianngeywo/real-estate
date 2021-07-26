@@ -105,9 +105,9 @@ class RealifyPropertyRepository {
     return propertyImagesList;
   }
 
-  saveSearchedQuery(String proposal, String propertyCategoryType, String propertySubCategoryType, String bedrooms,
+  saveSearchedQuery(String proposal,  String bedrooms,
       String minPrice, String maxPrice, String county, String paymentPeriod) {
     realifyPropertyApiProvider.saveSearchedQuery(
-        proposal, propertyCategoryType, propertySubCategoryType, bedrooms, minPrice, maxPrice, county, paymentPeriod);
+        proposal, bedrooms, minPrice, maxPrice, county, paymentPeriod);
   }
 }
