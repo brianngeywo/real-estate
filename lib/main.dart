@@ -1,4 +1,5 @@
 import 'package:Realify/backend/repositories/RealifyPropertyRepository.dart';
+import 'package:Realify/backend/router/router.dart';
 import 'package:Realify/presentation/my_imports.dart';
 import 'package:Realify/presentation/public/HomePage/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,9 +12,7 @@ main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await Hive.initFlutter();
-  RealifyPropertyRepository realifyPropertyRepository;
-  SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(statusBarColor: ColorConfig.lightGreen, systemNavigationBarColor: ColorConfig.lightGreen));
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: ColorConfig.lightGreen));
   runApp(
     LayoutBuilder(builder: (context, constraints) {
       return OrientationBuilder(
@@ -21,7 +20,8 @@ main() async {
           SizeConfig().init(constraints, orientation);
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            home: HomePage(realifyPropertyRepository: realifyPropertyRepository),
+            home: HomePage(),
+            onGenerateRoute: generateRoute,
             theme: ThemeData(
               primaryColor: Colors.white,
               accentColor: Colors.transparent,

@@ -183,4 +183,40 @@ class UploadPropertyEvent extends AddPropertyEvent {
     @required this.place,
   });
 }
+class UploadHotelEvent extends AddPropertyEvent {
+  final String county;
+  final String subCategory;
+  final String bathrooms;
+  final String bedrooms;
+  final String locality;
+  final String propertyName;
+  final String description;
+  final String rentalFrequency;
+  final String area;
+  final String areaUnit;
+  final String phone;
+  final String image;
+  final List<String> images;
+  final List<dynamic> bedroomsOffered;
+  final List<dynamic> bedroomsOfferedPrice;
+  final Place place;
+  UploadHotelEvent({
+    @required this.county,
+    @required this.subCategory,
+    @required this.bathrooms,
+    @required this.bedrooms,
+    @required this.locality,
+    @required this.propertyName,
+    @required this.description,
+    @required this.rentalFrequency,
+    @required this.area,
+    @required this.areaUnit,
+    @required this.phone,
+    @required this.image,
+    @required this.images,
+    @required this.bedroomsOffered,
+    @required this.bedroomsOfferedPrice,
+    @required this.place,
+  });
+}
 

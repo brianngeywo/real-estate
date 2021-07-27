@@ -1,5 +1,6 @@
 import 'package:Realify/backend/bloc/auth_bloc/auth_bloc_bloc.dart';
 import 'package:Realify/backend/repositories/RealifyPropertyRepository.dart';
+import 'package:Realify/presentation/member/AddListingChoices/main.dart';
 import 'package:Realify/presentation/member/AddProperty/main.dart';
 import 'package:Realify/presentation/my_imports.dart';
 import 'package:Realify/presentation/public/Filter/main.dart';
@@ -9,10 +10,9 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class HomePage extends StatefulWidget {
-  final RealifyPropertyRepository realifyPropertyRepository;
+  static const route = 'home';
   const HomePage({
     Key key,
-    this.realifyPropertyRepository,
   }) : super(key: key);
 
   @override
@@ -155,7 +155,7 @@ class _HomePageState extends State<HomePage> {
                                             child: MaterialButton(
                                               onPressed: () {
                                                 Navigator.push(
-                                                    context, MaterialPageRoute(builder: (context) => AddProperty()));
+                                                    context, MaterialPageRoute(builder: (context) => AddListingChoices()));
                                               },
                                               child: Text(
                                                 "Add Property Listing".toUpperCase(),
@@ -282,7 +282,7 @@ class _HomePageState extends State<HomePage> {
                                             onPressed: () {
                                               snapshot.hasData
                                                   ? Navigator.push(
-                                                      context, MaterialPageRoute(builder: (context) => AddProperty()))
+                                                      context, MaterialPageRoute(builder: (context) => AddListingChoices()))
                                                   : BlocProvider.of<AuthBloc>(context).add(SigninWithGoogleEvent(context: context));
                                             },
                                             child: Text(

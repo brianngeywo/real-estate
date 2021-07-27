@@ -1,7 +1,7 @@
 import 'package:Realify/presentation/my_imports.dart';
 
-class MySpacesList extends StatefulWidget {
-  MySpacesList({
+class AddListingChoicesList extends StatefulWidget {
+  AddListingChoicesList({
     Key key,
     @required this.title,
     @required this.url,
@@ -9,10 +9,10 @@ class MySpacesList extends StatefulWidget {
   final String title;
   final String url;
   @override
-  State<MySpacesList> createState() => _MySpacesListState();
+  State<AddListingChoicesList> createState() => _AddListingChoicesListState();
 }
 
-class _MySpacesListState extends State<MySpacesList> {
+class _AddListingChoicesListState extends State<AddListingChoicesList> {
   @override
   Widget build(BuildContext context) {
     return Container(

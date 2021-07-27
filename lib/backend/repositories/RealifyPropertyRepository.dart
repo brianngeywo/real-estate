@@ -49,6 +49,42 @@ class RealifyPropertyRepository {
         place);
   }
 
+  uploadHotel(
+      county,
+      subCategory,
+      bedrooms,
+      locality,
+      propertyName,
+      description,
+      rentalFrequency,
+      area,
+      areaUnit,
+      phone,
+      bathrooms,
+      image,
+      imageUrls,
+      bedroomsOffered,
+      bedroomsOfferedPrice,
+      place) async {
+    await realifyPropertyApiProvider.uploadHotel(
+        county,
+        subCategory,
+        bedrooms,
+        locality,
+        propertyName,
+        description,
+        rentalFrequency,
+        area,
+        areaUnit,
+        phone,
+        bathrooms,
+        image,
+        imageUrls,
+        bedroomsOffered,
+        bedroomsOfferedPrice,
+        place);
+  }
+
   updateProperty(
       proposal,
       county,
@@ -105,9 +141,8 @@ class RealifyPropertyRepository {
     return propertyImagesList;
   }
 
-  saveSearchedQuery(String proposal,  String bedrooms,
-      String minPrice, String maxPrice, String county, String paymentPeriod) {
-    realifyPropertyApiProvider.saveSearchedQuery(
-        proposal, bedrooms, minPrice, maxPrice, county, paymentPeriod);
+  saveSearchedQuery(
+      String proposal, String bedrooms, String minPrice, String maxPrice, String county, String paymentPeriod) {
+    realifyPropertyApiProvider.saveSearchedQuery(proposal, bedrooms, minPrice, maxPrice, county, paymentPeriod);
   }
 }

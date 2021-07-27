@@ -25,7 +25,6 @@ dependencies:
   flutter_google_places: ^0.3.0
   flutter_icons: ^1.1.0
   flutter_launcher_icons: ^0.9.0
-  flutter_rating_bar: ^4.0.0
   flutter_statusbarcolor: ^0.2.3
   flutter_vector_icons: ^0.2.1
   fluttericon: ^1.0.7

@@ -66,6 +66,52 @@ class RealifyPropertyApiProvider {
       // "propertyFeatures": property.propertyFeatures
     }).then((value) => uuid = new Uuid().v1());
   }
+   uploadHotel(
+    county,
+    subCategory,
+    bedrooms,
+    locality,
+    propertyName,
+    description,
+    rentalFrequency,
+    area,
+    areaUnit,
+    phone,
+    bathrooms,
+    image,
+    imageUrls,
+    bedroomsOffered,
+    bedroomsOfferedPrice,
+    place,
+  ) async {
+    await firebaseFirestore.collection("users").doc(user.uid).collection("hotels").doc(uuid).set({
+      "area": area,
+      "areaUnit": areaUnit,
+      "bathrooms": bathrooms,
+      "bedrooms": bedrooms,
+      "county": place.administrativeAreaLevel1,
+      "description": description,
+      "details": "$bedrooms bedroom in ${place.formattedAddress}",
+      "route": place.route,
+      "locality": place.locality,
+      "location": place.formattedAddress,
+      "country": place.country,
+      "lat": place.lat,
+      "lng": place.lng,
+      "image": image,
+      "images": imageUrls,
+      "name": propertyName,
+      "paymentPeriod": rentalFrequency,
+      "bedroomsOffered": bedroomsOffered,
+      "bedroomsOfferedPrice": bedroomsOfferedPrice,
+      "phone": phone,
+      "email": user.email,
+      "subCategoryType": subCategory,
+      "id": uuid,
+      "userId": user.uid,
+      "proposal": "lodge",
+    }).then((value) => uuid = new Uuid().v1());
+  }
 
   updateProperty(
     proposal,

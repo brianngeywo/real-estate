@@ -101,6 +101,26 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
           event.place);
       yield UploadedPropertyState();
     }
+      if (event is UploadHotelEvent) {
+      repository.uploadHotel(
+          event.county,
+          event.subCategory,
+          event.bedrooms,
+          event.locality,
+          event.propertyName,
+          event.description,
+          event.rentalFrequency,
+          event.area,
+          event.areaUnit,
+          event.phone,
+          event.bathrooms,
+          event.image,
+          event.images,
+          event.bedroomsOffered,
+          event.bedroomsOfferedPrice,
+          event.place);
+      yield UploadedPropertyState();
+    }
   }
 }
 

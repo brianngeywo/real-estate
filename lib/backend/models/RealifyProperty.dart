@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
@@ -299,6 +298,7 @@ final proposalList = [
   Proposal(name: "Buy"),
   Proposal(name: "rent"),
 ];
+
 final propertyCategoryTypeList = ["Residential", "Commercial"];
 final residentialCategoryTypeList = [
   "Apartment",

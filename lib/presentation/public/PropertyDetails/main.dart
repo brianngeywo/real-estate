@@ -1,7 +1,5 @@
 import 'package:Realify/backend/models/realify_user.dart';
 import 'package:Realify/con.dart';
-import 'package:Realify/main.dart';
-import 'package:Realify/presentation/member/Location/main.dart';
 import 'package:Realify/presentation/member/PropertyLocation/main.dart';
 import 'package:Realify/presentation/member/Report/main.dart';
 import 'package:Realify/presentation/public/PropertyDetails/image_gallery.dart';

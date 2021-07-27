@@ -1,32 +1,24 @@
-import 'package:Realify/backend/models/RealifyProperty.dart';
-import 'package:Realify/presentation/member/MySpaces/list.dart';
+import 'package:Realify/backend/models/AddListingChoiceClass.dart';
+import 'package:Realify/presentation/member/AddListingChoices/list.dart';
 import 'package:Realify/presentation/my_imports.dart';
 
-class MySpaces extends StatefulWidget {
-  MySpaces({
+class AddListingChoices extends StatefulWidget {
+  AddListingChoices({
     Key key,
   }) : super(key: key);
   @override
-  _MySpacesState createState() => _MySpacesState();
+  _AddListingChoicesState createState() => _AddListingChoicesState();
 }
 
-class _MySpacesState extends State<MySpaces> with TickerProviderStateMixin {
+class _AddListingChoicesState extends State<AddListingChoices> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorConfig.light,
       appBar: AppBar(
         elevation: 0,
-        // leading: IconButton(
-        //   icon: Icon(AntDesign.arrowleft),
-        //   onPressed: () {
-        //     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
-        //   },
-        //   iconSize: Sizeconfig.huge,
-        //   color: ColorConfig.dark,
-        // ),
         title: Text(
-          "Kwetu Spaces".toUpperCase(),
+          "Add Listing".toUpperCase(),
           style: TextStyle(fontFamily: FontConfig.bold, fontSize: Sizeconfig.medium, color: ColorConfig.dark),
         ),
       ),
@@ -37,10 +29,13 @@ class _MySpacesState extends State<MySpaces> with TickerProviderStateMixin {
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
-                    children: spacesList.map((element) {
+                    children: addlistingChoicesList.map((element) {
                   return Padding(
                     padding: EdgeInsets.only(top: 5),
-                    child: MySpacesList(title: element.spaceName, url: element.url),
+                    child: InkWell(
+                      onTap: () => Navigator.pushNamed(context, element.nav),
+                      child: AddListingChoicesList(title: element.title, url: element.url),
+                    ),
                   );
                 }).toList()),
               ),

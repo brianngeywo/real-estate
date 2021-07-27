@@ -1,5 +1,6 @@
 import 'package:Realify/backend/bloc/auth_bloc/auth_bloc_bloc.dart';
 import 'package:Realify/presentation/member/AboutUs/main.dart';
+import 'package:Realify/presentation/member/AddListingChoices/main.dart';
 import 'package:Realify/presentation/member/AddProperty/main.dart';
 import 'package:Realify/presentation/member/ContactUs/main.dart';
 import 'package:Realify/presentation/member/MyProperties/main.dart';
@@ -68,7 +69,7 @@ class Data2 extends StatelessWidget {
                   ?
               InkWell(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => AddProperty()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => AddListingChoices()));
                 },
                 child: Row(
                   children: [
