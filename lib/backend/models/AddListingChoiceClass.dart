@@ -27,3 +27,16 @@ List<AddListingChoiceClass> addlistingChoicesList = [
           "https://firebasestorage.googleapis.com/v0/b/realify-75289.appspot.com/o/native%20images%2Fhotel.jpeg?alt=media&token=2a167b4c-34fb-46d3-8559-0d6e497196ad",
       nav: addHotelNav),
 ];
+
+List<AddListingChoiceClass> searchlistingChoicesList = [
+  AddListingChoiceClass(
+      title: "Search Rental",
+      url:
+          "https://firebasestorage.googleapis.com/v0/b/realify-75289.appspot.com/o/native%20images%2Frental.jpeg?alt=media&token=2549fa31-8580-40f0-b56a-d7c73405dee9",
+      nav: searchRentalNav),
+  AddListingChoiceClass(
+      title: "Search Hotel",
+      url:
+          "https://firebasestorage.googleapis.com/v0/b/realify-75289.appspot.com/o/native%20images%2Fhotel.jpeg?alt=media&token=2a167b4c-34fb-46d3-8559-0d6e497196ad",
+      nav: searchHotelNav),
+];

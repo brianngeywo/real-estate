@@ -4,6 +4,7 @@ import 'package:Realify/presentation/member/AddListingChoices/main.dart';
 import 'package:Realify/presentation/member/AddProperty/main.dart';
 import 'package:Realify/presentation/my_imports.dart';
 import 'package:Realify/presentation/public/Filter/main.dart';
+import 'package:Realify/presentation/public/SearchListingChoices/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -127,7 +128,7 @@ class _HomePageState extends State<HomePage> {
                                             color: ColorConfig.lightGreen,
                                             onPressed: () {
                                               Navigator.push(
-                                                  context, MaterialPageRoute(builder: (context) => Filter()));
+                                                  context, MaterialPageRoute(builder: (context) => SearchListingChoices()));
                                             },
                                             child: Text(
                                               "Let's Search".toUpperCase(),
@@ -241,7 +242,7 @@ class _HomePageState extends State<HomePage> {
                                         child: MaterialButton(
                                           color: ColorConfig.lightGreen,
                                           onPressed: () {
-                                            Navigator.push(context, MaterialPageRoute(builder: (context) => Filter()));
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) => SearchListingChoices()));
                                           },
                                           child: Text(
                                             "Let's Search".toUpperCase(),

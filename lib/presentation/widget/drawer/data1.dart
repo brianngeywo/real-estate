@@ -2,6 +2,7 @@
 // import 'package:Realify/presentation/member/ContactUs/main.dart';
 import 'package:Realify/presentation/my_imports.dart';
 import 'package:Realify/presentation/public/Filter/main.dart';
+import 'package:Realify/presentation/public/SearchListingChoices/main.dart';
 
 class Data1 extends StatelessWidget {
   @override
@@ -34,7 +35,7 @@ class Data1 extends StatelessWidget {
         ),
         InkWell(
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => Filter()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => SearchListingChoices()));
           },
           child: Row(
             children: [

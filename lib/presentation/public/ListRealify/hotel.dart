@@ -5,8 +5,8 @@ import 'package:Realify/backend/models/RealifyProperty.dart';
 import 'package:Realify/presentation/my_imports.dart';
 import 'package:Realify/presentation/public/PropertyDetails/List.dart';
 
-class ListRealifyRentals extends StatefulWidget {
-  // final String proposal;
+class ListRealifyHotels extends StatefulWidget {
+  final String proposal;
   // final String propertyCategoryType;
   // final String propertySubCategoryType;
   final String bedrooms;
@@ -15,9 +15,9 @@ class ListRealifyRentals extends StatefulWidget {
   final String county;
   final String paymentPeriod;
   final List<String> bedroomsOfferedPrice;
-  const ListRealifyRentals({
+  const ListRealifyHotels({
     Key key,
-    // @required this.proposal,
+    @required this.proposal,
     // @required this.propertyCategoryType,
     // @required this.propertySubCategoryType,
     @required this.bedrooms,
@@ -28,11 +28,11 @@ class ListRealifyRentals extends StatefulWidget {
     this.bedroomsOfferedPrice,
   }) : super(key: key);
   @override
-  _ListRealifyRentalsState createState() => _ListRealifyRentalsState();
+  _ListRealifyHotelsState createState() => _ListRealifyHotelsState();
 }
 
-class _ListRealifyRentalsState extends State<ListRealifyRentals> {
-  static String proposal;
+class _ListRealifyHotelsState extends State<ListRealifyHotels> {
+  // static String proposal;
   // static String propertyCategoryType;
   // static String propertySubCategoryType;
   static String bedrooms;
@@ -44,8 +44,8 @@ class _ListRealifyRentalsState extends State<ListRealifyRentals> {
   RealifyPropertyRepository repository = RealifyPropertyRepository();
 
   void initState() {
-    repository.saveSearchedQuery("rent", 
-        widget.bedrooms, widget.minPrice, widget.maxPrice, widget.county, widget.paymentPeriod);
+    repository.saveSearchedQuery(
+        "hotel", widget.bedrooms, widget.minPrice, widget.maxPrice, widget.county, widget.paymentPeriod);
     super.initState();
     selectedRadio = 0;
     // propertyCategoryType = widget.propertyCategoryType;
@@ -156,7 +156,7 @@ class _ListRealifyRentalsState extends State<ListRealifyRentals> {
               ),
             ),
             SizedBox(
-              height: 10,
+              height: 10
             ),
             Container(height: 1, width: double.maxFinite, color: ColorConfig.grey.withOpacity(0.3)),
             Expanded(
@@ -165,7 +165,7 @@ class _ListRealifyRentalsState extends State<ListRealifyRentals> {
                 children: [
                   FutureBuilder<QuerySnapshot>(
                       future: FirebaseFirestore.instance
-                          .collection("rentals")
+                          .collection("hotels")
                           .where("county", isEqualTo: county)
                           .where("paymentPeriod", isEqualTo: paymentPeriod)
                           .get(),

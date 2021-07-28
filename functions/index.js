@@ -43,7 +43,7 @@ exports.updateAllUsersRentals = functions.firestore
         userRentalSnapshot.forEach(doc => {
             if (doc.exists) {
                 const allUsersRentalsData = doc.data();
-                allUsersRentalsListing.doc(rentalId).update(allUsersRentalsData);
+                allUsersRentalsListing.doc(rentalId).set(allUsersRentalsData);
             }
         })
     });

@@ -24,10 +24,10 @@ class Mapview extends StatelessWidget {
                         child: IconButton(
                           icon: Icon(AntDesign.arrowleft),
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ListRealify()));
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => ListRealify()));
                           },
                           iconSize: Sizeconfig.huge,
                           color: ColorConfig.dark,
@@ -111,10 +111,10 @@ class Mapview extends StatelessWidget {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ListRealify()));
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) => ListRealify()));
                         },
                         child: Align(
                           alignment: Alignment.topLeft,
