@@ -3,6 +3,7 @@ import 'package:Realify/backend/models/places.dart';
 import 'package:Realify/backend/models/realify_user.dart';
 import 'package:Realify/backend/repositories/auth_repository.dart';
 import 'package:Realify/backend/services/place_service.dart';
+import 'package:Realify/con.dart';
 import 'package:Realify/presentation/member/AddProperty/address_search.dart';
 import 'package:Realify/presentation/widget/progress_dialog/main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -72,7 +73,7 @@ class _AddRentalListingState extends State<AddRentalListing> with AutomaticKeepA
   @override
   void initState() {
     super.initState();
-    getUser();
+    auth.currentUser != null ? getUser() : null;
     _apartmentBedrooms = [];
   }
 
@@ -218,9 +219,7 @@ class _AddRentalListingState extends State<AddRentalListing> with AutomaticKeepA
                     child: ListView(
                       addAutomaticKeepAlives: true,
                       children: [
-                        SizedBox(
-                          height: 10,
-                        ),
+                        SizedBox(height: 10),
                         Padding(
                           padding: EdgeInsets.only(left: 15, right: 15),
                           child: Row(
@@ -247,13 +246,8 @@ class _AddRentalListingState extends State<AddRentalListing> with AutomaticKeepA
                             ],
                           ),
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        // Propertytype(),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        SizedBox(height: 20),
+
                         BlocBuilder<AddPropertyBloc, AddPropertyState>(
                           builder: (context, state) {
                             return Wrap(
@@ -296,9 +290,7 @@ class _AddRentalListingState extends State<AddRentalListing> with AutomaticKeepA
                             );
                           },
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        SizedBox(height: 10),
                         Padding(
                           padding: EdgeInsets.only(left: 15, right: 15),
                           child: Row(
@@ -325,9 +317,7 @@ class _AddRentalListingState extends State<AddRentalListing> with AutomaticKeepA
                             ],
                           ),
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        SizedBox(height: 10),
                         BlocBuilder<AddPropertyBloc, AddPropertyState>(
                           builder: (context, state) {
                             return Container(
@@ -412,9 +402,7 @@ class _AddRentalListingState extends State<AddRentalListing> with AutomaticKeepA
                             );
                           },
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        SizedBox(height: 10),
                         Padding(
                           padding: EdgeInsets.only(left: 15, right: 15),
                           child: Row(
@@ -441,9 +429,7 @@ class _AddRentalListingState extends State<AddRentalListing> with AutomaticKeepA
                             ],
                           ),
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        SizedBox(height: 10),
                         BlocBuilder<AddPropertyBloc, AddPropertyState>(
                           builder: (context, state) {
                             return Padding(
@@ -478,9 +464,7 @@ class _AddRentalListingState extends State<AddRentalListing> with AutomaticKeepA
                           },
                         ),
 
-                        SizedBox(
-                          height: 10,
-                        ),
+                        SizedBox(height: 10),
                         BlocBuilder<AddPropertyBloc, AddPropertyState>(
                           builder: (context, state) {
                             return Padding(
@@ -523,9 +507,7 @@ class _AddRentalListingState extends State<AddRentalListing> with AutomaticKeepA
                             );
                           },
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        SizedBox(height: 10),
                         Padding(
                           padding: EdgeInsets.only(left: 15, right: 15),
                           child: Row(
@@ -552,9 +534,7 @@ class _AddRentalListingState extends State<AddRentalListing> with AutomaticKeepA
                             ],
                           ),
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        SizedBox(height: 10),
                         BlocBuilder<AddPropertyBloc, AddPropertyState>(
                           builder: (context, state) {
                             return Container(
@@ -629,9 +609,7 @@ class _AddRentalListingState extends State<AddRentalListing> with AutomaticKeepA
                           },
                         ),
 
-                        SizedBox(
-                          height: 10,
-                        ),
+                        SizedBox(height: 10),
                         Padding(
                           padding: EdgeInsets.only(left: 15, right: 15),
                           child: Row(
@@ -701,9 +679,7 @@ class _AddRentalListingState extends State<AddRentalListing> with AutomaticKeepA
                             );
                           },
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        SizedBox(height: 10),
                         Padding(
                           padding: EdgeInsets.only(left: 15, right: 15),
                           child: Row(
@@ -790,9 +766,7 @@ class _AddRentalListingState extends State<AddRentalListing> with AutomaticKeepA
                                     style: TextStyle(fontFamily: FontConfig.regular)),
                               ),
 
-                        SizedBox(
-                          height: 20,
-                        ),
+                        SizedBox(height: 20),
                         Padding(
                           padding: EdgeInsets.only(left: 15, right: 15),
                           child: Row(
@@ -820,9 +794,7 @@ class _AddRentalListingState extends State<AddRentalListing> with AutomaticKeepA
                           ),
                         ),
                         // Rentaltype(),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        SizedBox(height: 10),
                         BlocBuilder<AddPropertyBloc, AddPropertyState>(
                           builder: (context, state) {
                             return Container(
@@ -867,9 +839,7 @@ class _AddRentalListingState extends State<AddRentalListing> with AutomaticKeepA
                             );
                           },
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        SizedBox(height: 10),
                         Padding(
                           padding: EdgeInsets.only(left: 15, right: 15),
                           child: Row(
@@ -896,9 +866,7 @@ class _AddRentalListingState extends State<AddRentalListing> with AutomaticKeepA
                             ],
                           ),
                         ),
-                        SizedBox(
-                          height: 20,
-                        ),
+                        SizedBox(height: 20),
                         Padding(
                           padding: const EdgeInsets.only(left: 15, right: 15),
                           child: Row(
@@ -939,10 +907,7 @@ class _AddRentalListingState extends State<AddRentalListing> with AutomaticKeepA
                             ],
                           ),
                         ),
-                        SizedBox(
-                          height: 20,
-                        ),
-
+                        SizedBox(height: 20),
                         Padding(
                           padding: EdgeInsets.only(left: 15, right: 15),
                           child: Row(
@@ -997,7 +962,7 @@ class _AddRentalListingState extends State<AddRentalListing> with AutomaticKeepA
                         images.length > 0 && images.length != null
                             ? buildGridView()
                             : Container(
-                                height: 50,
+                                height: 90,
                                 width: double.infinity,
                                 child: Center(
                                   child: Text(

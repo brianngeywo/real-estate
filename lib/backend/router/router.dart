@@ -1,3 +1,4 @@
+import 'package:Realify/presentation/member/AddListingChoices/main.dart';
 import 'package:Realify/presentation/member/AddProperty/AddHotelListing.dart';
 import 'package:Realify/presentation/member/AddProperty/AddRentalListing.dart';
 import 'package:Realify/presentation/my_imports.dart';
@@ -17,6 +18,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (_) => SearchHotel());
     case searchNav:
       return MaterialPageRoute(builder: (_) => SearchListingChoices());
+    case addListingNav:
+      return MaterialPageRoute(builder: (_) => AddListingChoices());
     case myHomepage:
       return MaterialPageRoute(builder: (_) => HomePage());
     default:
@@ -34,3 +37,4 @@ const String addHotelNav = AddHotelListing.id;
 const String searchHotelNav = SearchHotel.id;
 const String myHomepage = HomePage.route;
 const String searchNav = SearchListingChoices.route;
+const String addListingNav = AddListingChoices.route;

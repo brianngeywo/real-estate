@@ -3,6 +3,7 @@ import 'package:Realify/presentation/member/AddListingChoices/list.dart';
 import 'package:Realify/presentation/my_imports.dart';
 
 class AddListingChoices extends StatefulWidget {
+  static const route = 'add_listing_choices';
   AddListingChoices({
     Key key,
   }) : super(key: key);
@@ -34,7 +35,10 @@ class _AddListingChoicesState extends State<AddListingChoices> with TickerProvid
                     padding: EdgeInsets.only(top: 5),
                     child: InkWell(
                       onTap: () => Navigator.pushNamed(context, element.nav),
-                      child: AddListingChoicesList(title: element.title, url: element.url),
+                      child: AddListingChoicesList(
+                        title: element.title,
+                        url: element.url,
+                      ),
                     ),
                   );
                 }).toList()),

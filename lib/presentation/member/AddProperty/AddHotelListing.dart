@@ -227,9 +227,7 @@ class _AddHotelListingState extends State<AddHotelListing> {
                                 size: Sizeconfig.large,
                                 color: ColorConfig.darkGreen,
                               ),
-                              SizedBox(
-                                width: 10,
-                              ),
+                              SizedBox(width: 10),
                               Padding(
                                 padding: const EdgeInsets.only(top: 8.0),
                                 child: Text(
@@ -247,9 +245,7 @@ class _AddHotelListingState extends State<AddHotelListing> {
                         SizedBox(
                           height: 10,
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        SizedBox(height: 10),
                         BlocBuilder<AddPropertyBloc, AddPropertyState>(
                           builder: (context, state) {
                             return Wrap(
@@ -291,9 +287,7 @@ class _AddHotelListingState extends State<AddHotelListing> {
                             );
                           },
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        SizedBox(height: 10),
                         Padding(
                           padding: EdgeInsets.only(left: 15, right: 15),
                           child: Row(
@@ -320,9 +314,7 @@ class _AddHotelListingState extends State<AddHotelListing> {
                             ],
                           ),
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        SizedBox(height: 10),
                         BlocBuilder<AddPropertyBloc, AddPropertyState>(
                           builder: (context, state) {
                             return Container(
@@ -407,9 +399,7 @@ class _AddHotelListingState extends State<AddHotelListing> {
                             );
                           },
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        SizedBox(height: 10),
                         Padding(
                           padding: EdgeInsets.only(left: 15, right: 15),
                           child: Row(
@@ -436,9 +426,7 @@ class _AddHotelListingState extends State<AddHotelListing> {
                             ],
                           ),
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        SizedBox(height: 10),
                         BlocBuilder<AddPropertyBloc, AddPropertyState>(
                           builder: (context, state) {
                             return Padding(
@@ -473,9 +461,7 @@ class _AddHotelListingState extends State<AddHotelListing> {
                           },
                         ),
 
-                        SizedBox(
-                          height: 10,
-                        ),
+                        SizedBox(height: 10),
                         BlocBuilder<AddPropertyBloc, AddPropertyState>(
                           builder: (context, state) {
                             return Padding(
@@ -518,9 +504,7 @@ class _AddHotelListingState extends State<AddHotelListing> {
                             );
                           },
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        SizedBox(height: 10),
                         Padding(
                           padding: EdgeInsets.only(left: 15, right: 15),
                           child: Row(
@@ -547,9 +531,7 @@ class _AddHotelListingState extends State<AddHotelListing> {
                             ],
                           ),
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        SizedBox(height: 10),
                         BlocBuilder<AddPropertyBloc, AddPropertyState>(
                           builder: (context, state) {
                             return Container(
@@ -624,9 +606,7 @@ class _AddHotelListingState extends State<AddHotelListing> {
                           },
                         ),
 
-                        SizedBox(
-                          height: 10,
-                        ),
+                        SizedBox(height: 10),
                         Padding(
                           padding: EdgeInsets.only(left: 15, right: 15),
                           child: Row(
@@ -697,9 +677,7 @@ class _AddHotelListingState extends State<AddHotelListing> {
                             );
                           },
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        SizedBox(height: 10),
                         Padding(
                           padding: EdgeInsets.only(left: 15, right: 15),
                           child: Row(
@@ -786,9 +764,7 @@ class _AddHotelListingState extends State<AddHotelListing> {
                                     style: TextStyle(fontFamily: FontConfig.regular)),
                               ),
 
-                        SizedBox(
-                          height: 20,
-                        ),
+                        SizedBox(height: 20),
                         Padding(
                           padding: EdgeInsets.only(left: 15, right: 15),
                           child: Row(
@@ -816,9 +792,7 @@ class _AddHotelListingState extends State<AddHotelListing> {
                           ),
                         ),
                         // Rentaltype(),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        SizedBox(height: 10),
                         BlocBuilder<AddPropertyBloc, AddPropertyState>(
                           builder: (context, state) {
                             return Container(
@@ -863,9 +837,7 @@ class _AddHotelListingState extends State<AddHotelListing> {
                             );
                           },
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        SizedBox(height: 10),
                         Padding(
                           padding: EdgeInsets.only(left: 15, right: 15),
                           child: Row(
@@ -893,9 +865,7 @@ class _AddHotelListingState extends State<AddHotelListing> {
                           ),
                         ),
 
-                        SizedBox(
-                          height: 20,
-                        ),
+                        SizedBox(height: 20),
                         Padding(
                           padding: const EdgeInsets.only(left: 15, right: 15),
                           child: Row(
@@ -936,9 +906,7 @@ class _AddHotelListingState extends State<AddHotelListing> {
                             ],
                           ),
                         ),
-                        SizedBox(
-                          height: 20,
-                        ),
+                        SizedBox(height: 20),
 
                         Padding(
                           padding: EdgeInsets.only(left: 15, right: 15),
@@ -966,9 +934,7 @@ class _AddHotelListingState extends State<AddHotelListing> {
                             ],
                           ),
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        SizedBox(height: 10),
 
                         BlocBuilder<AddPropertyBloc, AddPropertyState>(
                           builder: (context, state) {
@@ -999,7 +965,7 @@ class _AddHotelListingState extends State<AddHotelListing> {
                         images.length > 0 && images.length != null
                             ? buildGridView()
                             : Container(
-                                height: 50,
+                                height: 90,
                                 width: double.infinity,
                                 child: Center(
                                   child: Text(

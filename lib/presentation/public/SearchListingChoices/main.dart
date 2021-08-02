@@ -1,4 +1,5 @@
 import 'package:Realify/backend/models/AddListingChoiceClass.dart';
+import 'package:Realify/backend/router/router.dart';
 import 'package:Realify/presentation/my_imports.dart';
 import 'package:Realify/presentation/public/SearchListingChoices/list.dart';
 
@@ -48,7 +49,7 @@ class _SearchListingChoicesState extends State<SearchListingChoices> with Ticker
               child: MaterialButton(
                 elevation: 0.0,
                 color: ColorConfig.darkGreen,
-                onPressed: () {},
+                onPressed: () => Navigator.pushNamed(context, addListingNav),
                 child: Text(
                   "Add Property Listing",
                   style: TextStyle(color: ColorConfig.light, fontSize: Sizeconfig.small, fontFamily: FontConfig.bold),
