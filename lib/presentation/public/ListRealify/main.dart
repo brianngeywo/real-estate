@@ -32,7 +32,7 @@ class ListRealifyRentals extends StatefulWidget {
 }
 
 class _ListRealifyRentalsState extends State<ListRealifyRentals> {
-  static String proposal;
+  // static String proposal;
   // static String propertyCategoryType;
   // static String propertySubCategoryType;
   static String bedrooms;
@@ -44,8 +44,8 @@ class _ListRealifyRentalsState extends State<ListRealifyRentals> {
   RealifyPropertyRepository repository = RealifyPropertyRepository();
 
   void initState() {
-    repository.saveSearchedQuery("rent", 
-        widget.bedrooms, widget.minPrice, widget.maxPrice, widget.county, widget.paymentPeriod);
+    repository.saveSearchedQuery(
+        "rent", widget.bedrooms, widget.minPrice, widget.maxPrice, widget.county, widget.paymentPeriod);
     super.initState();
     selectedRadio = 0;
     // propertyCategoryType = widget.propertyCategoryType;
@@ -217,9 +217,13 @@ class _ListRealifyRentalsState extends State<ListRealifyRentals> {
                                   ),
                                 );
                               } else {
-                                return Center(
-                                  child: SizedBox(height: 0),
+                                return Padding(
+                                  padding: EdgeInsets.only(top: 20, right: 15, left: 15),
+                                  child: MyRecommendedList(
+                                    property: property,
+                                  ),
                                 );
+                                
                               }
                             }).toList()),
                           );
@@ -484,7 +488,7 @@ Widget showDialogBox(BuildContext context) {
                   height: 50,
                   width: double.maxFinite,
                   color: Colors.white,
-                  child: RaisedButton(
+                  child: MaterialButton(
                     elevation: 0.0,
                     color: ColorConfig.darkGreen,
                     onPressed: () {

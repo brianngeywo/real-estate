@@ -17,7 +17,7 @@ class SearchHotel extends StatefulWidget {
 class _SearchHotelState extends State<SearchHotel> {
   TextEditingController minPriceTextEditingController = TextEditingController();
   TextEditingController maxPriceTextEditingController = TextEditingController();
-  String rentalFrequency = "daily";
+  String hotelFrequency = "daily";
   String selectedPropertyType = "Hotel";
   String bedrooms = "studio";
   String county = "";
@@ -311,12 +311,12 @@ class _SearchHotelState extends State<SearchHotel> {
                           width: double.infinity,
                           padding: EdgeInsets.only(left: 10, top: 10),
                           child: Wrap(
-                            children: rentalFrequencyList
+                            children: hotelFrequencyList
                                 .map(
                                   (e) => Container(
                                     margin: EdgeInsets.symmetric(horizontal: 6),
                                     decoration: BoxDecoration(
-                                        color: rentalFrequency == e ? ColorConfig.lightGreen : ColorConfig.light,
+                                        color: hotelFrequency == e ? ColorConfig.lightGreen : ColorConfig.light,
                                         borderRadius: BorderRadius.all(
                                           Radius.circular(3),
                                         ),
@@ -326,7 +326,7 @@ class _SearchHotelState extends State<SearchHotel> {
                                     child: InkWell(
                                       onTap: () {
                                         setState(() {
-                                          rentalFrequency = e;
+                                          hotelFrequency = e;
                                         });
                                         BlocProvider.of<SearchPropertyBloc>(context)
                                             .add(AddRentalFrequencyEvent(frequency: e));
@@ -337,7 +337,7 @@ class _SearchHotelState extends State<SearchHotel> {
                                           style: TextStyle(
                                               fontFamily: FontConfig.bold,
                                               fontSize: Sizeconfig.small,
-                                              color: rentalFrequency == e ? ColorConfig.light : ColorConfig.grey),
+                                              color: hotelFrequency == e ? ColorConfig.light : ColorConfig.grey),
                                         ),
                                       ),
                                     ),
@@ -448,7 +448,7 @@ class _SearchHotelState extends State<SearchHotel> {
                               bedrooms: bedrooms.toLowerCase(),
                               minPrice: minPriceTextEditingController.text,
                               maxPrice: maxPriceTextEditingController.text,
-                              paymentPeriod: rentalFrequency.toLowerCase(),
+                              paymentPeriod: hotelFrequency.toLowerCase(),
                             ),
                           ),
                         );

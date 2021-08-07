@@ -1,6 +1,5 @@
 // import 'package:Realify/backend/models/data.dart';
 import 'package:Realify/presentation/my_imports.dart';
-import 'package:Realify/presentation/public/AddAdvertisement/AddAdvertisement.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'data1.dart';
@@ -22,11 +21,9 @@ class _DrawerMenuState extends State<DrawerMenu> {
             color: Colors.white,
             child: Column(
               children: [
-                SizedBox(
-                  height: 20,
-                ),
+                SizedBox(height: 20),
                 Expanded(
-                  flex: SizeConfig.isMobilePortrait ? 2 : 3,
+                  flex: SizeConfig.isMobilePortrait ? 1 : 2,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -61,39 +58,32 @@ class _DrawerMenuState extends State<DrawerMenu> {
                   ),
                 ),
                 Expanded(
-                  flex: 7,
+                  flex: 5,
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        SizedBox(
-                          height: 20,
-                        ),
+                        SizedBox(height: 20),
                         Padding(
                           padding: const EdgeInsets.only(left: 20.0),
                           child: Data1(),
                         ),
-                        if (snapshot.hasData)
-                          SizedBox(
-                            height: 20,
-                          ),
+                        if (snapshot.hasData) SizedBox(height: 20),
                         if (snapshot.hasData)
                           Container(
                             padding: EdgeInsets.only(top: 15, left: 10),
                             height: 40,
                             width: double.maxFinite,
-                            color: ColorConfig.smokeDark,
+                            color: ColorConfig.lightGreen,
                             child: Text(
                               "MANAGE PROPERTIES",
                               style: TextStyle(
                                 fontFamily: FontConfig.regular,
                                 fontSize: Sizeconfig.small,
-                                color: ColorConfig.grey,
+                                color: ColorConfig.light,
                               ),
                             ),
                           ),
-                        SizedBox(
-                          height: 20,
-                        ),
+                        SizedBox(height: 20),
                         Padding(
                           padding: const EdgeInsets.only(left: 20.0, bottom: 20),
                           child: Data2(),
@@ -103,7 +93,6 @@ class _DrawerMenuState extends State<DrawerMenu> {
                   ),
                 ),
                 SizedBox(height: 20),
-               
               ],
             ),
           );

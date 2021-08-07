@@ -157,7 +157,7 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                           alignment: Alignment.bottomLeft,
                           child: Container(
                             height: 25,
-                            width: 80,
+                            width: 100,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(3),
@@ -1108,7 +1108,7 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(3),
                         ),
-                        onPressed: () => urlLauncher.launch("tel:+254${widget.property.phone}"),
+                        onPressed: () => urlLauncher.launch("tel:${widget.property.phone}"),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

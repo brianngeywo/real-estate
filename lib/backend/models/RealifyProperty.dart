@@ -338,6 +338,10 @@ final commercialCategoryTypeList = [
   "Other commercial",
 ];
 final rentalFrequencyList = [
+  "monthly",
+  "yearly",
+];
+final hotelFrequencyList = [
   "daily",
   "weekly",
   "monthly",
@@ -346,6 +350,14 @@ final rentalFrequencyList = [
 final bedroomList = [
   "studio",
   "bedsitter",
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6+",
+];
+final hotelBedroomList = [
   "1",
   "2",
   "3",

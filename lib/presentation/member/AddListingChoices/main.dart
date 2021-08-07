@@ -33,32 +33,21 @@ class _AddListingChoicesState extends State<AddListingChoices> with TickerProvid
                     children: addlistingChoicesList.map((element) {
                   return Padding(
                     padding: EdgeInsets.only(top: 5),
-                    child: InkWell(
-                      onTap: () => Navigator.pushNamed(context, element.nav),
-                      child: AddListingChoicesList(
-                        title: element.title,
-                        url: element.url,
+                    child: Container(
+                      color: ColorConfig.lightGreen,
+                      child: InkWell(
+                        onTap: () => Navigator.pushNamed(context, element.nav),
+                        child: AddListingChoicesList(
+                          title: element.title,
+                          url: element.url,
+                        ),
                       ),
                     ),
                   );
                 }).toList()),
               ),
             ),
-            Container(
-              height: 55,
-              width: double.infinity,
-              color: Colors.white,
-              child: MaterialButton(
-                elevation: 0.0,
-                color: ColorConfig.darkGreen,
-                onPressed: () {},
-                child: Text(
-                  "Advertise with us",
-                  style: TextStyle(color: ColorConfig.light, fontSize: Sizeconfig.small, fontFamily: FontConfig.bold),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
+          
           ],
         ),
       ),

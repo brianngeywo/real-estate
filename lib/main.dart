@@ -9,7 +9,11 @@ main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await Hive.initFlutter();
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: ColorConfig.lightGreen));
+  Future.delayed(Duration(milliseconds: 1)).then((value) => SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(
+          statusBarColor: Color.fromRGBO(49, 122, 87, 1),
+        ),
+      ));
   runApp(
     LayoutBuilder(builder: (context, constraints) {
       return OrientationBuilder(

@@ -17,10 +17,10 @@ class _SearchListingChoicesListState extends State<SearchListingChoicesList> {
   Widget build(BuildContext context) {
     return Container(
       height: 120,
-      width: double.infinity,
+      width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         border: Border.all(
-          color: ColorConfig.grey.withOpacity(0.2),
+          color: ColorConfig.grey.withOpacity(0.4),
           width: 1,
         ),
         borderRadius: BorderRadius.circular(0.0),

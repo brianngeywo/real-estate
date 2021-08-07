@@ -1,8 +1,5 @@
-// import 'package:Realify/presentation/member/AboutUs/main.dart';
-// import 'package:Realify/presentation/member/ContactUs/main.dart';
+import 'package:Realify/backend/router/router.dart';
 import 'package:Realify/presentation/my_imports.dart';
-import 'package:Realify/presentation/public/Filter/main.dart';
-import 'package:Realify/presentation/public/SearchListingChoices/main.dart';
 
 class Data1 extends StatelessWidget {
   @override
@@ -18,14 +15,18 @@ class Data1 extends StatelessWidget {
               Icon(
                 IconName.iconhome,
                 size: Sizeconfig.large,
-                color: ColorConfig.grey,
+                color: ColorConfig.dark,
               ),
               SizedBox(
                 width: 15,
               ),
               Text(
                 MenuName.home,
-                style: TextStyle(fontFamily: FontConfig.regular, fontSize: Sizeconfig.small, color: ColorConfig.grey),
+                style: TextStyle(
+                  fontFamily: FontConfig.regular,
+                  fontSize: Sizeconfig.small,
+                  color: ColorConfig.dark,
+                ),
               ),
             ],
           ),
@@ -35,21 +36,25 @@ class Data1 extends StatelessWidget {
         ),
         InkWell(
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => SearchListingChoices()));
+            Navigator.pushNamed(context, searchNav);
           },
           child: Row(
             children: [
               Icon(
                 IconName.iconsearch,
                 size: Sizeconfig.large,
-                color: ColorConfig.grey,
+                color: ColorConfig.dark,
               ),
               SizedBox(
                 width: 15,
               ),
               Text(
                 MenuName.search,
-                style: TextStyle(fontFamily: FontConfig.regular, fontSize: Sizeconfig.small, color: ColorConfig.grey),
+                style: TextStyle(
+                  fontFamily: FontConfig.regular,
+                  fontSize: Sizeconfig.small,
+                  color: ColorConfig.dark,
+                ),
               ),
             ],
           ),

@@ -290,7 +290,7 @@ class _MyRecommendedListState extends State<MyRecommendedList> {
                         child: Image(
                           fit: BoxFit.cover,
                           height: 150,
-                          width: 98,
+                          width: 90,
                           image: NetworkImage(
                             "" + widget.property.images[0],
                           ),
@@ -301,7 +301,7 @@ class _MyRecommendedListState extends State<MyRecommendedList> {
                       alignment: Alignment.bottomLeft,
                       child: Container(
                         height: 20,
-                        width: 65,
+                        width: 69,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(
                             Radius.circular(3),
@@ -341,7 +341,7 @@ class _MyRecommendedListState extends State<MyRecommendedList> {
                 Expanded(
                   flex: 1,
                   child: Container(
-                    width: 280,
+                    width: MediaQuery.of(context).size.width -50,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

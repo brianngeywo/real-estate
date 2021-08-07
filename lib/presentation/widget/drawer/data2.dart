@@ -1,7 +1,6 @@
 import 'package:Realify/backend/bloc/auth_bloc/auth_bloc_bloc.dart';
 import 'package:Realify/presentation/member/AboutUs/main.dart';
 import 'package:Realify/presentation/member/AddListingChoices/main.dart';
-import 'package:Realify/presentation/member/AddProperty/main.dart';
 import 'package:Realify/presentation/member/ContactUs/main.dart';
 import 'package:Realify/presentation/member/MyProperties/main.dart';
 import 'package:Realify/presentation/member/Settings/main.dart';
@@ -27,15 +26,16 @@ class Data2 extends StatelessWidget {
                           Icon(
                             IconName.iconsettings,
                             size: Sizeconfig.large,
-                            color: ColorConfig.grey,
+                            color: ColorConfig.dark,
                           ),
-                          SizedBox(
-                            width: 15,
-                          ),
+                          SizedBox(width: 15),
                           Text(
                             "Personal Information",
                             style: TextStyle(
-                                fontFamily: FontConfig.regular, fontSize: Sizeconfig.small, color: ColorConfig.grey),
+                              fontFamily: FontConfig.regular,
+                              fontSize: Sizeconfig.small,
+                              color: ColorConfig.dark,
+                            ),
                           ),
                         ],
                       ),
@@ -66,32 +66,30 @@ class Data2 extends StatelessWidget {
               //   ),
               // ),
               snapshot.hasData
-                  ?
-              InkWell(
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => AddListingChoices()));
-                },
-                child: Row(
-                  children: [
-                    Icon(
-                      IconName.iconproperty,
-                      size: Sizeconfig.large,
-                      color: ColorConfig.grey,
-                    ),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    Text(
-                      MenuName.property,
-                      style: TextStyle(
-                          fontFamily: FontConfig.regular, fontSize: Sizeconfig.small, color: ColorConfig.grey),
-                    ),
-                  ],
-                ),
-              )
-              : SizedBox(
-                  height: 0,
-                ),
+                  ? InkWell(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => AddListingChoices()));
+                      },
+                      child: Row(
+                        children: [
+                          Icon(
+                            IconName.iconproperty,
+                            size: Sizeconfig.large,
+                            color: ColorConfig.dark,
+                          ),
+                          SizedBox(width: 15),
+                          Text(
+                            MenuName.property,
+                            style: TextStyle(
+                              fontFamily: FontConfig.regular,
+                              fontSize: Sizeconfig.small,
+                              color: ColorConfig.dark,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  : SizedBox(height: 0),
               SizedBox(height: snapshot.hasData ? 20 : 0),
               snapshot.hasData
                   ? InkWell(
@@ -103,22 +101,21 @@ class Data2 extends StatelessWidget {
                           Icon(
                             IconName.iconmyproperties,
                             size: Sizeconfig.large,
-                            color: ColorConfig.grey,
+                            color: ColorConfig.dark,
                           ),
-                          SizedBox(
-                            width: 15,
-                          ),
+                          SizedBox(width: 15),
                           Text(
                             MenuName.myprperties,
                             style: TextStyle(
-                                fontFamily: FontConfig.regular, fontSize: Sizeconfig.small, color: ColorConfig.grey),
+                              fontFamily: FontConfig.regular,
+                              fontSize: Sizeconfig.small,
+                              color: ColorConfig.dark,
+                            ),
                           ),
                         ],
                       ),
                     )
-                  : SizedBox(
-                      height: 0,
-                    ),
+                  : SizedBox(height: 0),
               SizedBox(height: snapshot.hasData ? 20 : 0),
               // InkWell(
               //   onTap: () {
@@ -146,7 +143,7 @@ class Data2 extends StatelessWidget {
               //   ),
               // ),
               // SizedBox(
-              //   height: 20,
+              //   height: 20
               // ),
               // InkWell(
               //   onTap: () {
@@ -174,7 +171,7 @@ class Data2 extends StatelessWidget {
               //   ),
               // ),
               // SizedBox(
-              //   height: 20,
+              //   height: 20
               // ),
               // InkWell(
               //   onTap: () {},
@@ -199,7 +196,7 @@ class Data2 extends StatelessWidget {
               //   ),
               // ),
               // SizedBox(
-              //   height: 20,
+              //   height: 20
               // ),
               snapshot.hasData
                   ? InkWell(
@@ -211,15 +208,16 @@ class Data2 extends StatelessWidget {
                           Icon(
                             IconName.iconcontactus,
                             size: Sizeconfig.large,
-                            color: ColorConfig.grey,
+                            color: ColorConfig.dark,
                           ),
-                          SizedBox(
-                            width: 15,
-                          ),
+                          SizedBox(width: 15),
                           Text(
                             MenuName.contactus,
                             style: TextStyle(
-                                fontFamily: FontConfig.regular, fontSize: Sizeconfig.small, color: ColorConfig.grey),
+                              fontFamily: FontConfig.regular,
+                              fontSize: Sizeconfig.small,
+                              color: ColorConfig.dark,
+                            ),
                           ),
                         ],
                       ),
@@ -235,22 +233,21 @@ class Data2 extends StatelessWidget {
                     Icon(
                       IconName.iconaboutus,
                       size: Sizeconfig.large,
-                      color: ColorConfig.grey,
+                      color: ColorConfig.dark,
                     ),
-                    SizedBox(
-                      width: 15,
-                    ),
+                    SizedBox(width: 15),
                     Text(
                       MenuName.aboutus,
                       style: TextStyle(
-                          fontFamily: FontConfig.regular, fontSize: Sizeconfig.small, color: ColorConfig.grey),
+                        fontFamily: FontConfig.regular,
+                        fontSize: Sizeconfig.small,
+                        color: ColorConfig.dark,
+                      ),
                     ),
                   ],
                 ),
               ),
-              SizedBox(
-                height: 20,
-              ),
+              SizedBox(height: 20),
               snapshot.hasData
                   ? BlocBuilder<AuthBloc, AuthBlocState>(
                       builder: (context, state) {
@@ -263,7 +260,7 @@ class Data2 extends StatelessWidget {
                               Icon(
                                 IconName.iconlogout,
                                 size: Sizeconfig.large,
-                                color: ColorConfig.grey,
+                                color: ColorConfig.dark,
                               ),
                               SizedBox(
                                 width: 15,
@@ -273,7 +270,7 @@ class Data2 extends StatelessWidget {
                                 style: TextStyle(
                                     fontFamily: FontConfig.regular,
                                     fontSize: Sizeconfig.small,
-                                    color: ColorConfig.grey),
+                                    color: ColorConfig.dark),
                               ),
                             ],
                           ),

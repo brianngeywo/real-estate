@@ -17,7 +17,7 @@ class SearchRental extends StatefulWidget {
 class _SearchRentalState extends State<SearchRental> {
   TextEditingController minPriceTextEditingController = TextEditingController();
   TextEditingController maxPriceTextEditingController = TextEditingController();
-  String rentalFrequency = "daily";
+  String rentalFrequency = "monthly";
   String selectedPropertyType = "Apartment";
   String bedrooms = "studio";
   final requiredValidator = RequiredValidator(errorText: 'this field is required');

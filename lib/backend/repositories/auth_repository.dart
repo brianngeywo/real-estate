@@ -1,4 +1,3 @@
-import 'package:Realify/backend/models/phone_euth_model.dart';
 import 'package:Realify/backend/models/realify_user.dart';
 import 'package:Realify/backend/services/authentication_api_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

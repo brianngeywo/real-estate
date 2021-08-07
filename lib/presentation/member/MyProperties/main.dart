@@ -1,13 +1,6 @@
-import 'dart:convert';
-
-import 'package:Realify/backend/models/RealifyProperty.dart';
 import 'package:Realify/presentation/member/MyProperties/hotelTab.dart';
-import 'package:Realify/presentation/member/MyProperties/rentalList.dart';
 import 'package:Realify/presentation/member/MyProperties/rentalTab.dart';
 import 'package:Realify/presentation/my_imports.dart';
-import 'package:Realify/presentation/public/PropertyDetails/List.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class MyProperties extends StatefulWidget {
   MyProperties({
@@ -78,7 +71,7 @@ class _MyPropertiesState extends State<MyProperties> with TickerProviderStateMix
                       height: 40,
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
-                          color: tabController.index == 0 ? ColorConfig.lightGreenBg : ColorConfig.light,
+                          color: tabController.index == 0 ? ColorConfig.lightGreen : ColorConfig.light,
                           borderRadius: BorderRadius.all(
                             Radius.circular(3),
                           ),
@@ -87,7 +80,10 @@ class _MyPropertiesState extends State<MyProperties> with TickerProviderStateMix
                         child: Text(
                           "Rentals",
                           style: TextStyle(
-                              fontFamily: FontConfig.bold, fontSize: Sizeconfig.small, color: ColorConfig.grey),
+                            fontFamily: FontConfig.bold,
+                            fontSize: Sizeconfig.small,
+                            color: tabController.index == 0 ? ColorConfig.light : ColorConfig.dark,
+                          ),
                         ),
                       ),
                     ),
@@ -95,7 +91,7 @@ class _MyPropertiesState extends State<MyProperties> with TickerProviderStateMix
                   Tab(
                     child: Container(
                       decoration: BoxDecoration(
-                          color: tabController.index == 1 ? ColorConfig.lightGreenBg : ColorConfig.light,
+                          color: tabController.index == 1 ? ColorConfig.lightGreen : ColorConfig.light,
                           borderRadius: BorderRadius.all(
                             Radius.circular(3),
                           ),
@@ -106,7 +102,10 @@ class _MyPropertiesState extends State<MyProperties> with TickerProviderStateMix
                         child: Text(
                           "Hotels",
                           style: TextStyle(
-                              fontFamily: FontConfig.bold, fontSize: Sizeconfig.small, color: ColorConfig.grey),
+                            fontFamily: FontConfig.bold,
+                            fontSize: Sizeconfig.small,
+                            color: tabController.index == 1 ? ColorConfig.light : ColorConfig.dark,
+                          ),
                         ),
                       ),
                     ),
