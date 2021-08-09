@@ -311,15 +311,7 @@ class _MyRecommendedListState extends State<MyRecommendedList> {
                         child: Row(
                           children: [
                             SizedBox(
-                              width: 5,
-                            ),
-                            Icon(
-                              MaterialCommunityIcons.check_underline,
-                              color: ColorConfig.light,
-                              size: Sizeconfig.tiny,
-                            ),
-                            SizedBox(
-                              width: 3,
+                              width: 5
                             ),
                             Text(
                               widget.property.images.length.toString() + " images",
@@ -420,7 +412,7 @@ class _MyRecommendedListState extends State<MyRecommendedList> {
                           ],
                         ),
                         SizedBox(
-                          height: 7,
+                          height: 5
                         ),
                         Text(
                           widget.property.subCategoryType,
@@ -450,7 +442,7 @@ class _MyRecommendedListState extends State<MyRecommendedList> {
                         //   },
                         // ),
                         SizedBox(
-                          height: 7,
+                          height: 5
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,

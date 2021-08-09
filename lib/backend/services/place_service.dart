@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:Realify/backend/models/places.dart';
-import 'package:Realify/con.dart';
+import 'package:Realify/constants/con.dart';
 import 'package:Realify/presentation/my_imports.dart';
 import 'package:http/http.dart';
 

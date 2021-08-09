@@ -3,7 +3,7 @@ import 'package:Realify/backend/models/places.dart';
 import 'package:Realify/backend/models/realify_user.dart';
 import 'package:Realify/backend/repositories/auth_repository.dart';
 import 'package:Realify/backend/services/place_service.dart';
-import 'package:Realify/con.dart';
+import 'package:Realify/constants/con.dart';
 import 'package:Realify/presentation/member/AddProperty/address_search.dart';
 import 'package:Realify/presentation/widget/progress_dialog/main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

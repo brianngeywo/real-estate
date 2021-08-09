@@ -1,5 +1,6 @@
 import 'package:Realify/backend/models/realify_user.dart';
-import 'package:Realify/con.dart';
+import 'package:Realify/constants/con.dart';
+import 'package:Realify/presentation/chat_conversation_screen.dart';
 import 'package:Realify/presentation/member/PropertyLocation/main.dart';
 import 'package:Realify/presentation/member/Report/main.dart';
 import 'package:Realify/presentation/public/PropertyDetails/image_gallery.dart';
@@ -878,7 +879,17 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                                   ),
                                 ],
                               ),
-                              Container(),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 14.0),
+                                child: InkWell(
+                                  onTap: ()=> Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) =>  ChatConversationScreen(user: user))),
+                                  child: Icon(
+                                    FontAwesome5.facebook_messenger,
+                                    color: ColorConfig.darkGreen,
+                                    size: 28,
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         )

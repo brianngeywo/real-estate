@@ -30,6 +30,8 @@ class _SearchListingChoicesListState extends State<SearchListingChoicesList> {
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(0.0),
+              color: ColorConfig.lightGreen,
+              image: DecorationImage(image: AssetImage("assets/images/interface.png"))
             ),
             child: Image(
               alignment: Alignment.center,

@@ -36,7 +36,8 @@ class _HomePageState extends State<HomePage> {
                     child: StreamBuilder(
                         stream: FirebaseAuth.instance.authStateChanges(),
                         builder: (context, snapshot) {
-                          if (snapshot.connectionState == ConnectionState.waiting) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
                             return Center(
                               child: SizedBox(
                                 height: 80,
@@ -65,9 +66,14 @@ class _HomePageState extends State<HomePage> {
                                     Container(
                                       decoration: BoxDecoration(
                                         gradient: LinearGradient(
-                                            begin: Alignment.topCenter,
-                                            end: Alignment.bottomCenter,
-                                            colors: [Color.fromRGBO(49, 122, 87, 1), Color.fromRGBO(0, 0, 0, 0.8)]),
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter,
+                                          colors: [
+                                            Color.fromRGBO(49, 122, 87, 1),
+                                            Color.fromRGBO(0, 0, 0, 0.8),
+                                            Color.fromRGBO(0, 0, 0, 0.3),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                     Align(
@@ -78,11 +84,13 @@ class _HomePageState extends State<HomePage> {
                                           color: ColorConfig.light,
                                           size: Sizeconfig.higantic,
                                         ),
-                                        onPressed: () => Scaffold.of(context).openDrawer(),
+                                        onPressed: () =>
+                                            Scaffold.of(context).openDrawer(),
                                       ),
                                     ),
                                     Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Center(
                                           child: Text(
@@ -107,12 +115,14 @@ class _HomePageState extends State<HomePage> {
                                           height: 25.0,
                                         ),
                                         Container(
-                                          padding: EdgeInsets.only(left: 40, right: 40),
+                                          padding: EdgeInsets.only(
+                                              left: 40, right: 40),
                                           width: double.maxFinite,
                                           child: MaterialButton(
                                             color: ColorConfig.lightGreen,
                                             onPressed: () {
-                                              Navigator.pushNamed(context, searchNav);
+                                              Navigator.pushNamed(
+                                                  context, searchNav);
                                             },
                                             child: Text(
                                               "Let's Search".toUpperCase(),
@@ -128,23 +138,28 @@ class _HomePageState extends State<HomePage> {
                                           height: 12.0,
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.only(left: 40, right: 40),
+                                          padding: EdgeInsets.only(
+                                              left: 40, right: 40),
                                           child: Container(
                                             height: 40,
                                             decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(3),
+                                                borderRadius:
+                                                    BorderRadius.circular(3),
                                                 border: Border.all(
                                                   color: ColorConfig.light,
                                                 )),
                                             width: double.maxFinite,
                                             child: MaterialButton(
                                               onPressed: () {
-                                                Navigator.pushNamed(context, addListingNav);
+                                                Navigator.pushNamed(
+                                                    context, addListingNav);
                                               },
                                               child: Text(
-                                                "Add Property Listing".toUpperCase(),
+                                                "Add Property Listing"
+                                                    .toUpperCase(),
                                                 style: TextStyle(
-                                                  fontFamily: FontConfig.regular,
+                                                  fontFamily:
+                                                      FontConfig.regular,
                                                   fontSize: Sizeconfig.small,
                                                   color: ColorConfig.light,
                                                 ),
@@ -153,7 +168,9 @@ class _HomePageState extends State<HomePage> {
                                           ),
                                         ),
                                         SizedBox(
-                                          height: SizeConfig.isMobilePortrait ? 150 : 70,
+                                          height: SizeConfig.isMobilePortrait
+                                              ? 150
+                                              : 70,
                                         ),
                                       ],
                                     ),
@@ -196,7 +213,8 @@ class _HomePageState extends State<HomePage> {
                                         color: ColorConfig.light,
                                         size: Sizeconfig.higantic,
                                       ),
-                                      onPressed: () => Scaffold.of(context).openDrawer(),
+                                      onPressed: () =>
+                                          Scaffold.of(context).openDrawer(),
                                     ),
                                   ),
                                   Column(
@@ -206,7 +224,9 @@ class _HomePageState extends State<HomePage> {
                                         child: Text(
                                           "Kwetu App",
                                           style: TextStyle(
-                                              fontFamily: FontConfig.logoFont, fontSize: 56, color: ColorConfig.light),
+                                              fontFamily: FontConfig.logoFont,
+                                              fontSize: 56,
+                                              color: ColorConfig.light),
                                         ),
                                       ),
                                       SizedBox(
@@ -225,12 +245,14 @@ class _HomePageState extends State<HomePage> {
                                         height: 25.0,
                                       ),
                                       Container(
-                                        padding: EdgeInsets.only(left: 40, right: 40),
+                                        padding: EdgeInsets.only(
+                                            left: 40, right: 40),
                                         width: double.maxFinite,
                                         child: MaterialButton(
                                           color: ColorConfig.lightGreen,
                                           onPressed: () {
-                                            Navigator.pushNamed(context, searchNav);
+                                            Navigator.pushNamed(
+                                                context, searchNav);
                                           },
                                           child: Text(
                                             "Let's Search".toUpperCase(),
@@ -249,32 +271,43 @@ class _HomePageState extends State<HomePage> {
                                           ? SizedBox(height: 0.0)
                                           : Center(
                                               child: Text(
-                                                "Log in to add new property listing".toUpperCase(),
+                                                "Log in to add new property listing"
+                                                    .toUpperCase(),
                                                 style: TextStyle(
                                                     fontFamily: FontConfig.bold,
                                                     fontSize: Sizeconfig.tiny,
                                                     color: ColorConfig.light),
                                               ),
                                             ),
-                                      SizedBox(height: snapshot.hasData ? 0 : 12),
+                                      SizedBox(
+                                          height: snapshot.hasData ? 0 : 12),
                                       Padding(
-                                        padding: EdgeInsets.only(left: 40, right: 40),
+                                        padding: EdgeInsets.only(
+                                            left: 40, right: 40),
                                         child: Container(
                                           height: 40,
                                           decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(3),
-                                              border: Border.all(color: ColorConfig.light)),
+                                              borderRadius:
+                                                  BorderRadius.circular(3),
+                                              border: Border.all(
+                                                  color: ColorConfig.light)),
                                           width: double.maxFinite,
                                           child: MaterialButton(
                                             onPressed: () {
                                               snapshot.hasData
-                                                  ? Navigator.pushNamed(context, addListingNav)
-                                                  : BlocProvider.of<AuthBloc>(context)
-                                                      .add(SigninWithGoogleEvent(context: context));
+                                                  ? Navigator.pushNamed(
+                                                      context, addListingNav)
+                                                  : BlocProvider.of<AuthBloc>(
+                                                          context)
+                                                      .add(
+                                                          SigninWithGoogleEvent(
+                                                              context:
+                                                                  context));
                                             },
                                             child: Text(
                                               snapshot.hasData
-                                                  ? "Add Property Listing".toUpperCase()
+                                                  ? "Add Property Listing"
+                                                      .toUpperCase()
                                                   : "Login".toUpperCase(),
                                               style: TextStyle(
                                                 fontFamily: FontConfig.regular,
@@ -286,7 +319,9 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                       ),
                                       SizedBox(
-                                        height: SizeConfig.isMobilePortrait ? 150 : 70,
+                                        height: SizeConfig.isMobilePortrait
+                                            ? 150
+                                            : 70,
                                       ),
                                     ],
                                   ),

@@ -18,10 +18,12 @@ class EditRental extends StatefulWidget {
   _EditRentalState createState() => _EditRentalState();
 }
 
-class _EditRentalState extends State<EditRental> with AutomaticKeepAliveClientMixin {
+class _EditRentalState extends State<EditRental>
+    with AutomaticKeepAliveClientMixin {
   TextEditingController detailsTextEditingController = TextEditingController();
   TextEditingController priceTextEditingController = TextEditingController();
-  TextEditingController descriptionTextEditingController = TextEditingController();
+  TextEditingController descriptionTextEditingController =
+      TextEditingController();
   TextEditingController areaTextEditingController = TextEditingController();
   TextEditingController phoneTextEditingController = TextEditingController();
   List _apartmentBedrooms;
@@ -47,7 +49,8 @@ class _EditRentalState extends State<EditRental> with AutomaticKeepAliveClientMi
   }
 
   String rentalFrequency = "";
-  final requiredValidator = RequiredValidator(errorText: 'this field is required');
+  final requiredValidator =
+      RequiredValidator(errorText: 'this field is required');
   final _formKey = GlobalKey<FormState>();
   String selectedPropertyType = "";
   String bedrooms = "";
@@ -152,7 +155,8 @@ class _EditRentalState extends State<EditRental> with AutomaticKeepAliveClientMi
       texts.add(mapControllers[key].text);
     }
     print(texts);
-    BlocProvider.of<UpdatePropertyBloc>(context).add(SelectedBedroomsPricesEvent(prices: texts));
+    BlocProvider.of<UpdatePropertyBloc>(context)
+        .add(SelectedBedroomsPricesEvent(prices: texts));
     setState(() {
       prices = [];
       prices.addAll(texts);
@@ -186,14 +190,17 @@ class _EditRentalState extends State<EditRental> with AutomaticKeepAliveClientMi
                     prices.length > 0 &&
                     images != null &&
                     images.length > 0) {
-                  BlocProvider.of<UpdatePropertyBloc>(context).add(UploadImagesEvent(propertyImagesList: images));
+                  BlocProvider.of<UpdatePropertyBloc>(context)
+                      .add(UploadImagesEvent(propertyImagesList: images));
                 } else {
-                  BlocProvider.of<UpdatePropertyBloc>(context).add(StartPropertyUpdateEvent());
+                  BlocProvider.of<UpdatePropertyBloc>(context)
+                      .add(StartPropertyUpdateEvent());
                 }
               }
               if (state is UploadedImagesState) {
                 setState(() {
-                  imageUrls.addAll(state.propertyImageList.propertyImages.map((image) => image.url));
+                  imageUrls.addAll(state.propertyImageList.propertyImages
+                      .map((image) => image.url));
                 });
                 BlocProvider.of<UpdatePropertyBloc>(context).add(
                   UploadPropertyEvent(
@@ -203,16 +210,21 @@ class _EditRentalState extends State<EditRental> with AutomaticKeepAliveClientMi
                         ? widget.property.subCategoryType
                         : selectedPropertyType.toLowerCase(),
                     price: widget.property.price,
-                    bedrooms: bedrooms.isEmpty ? widget.property.bedrooms : bedrooms.toLowerCase(),
-                    bathrooms: bathrooms.isEmpty ? widget.property.bathrooms : bathrooms.toLowerCase(),
+                    bedrooms: bedrooms.isEmpty
+                        ? widget.property.bedrooms
+                        : bedrooms.toLowerCase(),
+                    bathrooms: bathrooms.isEmpty
+                        ? widget.property.bathrooms
+                        : bathrooms.toLowerCase(),
                     propertyName: detailsTextEditingController.text.isEmpty
                         ? widget.property.details
                         : detailsTextEditingController.text.toLowerCase(),
                     description: descriptionTextEditingController.text.isEmpty
                         ? widget.property.description
                         : descriptionTextEditingController.text.toLowerCase(),
-                    rentalFrequency:
-                        rentalFrequency.isEmpty ? widget.property.paymentPeriod : rentalFrequency.toLowerCase(),
+                    rentalFrequency: rentalFrequency.isEmpty
+                        ? widget.property.paymentPeriod
+                        : rentalFrequency.toLowerCase(),
                     area: areaTextEditingController.text.isEmpty
                         ? widget.property.area
                         : areaTextEditingController.text.toLowerCase(),
@@ -220,8 +232,12 @@ class _EditRentalState extends State<EditRental> with AutomaticKeepAliveClientMi
                     phone: phoneTextEditingController.text.isEmpty
                         ? widget.property.phone
                         : phoneTextEditingController.text.toLowerCase(),
-                    image: imageUrls.length <= 0 || imageUrls.length == null ? widget.property.images[0] : imageUrls[0],
-                    images: imageUrls.length <= 0 || imageUrls.length == null ? widget.property.images : imageUrls,
+                    image: imageUrls.length <= 0 || imageUrls.length == null
+                        ? widget.property.images[0]
+                        : imageUrls[0],
+                    images: imageUrls.length <= 0 || imageUrls.length == null
+                        ? widget.property.images
+                        : imageUrls,
                     county: widget.property.county,
                     locality: widget.property.locality,
                     propertyId: widget.property.id,
@@ -240,16 +256,21 @@ class _EditRentalState extends State<EditRental> with AutomaticKeepAliveClientMi
                         ? widget.property.subCategoryType
                         : selectedPropertyType.toLowerCase(),
                     price: widget.property.price,
-                    bedrooms: bedrooms.isEmpty ? widget.property.bedrooms : bedrooms.toLowerCase(),
-                    bathrooms: bathrooms.isEmpty ? widget.property.bathrooms : bathrooms.toLowerCase(),
+                    bedrooms: bedrooms.isEmpty
+                        ? widget.property.bedrooms
+                        : bedrooms.toLowerCase(),
+                    bathrooms: bathrooms.isEmpty
+                        ? widget.property.bathrooms
+                        : bathrooms.toLowerCase(),
                     propertyName: detailsTextEditingController.text.isEmpty
                         ? widget.property.details
                         : detailsTextEditingController.text.toLowerCase(),
                     description: descriptionTextEditingController.text.isEmpty
                         ? widget.property.description
                         : descriptionTextEditingController.text.toLowerCase(),
-                    rentalFrequency:
-                        rentalFrequency.isEmpty ? widget.property.paymentPeriod : rentalFrequency.toLowerCase(),
+                    rentalFrequency: rentalFrequency.isEmpty
+                        ? widget.property.paymentPeriod
+                        : rentalFrequency.toLowerCase(),
                     area: areaTextEditingController.text.isEmpty
                         ? widget.property.area
                         : areaTextEditingController.text.toLowerCase(),
@@ -257,8 +278,12 @@ class _EditRentalState extends State<EditRental> with AutomaticKeepAliveClientMi
                     phone: phoneTextEditingController.text.isEmpty
                         ? widget.property.phone
                         : phoneTextEditingController.text.toLowerCase(),
-                    image: imageUrls.length <= 0 || imageUrls.length == null ? widget.property.images[0] : imageUrls[0],
-                    images: imageUrls.length <= 0 || imageUrls.length == null ? widget.property.images : imageUrls,
+                    image: imageUrls.length <= 0 || imageUrls.length == null
+                        ? widget.property.images[0]
+                        : imageUrls[0],
+                    images: imageUrls.length <= 0 || imageUrls.length == null
+                        ? widget.property.images
+                        : imageUrls,
                     county: widget.property.county,
                     locality: widget.property.locality,
                     propertyId: widget.property.id,
@@ -320,7 +345,8 @@ class _EditRentalState extends State<EditRental> with AutomaticKeepAliveClientMi
                                       padding: EdgeInsets.all(5),
                                       child: Container(
                                         decoration: BoxDecoration(
-                                          color: selectedPropertyType == e.toLowerCase()
+                                          color: selectedPropertyType ==
+                                                  e.toLowerCase()
                                               ? ColorConfig.lightGreen
                                               : ColorConfig.light,
                                           borderRadius: BorderRadius.all(
@@ -328,7 +354,8 @@ class _EditRentalState extends State<EditRental> with AutomaticKeepAliveClientMi
                                           ),
                                           border: Border.all(
                                             width: 1,
-                                            color: selectedPropertyType == e.toLowerCase()
+                                            color: selectedPropertyType ==
+                                                    e.toLowerCase()
                                                 ? ColorConfig.lightGreen
                                                 : ColorConfig.smokeDark,
                                           ),
@@ -337,13 +364,17 @@ class _EditRentalState extends State<EditRental> with AutomaticKeepAliveClientMi
                                           elevation: 0,
                                           onPressed: () {
                                             setState(() {
-                                              selectedPropertyType = e.toLowerCase();
+                                              selectedPropertyType =
+                                                  e.toLowerCase();
                                             });
-                                            BlocProvider.of<UpdatePropertyBloc>(context)
-                                                .add((SelectedSubCategoryEvent(subcategoryTitle: e)));
+                                            BlocProvider.of<UpdatePropertyBloc>(
+                                                    context)
+                                                .add((SelectedSubCategoryEvent(
+                                                    subcategoryTitle: e)));
                                           },
                                           color: Colors.transparent,
-                                          textColor: selectedPropertyType == e.toLowerCase()
+                                          textColor: selectedPropertyType ==
+                                                  e.toLowerCase()
                                               ? ColorConfig.light
                                               : ColorConfig.grey,
                                           child: Text(e),
@@ -398,8 +429,11 @@ class _EditRentalState extends State<EditRental> with AutomaticKeepAliveClientMi
                                   padding: const EdgeInsets.only(left: 10),
                                   child: TextFormField(
                                     controller: detailsTextEditingController,
-                                    onChanged: (value) => BlocProvider.of<UpdatePropertyBloc>(context)
-                                        .add(AddPropertyTitleEvent(title: value)),
+                                    onChanged: (value) =>
+                                        BlocProvider.of<UpdatePropertyBloc>(
+                                                context)
+                                            .add(AddPropertyTitleEvent(
+                                                title: value)),
                                     keyboardType: TextInputType.name,
                                     decoration: InputDecoration(
                                       hintText: "property title",
@@ -432,12 +466,15 @@ class _EditRentalState extends State<EditRental> with AutomaticKeepAliveClientMi
                                 child: Padding(
                                   padding: const EdgeInsets.only(left: 10),
                                   child: TextFormField(
-                                    controller: descriptionTextEditingController,
+                                    controller:
+                                        descriptionTextEditingController,
                                     minLines: 20,
                                     maxLines: 500,
                                     onChanged: (value) {
-                                      BlocProvider.of<UpdatePropertyBloc>(context)
-                                          .add(AddPropertyDescriptionEvent(description: value));
+                                      BlocProvider.of<UpdatePropertyBloc>(
+                                              context)
+                                          .add(AddPropertyDescriptionEvent(
+                                              description: value));
                                     },
                                     style: TextStyle(
                                       fontFamily: FontConfig.regular,
@@ -509,18 +546,25 @@ class _EditRentalState extends State<EditRental> with AutomaticKeepAliveClientMi
                                       height: 40,
                                       width: double.infinity,
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5),
+                                          borderRadius:
+                                              BorderRadius.circular(5),
                                           border: Border.all(
                                             width: 1,
                                             color: ColorConfig.smokeLight,
                                           )),
                                       child: Padding(
-                                        padding: const EdgeInsets.only(bottom: 5.0),
+                                        padding:
+                                            const EdgeInsets.only(bottom: 5.0),
                                         child: TextField(
                                           controller: areaTextEditingController,
                                           onChanged: (value) {
-                                            BlocProvider.of<UpdatePropertyBloc>(context).add(AddPropertyAreaEvent(
-                                                area: value, areaUnit: areaUnit.isEmpty ? 'Sq.M.' : areaUnit));
+                                            BlocProvider.of<UpdatePropertyBloc>(
+                                                    context)
+                                                .add(AddPropertyAreaEvent(
+                                                    area: value,
+                                                    areaUnit: areaUnit.isEmpty
+                                                        ? 'Sq.M.'
+                                                        : areaUnit));
                                           },
                                           keyboardType: TextInputType.number,
                                           style: TextStyle(
@@ -553,15 +597,20 @@ class _EditRentalState extends State<EditRental> with AutomaticKeepAliveClientMi
                                             width: 1,
                                             color: ColorConfig.smokeLight,
                                           ),
-                                          borderRadius: BorderRadius.circular(3)),
-                                      child: BlocConsumer<UpdatePropertyBloc, UpdatePropertyState>(
+                                          borderRadius:
+                                              BorderRadius.circular(3)),
+                                      child: BlocConsumer<UpdatePropertyBloc,
+                                          UpdatePropertyState>(
                                         listener: (context, state) {
-                                          if (state is UpdatePropertyAreaState) {}
+                                          if (state
+                                              is UpdatePropertyAreaState) {}
                                         },
                                         builder: (context, state) {
                                           return Padding(
-                                              padding: const EdgeInsets.only(left: 10),
-                                              child: DropdownButtonHideUnderline(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10),
+                                              child:
+                                                  DropdownButtonHideUnderline(
                                                 child: DropdownButton(
                                                   // itemHeight: 2,
                                                   iconSize: 25,
@@ -570,7 +619,8 @@ class _EditRentalState extends State<EditRental> with AutomaticKeepAliveClientMi
                                                   hint: Text(
                                                     'Square Metres',
                                                     style: TextStyle(
-                                                      color: Color.fromRGBO(0, 0, 0, 0.7),
+                                                      color: Color.fromRGBO(
+                                                          0, 0, 0, 0.7),
                                                     ),
                                                   ),
                                                   items: listDrop,
@@ -579,20 +629,36 @@ class _EditRentalState extends State<EditRental> with AutomaticKeepAliveClientMi
                                                     setState(() {
                                                       switch (value) {
                                                         case 1:
-                                                          BlocProvider.of<UpdatePropertyBloc>(context)
-                                                              .add(AddPropertyAreaEvent(areaUnit: 'Sq.M.'));
+                                                          BlocProvider.of<
+                                                                      UpdatePropertyBloc>(
+                                                                  context)
+                                                              .add(AddPropertyAreaEvent(
+                                                                  areaUnit:
+                                                                      'Sq.M.'));
                                                           break;
                                                         case 2:
-                                                          BlocProvider.of<UpdatePropertyBloc>(context)
-                                                              .add(AddPropertyAreaEvent(areaUnit: 'Sq.Ft.'));
+                                                          BlocProvider.of<
+                                                                      UpdatePropertyBloc>(
+                                                                  context)
+                                                              .add(AddPropertyAreaEvent(
+                                                                  areaUnit:
+                                                                      'Sq.Ft.'));
                                                           break;
                                                         case 3:
-                                                          BlocProvider.of<UpdatePropertyBloc>(context)
-                                                              .add(AddPropertyAreaEvent(areaUnit: 'Sq.Yd'));
+                                                          BlocProvider.of<
+                                                                      UpdatePropertyBloc>(
+                                                                  context)
+                                                              .add(AddPropertyAreaEvent(
+                                                                  areaUnit:
+                                                                      'Sq.Yd'));
                                                           break;
                                                         default:
-                                                          BlocProvider.of<UpdatePropertyBloc>(context)
-                                                              .add(AddPropertyAreaEvent(areaUnit: 'Sq.M.'));
+                                                          BlocProvider.of<
+                                                                      UpdatePropertyBloc>(
+                                                                  context)
+                                                              .add(AddPropertyAreaEvent(
+                                                                  areaUnit:
+                                                                      'Sq.M.'));
                                                       }
                                                     });
                                                   },
@@ -643,15 +709,22 @@ class _EditRentalState extends State<EditRental> with AutomaticKeepAliveClientMi
                                 autovalidate: false,
                                 fillColor: ColorConfig.smokeLight,
                                 chipBackGroundColor: ColorConfig.lightGreen,
-                                chipLabelStyle: TextStyle(fontWeight: FontWeight.bold, color: ColorConfig.light),
-                                dialogTextStyle: TextStyle(fontFamily: FontConfig.regular, fontSize: Sizeconfig.medium),
+                                chipLabelStyle: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: ColorConfig.light),
+                                dialogTextStyle: TextStyle(
+                                    fontFamily: FontConfig.regular,
+                                    fontSize: Sizeconfig.medium),
                                 checkBoxActiveColor: ColorConfig.lightGreen,
                                 checkBoxCheckColor: ColorConfig.light,
-                                dialogShapeBorder:
-                                    RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                                dialogShapeBorder: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5.0))),
                                 title: Text(
                                   "Choose bedrooms offered at the property",
-                                  style: TextStyle(fontFamily: FontConfig.regular, fontSize: Sizeconfig.large),
+                                  style: TextStyle(
+                                      fontFamily: FontConfig.regular,
+                                      fontSize: Sizeconfig.large),
                                 ),
                                 dataSource: [
                                   {
@@ -700,7 +773,8 @@ class _EditRentalState extends State<EditRental> with AutomaticKeepAliveClientMi
                                   });
                                   if (_apartmentBedrooms.length > 0) {
                                     BlocProvider.of<UpdatePropertyBloc>(context)
-                                        .add(SelectedBedroomsOfferedEvent(bedrooms: value));
+                                        .add(SelectedBedroomsOfferedEvent(
+                                            bedrooms: value));
                                   }
                                   print(_apartmentBedrooms);
                                 },
@@ -745,13 +819,18 @@ class _EditRentalState extends State<EditRental> with AutomaticKeepAliveClientMi
                                 children: bathroomList
                                     .map(
                                       (e) => Container(
-                                        margin: EdgeInsets.symmetric(horizontal: 6, vertical: 6),
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal: 6, vertical: 6),
                                         decoration: BoxDecoration(
-                                            color: bathrooms == e ? ColorConfig.lightGreen : ColorConfig.light,
+                                            color: bathrooms == e
+                                                ? ColorConfig.lightGreen
+                                                : ColorConfig.light,
                                             borderRadius: BorderRadius.all(
                                               Radius.circular(3),
                                             ),
-                                            border: Border.all(width: 1, color: ColorConfig.smokeLight)),
+                                            border: Border.all(
+                                                width: 1,
+                                                color: ColorConfig.smokeLight)),
                                         height: 40,
                                         width: 60,
                                         child: InkWell(
@@ -759,8 +838,10 @@ class _EditRentalState extends State<EditRental> with AutomaticKeepAliveClientMi
                                             setState(() {
                                               bathrooms = e;
                                             });
-                                            BlocProvider.of<UpdatePropertyBloc>(context)
-                                                .add(SelectedBathroomEvent(bathroom: bathrooms));
+                                            BlocProvider.of<UpdatePropertyBloc>(
+                                                    context)
+                                                .add(SelectedBathroomEvent(
+                                                    bathroom: bathrooms));
                                           },
                                           child: Center(
                                             child: Text(
@@ -768,7 +849,9 @@ class _EditRentalState extends State<EditRental> with AutomaticKeepAliveClientMi
                                               style: TextStyle(
                                                   fontFamily: FontConfig.bold,
                                                   fontSize: Sizeconfig.small,
-                                                  color: bathrooms == e ? ColorConfig.light : ColorConfig.grey),
+                                                  color: bathrooms == e
+                                                      ? ColorConfig.light
+                                                      : ColorConfig.grey),
                                             ),
                                           ),
                                         ),
@@ -812,22 +895,28 @@ class _EditRentalState extends State<EditRental> with AutomaticKeepAliveClientMi
                                   shrinkWrap: true,
                                   itemCount: _apartmentBedrooms.length,
                                   itemBuilder: (context, index) {
-                                    return BlocBuilder<UpdatePropertyBloc, UpdatePropertyState>(
+                                    return BlocBuilder<UpdatePropertyBloc,
+                                        UpdatePropertyState>(
                                       builder: (context, state) {
                                         return Padding(
-                                          padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
+                                          padding: const EdgeInsets.only(
+                                              left: 15, right: 15, top: 10),
                                           child: Container(
-                                            padding: EdgeInsets.only(right: 15, left: 10),
+                                            padding: EdgeInsets.only(
+                                                right: 15, left: 10),
                                             height: 40,
                                             decoration: BoxDecoration(
                                               color: ColorConfig.smokeLight,
-                                              borderRadius: BorderRadius.circular(5),
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
                                             ),
                                             child: Padding(
-                                              padding: const EdgeInsets.only(bottom: 5.0),
+                                              padding: const EdgeInsets.only(
+                                                  bottom: 5.0),
                                               child: TextFormField(
                                                 validator: requiredValidator,
-                                                controller: _controllerOf(index),
+                                                controller:
+                                                    _controllerOf(index),
                                                 onChanged: (value) {
                                                   // BlocProvider.of<AddPropertyBloc>(context).add(EnteredPriceEvent(price: value));
                                                   // prices.add(_controllerOf(index).text);
@@ -835,16 +924,22 @@ class _EditRentalState extends State<EditRental> with AutomaticKeepAliveClientMi
                                                   _formKey.currentState.save();
                                                   _textsOf(_mapControllers);
                                                 },
-                                                keyboardType: TextInputType.number,
+                                                keyboardType:
+                                                    TextInputType.number,
                                                 style: TextStyle(
-                                                  fontFamily: FontConfig.regular,
+                                                  fontFamily:
+                                                      FontConfig.regular,
                                                   fontSize: Sizeconfig.small,
                                                   color: ColorConfig.dark,
                                                 ),
                                                 decoration: InputDecoration(
-                                                  hintText: _apartmentBedrooms[index].toString() + " bedroom Price*",
+                                                  hintText:
+                                                      _apartmentBedrooms[index]
+                                                              .toString() +
+                                                          " bedroom Price*",
                                                   hintStyle: TextStyle(
-                                                    fontFamily: FontConfig.regular,
+                                                    fontFamily:
+                                                        FontConfig.regular,
                                                     fontSize: Sizeconfig.small,
                                                     color: ColorConfig.dark,
                                                   ),
@@ -860,9 +955,12 @@ class _EditRentalState extends State<EditRental> with AutomaticKeepAliveClientMi
                                 ),
                               )
                             : Padding(
-                                padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
-                                child: Text("Please choose bedrooms offered first!",
-                                    style: TextStyle(fontFamily: FontConfig.regular)),
+                                padding: const EdgeInsets.only(
+                                    left: 15, right: 15, top: 15),
+                                child: Text(
+                                    "Please choose bedrooms offered first!",
+                                    style: TextStyle(
+                                        fontFamily: FontConfig.regular)),
                               ),
 
                         SizedBox(
@@ -906,13 +1004,18 @@ class _EditRentalState extends State<EditRental> with AutomaticKeepAliveClientMi
                                 children: rentalFrequencyList
                                     .map(
                                       (e) => Container(
-                                        margin: EdgeInsets.symmetric(horizontal: 6),
+                                        margin:
+                                            EdgeInsets.symmetric(horizontal: 6),
                                         decoration: BoxDecoration(
-                                            color: rentalFrequency == e ? ColorConfig.lightGreen : ColorConfig.light,
+                                            color: rentalFrequency == e
+                                                ? ColorConfig.lightGreen
+                                                : ColorConfig.light,
                                             borderRadius: BorderRadius.all(
                                               Radius.circular(3),
                                             ),
-                                            border: Border.all(width: 1, color: ColorConfig.smokeLight)),
+                                            border: Border.all(
+                                                width: 1,
+                                                color: ColorConfig.smokeLight)),
                                         height: 40,
                                         width: 60,
                                         child: InkWell(
@@ -920,8 +1023,10 @@ class _EditRentalState extends State<EditRental> with AutomaticKeepAliveClientMi
                                             setState(() {
                                               rentalFrequency = e;
                                             });
-                                            BlocProvider.of<UpdatePropertyBloc>(context)
-                                                .add(AddRentalFrequencyEvent(frequency: e));
+                                            BlocProvider.of<UpdatePropertyBloc>(
+                                                    context)
+                                                .add(AddRentalFrequencyEvent(
+                                                    frequency: e));
                                           },
                                           child: Center(
                                             child: Text(
@@ -929,7 +1034,9 @@ class _EditRentalState extends State<EditRental> with AutomaticKeepAliveClientMi
                                               style: TextStyle(
                                                   fontFamily: FontConfig.bold,
                                                   fontSize: Sizeconfig.small,
-                                                  color: rentalFrequency == e ? ColorConfig.light : ColorConfig.grey),
+                                                  color: rentalFrequency == e
+                                                      ? ColorConfig.light
+                                                      : ColorConfig.grey),
                                             ),
                                           ),
                                         ),
@@ -977,7 +1084,8 @@ class _EditRentalState extends State<EditRental> with AutomaticKeepAliveClientMi
                           child: Row(
                             children: [
                               Expanded(
-                                child: BlocBuilder<UpdatePropertyBloc, UpdatePropertyState>(
+                                child: BlocBuilder<UpdatePropertyBloc,
+                                    UpdatePropertyState>(
                                   builder: (context, state) {
                                     return Container(
                                       decoration: BoxDecoration(
@@ -987,10 +1095,13 @@ class _EditRentalState extends State<EditRental> with AutomaticKeepAliveClientMi
                                         ),
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.only(left: 10),
+                                        padding:
+                                            const EdgeInsets.only(left: 10),
                                         child: TextFormField(
-                                          controller: phoneTextEditingController,
-                                          onChanged: (value) => BlocProvider.of<UpdatePropertyBloc>(context)
+                                          controller:
+                                              phoneTextEditingController,
+                                          onChanged: (value) => BlocProvider.of<
+                                                  UpdatePropertyBloc>(context)
                                               .add(AddPhoneEvent(phone: value)),
                                           keyboardType: TextInputType.number,
                                           decoration: InputDecoration(
@@ -998,7 +1109,8 @@ class _EditRentalState extends State<EditRental> with AutomaticKeepAliveClientMi
                                             hintStyle: TextStyle(
                                               fontFamily: FontConfig.regular,
                                               fontSize: Sizeconfig.small,
-                                              color: Color.fromRGBO(0, 0, 0, 0.5),
+                                              color:
+                                                  Color.fromRGBO(0, 0, 0, 0.5),
                                             ),
                                             border: InputBorder.none,
                                           ),
@@ -1045,7 +1157,8 @@ class _EditRentalState extends State<EditRental> with AutomaticKeepAliveClientMi
                         BlocBuilder<UpdatePropertyBloc, UpdatePropertyState>(
                           builder: (context, state) {
                             return Container(
-                              padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 20),
+                              padding: const EdgeInsets.only(
+                                  left: 15.0, right: 15.0, bottom: 20),
                               child: InkWell(
                                 onTap: () {
                                   loadAssets();
@@ -1061,7 +1174,8 @@ class _EditRentalState extends State<EditRental> with AutomaticKeepAliveClientMi
                                       child: Image(
                                         height: 72,
                                         width: 72,
-                                        image: AssetImage("assets/images/interface.png"),
+                                        image: AssetImage(
+                                            "assets/images/interface.png"),
                                       ),
                                     ),
                                   ),
@@ -1070,13 +1184,16 @@ class _EditRentalState extends State<EditRental> with AutomaticKeepAliveClientMi
                             );
                           },
                         ),
-                        images.length > 0 ? buildGridView() : buildCurrentGridView()
+                        images.length > 0
+                            ? buildGridView()
+                            : buildCurrentGridView()
                       ],
                     ),
                   ),
                   Align(
                     alignment: Alignment.bottomCenter,
-                    child: BlocBuilder<UpdatePropertyBloc, UpdatePropertyState>(builder: (context, state) {
+                    child: BlocBuilder<UpdatePropertyBloc, UpdatePropertyState>(
+                        builder: (context, state) {
                       if (state is UploadedPropertyState) {
                         Navigator.of(context).pop();
                       }
@@ -1093,7 +1210,8 @@ class _EditRentalState extends State<EditRental> with AutomaticKeepAliveClientMi
                             elevation: 0.0,
                             color: ColorConfig.darkGreen,
                             onPressed: () {
-                              BlocProvider.of<UpdatePropertyBloc>(context).add(StartPropertyUploadEvent());
+                              BlocProvider.of<UpdatePropertyBloc>(context)
+                                  .add(StartPropertyUploadEvent());
                               showMyDialogBox(context, "updating your listing");
                             },
                             child: Text(
